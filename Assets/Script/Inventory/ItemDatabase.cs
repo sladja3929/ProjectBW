@@ -73,7 +73,9 @@ public class ItemDatabase : MonoBehaviour {
         //기존에 있던 player의 데이터 리셋
         tempPlayerManager.ResetClueList();
         //기존에 있던 수첩의 slot 데이터 및 오브젝트 리셋
-        Inventory.instance.ResetSlot();
+        UIManager.instance.NoteOpen();
+        Inventory.instance.ResetSlot(); //수첩이 열려있어야 슬롯 리셋 가능
+        UIManager.instance.NoteClose();
 
         Clue tempClue;
         //JsonData tempData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Resources/Data/Player.json"));

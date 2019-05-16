@@ -53,6 +53,7 @@ MonoBehaviour:
   textAboutFirstClue: {fileID: 0}
   textAboutSecondClue: {fileID: 0}
   conversationUI: {fileID: 0}
+  clueScroller: {fileID: 0}
   isPaging: 0
   isConversationing: 0
   canSkipConversation: 0

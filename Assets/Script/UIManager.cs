@@ -31,9 +31,7 @@ public class UIManager : MonoBehaviour {
     private GameObject conversationUI;  //대화창 UI
     [SerializeField]
     private GameObject clueScroller;    //수첩 내의 단서 리스트 스크롤바
-
-    [SerializeField]
-    private UITextList testText;
+    
 
     private int currentPage;
     public bool isPaging;           //책이 펼쳐지고 있는 중에는 Act 버튼이 눌리면 안됨.
@@ -131,8 +129,7 @@ public class UIManager : MonoBehaviour {
         /* 이름 = tempNpcNameLists, 대화 = sentenceLists */
         textAboutFirstClue.GetComponent<Text>().text = PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetFirstInfoOfClue();
         textAboutSecondClue.GetComponent<Text>().text = PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetArrangedContent();
-
-        testText.Add(PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetFirstInfoOfClue());
+        
     }
 
     public void SetTempNpcNameLists(List<string> npcNameLists)
