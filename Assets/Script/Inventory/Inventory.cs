@@ -44,7 +44,8 @@ public class Inventory : MonoBehaviour {
                 // 알맞은 단서의 이미지를 적용 (단서명_슬롯 의 형태로 이미지 저장할것!!)
                 slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
                 // 단서의 이미지를 적용시킨 후, 슬롯을 클릭했을때의 이벤트 처리
-                slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(tempIndex, numOfAct));
+                slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => AutoFlip.instance.FlipPage(tempIndex, numOfAct));
+                //slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(tempIndex, numOfAct));
 
                 Debug.Log(clueName + " 슬롯 생성 완료");
                 break;
@@ -71,7 +72,8 @@ public class Inventory : MonoBehaviour {
             // 알맞은 단서의 이미지를 적용
             slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
             // 단서의 이미지를 적용시킨 후, 슬롯을 클릭했을때의 이벤트 처리
-            slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(tempIndex, numOfAct));
+            slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => AutoFlip.instance.FlipPage(tempIndex, numOfAct));
+            //slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(tempIndex, numOfAct));
 
             Debug.Log(clueName + " 슬롯 생성 완료");
         }
@@ -86,7 +88,8 @@ public class Inventory : MonoBehaviour {
         
         slot.Add(Instantiate(addedSlotButton, inventoryPanel.transform));
         slot[index].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + (PlayerManager.instance.ClueLists[0])[index].GetName());
-        slot[index].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(index, 0));
+        slot[index].transform.GetComponent<Button>().onClick.AddListener(() => AutoFlip.instance.FlipPage(index, 0));
+        //slot[index].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(index, 0));
     }
 
     /* 저장된 player의 단서파일을 불러올 시
