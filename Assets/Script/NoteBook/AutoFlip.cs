@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Book))]
 public class AutoFlip : MonoBehaviour {
@@ -45,6 +46,7 @@ public class AutoFlip : MonoBehaviour {
 
     public void FlipPage(int pressedAct)
     {
+        
         UIManager.instance.ActivateUpDownButton(false);
 
         //페이지가 넘겨지고 있는 중이 아니라면 실행
@@ -58,13 +60,15 @@ public class AutoFlip : MonoBehaviour {
             if (pressedAct > currentAct)
             {
                 FlipRightPage(pressedAct);
-                UIManager.instance.howManyOpenNote++;
+                UIManager.instance.shownSlotIndex = 1;
+                //UIManager.instance.howManyOpenNote++;
                 //UIManager.instance.isPaging = false;        //페이지를 넘겨도 된다는 뜻
             }
             else if (pressedAct < currentAct)
             {
                 FlipLeftPage(pressedAct);
-                UIManager.instance.howManyOpenNote++;
+                UIManager.instance.shownSlotIndex = 1;
+                //UIManager.instance.howManyOpenNote++;
                 //UIManager.instance.isPaging = false;        //페이지를 넘겨도 된다는 뜻
             }
             else
@@ -80,15 +84,27 @@ public class AutoFlip : MonoBehaviour {
     {
         int num = Random.Range(0, 1 + 1);
 
-        // 보고있는 단서를 다시 보려하면 페이지 넘김 효과 적용 안함
-        if (UIManager.instance.GetTempIndex() == tempIndex) return;
+        if (!UIManager.instance.isPaging)
+        {
+            UIManager.instance.isPaging = true;
+            // 보고있는 단서를 다시 보려하면 페이지 넘김 효과 적용 안함
+            if (UIManager.instance.GetTempIndex() == tempIndex)
+            {
+                Debug.Log("봤던걸 왜 또 봐");
+                UIManager.instance.isPaging = false;
+                return;
+            }
 
-        if(num % 2 == 0)
-        {
-            FlipRightPage(tempIndex, numOfAct);
-        } else
-        {
-            FlipLeftPage(tempIndex, numOfAct);
+            if (num % 2 == 0)
+            {
+                FlipRightPage(tempIndex, numOfAct);
+                UIManager.instance.shownSlotIndex = tempIndex + 1;
+            }
+            else
+            {
+                FlipLeftPage(tempIndex, numOfAct);
+                UIManager.instance.shownSlotIndex = tempIndex + 1;
+            }
         }
     }
 
@@ -216,6 +232,18 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.ResetWrittenClueData();
         ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
         PlayerManager.instance.NumOfAct = pressedAct;
+
+        UIManager.instance.SetTempIndex(0); // 사건단위로 수첩을 넘기면, 처음 단서를 보여줘야 하므로 tempIndex를 0으로 설정
+        UIManager.instance.buttonIndex = 0;
+        UIManager.instance.buttonNumOfAct = pressedAct;
+
+
+        if (Inventory.instance.GetSlotCount() > 0)
+        {
+            UIManager.instance.testButton = Inventory.instance.GetSlotObject(0);
+            UIManager.instance.nextButton = UIManager.instance.testButton;
+            UIManager.instance.SetColorBlockToGray();
+        }
     }
 
     IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx, int tempIndex, int numOfAct)
@@ -244,7 +272,18 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.ResetWrittenClueData();
         UIManager.instance.ShowClueData(tempIndex, numOfAct);
         UIManager.instance.SetTempIndex(tempIndex);
+
+        if (Inventory.instance.GetSlotCount() > 0)
+        {
+            UIManager.instance.testButton = Inventory.instance.GetSlotObject(0);
+        }
+
+        /* test for ws button */
+        UIManager.instance.buttonIndex = tempIndex;
+        //UIManager.instance.buttonNumOfAct = numOfAct;
+        UIManager.instance.testButton = Inventory.instance.GetSlotObject(UIManager.instance.buttonIndex);
         //ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
+        
     }
 
     IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, int pressedAct)
@@ -273,6 +312,17 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.ResetWrittenClueData();
         ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
         PlayerManager.instance.NumOfAct = pressedAct;
+
+        UIManager.instance.SetTempIndex(0); // 사건단위로 수첩을 넘기면, 처음 단서를 보여줘야 하므로 tempIndex를 0으로 설정
+        UIManager.instance.buttonIndex = 0;
+        UIManager.instance.buttonNumOfAct = pressedAct;
+
+        if (Inventory.instance.GetSlotCount() > 0)
+        {
+            UIManager.instance.testButton = Inventory.instance.GetSlotObject(0);
+            UIManager.instance.nextButton = UIManager.instance.testButton;
+            UIManager.instance.SetColorBlockToGray();
+        }
     }
 
     IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, int tempIndex, int numOfAct)
@@ -300,6 +350,17 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.ResetWrittenClueData();
         UIManager.instance.ShowClueData(tempIndex, numOfAct);
         UIManager.instance.SetTempIndex(tempIndex);
+
+        if (Inventory.instance.GetSlotCount() > 0)
+        {
+            UIManager.instance.testButton = Inventory.instance.GetSlotObject(0);
+        }
+
+        /* test for ws button */
+        UIManager.instance.buttonIndex = tempIndex;
+        //UIManager.instance.buttonNumOfAct = numOfAct;
+        UIManager.instance.testButton = Inventory.instance.GetSlotObject(UIManager.instance.buttonIndex);
         //ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
+
     }
 }

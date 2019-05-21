@@ -39,7 +39,18 @@ public class UIManager : MonoBehaviour {
     private GameObject secondClueUpButton;
     [SerializeField]
     private GameObject secondClueDownButton;
+    [SerializeField]
+    private GameObject clueListContent; // 단서슬롯을 담고 있는 오브젝트(w,s키로 단서 슬롯을 선택할때 필요한 스크롤 이동에 쓰임
+    public int shownSlotIndex;         // 현재 보고 있는 단서 슬롯의 index를 저장하기 위한 변수
+    public bool isMovingSlot;          // 단서 슬롯이 이동해야하는지 여부를 저장하기 위한 변수
+    public float tempYPosition;
 
+    /* W,S로 버튼 이동 Test */
+    public Button testButton;
+    public int buttonIndex;
+    public int buttonNumOfAct;
+    public Selectable nextButton;
+    public ColorBlock colorBlock;
 
     private int currentPage;
     public bool isPaging;           //책이 펼쳐지고 있는 중에는 Act 버튼이 눌리면 안됨.
@@ -51,6 +62,9 @@ public class UIManager : MonoBehaviour {
     private int tempIndex;              // 눌렀던 단서 슬롯을 또 누르게 되면 페이지 넘김 효과를 주지 않기 위한 변수
 
     //private List<Interaction> interactionLists;
+
+    public Navigation customNav;
+    public Navigation customNav2;
 
     // Use this for initialization
     void Awake () {
@@ -64,6 +78,8 @@ public class UIManager : MonoBehaviour {
         isOpenedNote = false;
         howManyOpenNote = 0;
         tempIndex = -1;     // -1 == null
+        shownSlotIndex = 1;
+        isMovingSlot = false;
 
         //Background.SetActive(isOpenedNote);
         NoteBook.SetActive(isOpenedNote);
@@ -76,7 +92,12 @@ public class UIManager : MonoBehaviour {
         
         npcNameLists = new List<string>();
         sentenceList = new List<string>();
-        
+
+
+        //customNav = new Navigation();
+        //customNav2 = new Navigation();
+        //customNav.mode = Navigation.Mode.None;
+        //customNav2.mode = Navigation.Mode.Vertical;
     }
 
     void Update()
@@ -96,10 +117,14 @@ public class UIManager : MonoBehaviour {
             clueScroller.SetActive(isOpenedNote);
 
             tempIndex = 0;
+
+            buttonIndex = 0;    /* for Button test */
             
             ItemDatabase.instance.LoadHaveDataOfAct(0);     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
 
+
             /* 아래의 코드는 전에 봤던 사건의 단서를 계속 봐야하는 것으로 기획이 변경되면 쓰면 됨 */
+            /* 쓸 때는 AutoFlip 스크립트의 FlipPage(int PressAct)의 howManyOpenNote 주석처리 풀어야 함 */
             //if (howManyOpenNote == 0)   // 사건 버튼을 누를때 howManyOpenNote 변수 값 증가
             //{
             //    ShowClueData(0, 0);     // 수첩을 처음 열면, 사건 1의 첫번째 단서가 보여져야 함
@@ -125,6 +150,99 @@ public class UIManager : MonoBehaviour {
                 Debug.Log("NextSentence() 실행중");
             }
         }
+
+        //w,s키로 인해 스크롤이 이동중일때, 마우스 휠로 새로운 이동을 감지하면, 이동중인 스크롤 멈추기
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 || Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            isMovingSlot = false;
+        }
+
+        //w,s키로 인해 스크롤이 이동될 수 있도록 움직여주는 if
+        if (isMovingSlot)
+        {
+            clueListContent.GetComponent<RectTransform>().localPosition = Vector3.MoveTowards(clueListContent.GetComponent<RectTransform>().localPosition,
+                new Vector3(clueListContent.GetComponent<RectTransform>().localPosition.x, tempYPosition, 0),
+                Time.deltaTime * 100);
+
+            if (tempYPosition == clueListContent.GetComponent<RectTransform>().localPosition.y)
+            {
+                isMovingSlot = false;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (!isPaging && (buttonIndex != 0) && (Inventory.instance.GetSlotCount() != 0))
+            {
+                if (nextButton != null)
+                {
+                    SetColorBlockToWhite();
+                }
+
+                // w,s키를 이용한 스크롤의 이동을 위한 if-else
+                if (shownSlotIndex <= 1)
+                {
+                    shownSlotIndex = 1;
+                }
+                else
+                {
+                    shownSlotIndex -= 1;
+
+                    if (clueListContent.GetComponent<RectTransform>().localPosition.y > 285.0f)
+                    {
+                        tempYPosition = clueListContent.GetComponent<RectTransform>().localPosition.y - 90.0f;
+                        isMovingSlot = true;
+                    }
+                }
+
+                nextButton = testButton.FindSelectableOnUp();
+
+                SetColorBlockToGray();
+
+                buttonIndex--;
+                AutoFlip.instance.FlipPage(buttonIndex, buttonNumOfAct);
+                
+            }
+            else if (isPaging)
+            {
+                Debug.Log("페이지 넘기는중");
+                //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
+            }
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (!isPaging && (buttonIndex != Inventory.instance.GetSlotCount() - 1) && (Inventory.instance.GetSlotCount() != 0))
+            {
+                if (nextButton != null)
+                {
+                    SetColorBlockToWhite();
+                }
+
+                //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav2;
+                nextButton = testButton.FindSelectableOnDown();
+
+                SetColorBlockToGray();  //선택된 버튼 색깔 바꾸기
+
+                buttonIndex++;
+                AutoFlip.instance.FlipPage(buttonIndex, buttonNumOfAct);
+
+                // w,s키를 이용한 스크롤의 이동을 위한 if
+                if (shownSlotIndex > 6)
+                {
+                    // 6번째 이후에 있는 단서 슬롯의 단서를 보려고 하는 경우, 단서 리스트를 y축으로 90 만큼 이동시킨다.
+                    tempYPosition = clueListContent.GetComponent<RectTransform>().localPosition.y + 90.0f;
+                    isMovingSlot = true;
+                }
+            }
+            else if (isPaging)
+            {
+                Debug.Log("페이지 넘기는중");
+                //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
+            }
+        }
+
     }
 
     public void ResetWrittenClueData()
@@ -242,4 +360,36 @@ public class UIManager : MonoBehaviour {
     {
         this.tempIndex = tempIndex;
     }
+
+    public void SetColorBlockToWhite()
+    {
+        colorBlock = testButton.colors;
+        colorBlock.normalColor = Color.white;
+        colorBlock.highlightedColor = Color.white;
+        colorBlock.pressedColor = Color.white;
+        testButton.colors = colorBlock;
+
+        colorBlock = nextButton.GetComponent<Button>().colors;
+        colorBlock.normalColor = Color.white;
+        colorBlock.highlightedColor = Color.white;
+        colorBlock.pressedColor = Color.white;
+        nextButton.GetComponent<Button>().colors = colorBlock;
+    }
+
+    public void SetColorBlockToGray()
+    {
+        //선택한 단서 슬롯의 색을 변화시키기
+        colorBlock = testButton.colors;
+        colorBlock.normalColor = Color.white;
+        colorBlock.highlightedColor = Color.white;
+        colorBlock.pressedColor = Color.white;
+        testButton.colors = colorBlock;
+
+        colorBlock = nextButton.GetComponent<Button>().colors;
+        colorBlock.normalColor = Color.gray;
+        colorBlock.highlightedColor = Color.gray;
+        colorBlock.pressedColor = Color.gray;
+        nextButton.GetComponent<Button>().colors = colorBlock;
+    }
+    
 }

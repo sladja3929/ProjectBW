@@ -630,8 +630,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "(\uB2E8\uC11C\uC758 \uD68D\uB4DD \uC7A5\uC18C)\n(\uB2E8\uC11C\uC758 \uD68D\uB4DD
-    \uACBD\uB85C)"
+  m_Text: 
 --- !u!1 &344841685
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,6 +2381,8 @@ MonoBehaviour:
   AutoStartFlip: 0
   ControledBook: {fileID: 0}
   AnimationFramesCount: 40
+  firstTextScroll: {fileID: 8421561920324488953}
+  secondTextScroll: {fileID: 4303034461812876401}
 --- !u!1 &933879092
 GameObject:
   m_ObjectHideFlags: 0
@@ -4510,7 +4511,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7420062490990215122}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9046806786601289608}
+        m_MethodName: UpButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &2082488978528385133
@@ -4913,7 +4925,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 382541382154579946}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2156803318053354770}
+        m_MethodName: UpButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3170595406708699885
@@ -5323,7 +5346,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "(\uB2E8\uC11C \uB0B4\uC6A92)"
+  m_Text: 
 --- !u!114 &7596329168895385698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6164,7 +6187,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8516043804268106943}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2156803318053354770}
+        m_MethodName: DownButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &7938384810744688641
@@ -6323,7 +6357,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "(\uB2E8\uC11C \uB0B4\uC6A91)"
+  m_Text: 
 --- !u!114 &537862191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6600,6 +6634,17 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7435962817867861646}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9046806786601289608}
+        m_MethodName: DownButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
