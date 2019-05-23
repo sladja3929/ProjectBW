@@ -60,7 +60,7 @@ public class PlayerManager : MonoBehaviour {
             for(int j=0; j<ClueLists[i].Count; j++)
             {
                 if (ClueLists[i][j].GetName().Equals(clueName))
-                    return false;   //단서 스크롤바 테스트할떄 -> false로 바꾸기
+                    return true;   //단서 스크롤바 테스트할떄 -> false로 바꾸기
             }
         }
 

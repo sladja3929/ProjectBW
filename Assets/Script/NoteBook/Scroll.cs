@@ -38,38 +38,38 @@ public class Scroll : MonoBehaviour
     void Update()
     {
         /* 단서 리스트 끝에 다다르면 downButton 비활성화 */
-        if (list.rect.height - list.localPosition.y >= 274.8f && list.rect.height - list.localPosition.y <= 275.2f)
-        {
-            isEndOfClueList = true;
-            downButton.SetActive(false);
-            isScroll = false;
-        } else
-        {
-            isEndOfClueList = false;
-        }
+        //if (list.rect.height - list.localPosition.y >= 274.8f && list.rect.height - list.localPosition.y <= 275.2f)
+        //{
+        //    isEndOfClueList = true;
+        //    downButton.SetActive(false);
+        //    isScroll = false;
+        //} else
+        //{
+        //    isEndOfClueList = false;
+        //}
 
         /* 단서창을 열었을때, 단서가 일정갯수 이상이면 downButton 활성화 */
-        if (list.rect.height >= 600)
-        {
-            if (!isEndOfClueList)
-                downButton.SetActive(true);
-        }
+        //if (list.rect.height >= 600)
+        //{
+        //    if (!isEndOfClueList)
+        //        downButton.SetActive(true);
+        //}
 
         
-        if (list.localPosition.y <= 280)
-        {
-            isScroll = false;
-            upButton.SetActive(false);
-        } else
-        {
-            upButton.SetActive(true);
-        }
+        //if (list.localPosition.y <= 280)
+        //{
+        //    isScroll = false;
+        //    //upButton.SetActive(false);
+        //} else
+        //{
+        //    //upButton.SetActive(true);
+        //}
 
         //도중에 마우스 휠 할경우 isScroll = false;
-        if(Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            isScroll = false;
-        }
+        //if(Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetAxis("Mouse ScrollWheel") > 0)
+        //{
+        //    isScroll = false;
+        //}
     }
 
     public void Up()

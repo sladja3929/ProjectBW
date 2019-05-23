@@ -53,11 +53,44 @@ MonoBehaviour:
   textAboutFirstClue: {fileID: 0}
   textAboutSecondClue: {fileID: 0}
   conversationUI: {fileID: 0}
+  clueScroller: {fileID: 0}
+  firstClueUpButton: {fileID: 0}
+  firstClueDownButton: {fileID: 0}
+  secondClueUpButton: {fileID: 0}
+  secondClueDownButton: {fileID: 0}
+  clueListContent: {fileID: 0}
+  shownSlotIndex: 0
+  isMovingSlot: 0
+  tempYPosition: 0
+  testButton: {fileID: 0}
+  buttonIndex: 0
+  buttonNumOfAct: 0
+  nextButton: {fileID: 0}
+  colorBlock:
+    m_NormalColor: {r: 0, g: 0, b: 0, a: 0}
+    m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0}
+    m_PressedColor: {r: 0, g: 0, b: 0, a: 0}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0}
+    m_ColorMultiplier: 0
+    m_FadeDuration: 0
   isPaging: 0
   isConversationing: 0
   canSkipConversation: 0
   npcNameLists: []
   sentenceList: []
+  howManyOpenNote: 0
+  customNav:
+    m_Mode: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  customNav2:
+    m_Mode: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
 --- !u!114 &3814327114598580311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +106,6 @@ MonoBehaviour:
   conversationText: {fileID: 0}
   npcNameText: {fileID: 0}
   npcImage: {fileID: 0}
-  typingSpeed: 0.032
+  typingSpeed: 0.001
   isTextFull: 0
   isSentenceDone: 0
