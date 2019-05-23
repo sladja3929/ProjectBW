@@ -174,6 +174,7 @@ public class UIManager : MonoBehaviour {
         {
             if (!isPaging && (buttonIndex != 0) && (Inventory.instance.GetSlotCount() != 0))
             {
+                // w,s로 이동될 다음 버튼이 있으면, 현재 버튼의 색을 회색에서 하얀색으로 바꿔놓기 위한 if
                 if (nextButton != null)
                 {
                     SetColorBlockToWhite();
@@ -215,6 +216,7 @@ public class UIManager : MonoBehaviour {
         {
             if (!isPaging && (buttonIndex != Inventory.instance.GetSlotCount() - 1) && (Inventory.instance.GetSlotCount() != 0))
             {
+                // w,s로 이동될 다음 버튼이 있으면, 현재 버튼의 색을 회색에서 하얀색으로 바꿔놓기 위한 if
                 if (nextButton != null)
                 {
                     SetColorBlockToWhite();

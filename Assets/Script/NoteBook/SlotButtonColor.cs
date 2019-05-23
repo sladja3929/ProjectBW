@@ -22,4 +22,10 @@ public class SlotButtonColor : MonoBehaviour
         Inventory.instance.GetSlotObject(tempIndex).colors = tempColorBlock;
         Debug.Log("변경 완료");
     }
+
+    /* 사건버튼의 색을 회색과 하얀색으로 변경하기 위한 함수 작성해야 할 듯 */
+    public void ChangeSlotColor()
+    {
+
+    }
 }

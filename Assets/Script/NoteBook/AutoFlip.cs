@@ -238,6 +238,7 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.buttonNumOfAct = pressedAct;
 
 
+        //단서 슬롯이 하나 이상 있을 때, 첫번째 단서를 보고있는 효과를 주기 위한 if
         if (Inventory.instance.GetSlotCount() > 0)
         {
             UIManager.instance.testButton = Inventory.instance.GetSlotObject(0);
