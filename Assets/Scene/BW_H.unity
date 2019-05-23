@@ -1020,6 +1020,11 @@ PrefabInstance:
       propertyPath: npcImage
       value: 
       objectReference: {fileID: 671501650}
+    - target: {fileID: 3814327114598580311, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: typingSpeed
+      value: 0.02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ca91e1e1f62cca46b9920445c42e06c, type: 3}
 --- !u!114 &8916261717050246890 stripped
