@@ -6,6 +6,7 @@ public class Interaction
 {
     /* 각 대화의 정보의 틀이 되는 클래스 */
     private int id;  // 상호작용의 id
+    private string startObject; // 상호작용이 시작되게하는 오브젝트
     private string npcFrom; // 각 상호작용의 주체 npc 혹은 오브젝트 이름
     private string npcTo;   // 대화를 듣고있는 상대방 npc
     private string desc;     // 각 상호작용에서 발생하는 대화
@@ -21,6 +22,16 @@ public class Interaction
     public void SetId(int id)
     {
         this.id = id;
+    }
+
+    public string GetStartObject()
+    {
+        return startObject;
+    }
+
+    public void SetStartObject(string startObject)
+    {
+        this.startObject = startObject;
     }
 
     public string GetNpcFrom()

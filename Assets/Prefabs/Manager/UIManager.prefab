@@ -106,6 +106,6 @@ MonoBehaviour:
   conversationText: {fileID: 0}
   npcNameText: {fileID: 0}
   npcImage: {fileID: 0}
-  typingSpeed: 0.001
+  typingSpeed: 0.02
   isTextFull: 0
   isSentenceDone: 0

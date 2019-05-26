@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour {
     private GameObject Background;     // 배경
     [SerializeField]
     private GameObject NoteBook;        // 수첩
+    [SerializeField]
     private bool isOpenedNote;              // 수첩이 열려있는지의 여부
     [SerializeField]
     private GameObject clueSketch;      //단서의 스케치 이미지
@@ -53,6 +54,7 @@ public class UIManager : MonoBehaviour {
     public ColorBlock colorBlock;
 
     private int currentPage;
+    private bool isOpened;          //수첩이 열려있는지 확인
     public bool isPaging;           //책이 펼쳐지고 있는 중에는 Act 버튼이 눌리면 안됨.
     public bool isConversationing;  //대화창이 열려있는지 확인
     public bool canSkipConversation;//다른 대화로 넘어갈 수 있는지 확인
@@ -74,6 +76,7 @@ public class UIManager : MonoBehaviour {
             Destroy(gameObject);
 
         currentPage = 0;
+        isOpened = false;
         isPaging = false;
         isOpenedNote = false;
         howManyOpenNote = 0;
@@ -104,13 +107,17 @@ public class UIManager : MonoBehaviour {
     {
         if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing)
         {
+
+
+            isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+
             // 수첩 열고닫을때마다 초기화
             ResetWrittenClueData();
 
             Inventory.instance.ResetSlotForTest();
 
             isOpenedNote = !isOpenedNote;
-            GetClueButton.SetActive(!isOpenedNote);
+            //GetClueButton.SetActive(!isOpenedNote);
             //Background.SetActive(isOpenedNote);
             NoteBook.SetActive(isOpenedNote);
             GetClueUI.SetActive(isOpenedNote);
@@ -170,7 +177,7 @@ public class UIManager : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && isOpened)
         {
             if (!isPaging && (buttonIndex != 0) && (Inventory.instance.GetSlotCount() != 0))
             {
@@ -212,7 +219,7 @@ public class UIManager : MonoBehaviour {
 
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) && isOpened)
         {
             if (!isPaging && (buttonIndex != Inventory.instance.GetSlotCount() - 1) && (Inventory.instance.GetSlotCount() != 0))
             {
@@ -298,7 +305,12 @@ public class UIManager : MonoBehaviour {
     {
         this.sentenceList = sentenceLists;
     }
-    
+
+    public bool GetIsOpenNote()
+    {
+        return isOpenedNote;
+    }
+
     public void NoteOpen()
     {
         NoteBook.SetActive(true);
