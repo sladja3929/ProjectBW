@@ -76,6 +76,11 @@ public class CSVParser : MonoBehaviour
                         tempInteraction.SetId(int.Parse((dataList[i])[subjectArr[j]]));
                         break;
 
+                    case "startObject":
+
+                        tempInteraction.SetStartObject((dataList[i])[subjectArr[j]]);
+                        break;
+
                     case "npcFrom":
                         
                         tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);

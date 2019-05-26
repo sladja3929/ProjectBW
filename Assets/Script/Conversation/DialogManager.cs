@@ -76,13 +76,14 @@ public class DialogManager : MonoBehaviour
         /* npcFrom : 대화를 하는 주체 */
         UIManager.instance.isConversationing = true;    // 대화중
         UIManager.instance.OpenConversationUI();        // 대화창 오픈
-        UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
+        //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
 
 
         string targetObject = objectName;   //npcFrom에 해당하는 값
 
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
-        int indexOfInteraction = interactionLists.FindIndex(x => x.GetNpcFrom() == targetObject);
+        //int indexOfInteraction = interactionLists.FindIndex(x => x.GetNpcFrom() == targetObject);
+        int indexOfInteraction = interactionLists.FindIndex(x => x.GetStartObject() == targetObject);
 
         //대화목록의 id값
         int tempId = int.Parse((dataLists[indexOfInteraction])["id"]);
@@ -269,7 +270,7 @@ public class DialogManager : MonoBehaviour
             tempNpcNameLists.Clear();
             curNumOfNpcNameLists = 0;
             rewardsLists.Clear();
-            UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+            //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
         }
     }
 

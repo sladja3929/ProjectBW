@@ -43,3 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d0ab09d21ab63458439cdcbe8a0aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  FromStreet1ToStreet2: {fileID: 0}
+  FromStreet2ToStreet1: {fileID: 0}
+  isNearObject: 0
