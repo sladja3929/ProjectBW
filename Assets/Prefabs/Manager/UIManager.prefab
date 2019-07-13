@@ -48,6 +48,7 @@ MonoBehaviour:
   GetClueButton: {fileID: 0}
   Background: {fileID: 0}
   NoteBook: {fileID: 0}
+  isOpenedNote: 0
   clueSketch: {fileID: 0}
   clueContent: {fileID: 0}
   textAboutFirstClue: {fileID: 0}

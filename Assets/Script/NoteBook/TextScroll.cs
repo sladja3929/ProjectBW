@@ -41,7 +41,7 @@ public class TextScroll : MonoBehaviour
                 downButton.SetActive(true);
         }
 
-        if(clueText.localPosition.y <= 125)
+        if(clueText.localPosition.y <= 126)
         {
             upButton.SetActive(false);
         } else
