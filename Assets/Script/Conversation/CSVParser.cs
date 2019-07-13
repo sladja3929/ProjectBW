@@ -27,7 +27,8 @@ public class CSVParser : MonoBehaviour
         interactionLists = new List<Interaction>();
 
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
-        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction.csv");
+        //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction.csv");
+        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver2.csv");
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -41,7 +42,8 @@ public class CSVParser : MonoBehaviour
             //두번째 줄부터 ,를 기준으로 쪼갬
             string[] dataArr = stringArr[i].Split(',');
 
-            int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
+            //int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
+            int index = int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
 
             //해당 index가 dictionary에 없으면 추가
             if (!dataList.ContainsKey(index))
@@ -54,6 +56,8 @@ public class CSVParser : MonoBehaviour
                 /* """ -> " && s -> , 변환해서 데이터 넣기 */
                 dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
                 dataArr[j] = ReplaceComma(dataArr[j]);
+                //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
+                //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
                 dataList[index].Add(subjectArr[j], dataArr[j]);
 
             }//for j
@@ -71,8 +75,28 @@ public class CSVParser : MonoBehaviour
                 //(dataList[i])[subjectArr[j]]
                 switch (subjectArr[j])
                 {
+                    case "사건":
+
+                        tempInteraction.SetAct(int.Parse((dataList[i])[subjectArr[j]]));
+                        break;
+
+                    case "시간대":
+
+                        tempInteraction.SetTime(int.Parse((dataList[i])[subjectArr[j]]));
+                        break;
+
+                    case "위치":
+
+                        tempInteraction.SetPosition(int.Parse((dataList[i])[subjectArr[j]]));
+                        break;
+
+                    case "대화 묶음":
+
+                        tempInteraction.SetSetOfDesc(int.Parse((dataList[i])[subjectArr[j]]));
+                        break;
+
                     case "id":
-                        
+
                         tempInteraction.SetId(int.Parse((dataList[i])[subjectArr[j]]));
                         break;
 
@@ -82,12 +106,12 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "npcFrom":
-                        
+
                         tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);
                         break;
 
                     case "npcTo":
-                        
+
                         tempInteraction.SetNpcTo((dataList[i])[subjectArr[j]]);
                         break;
 
@@ -96,22 +120,56 @@ public class CSVParser : MonoBehaviour
                         tempInteraction.SetDesc((dataList[i])[subjectArr[j]]);
                         break;
 
+                    case "반복성":
+
+                        tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
+                        break;
+
+                    case "대사 조건":
+                        
+                        string tempCondition = (dataList[i])[subjectArr[j]];
+
+                        if (tempCondition.Contains(","))   // 여러개일 경우
+                        {
+                            string[] tempConditionList;
+                            tempConditionList = tempCondition.Split(',');
+                            tempInteraction.SetConditionOfDesc(tempConditionList);
+                        }
+                        else
+                        {   // 1개이거나 없는 경우
+                            string[] tempConditionList;
+                            tempConditionList = new string[1];
+                            tempConditionList[0] = tempCondition;
+                            tempInteraction.SetConditionOfDesc(tempConditionList);
+                        }
+
+                        break;
+
                     case "status":
                         
                         tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
                         break;
 
                     case "rewards":
-                        
+
                         //rewards는 여러개 일 수 있음. 그것은 보상을 얻을때 , 를 기점으로 나눌것
-                        //string tempRewards = ReplaceComma((dataList[i])[subjectArr[j]]);
+                        string tempRewards = ReplaceComma((dataList[i])[subjectArr[j]]);
                         //string[] rewardsList = tempRewards.Split(',');
-                        tempInteraction.SetRewards((dataList[i])[subjectArr[j]]);
+                        tempInteraction.SetRewards(tempRewards);
+                        //tempInteraction.SetRewards((dataList[i])[subjectArr[j]]);
                         break;
 
                     case "parent":
                         
                         tempInteraction.SetParent(int.Parse((dataList[i])[subjectArr[j]]));
+
+                        break;
+
+                    case "단서 루트 해금":
+
+                        string tempRevealList = ReplaceComma((dataList[i])[subjectArr[j]]);
+                        string[] revealList = tempRevealList.Split(',');
+                        tempInteraction.SetRevealList(revealList);
 
                         break;
 
@@ -123,32 +181,60 @@ public class CSVParser : MonoBehaviour
             //추출해서 적용시킨 interaction 클래스를 리스트에 추가
             interactionLists.Add(tempInteraction);
         }//for i
-        
+
         /* interactionList에 있는 내용들 출력(debug) */
         //for (int i = 0; i < interactionLists.Count; i++)
         //{
-        //    Debug.Log((i + 1) + "번째 데이터");
-        //    Debug.Log("id : " + interactionLists[i].GetId());
-        //    Debug.Log("npc : " + interactionLists[i].GetNpcFrom());
-        //    Debug.Log("desc : " + interactionLists[i].GetDesc());
-        //    Debug.Log("status : " + interactionLists[i].GetStatus());
 
-        //    string[] rewardsList = interactionLists[i].GetRewards();
+        //    Debug.Log((i + 1) + "번째 데이터" +
+        //        "\nact : " + interactionLists[i].GetAct() +
+        //        "\ntime : " + interactionLists[i].GetTime() +
+        //        "\nposition : " + interactionLists[i].GetPosition() +
+        //        "\nsetOfDesc : " + interactionLists[i].GetSetOfDesc() +
+        //        "\nid : " + interactionLists[i].GetId() +
+        //        "\nstartObject : " + interactionLists[i].GetStartObject() +
+        //        "\nnpcFrom : " + interactionLists[i].GetNpcFrom() +
+        //        "\nnpcTo : " + interactionLists[i].GetNpcTo() +
+        //        "\ndesc : " + interactionLists[i].GetDesc() +
+        //        "\nrepeatability : " + interactionLists[i].GetRepeatability() +
+        //        "\nstatus : " + interactionLists[i].GetStatus() +
+        //        "\nparent : " + interactionLists[i].GetParent());
 
-        //    if (rewardsList.Length >= 2)
+        //    string rewardsList = interactionLists[i].GetRewards();
+            
+        //    if (rewardsList.Contains(","))
         //    {
-        //        //rewards가 여러개 있는 데이터일 경우
-        //        for (int j = 0; j < rewardsList.Length; j++)
+        //        string[] rewardArr = rewardsList.Split(',');
+        //        for (int j = 0; j < rewardArr.Length; j++)
         //        {
-        //            Debug.Log((j + 1) + "번째 rewards : " + rewardsList[j]);
+        //            Debug.Log((j + 1) + "번째로 획득할 단서 : " + rewardArr[j]);
         //        }
         //    }
         //    else
         //    {
-        //        Debug.Log("rewards : " + rewardsList[0]);
+        //            Debug.Log("획득할 단서 : " + rewardsList);
         //    }
+            
+        //    for (int j = 0; j < interactionLists[i].GetConditionOfDesc().Length; j++)
+        //        Debug.Log((j + 1) + "번째 conditionOfDesc : " + interactionLists[i].GetConditionOfDesc()[j]);
 
-        //    Debug.Log("parent : " + interactionLists[i].GetParent());
+        //    for (int j = 0; j < interactionLists[i].GetRevealList().Length; j++)
+        //        Debug.Log((j + 1) + "번째 revealList : " + interactionLists[i].GetRevealList()[j]);
+
+        //    //if (rewardsList.Length >= 2)
+        //    //{
+        //    //    //rewards가 여러개 있는 데이터일 경우
+        //    //    for (int j = 0; j < rewardsList.Length; j++)
+        //    //    {
+        //    //        Debug.Log((j + 1) + "번째 rewards : " + rewardsList[j]);
+        //    //    }
+        //    //}
+        //    //else
+        //    //{
+        //    //    Debug.Log("rewards : " + rewardsList[0]);
+        //    //}
+
+        //    //Debug.Log("parent : " + interactionLists[i].GetParent());
         //}
 
         //Debug.Log((dataList[0])["npc"]);
