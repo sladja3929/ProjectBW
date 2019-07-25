@@ -4,28 +4,45 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
+    private GameObject arrow;
+    public GameObject destination;      //포탈 출구
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void Awake() {
+        arrow = transform.GetChild(0).gameObject;
+        arrow.SetActive(false);
+    }
+
+    private void OnTriggerStay2D(Collider2D other) 
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (PlayerManager.instance.GetCurrentPosition() == "Slam_Street2"
-                && PlayerManager.instance.GetIsInPortalZone())
-            {
-                PlayerManager.instance.Move_From_Street2_To_Street1_In_Slam();
-            }
-        }
+        if(other.tag == "character") {
+            arrow.SetActive(true);
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            if (PlayerManager.instance.GetCurrentPosition() == "Slam_Street1"
-                && PlayerManager.instance.GetIsInPortalZone())
-            {
-                PlayerManager.instance.Move_From_Street1_To_Street2_In_Slam();
+            if (Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") {
+                TakePortal();
+            }
+
+            if (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake") {
+                TakePortal();
             }
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.tag == "character") {
+            arrow.SetActive(false);
+        }
+    }
+
+    public void TakePortal() {
+
+        Vector3 tempPosition = PlayerManager.instance.GetPlayerPosition();
+        tempPosition.x = destination.transform.position.x;
+        tempPosition.y = destination.transform.position.y;
+        PlayerManager.instance.SetPlayerPosition(tempPosition);
+        string position = destination.transform.parent.parent.parent.name
+                           + "_" + destination.transform.parent.parent.name;
+        PlayerManager.instance.SetCurrentPosition(position);
+        Debug.Log(PlayerManager.instance.GetCurrentPosition() + "으로 이동");
+    }
 
 }

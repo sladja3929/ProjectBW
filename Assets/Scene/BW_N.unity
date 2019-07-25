@@ -301,6 +301,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3026522053754925851}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1762487941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3418681776105005538, guid: 47fe2f38073653f41894e3bde41cdf1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3418681776091093566}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1782484155
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +373,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1815017734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3418681775424805493, guid: 47fe2f38073653f41894e3bde41cdf1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3418681776091093566}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1854668883 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1854668883, guid: 4359ff62fd6425b43bacde06aa957093,
@@ -601,6 +613,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: World
       objectReference: {fileID: 0}
+    - target: {fileID: 3319858093057517050, guid: 47fe2f38073653f41894e3bde41cdf1c,
+        type: 3}
+      propertyPath: m_Name
+      value: DownToTake
+      objectReference: {fileID: 0}
+    - target: {fileID: 7217172726390041277, guid: 47fe2f38073653f41894e3bde41cdf1c,
+        type: 3}
+      propertyPath: m_Name
+      value: UpToTake
+      objectReference: {fileID: 0}
     - target: {fileID: 3418681776575973302, guid: 47fe2f38073653f41894e3bde41cdf1c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -656,6 +678,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3418681775424805493, guid: 47fe2f38073653f41894e3bde41cdf1c,
+        type: 3}
+      propertyPath: m_Name
+      value: FromStreet2ToStreet1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3418681776105005538, guid: 47fe2f38073653f41894e3bde41cdf1c,
+        type: 3}
+      propertyPath: m_Name
+      value: FromStreet1ToStreet2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7672490365219249625, guid: 47fe2f38073653f41894e3bde41cdf1c,
+        type: 3}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 1762487941}
+    - target: {fileID: 5957576343068640759, guid: 47fe2f38073653f41894e3bde41cdf1c,
+        type: 3}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 1815017734}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47fe2f38073653f41894e3bde41cdf1c, type: 3}
 --- !u!1001 &4539496025540412550

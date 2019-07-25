@@ -9,13 +9,13 @@ public class moveCamera : MonoBehaviour
     private Vector3 playerPosition;
 
     /* 슬램가 거리 1 */
-    private Vector3 position_Of_Sector1_Of_Street1_In_Slam = new Vector3(0, 0, -10);
-    private Vector3 position_Of_Sector2_Of_Street1_In_Slam = new Vector3(1280.0f, 0, -10);
-    private Vector3 position_Of_Sector3_Of_Street1_In_Slam = new Vector3(2560.0f, 0, -10);
+    private Vector3 position_Of_Sector1_Of_Street1_In_Slum = new Vector3(0, 0, -10);
+    private Vector3 position_Of_Sector2_Of_Street1_In_Slum = new Vector3(1280.0f, 0, -10);
+    private Vector3 position_Of_Sector3_Of_Street1_In_Slum = new Vector3(2560.0f, 0, -10);
 
     /* 슬램가 거리 2 */
-    private Vector3 position_Of_Sector1_Of_Street2_In_Slam = new Vector3(816.9f, -941.0f, -10);
-    private Vector3 position_Of_Sector2_Of_Street2_In_Slam = new Vector3(2096.9f, -941.0f, -10);
+    private Vector3 position_Of_Sector1_Of_Street2_In_Slum = new Vector3(816.9f, -941.0f, -10);
+    private Vector3 position_Of_Sector2_Of_Street2_In_Slum = new Vector3(2096.9f, -941.0f, -10);
 
     void Start()
     {
@@ -33,31 +33,31 @@ public class moveCamera : MonoBehaviour
         whereIsPlayer = PlayerManager.instance.GetCurrentPosition();
         playerPosition = player.transform.localPosition;
 
-        if (whereIsPlayer == "Slam_Street1")
+        if (whereIsPlayer == "Slum_Street1")
         {
             if (playerPosition.x >= -640.0f && playerPosition.x < 640.0f)
             {
-                transform.localPosition = position_Of_Sector1_Of_Street1_In_Slam;
+                transform.localPosition = position_Of_Sector1_Of_Street1_In_Slum;
             }
             else if (playerPosition.x >= 640.0f && playerPosition.x < 1920.0f)
             {
-                transform.localPosition = position_Of_Sector2_Of_Street1_In_Slam;
+                transform.localPosition = position_Of_Sector2_Of_Street1_In_Slum;
 
             }
             else if (playerPosition.x >= 1920.0f && playerPosition.x < 3200.0f)
             {
-                transform.localPosition = position_Of_Sector3_Of_Street1_In_Slam;
+                transform.localPosition = position_Of_Sector3_Of_Street1_In_Slum;
             }
         }
-        else if (whereIsPlayer == "Slam_Street2")
+        else if (whereIsPlayer == "Slum_Street2")
         {
             if (playerPosition.x >= 176.0f && playerPosition.x < 1456.0f)
             {
-                transform.localPosition = position_Of_Sector1_Of_Street2_In_Slam;
+                transform.localPosition = position_Of_Sector1_Of_Street2_In_Slum;
             }
             else if (playerPosition.x >= 1456.0f && playerPosition.x < 2736.0f)
             {
-                transform.localPosition = position_Of_Sector2_Of_Street2_In_Slam;
+                transform.localPosition = position_Of_Sector2_Of_Street2_In_Slum;
 
             }
         }

@@ -91,23 +91,4 @@ public class Move : MonoBehaviour
     {
         /* 사용은 안하지만, 캐릭터 애니메이션 프레임 수 늘리기 위해 그냥 만듦 */
     }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.tag == "PortalPoint")
-        {
-            PlayerManager.instance.ActivatePortalArrow();
-            PlayerManager.instance.SetIsInPortalZone(true);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "PortalPoint")
-        {
-            PlayerManager.instance.DeactivatePortalArrow();
-            PlayerManager.instance.SetIsInPortalZone(false);
-        }
-    }
-
 }

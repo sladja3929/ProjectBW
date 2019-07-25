@@ -14,8 +14,7 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private GameObject player; // 플레이어의 위치값을 받을 변수
     private string currentPosition;             //플레이어의 맵에서의 현재 위치
     private bool isInPortalZone;                //플레이어가 포탈존에 있는지 유무 확인
-    [SerializeField] private GameObject FromStreet1ToStreet2;   //슬램가 거리 1에서 2로 이동할 수 있음을 알려주는 화살표
-    [SerializeField] private GameObject FromStreet2ToStreet1;   //슬램가 거리 2에서 1로 이동할 수 있음을 알려주는 화살표
+
 
     /* 오브젝트와의 상호작용을 위한 변수 */
     [SerializeField] private bool isNearObject;      //상호작용할 수 있는 오브젝트와 가까이 있는가?
@@ -38,10 +37,8 @@ public class PlayerManager : MonoBehaviour {
 
         NumOfAct = 1;   //Act1 시작
 
-        currentPosition = "Slam_Street1";
+        currentPosition = "Slum_Street1";
 
-        FromStreet1ToStreet2.SetActive(false);
-        FromStreet2ToStreet1.SetActive(false);
         isInPortalZone = false;
     }
 
@@ -149,18 +146,6 @@ public class PlayerManager : MonoBehaviour {
         this.isNearObject = isNearObject;
     }
 
-    public void ActivatePortalArrow()
-    {
-        FromStreet1ToStreet2.SetActive(true);
-        FromStreet2ToStreet1.SetActive(true);
-    }
-
-    public void DeactivatePortalArrow()
-    {
-        FromStreet1ToStreet2.SetActive(false);
-        FromStreet2ToStreet1.SetActive(false);
-    }
-
     // To (1280, -1110.6)
     public void Move_From_Street1_To_Street2_In_Slam()
     {
@@ -179,5 +164,13 @@ public class PlayerManager : MonoBehaviour {
         tempPosition.y = -216.0f;
         player.transform.localPosition = tempPosition;
         SetCurrentPosition("Slam_Street1");
+    }
+
+    public Vector3 GetPlayerPosition() {
+        return player.transform.localPosition;
+    }
+
+    public void SetPlayerPosition(Vector3 tempPosition) {
+        player.transform.localPosition = tempPosition;
     }
 }
