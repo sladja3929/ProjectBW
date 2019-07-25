@@ -73,7 +73,9 @@ public class ItemDatabase : MonoBehaviour {
         //기존에 있던 player의 데이터 리셋
         tempPlayerManager.ResetClueList();
         //기존에 있던 수첩의 slot 데이터 및 오브젝트 리셋
-        Inventory.instance.ResetSlot();
+        UIManager.instance.NoteOpen();
+        Inventory.instance.ResetSlot(); //수첩이 열려있어야 슬롯 리셋 가능
+        UIManager.instance.NoteClose();
 
         Clue tempClue;
         //JsonData tempData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Resources/Data/Player.json"));
@@ -124,8 +126,10 @@ public class ItemDatabase : MonoBehaviour {
     /* 이미 저장되어있는 데이터들을 이용하여 해당 액트에 따른 데이터 불러오기 */
     public void LoadHaveDataOfAct(int numOfAct)
     {
+        //Inventory.instance.ResetSlotForTest();
         UIManager.instance.SetCurrentPage(numOfAct);
         Inventory.instance.MakeClueSlot(numOfAct);
+        UIManager.instance.ShowClueData(0, numOfAct);   //해당 사건의 첫번째로 획득한 단서에 대한 내용 보여주기
     }
 
 }

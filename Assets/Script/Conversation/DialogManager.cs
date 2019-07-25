@@ -13,7 +13,7 @@ public class DialogManager : MonoBehaviour
     private Text npcNameText;
     [SerializeField]
     private Image npcImage;
-
+    
     private string[] sentences;
     private int index;
     public float typingSpeed;
@@ -31,6 +31,7 @@ public class DialogManager : MonoBehaviour
     private int curNumOfNpcNameLists;       //현재 대화중인 npc 이름의 index
     private List<string> rewardsLists;      //대화로 인해 얻어질 단서 목록들
     private List<string> sentenceLists;     //출력해야 할 대화들을 담을 리스트
+    private EventConversationManager eventManager;
 
     // Start is called before the first frame update
     void Start()
@@ -51,12 +52,12 @@ public class DialogManager : MonoBehaviour
         dataLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetDataList();
         interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetInteractionLists();
 
-        
         imagePathLists = new List<string>(); //캐릭터 이미지 추가되면 적용(테스트) 해야함
         tempIdLists = new List<int>();
         tempNpcNameLists = new List<string>();
         rewardsLists = new List<string>();
         sentenceLists = new List<string>();
+        eventManager = new EventConversationManager();
     }
 
     void Update()
@@ -76,16 +77,40 @@ public class DialogManager : MonoBehaviour
         /* npcFrom : 대화를 하는 주체 */
         UIManager.instance.isConversationing = true;    // 대화중
         UIManager.instance.OpenConversationUI();        // 대화창 오픈
-        UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
+        //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
 
-
+        //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
+        
         string targetObject = objectName;   //npcFrom에 해당하는 값
 
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
-        int indexOfInteraction = interactionLists.FindIndex(x => x.GetNpcFrom() == targetObject);
+        //int indexOfInteraction = interactionLists.FindIndex(x => x.GetStartObject() == targetObject);
+
+        /* 해당 오브젝트에 관한 이벤트가 있는지 먼저 확인해야함. */
+        /* 이름(startObject)이 같은 것이 여러개일 수 있으니, int형 리스트의 형태로 저장하고, 그 중에서 골라내는 것은 어떨까???? */
+        List<Interaction> targetOfInteractionList = new List<Interaction>();
+        targetOfInteractionList = interactionLists.FindAll(x => x.GetStartObject() == targetObject);
 
         //대화목록의 id값
-        int tempId = int.Parse((dataLists[indexOfInteraction])["id"]);
+        int tempId;
+        int eventCheckValue = eventManager.CheckEvent(targetOfInteractionList, interactionLists);
+
+        // 해당 오브젝트에 대한 이벤트 유무 확인
+        if (eventCheckValue != -1)
+        {
+            // 이벤트가 있다면 진행 시켜야지
+            tempId = eventCheckValue;
+        }
+        else
+        {
+            // 이벤트가 없다면 원래대로 진행
+            //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
+            int indexOfInteraction = interactionLists.FindIndex(x => x.GetStartObject() == targetObject);
+
+            tempId = int.Parse((dataLists[indexOfInteraction])["id"]);
+        }
+
+        //tempIdLists = indexList;    // 진행된 대화들의 status를 올리기위해 tempIdLists에 indexList 저장
         
         //대화가 이어질 수 있도록 parent값을 이용
         int tempParentIndex = interactionLists.FindIndex(x => x.GetId() == tempId);
@@ -94,7 +119,8 @@ public class DialogManager : MonoBehaviour
 
         //대화가 진행됐는지 알 수 있도록 status값을 이용 -> 대화 안했으면 0, 했으면 1 -> 1일 때의 예외처리도 추후에 추가해야함.
         //추후에 각 대화에 해당하는, 변경된 status값을 저장하기 위한 코드 필요(통째로 csv형식으로 저장하는 것이 좋을듯) 
-        int tempStatus = int.Parse((dataLists[tempId])["status"]);
+        //int tempStatus = int.Parse((dataLists[tempId])["status"]);
+
         /* 캐릭터의 이름, 사진을 바꿔줘야함. -> 이름은 완료함, 사진을 바꿔줘야 함.*/
 
         /* Id와 parent값이 같다는 것은 더이상 관련있는 대화가 없다는 것이다. */
@@ -179,23 +205,27 @@ public class DialogManager : MonoBehaviour
     public void CheckAndAddSentence(int tempId)
     {
         tempIdLists.Add(tempId);                                //status 변경용
+
         tempNpcNameLists.Add((dataLists[tempId])["npcFrom"]);    //대화중인 npc이름 변경용
 
-        //대화를 통해 얻을 수 있는 단서들의 목록 만들기
-        if (dataLists[tempId]["rewards"].Contains(","))
+        if (dataLists[tempId]["rewards"] != null)
         {
-            string[] rewardArr = dataLists[tempId]["rewards"].Split(',');
-            for (int i = 0; i < rewardArr.Length; i++)
+            //대화를 통해 얻을 수 있는 단서들의 목록 만들기
+            if (dataLists[tempId]["rewards"].Contains(","))
             {
-                rewardsLists.Add(rewardArr[i]);
-                Debug.Log((i + 1) + "번째로 획득할 단서 : " + rewardArr[i]);
+                string[] rewardArr = dataLists[tempId]["rewards"].Split(',');
+                for (int i = 0; i < rewardArr.Length; i++)
+                {
+                    rewardsLists.Add(rewardArr[i]);
+                    Debug.Log((i + 1) + "번째로 획득할 단서 : " + rewardArr[i]);
+                }
             }
-        }
-        else
-        {
-            string reward = dataLists[tempId]["rewards"];
-            rewardsLists.Add(reward);
-            Debug.Log("획득할 단서 : " + rewardsLists[0]);
+            else
+            {
+                string reward = dataLists[tempId]["rewards"];
+                rewardsLists.Add(reward);
+                Debug.Log("획득할 단서 : " + rewardsLists[0]);
+            }
         }
 
         sentenceLists.Add((dataLists[tempId])["desc"]);  //해당 id값의 대화 추가
@@ -217,7 +247,9 @@ public class DialogManager : MonoBehaviour
            
             for(int i=0; i<tempIdLists.Count; i++)
             {   //지금 까지 한 모든 대화 읽음 처리
-                (dataLists[tempIdLists[i]])["status"] = "1";
+                //(dataLists[tempIdLists[i]])["status"] = "1";
+                int tempIndex = interactionLists.FindIndex(x => x.GetId() == tempIdLists[i]);
+                interactionLists[tempIndex].SetStatus(interactionLists[tempIndex].GetStatus() + 1); //진행된 대화는 status 1 증가
             }
             UIManager.instance.isConversationing = false;
             UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
@@ -269,7 +301,7 @@ public class DialogManager : MonoBehaviour
             tempNpcNameLists.Clear();
             curNumOfNpcNameLists = 0;
             rewardsLists.Clear();
-            UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+            //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
         }
     }
 

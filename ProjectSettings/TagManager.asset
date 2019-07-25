@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - SlotButton
+  - character
+  - PortalPoint
+  - InteractionObject
   layers:
   - Default
   - TransparentFX
@@ -41,4 +44,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 2721856177
+    locked: 0
+  - name: Map
+    uniqueID: 3120372039
+    locked: 0
+  - name: Character
+    uniqueID: 3468043051
+    locked: 0
+  - name: Player
+    uniqueID: 2189917601
+    locked: 0
+  - name: Arrow
+    uniqueID: 114859691
     locked: 0
