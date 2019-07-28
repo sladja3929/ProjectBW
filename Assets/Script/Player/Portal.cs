@@ -42,6 +42,7 @@ public class Portal : MonoBehaviour
         string position = destination.transform.parent.parent.parent.name
                            + "_" + destination.transform.parent.parent.name;
         PlayerManager.instance.SetCurrentPosition(position);
+        MiniMapManager.instance.MoveArrowPosition();
         Debug.Log(PlayerManager.instance.GetCurrentPosition() + "으로 이동");
     }
 

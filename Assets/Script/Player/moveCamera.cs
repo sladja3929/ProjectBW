@@ -17,6 +17,9 @@ public class moveCamera : MonoBehaviour
     private Vector3 position_Of_Sector1_Of_Street2_In_Slum = new Vector3(816.9f, -941.0f, -10);
     private Vector3 position_Of_Sector2_Of_Street2_In_Slum = new Vector3(2096.9f, -941.0f, -10);
 
+    /*시장 거리 1*/
+    private Vector3 position_Of_Sector1_Of_Street1_In_Market = new Vector3(0, 1200, -10);
+
     void Start()
     {
         whereIsPlayer = PlayerManager.instance.GetCurrentPosition();
@@ -60,6 +63,9 @@ public class moveCamera : MonoBehaviour
                 transform.localPosition = position_Of_Sector2_Of_Street2_In_Slum;
 
             }
+        }
+        else if (whereIsPlayer == "Market_Street1") {
+            transform.localPosition = position_Of_Sector1_Of_Street1_In_Market;
         }
     }
 }
