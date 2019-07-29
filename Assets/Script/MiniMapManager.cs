@@ -12,9 +12,9 @@ public class MiniMapManager : MonoBehaviour
     private GameObject arrow;
     private bool isOpen;
 
-    private Vector3 miniMap_Position_Slum_Street1 = new Vector3(-10.4f, -4.5f, 0);
-    private Vector3 miniMap_Position_Slum_Street2 = new Vector3(-10f, -6.5f, 0);
-    private Vector3 miniMap_Position_Market_Street1 = new Vector3(-10.5f, 2f, 0);
+    private Vector3 miniMap_Position_Slum_Street1 = new Vector3(-10.4f, -4.5f, -1f);
+    private Vector3 miniMap_Position_Slum_Street2 = new Vector3(-10f, -6.5f, -1f);
+    private Vector3 miniMap_Position_Market_Street1 = new Vector3(-10.5f, 2f, -1f);
 
     void Start()
     {
