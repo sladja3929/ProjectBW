@@ -22,12 +22,19 @@ public class PlayerManager : MonoBehaviour {
     private Vector2 pos;            //마우스로 클릭한 곳의 위치
     private Ray2D ray;              //마우스로 클릭한 곳에 보이지않는 광선을 쏨
     private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
-    
+
+    /* character code test */
+    private string er;
+    private string garbageBag;
 
     // Use this for initialization
     void Awake () {
         if (instance == null)
             instance = this;
+
+        /* for the character code test */
+        er = "1000";
+        garbageBag = "1001";
 
         //ClueList = new List<Clue>();
         ClueLists = new List<Clue>[5];  //Act5까지의 단서들 리스트
@@ -60,7 +67,12 @@ public class PlayerManager : MonoBehaviour {
             }
             else if (hit.collider.tag == "InteractionObject")
             {
-                DialogManager.instance.InteractionWithObject(hit.collider.name);
+                //DialogManager.instance.InteractionWithObject(hit.collider.name);
+                if(hit.collider.name.Equals("ER"))
+                    DialogManager.instance.InteractionWithObject(er);
+
+                if (hit.collider.name.Equals("GarbageBag"))
+                    DialogManager.instance.InteractionWithObject(garbageBag);
             }
         }
 	}
