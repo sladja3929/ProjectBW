@@ -20,6 +20,21 @@ public class moveCamera : MonoBehaviour
     /*시장 거리 1*/
     private Vector3 position_Of_Sector1_Of_Street1_In_Market = new Vector3(0, 1200, -10);
 
+    /*주택가 거리 1*/
+    private Vector3 position_Of_Sector1_Of_Street1_In_Village = new Vector3(5000f, 5300f, -10);
+    private Vector3 position_Of_Sector2_Of_Street1_In_Village = new Vector3(6280f, 5300f, -10);
+    private Vector3 position_Of_Sector3_Of_Street1_In_Village = new Vector3(7560f, 5300f, -10);
+
+    /*주택가 거리 2*/
+    private Vector3 position_Of_Sector1_Of_Street2_In_Village = new Vector3(5000f, 4200f, -10);
+    private Vector3 position_Of_Sector2_Of_Street2_In_Village = new Vector3(6280f, 4200f, -10);
+    private Vector3 position_Of_Sector3_Of_Street2_In_Village = new Vector3(7560f, 4200f, -10);
+
+    /*주택가 거리 3*/
+    private Vector3 position_Of_Sector1_Of_Street3_In_Village = new Vector3(5000f, 3100f, -10);
+    private Vector3 position_Of_Sector2_Of_Street3_In_Village = new Vector3(6280f, 3100f, -10);
+    private Vector3 position_Of_Sector3_Of_Street3_In_Village = new Vector3(7560f, 3100f, -10);
+
     void Start()
     {
         whereIsPlayer = PlayerManager.instance.GetCurrentPosition();
@@ -52,6 +67,7 @@ public class moveCamera : MonoBehaviour
                 transform.localPosition = position_Of_Sector3_Of_Street1_In_Slum;
             }
         }
+
         else if (whereIsPlayer == "Slum_Street2")
         {
             if (playerPosition.x >= 176.0f && playerPosition.x < 1456.0f)
@@ -64,8 +80,49 @@ public class moveCamera : MonoBehaviour
 
             }
         }
+
         else if (whereIsPlayer == "Market_Street1") {
+
             transform.localPosition = position_Of_Sector1_Of_Street1_In_Market;
+        }
+
+        else if(whereIsPlayer == "Village_Street1") {
+
+            if (playerPosition.x >= 4360.0f && playerPosition.x < 5640.0f) {
+                transform.localPosition = position_Of_Sector1_Of_Street1_In_Village;
+            }
+            else if (playerPosition.x >= 5640.0f && playerPosition.x < 6920.0f) {
+                transform.localPosition = position_Of_Sector2_Of_Street1_In_Village;
+            }
+            else if (playerPosition.x >= 6920.0f && playerPosition.x < 8200.0f) {
+                transform.localPosition = position_Of_Sector3_Of_Street1_In_Village;
+            }
+        }
+
+        else if (whereIsPlayer == "Village_Street2") {
+
+            if (playerPosition.x >= 4360.0f && playerPosition.x < 5640.0f) {
+                transform.localPosition = position_Of_Sector1_Of_Street2_In_Village;
+            }
+            else if (playerPosition.x >= 5640.0f && playerPosition.x < 6920.0f) {
+                transform.localPosition = position_Of_Sector2_Of_Street2_In_Village;
+            }
+            else if (playerPosition.x >= 6920.0f && playerPosition.x < 8200.0f) {
+                transform.localPosition = position_Of_Sector3_Of_Street2_In_Village;
+            }
+        }
+
+        else if (whereIsPlayer == "Village_Street3") {
+
+            if (playerPosition.x >= 4360.0f && playerPosition.x < 5640.0f) {
+                transform.localPosition = position_Of_Sector1_Of_Street3_In_Village;
+            }
+            else if (playerPosition.x >= 5640.0f && playerPosition.x < 6920.0f) {
+                transform.localPosition = position_Of_Sector2_Of_Street3_In_Village;
+            }
+            else if (playerPosition.x >= 6920.0f && playerPosition.x < 8200.0f) {
+                transform.localPosition = position_Of_Sector3_Of_Street3_In_Village;
+            }
         }
     }
 }

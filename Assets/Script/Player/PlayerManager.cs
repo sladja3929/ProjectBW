@@ -37,7 +37,7 @@ public class PlayerManager : MonoBehaviour {
 
         NumOfAct = 1;   //Act1 시작
 
-        currentPosition = "Slum_Street1";
+        currentPosition = "Village_Street1";
 
         isInPortalZone = false;
     }
@@ -144,26 +144,6 @@ public class PlayerManager : MonoBehaviour {
     public void SetIsNearObject(bool isNearObject)
     {
         this.isNearObject = isNearObject;
-    }
-
-    // To (1280, -1110.6)
-    public void Move_From_Street1_To_Street2_In_Slam()
-    {
-        Vector3 tempPosition = player.transform.localPosition;
-        tempPosition.x = 1280.0f;
-        tempPosition.y = -1180.0f;
-        player.transform.localPosition = tempPosition;
-        SetCurrentPosition("Slam_Street2");
-    }
-
-    // To (1280, -171)
-    public void Move_From_Street2_To_Street1_In_Slam()
-    {
-        Vector3 tempPosition = player.transform.localPosition;
-        tempPosition.x = 1280.0f;
-        tempPosition.y = -216.0f;
-        player.transform.localPosition = tempPosition;
-        SetCurrentPosition("Slam_Street1");
     }
 
     public Vector3 GetPlayerPosition() {
