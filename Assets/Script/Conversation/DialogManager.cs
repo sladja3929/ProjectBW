@@ -167,7 +167,7 @@ public class DialogManager : MonoBehaviour
     {
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
-        tempNpcName = npcParser.GetNpcName(tempNpcNameLists[curNumOfNpcNameLists]);
+        tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
 
         if (tempNpcName != null)
             npcNameText.text = tempNpcName;
@@ -285,7 +285,7 @@ public class DialogManager : MonoBehaviour
                 for (int j = 0; j < tempNpcNameLists.Count; j++)
                 {   //이름 : "대화"
                     /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
-                    tempNpcName = npcParser.GetNpcName(tempNpcNameLists[j]);
+                    tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
 
                     if (tempNpcName == null)
                         tempNpcName = "stranger";

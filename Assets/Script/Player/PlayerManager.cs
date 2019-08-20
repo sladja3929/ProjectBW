@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour {
     /* character code test */
     private string er;
     private string garbageBag;
+    private NpcParser npcParser;
 
     // Use this for initialization
     void Awake () {
@@ -35,6 +36,7 @@ public class PlayerManager : MonoBehaviour {
         /* for the character code test */
         er = "1000";
         garbageBag = "1001";
+        npcParser = new NpcParser();
 
         //ClueList = new List<Clue>();
         ClueLists = new List<Clue>[5];  //Act5까지의 단서들 리스트
@@ -67,12 +69,13 @@ public class PlayerManager : MonoBehaviour {
             }
             else if (hit.collider.tag == "InteractionObject")
             {
-                //DialogManager.instance.InteractionWithObject(hit.collider.name);
-                if(hit.collider.name.Equals("ER"))
-                    DialogManager.instance.InteractionWithObject(er);
+                Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
+                DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                //if(hit.collider.name.Equals("ER"))
+                //    DialogManager.instance.InteractionWithObject(er);
 
-                if (hit.collider.name.Equals("GarbageBag"))
-                    DialogManager.instance.InteractionWithObject(garbageBag);
+                //if (hit.collider.name.Equals("GarbageBag"))
+                //    DialogManager.instance.InteractionWithObject(garbageBag);
             }
         }
 	}

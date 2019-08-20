@@ -20,7 +20,7 @@ public class NpcParser
     /// <param name="characterCode"></param>
     /// <returns></returns>
 
-    public string GetNpcName(string characterCode)
+    public string GetNpcNameFromCode(string characterCode)
     {
         switch (characterCode)
         {
@@ -92,6 +92,84 @@ public class NpcParser
 
             case "1110":
                 return "주민4";
+
+            default:
+                return null;
+        }//switch()
+    }
+
+    public string GetNpcCodeFromName(string characterName)
+    {
+        switch (characterName)
+        {
+            case "메르테":
+                return "1000";
+
+            case "안드렌":
+                return "1001";
+
+            case "체스미터":
+                return "1002";
+
+            case "멜리사":
+                return "1003";
+
+            case "프란체티":
+                return "1004";
+
+            case "레이나":
+                return "1005";
+
+            case "더글라스":
+                return "1006";
+
+            case "에고이스모 륑":
+                return "1007";
+
+            case "메그 륑":
+                return "1008";
+
+            case "아놀드":
+                return "1009";
+
+            case "발루아":
+                return "1010";
+
+            case "도모니아 여왕":
+                return "1011";
+
+            case "주민1":
+                return "1100";
+
+            case "주민2":
+                return "1101";
+
+            case "아이1":
+                return "1102";
+
+            case "아이2":
+                return "1103";
+
+            case "왼쪽벤치":
+                return "1104";
+
+            case "오른쪽벤치":
+                return "1105";
+
+            case "이사 가고싶은 주민":
+                return "1106";
+
+            case "폴(커플1)":
+                return "1107";
+
+            case "마리(커플2)":
+                return "1108";
+
+            case "주민3":
+                return "1109";
+
+            case "주민4":
+                return "1110";
 
             default:
                 return null;
