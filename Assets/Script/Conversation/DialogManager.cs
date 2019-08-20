@@ -33,6 +33,9 @@ public class DialogManager : MonoBehaviour
     private List<string> sentenceLists;     //출력해야 할 대화들을 담을 리스트
     private EventConversationManager eventManager;
 
+    private NpcParser npcParser;
+    private string tempNpcName;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +61,8 @@ public class DialogManager : MonoBehaviour
         rewardsLists = new List<string>();
         sentenceLists = new List<string>();
         eventManager = new EventConversationManager();
+
+        npcParser = new NpcParser();
     }
 
     void Update()
@@ -161,7 +166,13 @@ public class DialogManager : MonoBehaviour
     IEnumerator Type()
     {
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
-        npcNameText.text = tempNpcNameLists[curNumOfNpcNameLists];
+        /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+        tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
+
+        if (tempNpcName != null)
+            npcNameText.text = tempNpcName;
+        else
+            npcNameText.text = "stranger";
 
         if (tempNpcNameLists.Count > 1) curNumOfNpcNameLists++;
 
@@ -273,7 +284,13 @@ public class DialogManager : MonoBehaviour
                 string tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
                 for (int j = 0; j < tempNpcNameLists.Count; j++)
                 {   //이름 : "대화"
-                    tempText += (tempNpcNameLists[j] + " : " + sentenceLists[j]);
+                    /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+                    tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
+
+                    if (tempNpcName == null)
+                        tempNpcName = "stranger";
+
+                    tempText += (tempNpcName + " : " + sentenceLists[j]);
                 }
                 tempText += "</i>";
                 Debug.Log(tempText);

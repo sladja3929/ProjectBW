@@ -259,10 +259,10 @@ public class CSVParser : MonoBehaviour
     /* s -> , */
     public string ReplaceComma(string text)
     {
-        if (text.Contains("s"))
+        if (text.Contains("$"))
         {
-            //현재 csv 파일에서 쉼표를 표현하기위해서는 대체제로 s를 사용했으니, 바꿔줘야한다.
-            text = text.Replace("s", ",");
+            //현재 csv 파일에서 쉼표를 표현하기위해서는 대체제로 $를 사용했으니, 바꿔줘야한다.
+            text = text.Replace("$", ",");
             
             return text;
         }
