@@ -27,17 +27,4 @@ public class GameManager : MonoBehaviour {
             Debug.Log("이미 획득한 단서입니다.");
         }
     }
-
-    //동생의 상처 단서 획득
-    public void GetInjuryOfSister()
-    {
-        GetClue("동생의 상처");
-    }
-
-    //찢겨진 그림 단서 획득
-    public void GetTornPainting()
-    {
-        GetClue("찢겨진 그림");
-    }
-    
 }

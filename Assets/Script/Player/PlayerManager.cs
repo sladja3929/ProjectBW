@@ -46,7 +46,7 @@ public class PlayerManager : MonoBehaviour {
 
         NumOfAct = 1;   //Act1 시작
 
-        currentPosition = "Village_Street1";
+        currentPosition = "Downtown_Street1";
 
         isInPortalZone = false;
     }

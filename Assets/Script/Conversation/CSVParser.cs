@@ -28,13 +28,14 @@ public class CSVParser : MonoBehaviour
 
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
         //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction.csv");
-        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver2.csv");
+        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
         string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
         string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
 
+        int index = 0;
         //맨 마지막 줄은 한 줄 띄워져있으니 생략하기위해 길이 - 1 해줌
         //첫번째줄 속성줄을 무시하기위해 i = 1 부터 시작
         for (int i = 1; i < stringArr.Length-1; i++)
@@ -43,7 +44,9 @@ public class CSVParser : MonoBehaviour
             string[] dataArr = stringArr[i].Split(',');
 
             //int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
-            int index = int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
+            
+            /* FindIndex가 0부터 반환하면 0, 1부터 반환하면 1로 고쳐야함 */
+            //int index = 0; // 그냥 0부터 차례대로 박아넣기 // int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
 
             //해당 index가 dictionary에 없으면 추가
             if (!dataList.ContainsKey(index))
@@ -56,12 +59,13 @@ public class CSVParser : MonoBehaviour
                 /* """ -> " && s -> , 변환해서 데이터 넣기 */
                 dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
                 dataArr[j] = ReplaceComma(dataArr[j]);
+                //Debug.Log("index = " + index);
                 //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
                 //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
                 dataList[index].Add(subjectArr[j], dataArr[j]);
-
+                
             }//for j
-            
+            index++;
         }//for i
         
         //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
@@ -82,12 +86,14 @@ public class CSVParser : MonoBehaviour
 
                     case "시간대":
 
-                        tempInteraction.SetTime(int.Parse((dataList[i])[subjectArr[j]]));
+                        //tempInteraction.SetTime(int.Parse((dataList[i])[subjectArr[j]]));
+                        tempInteraction.SetTime(((dataList[i])[subjectArr[j]]));
                         break;
 
                     case "위치":
 
-                        tempInteraction.SetPosition(int.Parse((dataList[i])[subjectArr[j]]));
+                        //tempInteraction.SetPosition(int.Parse((dataList[i])[subjectArr[j]]));
+                        tempInteraction.SetPosition(((dataList[i])[subjectArr[j]]));
                         break;
 
                     case "대화 묶음":
@@ -109,12 +115,12 @@ public class CSVParser : MonoBehaviour
 
                         tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);
                         break;
-
+                        /*
                     case "npcTo":
 
                         tempInteraction.SetNpcTo((dataList[i])[subjectArr[j]]);
                         break;
-
+                        */
                     case "desc":
                         
                         tempInteraction.SetDesc((dataList[i])[subjectArr[j]]);
@@ -171,6 +177,17 @@ public class CSVParser : MonoBehaviour
                         string[] revealList = tempRevealList.Split(',');
                         tempInteraction.SetRevealList(revealList);
 
+                        break;
+
+                    case "발생 여부":
+                        
+                        tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
+
+                        break;
+
+                    case "새로운 이벤트":
+
+                        tempInteraction.SetEventIndexToOccur(((dataList[i])[subjectArr[j]]));
                         break;
 
                     default:
