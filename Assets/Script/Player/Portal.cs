@@ -24,6 +24,16 @@ public class Portal : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake") {
                 TakePortal();
             }
+
+            if (Input.GetKeyDown(KeyCode.A) && arrow.transform.name == "LeftToTake")
+            {
+                TakePortal();
+            }
+
+            if (Input.GetKeyDown(KeyCode.D) && arrow.transform.name == "RightToTake")
+            {
+                TakePortal();
+            }
         }
     }
 

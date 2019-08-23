@@ -43,4 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328a660efe134d24983cf7a42d7f7896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcListForEvent: []
+  npcListForEvent:
+  - {fileID: 7590779681468244586, guid: a641b080b66ccf448a33222f9245a59e, type: 3}

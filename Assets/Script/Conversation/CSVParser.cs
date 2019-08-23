@@ -80,7 +80,7 @@ public class CSVParser : MonoBehaviour
                 switch (subjectArr[j])
                 {
                     case "사건":
-
+                        
                         tempInteraction.SetAct(int.Parse((dataList[i])[subjectArr[j]]));
                         break;
 
