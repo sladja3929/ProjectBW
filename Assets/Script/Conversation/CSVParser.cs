@@ -16,12 +16,28 @@ public class CSVParser : MonoBehaviour
     /* 메인 Dictionary의 key값은 각 interaction의 id값들을 넣고, value는 내부 dictionary를 넣는다 */
     /* 내부 Dictionary의 key값은 각 interaction이 가지고 있는 npcName 등의 값이고, value는 해당 key값의 실질적인 값을 가지게 한다. */
     private Dictionary<int, Dictionary<string, string>> dataList;
-    
+
+    /* 구조는 dataList와 일맥상통하다 */
+    // csv 형식의 단서 테이블의 데이터들을 저장할 수 있는 변수
+    private Dictionary<int, Dictionary<string, string>> clueList;
+
     //게임에 필요한 상호작용들을 가지고 있을 리스트변수 선언
     private List<Interaction> interactionLists;
 
+    private List<ClueStructure> clueStructureLists;
+
+
     /* csv 파일 불러오면서 적용시키기 */
     void Awake()
+    {
+
+        ParsingConversationCSV();   // 대화 테이블 파싱
+        ParsingClueDataCSV();       // 단서 테이블 파싱
+
+    }//Awake()
+
+    /* 대화 테이블을 파싱하는 함수 */
+    public void ParsingConversationCSV()
     {
         dataList = new Dictionary<int, Dictionary<string, string>>();
         interactionLists = new List<Interaction>();
@@ -38,13 +54,13 @@ public class CSVParser : MonoBehaviour
         int index = 0;
         //맨 마지막 줄은 한 줄 띄워져있으니 생략하기위해 길이 - 1 해줌
         //첫번째줄 속성줄을 무시하기위해 i = 1 부터 시작
-        for (int i = 1; i < stringArr.Length-1; i++)
+        for (int i = 1; i < stringArr.Length - 1; i++)
         {
             //두번째 줄부터 ,를 기준으로 쪼갬
             string[] dataArr = stringArr[i].Split(',');
 
             //int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
-            
+
             /* FindIndex가 0부터 반환하면 0, 1부터 반환하면 1로 고쳐야함 */
             //int index = 0; // 그냥 0부터 차례대로 박아넣기 // int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
 
@@ -63,11 +79,11 @@ public class CSVParser : MonoBehaviour
                 //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
                 //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
                 dataList[index].Add(subjectArr[j], dataArr[j]);
-                
+
             }//for j
             index++;
         }//for i
-        
+
         //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
         for (int i = 0; i < dataList.Count; i++)
         {
@@ -80,7 +96,7 @@ public class CSVParser : MonoBehaviour
                 switch (subjectArr[j])
                 {
                     case "사건":
-                        
+
                         tempInteraction.SetAct(int.Parse((dataList[i])[subjectArr[j]]));
                         break;
 
@@ -115,14 +131,14 @@ public class CSVParser : MonoBehaviour
 
                         tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);
                         break;
-                        /*
-                    case "npcTo":
+                    /*
+                case "npcTo":
 
-                        tempInteraction.SetNpcTo((dataList[i])[subjectArr[j]]);
-                        break;
-                        */
+                    tempInteraction.SetNpcTo((dataList[i])[subjectArr[j]]);
+                    break;
+                    */
                     case "desc":
-                        
+
                         tempInteraction.SetDesc((dataList[i])[subjectArr[j]]);
                         break;
 
@@ -132,7 +148,7 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "대사 조건":
-                        
+
                         string tempCondition = (dataList[i])[subjectArr[j]];
 
                         if (tempCondition.Contains(","))   // 여러개일 경우
@@ -152,7 +168,7 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "status":
-                        
+
                         tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
                         break;
 
@@ -166,7 +182,7 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "parent":
-                        
+
                         tempInteraction.SetParent(int.Parse((dataList[i])[subjectArr[j]]));
 
                         break;
@@ -180,7 +196,7 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "발생 여부":
-                        
+
                         tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
 
                         break;
@@ -218,7 +234,7 @@ public class CSVParser : MonoBehaviour
         //        "\nparent : " + interactionLists[i].GetParent());
 
         //    string rewardsList = interactionLists[i].GetRewards();
-            
+
         //    if (rewardsList.Contains(","))
         //    {
         //        string[] rewardArr = rewardsList.Split(',');
@@ -231,7 +247,7 @@ public class CSVParser : MonoBehaviour
         //    {
         //            Debug.Log("획득할 단서 : " + rewardsList);
         //    }
-            
+
         //    for (int j = 0; j < interactionLists[i].GetConditionOfDesc().Length; j++)
         //        Debug.Log((j + 1) + "번째 conditionOfDesc : " + interactionLists[i].GetConditionOfDesc()[j]);
 
@@ -255,8 +271,115 @@ public class CSVParser : MonoBehaviour
         //}
 
         //Debug.Log((dataList[0])["npc"]);
+    } //ParsingConversationCSV()
 
-    }//start()
+    /* 단서 테이블을 파싱하는 함수 */
+    public void ParsingClueDataCSV()
+    {
+        clueList = new Dictionary<int, Dictionary<string, string>>();
+        clueStructureLists = new List<ClueStructure>();
+        
+        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/ClueData_ver_1_0.csv");
+
+        //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
+        string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+        string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
+
+        int index = 0;
+        //맨 마지막 줄은 한 줄 띄워져있으니 생략하기위해 길이 - 1 해줌
+        //첫번째줄 속성줄을 무시하기위해 i = 1 부터 시작
+        for (int i = 1; i < stringArr.Length - 1; i++)
+        {
+            //두번째 줄부터 ,를 기준으로 쪼갬
+            string[] dataArr = stringArr[i].Split(',');
+
+            /* FindIndex가 0부터 반환하면 0, 1부터 반환하면 1로 고쳐야함 */
+
+            //해당 index가 dictionary에 없으면 추가
+            if (!clueList.ContainsKey(index))
+                clueList.Add(index, new Dictionary<string, string>());
+            
+            //메인 dictionary에는 index의 키값을 가지는 내부 dictionary가 있을것이다.
+            //내부 dictionary에 각 속성들의 값을 대입하기위해 for문을 돌린다.
+            for (int j = 0; j < dataArr.Length; j++)
+            {
+                /* """ -> " && s -> , 변환해서 데이터 넣기 */
+                dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
+                dataArr[j] = ReplaceComma(dataArr[j]);
+                //Debug.Log("index = " + index);
+                //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
+                //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
+                clueList[index].Add(subjectArr[j], dataArr[j]);
+
+            }//for j
+            index++;
+        }//for i
+
+        //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
+        for (int i = 0; i < clueList.Count; i++)
+        {
+            //dataList.Count 만큼 interaction 클래스 객체가 만들어짐.
+            ClueStructure tempClueStructure = new ClueStructure();
+
+            for (int j = 0; j < clueList[i].Count; j++)
+            {
+                //(clueList[i])[subjectArr[j]]
+                switch (subjectArr[j])
+                {
+                    case "S.no":
+
+                        tempClueStructure.SetSpecialNum(((clueList[i])[subjectArr[j]]));
+                        break;
+
+                    case "E.no":
+                        
+                        tempClueStructure.SetEventNum(((clueList[i])[subjectArr[j]]));
+                        break;
+
+                    case "id":
+                        
+                        tempClueStructure.SetId(int.Parse((clueList[i])[subjectArr[j]]));
+                        break;
+
+                    case "rewards": // 단서 이름
+
+                        tempClueStructure.SetClueName((clueList[i])[subjectArr[j]]);
+                        break;
+
+                    case "사건":
+
+                        tempClueStructure.SetNumOfAct((clueList[i])[subjectArr[j]]);
+                        break;
+
+                    case "시간대":
+
+                        tempClueStructure.SetTimeSlot((clueList[i])[subjectArr[j]]);
+                        break;
+
+                    case "획득 위치 1":
+
+                        tempClueStructure.SetObtainPos1((clueList[i])[subjectArr[j]]);
+                        break;
+
+                    case "획득 위치 2":
+
+                        tempClueStructure.SetObtainPos2((clueList[i])[subjectArr[j]]);
+                        break;
+
+                    case "desc2":
+
+                        tempClueStructure.SetDesc((clueList[i])[subjectArr[j]]);
+                        break;
+
+                    default:
+                        continue;
+                }//switch
+            }//for j
+
+            //추출해서 적용시킨 ClueStructure 클래스를 리스트에 추가
+            clueStructureLists.Add(tempClueStructure);
+        }//for i
+    }//ParsingClueDataCSV()
 
     /* """ -> " */
     public string ReplaceDoubleQuotationMark(string text)
@@ -296,4 +419,15 @@ public class CSVParser : MonoBehaviour
     {
         return interactionLists;
     }
+
+    public Dictionary<int, Dictionary<string, string>> GetClueList()
+    {
+        return clueList;
+    }
+
+    public List<ClueStructure> GetClueStructureLists()
+    {
+        return clueStructureLists;
+    }
+
 }

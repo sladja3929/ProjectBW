@@ -44,27 +44,28 @@ public class AutoFlip : MonoBehaviour {
         //StartCoroutine(FlipToEnd());
     }
 
-    public void FlipPage(int pressedAct)
+    public void FlipPage(string pressedAct)
     {
-        
-        UIManager.instance.ActivateUpDownButton(false);
+        int tempPressedAct = int.Parse(pressedAct);
 
+        UIManager.instance.ActivateUpDownButton(false);
+        
         //페이지가 넘겨지고 있는 중이 아니라면 실행
         if (!UIManager.instance.isPaging)
         {
             UIManager.instance.isPaging = true; //Act 버튼 비활성화
 
             /* 현재 단서창으로 보고있는 Act에 따라서 오른쪽, 왼쪽 넘기기 구분 */
-            int currentAct = UIManager.instance.GetCurrentPage();
+            int currentAct = int.Parse(UIManager.instance.GetCurrentPage());
 
-            if (pressedAct > currentAct)
+            if (tempPressedAct > currentAct)
             {
                 FlipRightPage(pressedAct);
                 UIManager.instance.shownSlotIndex = 1;
                 //UIManager.instance.howManyOpenNote++;
                 //UIManager.instance.isPaging = false;        //페이지를 넘겨도 된다는 뜻
             }
-            else if (pressedAct < currentAct)
+            else if (tempPressedAct < currentAct)
             {
                 FlipLeftPage(pressedAct);
                 UIManager.instance.shownSlotIndex = 1;
@@ -80,7 +81,7 @@ public class AutoFlip : MonoBehaviour {
     }
 
     //페이지 넘김 효과를 준 후, 단서의 내용을 출력하기 위한 함수
-    public void FlipPage(int tempIndex, int numOfAct)
+    public void FlipPage(int tempIndex, string numOfAct)
     {
         int num = Random.Range(0, 1 + 1);
 
@@ -108,7 +109,7 @@ public class AutoFlip : MonoBehaviour {
         }
     }
 
-    public void FlipRightPage(int pressedAct)
+    public void FlipRightPage(string pressedAct)
     {
         if (isFlipping) return;
         if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
@@ -122,7 +123,7 @@ public class AutoFlip : MonoBehaviour {
         StartCoroutine(FlipRTL(xc, xl, h, frameTime, dx, pressedAct));
     }
 
-    public void FlipRightPage(int tempIndex, int numOfAct)
+    public void FlipRightPage(int tempIndex, string numOfAct)
     {
         if (isFlipping) return;
         if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
@@ -136,7 +137,7 @@ public class AutoFlip : MonoBehaviour {
         StartCoroutine(FlipRTL(xc, xl, h, frameTime, dx, tempIndex, numOfAct));
     }
 
-    public void FlipLeftPage(int pressedAct)
+    public void FlipLeftPage(string pressedAct)
     {
         if (isFlipping) return;
         if (ControledBook.currentPage <= -10) return;
@@ -150,7 +151,7 @@ public class AutoFlip : MonoBehaviour {
         StartCoroutine(FlipLTR(xc, xl, h, frameTime, dx, pressedAct));
     }
 
-    public void FlipLeftPage(int tempIndex, int numOfAct)
+    public void FlipLeftPage(int tempIndex, string numOfAct)
     {
         if (isFlipping) return;
         if (ControledBook.currentPage <= -10) return;
@@ -205,7 +206,7 @@ public class AutoFlip : MonoBehaviour {
                 break;
         }
     }
-    IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx, int pressedAct)
+    IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx, string pressedAct)
     {
         // slot reset
         Inventory.instance.ResetSlot();
@@ -231,7 +232,7 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.OpenClueUI();
         UIManager.instance.ResetWrittenClueData();
         ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
-        PlayerManager.instance.NumOfAct = pressedAct;
+        PlayerManager.instance.NumOfAct = pressedAct.ToString();
 
         UIManager.instance.SetTempIndex(0); // 사건단위로 수첩을 넘기면, 처음 단서를 보여줘야 하므로 tempIndex를 0으로 설정
         UIManager.instance.buttonIndex = 0;
@@ -247,7 +248,7 @@ public class AutoFlip : MonoBehaviour {
         }
     }
 
-    IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx, int tempIndex, int numOfAct)
+    IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx, int tempIndex, string numOfAct)
     {
         // slot reset
         //Inventory.instance.ResetSlot();
@@ -287,7 +288,7 @@ public class AutoFlip : MonoBehaviour {
         
     }
 
-    IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, int pressedAct)
+    IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, string pressedAct)
     {
         // slot reset
         Inventory.instance.ResetSlot();
@@ -312,7 +313,7 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.OpenClueUI();
         UIManager.instance.ResetWrittenClueData();
         ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
-        PlayerManager.instance.NumOfAct = pressedAct;
+        PlayerManager.instance.NumOfAct = pressedAct.ToString();
 
         UIManager.instance.SetTempIndex(0); // 사건단위로 수첩을 넘기면, 처음 단서를 보여줘야 하므로 tempIndex를 0으로 설정
         UIManager.instance.buttonIndex = 0;
@@ -326,7 +327,7 @@ public class AutoFlip : MonoBehaviour {
         }
     }
 
-    IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, int tempIndex, int numOfAct)
+    IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, int tempIndex, string numOfAct)
     {
         // slot reset
         //Inventory.instance.ResetSlot();

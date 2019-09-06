@@ -28,14 +28,16 @@ public class Inventory : MonoBehaviour {
     /* 단서를 획득할 때 마다, 수첩에 슬롯을 하나씩 추가시켜야함. */
     /* 이미 있는 단서를 획득처리할 경우 비정상적으로 작동하지만, 게임 내에서 중복되는 단서는 없을것 같다. */
     /* 있으면 수정해야댐 */
-    public void MakeClueSlot(string clueName, int numOfAct)
+   
+    public void MakeClueSlot(string clueName, string numOfAct)
     {
         GameObject addedSlotButton = slotButton;
+        Debug.Log("playerClueLists.Count = " + PlayerManager.instance.playerClueLists.Count);
 
         // 캐릭터의 ClueList에서 해당하는 단서가 있는지 찾고, 있으면 tempIndex에 해당 단서의 index 대입
-        for (int i = 0; i < PlayerManager.instance.ClueLists[numOfAct].Count; i++)
+        for (int i = 0; i < PlayerManager.instance.playerClueLists.Count; i++)
         {
-            if (PlayerManager.instance.ClueLists[numOfAct][i].GetName().Equals(clueName))
+            if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals(clueName))
             {
                 int tempIndex = i;      // 캐릭터의 clueList에서 찾고자 하는 단서의 index가 저장될 변수
                 Debug.Log("tempIndex = " + tempIndex);
@@ -67,15 +69,17 @@ public class Inventory : MonoBehaviour {
         ResetSlotForTest();
     }
 
-    public void MakeClueSlot(int numOfAct)
+    public void MakeClueSlot(string numOfAct)
     {
         GameObject addedSlotButton = slotButton;
+        List<ClueStructure> tempClueList = PlayerManager.instance.playerClueLists.FindAll(x => x.GetNumOfAct() == numOfAct);
 
         // 해당 액트의 데이터들을 보여주기
-        for (int i = 0; i < PlayerManager.instance.ClueLists[numOfAct].Count; i++)
+        for (int i = 0; i < tempClueList.Count; i++)
         {
             int tempIndex = i;
-            string clueName = (PlayerManager.instance.ClueLists[numOfAct])[i].GetName();
+            string clueName = tempClueList[i].GetClueName(); 
+
             // 슬롯을 수첩에 추가
             slot.Add(Instantiate(addedSlotButton, inventoryPanel.transform));
             // 알맞은 단서의 이미지를 적용
@@ -98,6 +102,7 @@ public class Inventory : MonoBehaviour {
 
     /* 저장된 player의 단서파일을 불러올 시 수첩에 slot들을 만들어 주는 함수 */
     /* 플레이어가 가지고있던 index번째 단서에 맞게 이미지, 이벤트를 적용시킴 */
+    /*
     public void MakeClueSlotByLoad(int index)
     {
         //기본값은 Act 1의 데이터들이다.
@@ -109,6 +114,7 @@ public class Inventory : MonoBehaviour {
         //slot[index].transform.GetComponent<Button>().navigation = UIManager.instance.customNav;
         //slot[index].transform.GetComponent<Button>().onClick.AddListener(() => UIManager.instance.ShowClueData(index, 0));
     }
+    */
 
     /* 저장된 player의 단서파일을 불러올 시
      * 기존에 있던 수첩의 slot 데이터 초기화 및 버튼 삭제 */

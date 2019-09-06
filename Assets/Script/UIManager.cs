@@ -49,11 +49,11 @@ public class UIManager : MonoBehaviour {
     /* W,S로 버튼 이동 Test */
     public Button testButton;
     public int buttonIndex;
-    public int buttonNumOfAct;
+    public string buttonNumOfAct;
     public Selectable nextButton;
     public ColorBlock colorBlock;
 
-    private int currentPage;
+    private string currentPage;
     private bool isOpened;          //수첩이 열려있는지 확인
     public bool isPaging;           //책이 펼쳐지고 있는 중에는 Act 버튼이 눌리면 안됨.
     public bool isConversationing;  //대화창이 열려있는지 확인
@@ -75,7 +75,7 @@ public class UIManager : MonoBehaviour {
         else if (instance != this)
             Destroy(gameObject);
 
-        currentPage = 0;
+        currentPage = "51";
         isOpened = false;
         isPaging = false;
         isOpenedNote = false;
@@ -127,7 +127,7 @@ public class UIManager : MonoBehaviour {
 
             buttonIndex = 0;    /* for Button test */
             
-            ItemDatabase.instance.LoadHaveDataOfAct(0);     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
+            ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
 
 
             /* 아래의 코드는 전에 봤던 사건의 단서를 계속 봐야하는 것으로 기획이 변경되면 쓰면 됨 */
@@ -262,22 +262,25 @@ public class UIManager : MonoBehaviour {
         textAboutSecondClue.GetComponent<Text>().text = "";
     }
     
-    public void SetCurrentPage(int pressedAct)
+    public void SetCurrentPage(string pressedAct)
     {
         this.currentPage = pressedAct;
     }
 
-    public int GetCurrentPage()
+    public string GetCurrentPage()
     {
         return currentPage;
     }
 
     // 단서를 누를 때, 단서에 대한 스케치, 설명, 정리된 내용을 불러옴
-    public void ShowClueData(int clueIndex, int numOfAct)
+    public void ShowClueData(int clueIndex, string numOfAct)
     {
-        if (PlayerManager.instance.ClueLists[numOfAct].Count == 0)
+        List<ClueStructure> tempList = PlayerManager.instance.playerClueLists.FindAll(x => x.GetNumOfAct() == numOfAct);
+
+        if (tempList.Count == 0)
         {
             // 해당 사건의 획득한 단서가 없으면 빈 페이지를 보여줌
+            Debug.Log("사건" + numOfAct + "의 단서가 없어요");
             CloseClueUI();
             return;
         }
@@ -286,13 +289,13 @@ public class UIManager : MonoBehaviour {
             // 해당 사건의 획득한 단서가 있으면 ClueUI 활성화
             OpenClueUI();
             // 해당하는 단서의 index를 찾았으면, 그것을 토대로 수첩에서의 사진, 텍스트 등을 변경
-            clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetName());
-            clueContent.GetComponent<Text>().text = PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetDesc();
+            clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempList[clueIndex].GetClueName());
+            clueContent.GetComponent<Text>().text = "<size=30>" + tempList[clueIndex].GetObtainPos1() + "</size>" + "\n" + "<size=26>" + tempList[clueIndex].GetObtainPos2() + "</size>";
 
             /* 이름 : "대화" 형식으로 붙혀야함 */
             /* 이름 = tempNpcNameLists, 대화 = sentenceLists */
-            textAboutFirstClue.GetComponent<Text>().text = PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetFirstInfoOfClue();
-            textAboutSecondClue.GetComponent<Text>().text = PlayerManager.instance.ClueLists[numOfAct][clueIndex].GetArrangedContent();
+            textAboutFirstClue.GetComponent<Text>().text = tempList[clueIndex].GetFirstInfoOfClue();
+            textAboutSecondClue.GetComponent<Text>().text = tempList[clueIndex].GetDesc();
         }
     }
 

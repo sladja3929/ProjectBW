@@ -8,7 +8,11 @@ public class PlayerManager : MonoBehaviour {
     /* player가 있다는 가정 */
     //public List<Clue> ClueList;        // player가 얻은 단서들의 리스트
     public List<Clue>[] ClueLists;        // player가 얻은 단서들의 리스트
-    public int NumOfAct { get; set; }    // player가 현재 진행하고 있는 Act
+
+    public List<ClueStructure> playerClueLists; // player가 얻은 단서들의 리스트
+
+    public string NumOfAct { get; set; }    // player가 현재 진행하고 있는 Act
+    public string Timeslot { get; set; }    // player가 현재 진행하고 있는 시간대
 
     /* 맵 이동 관련 변수 */
     [SerializeField] private GameObject player; // 플레이어의 위치값을 받을 변수
@@ -40,11 +44,14 @@ public class PlayerManager : MonoBehaviour {
         //ClueList = new List<Clue>();
         ClueLists = new List<Clue>[5];  //Act5까지의 단서들 리스트
 
+        playerClueLists = new List<ClueStructure>();
+
         //ClueLists 초기화
         for (int i = 0; i < ClueLists.Length; i++)
             ClueLists[i] = new List<Clue>();
 
-        NumOfAct = 1;   //Act1 시작
+        NumOfAct = "53";   //사건3 시작
+        Timeslot = "71";   //첫째주 시작
 
         currentPosition = "Downtown_Street1";
 
@@ -83,6 +90,8 @@ public class PlayerManager : MonoBehaviour {
     {
         for(int i=0; i<ClueLists.Length; i++)
             ClueLists[i].Clear();
+
+        playerClueLists.Clear();
     }
 
     /* player가 얻은 데이터를 단서리스트에 추가 */
@@ -93,21 +102,18 @@ public class PlayerManager : MonoBehaviour {
     //}
 
     /* player가 얻은 해당 Act의 단서를 단서리스트에 추가 */
-    public void AddClueToList(Clue clueData, int numOfAct)
+    public void AddClueToList(ClueStructure clueData)
     {
-        ClueLists[numOfAct].Add(clueData);
+        playerClueLists.Add(clueData);
     }
 
     /* 단서 중복 방지 */
     public bool CheckClue(string clueName)
     {
-        for(int i=0; i<ClueLists.Length; i++)
+        for (int i = 0; i < playerClueLists.Count; i++)
         {
-            for(int j=0; j<ClueLists[i].Count; j++)
-            {
-                if (ClueLists[i][j].GetName().Equals(clueName))
-                    return true;   //단서 스크롤바 테스트할떄 -> false로 바꾸기
-            }
+            if (playerClueLists[i].GetClueName().Equals(clueName))
+                return true;
         }
 
         return false;

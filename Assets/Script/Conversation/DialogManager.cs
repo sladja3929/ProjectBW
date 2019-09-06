@@ -22,7 +22,7 @@ public class DialogManager : MonoBehaviour
     public bool isTextFull; //한 대화창에 출력할 최대 텍스트에 도달했는지의 여부
     public bool isSentenceDone; //출력할 문장이 다 출력 됐는지 여부
 
-    private Dictionary<int, Dictionary<string, string>> dataLists;
+    private Dictionary<int, Dictionary<string, string>> dataList;
     private List<Interaction> interactionLists;
     private List<string> imagePathLists;    //npcFrom에 해당하는 npc들의 이미지의 경로 리스트
     //private List<int> tempSetOfDesc_IndexList; //status 변경용
@@ -53,7 +53,7 @@ public class DialogManager : MonoBehaviour
         curNumOfNpcNameLists = 0;
         sentences = new string[] { "" };
         //UIManager 오브젝트에 있는 CSVParser의 스크립트 안에 있는 GetDataList() 함수로 상호작용 dictionary 불러오기
-        dataLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetDataList();
+        dataList = GameObject.Find("DataManager").GetComponent<CSVParser>().GetDataList();
         interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetInteractionLists();
 
         imagePathLists = new List<string>(); //캐릭터 이미지 추가되면 적용(테스트) 해야함
@@ -156,7 +156,7 @@ public class DialogManager : MonoBehaviour
         }
         /* 구해진 tempSetOfDesc_Index 에 해당하는 대화묶음에 해당하는 대사들을 id를 통해서 호출하기를 구현 */
         int indexOfInteraction = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index);
-        tempId = int.Parse((dataLists[indexOfInteraction])["id"]);
+        tempId = int.Parse((dataList[indexOfInteraction])["id"]);
 
         //tempIdLists = indexList;    // 진행된 대화들의 status를 올리기위해 tempIdLists에 indexList 저장 (삭제 예정)
         
@@ -264,14 +264,14 @@ public class DialogManager : MonoBehaviour
         //tempSetOfDesc_IndexList.Add(tempSetOfDesc_Index);       //status 변경용
         tempCertainDescIndexLists.Add(certainDescIndex);                          //status 변경용
         
-        tempNpcNameLists.Add((dataLists[certainDescIndex])["npcFrom"]);    //대화중인 npc이름 변경용
-
-        if (dataLists[certainDescIndex]["rewards"] != null)
+        tempNpcNameLists.Add((dataList[certainDescIndex])["npcFrom"]);    //대화중인 npc이름 변경용
+        
+        if ((dataList[certainDescIndex]["rewards"] != null) && !(dataList[certainDescIndex]["rewards"].Equals("")))
         {
             //대화를 통해 얻을 수 있는 단서들의 목록 만들기
-            if (dataLists[certainDescIndex]["rewards"].Contains(","))
+            if (dataList[certainDescIndex]["rewards"].Contains(","))
             {
-                string[] rewardArr = dataLists[certainDescIndex]["rewards"].Split(',');
+                string[] rewardArr = dataList[certainDescIndex]["rewards"].Split(',');
                 for (int i = 0; i < rewardArr.Length; i++)
                 {
                     rewardsLists.Add(rewardArr[i]);
@@ -280,23 +280,24 @@ public class DialogManager : MonoBehaviour
             }
             else
             {
-                string reward = dataLists[certainDescIndex]["rewards"];
+                string reward = dataList[certainDescIndex]["rewards"];
                 rewardsLists.Add(reward);
                 Debug.Log("획득할 단서 : " + rewardsLists[0]);
             }
         }
 
-        sentenceLists.Add((dataLists[certainDescIndex])["desc"]);  //해당 id값의 대화 추가
+        sentenceLists.Add((dataList[certainDescIndex])["desc"]);  //해당 id값의 대화 추가
     }
 
 
     public void NextSentence()
     {
         UIManager.instance.canSkipConversation = false;
-
+        Debug.Log("index = " + index);
         if (index < sentences.Length - 1)
         {
             index++;
+            
             conversationText.text = "";
             StartCoroutine(Type());
         } else
@@ -348,17 +349,11 @@ public class DialogManager : MonoBehaviour
                 }
                 tempText += "</i>";
                 //Debug.Log(tempText);
-
-                /* 플레이어가 획득한 단서중에서 보상으로 받은 단서의 이름이 같은게 있으면, 해당 단서(Clue class)의 firstInfoOfClue 변수에 대화를 저장한다. */
-                for (int j = 0; j < PlayerManager.instance.ClueLists.Length; j++)
+                
+                for (int j = 0; j < PlayerManager.instance.playerClueLists.Count; j++)
                 {
-                    for (int k = 0; k < PlayerManager.instance.ClueLists[j].Count; k++)
-                    {
-                        if (rewardsLists[i].Equals(PlayerManager.instance.ClueLists[j][k].GetName()))
-                        {
-                            PlayerManager.instance.ClueLists[j][k].SetFirstInfoOfClue(tempText);
-                        }
-                    }
+                    if (rewardsLists[i].Equals(PlayerManager.instance.playerClueLists[j].GetClueName()))
+                        PlayerManager.instance.playerClueLists[j].SetFirstInfoOfClue(tempText);
                 }
             }
 

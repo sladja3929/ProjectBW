@@ -18,8 +18,10 @@ public class GameManager : MonoBehaviour {
     {
         if (!PlayerManager.instance.CheckClue(clueName))
         {
-            int numOfAct = ItemDatabase.instance.FindClue(clueName);
-            Debug.Log("Act " + (numOfAct + 1) + "의 단서인 " + clueName + "를 얻었습니다.");
+            //int numOfAct = ItemDatabase.instance.FindClue(clueName);
+            //Debug.Log("Act " + (numOfAct) + "의 단서인 " + clueName + "를 얻었습니다.");
+            string numOfAct = ItemDatabase.instance.FindClue(clueName);
+            Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
             Inventory.instance.MakeClueSlot(clueName, numOfAct); // 수첩에 Clue slot 추가
             
         } else
