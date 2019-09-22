@@ -8,9 +8,14 @@ public class MiniMapManager : MonoBehaviour
 
     public static MiniMapManager instance = null;
 
+    public GameObject sectorUI;
     public GameObject miniMapUI;
+
+    public Texture Texture_Village_Street1;
+
     private GameObject arrow;
     private bool isOpen;
+    private bool isZoomIn;
 
     private Vector3 miniMap_Position_Slum_Street1 = new Vector3(-10.4f, -4.5f, -1f);
     private Vector3 miniMap_Position_Slum_Street2 = new Vector3(-10f, -6.5f, -1f);
@@ -31,9 +36,12 @@ public class MiniMapManager : MonoBehaviour
             instance = this;
 
         isOpen = false;
+        isZoomIn = false;
+
         arrow = transform.GetChild(0).gameObject;
         MoveArrowPosition();
         miniMapUI.SetActive(false);
+        sectorUI.SetActive(false);
     }
 
     void Update()
@@ -42,9 +50,23 @@ public class MiniMapManager : MonoBehaviour
             miniMapUI.SetActive(true);
             isOpen = true;
         }
+
         else if(Input.GetKeyDown(KeyCode.M) && isOpen == true) {
+
+            if(isZoomIn == true) {
+                sectorUI.SetActive(false);
+                miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+                isZoomIn = false;
+            }
+
             miniMapUI.SetActive(false);
             isOpen = false;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Escape) && isZoomIn == true) {
+            sectorUI.SetActive(false);
+            miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+            isZoomIn = false;
         }
     }
 
@@ -96,5 +118,12 @@ public class MiniMapManager : MonoBehaviour
         else if (PlayerManager.instance.GetCurrentPosition() == "Downtown_Street1") {
             arrow.transform.localPosition = miniMap_Position_Downtown_Street1;
         }
+    }
+
+    public void Village_Street1_Button() {
+        isZoomIn = true;
+        sectorUI.SetActive(true);
+        miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(false);
+        sectorUI.GetComponent<RawImage>().texture = Texture_Village_Street1;
     }
 }
