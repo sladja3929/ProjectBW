@@ -8,11 +8,12 @@ public class MiniMapManager : MonoBehaviour
 
     public static MiniMapManager instance = null;
 
-    public GameObject sectorUI;
+    public GameObject StreetUI;
     public GameObject miniMapUI;
+    public RenderTexture StreetRenderTexture;
+    public RenderTexture TempRenderTexture;
 
-    public Texture Texture_Village_Street1;
-
+    private Camera StreetCamera;
     private GameObject arrow;
     private bool isOpen;
     private bool isZoomIn;
@@ -41,7 +42,7 @@ public class MiniMapManager : MonoBehaviour
         arrow = transform.GetChild(0).gameObject;
         MoveArrowPosition();
         miniMapUI.SetActive(false);
-        sectorUI.SetActive(false);
+        StreetUI.SetActive(false);
     }
 
     void Update()
@@ -54,7 +55,8 @@ public class MiniMapManager : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.M) && isOpen == true) {
 
             if(isZoomIn == true) {
-                sectorUI.SetActive(false);
+                StreetCamera.targetTexture = TempRenderTexture;
+                StreetUI.SetActive(false);
                 miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
                 isZoomIn = false;
             }
@@ -63,8 +65,9 @@ public class MiniMapManager : MonoBehaviour
             isOpen = false;
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape) && isZoomIn == true) {
-            sectorUI.SetActive(false);
+        if(Input.GetMouseButtonDown(0) && isZoomIn == true) {
+            StreetCamera.targetTexture = TempRenderTexture;
+            StreetUI.SetActive(false);
             miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
             isZoomIn = false;
         }
@@ -120,10 +123,92 @@ public class MiniMapManager : MonoBehaviour
         }
     }
 
-    public void Village_Street1_Button() {
+    private void PopUpStreetUI() {
         isZoomIn = true;
-        sectorUI.SetActive(true);
+        StreetUI.SetActive(true);
         miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(false);
-        sectorUI.GetComponent<RawImage>().texture = Texture_Village_Street1;
+        StreetCamera.targetTexture = StreetRenderTexture;
     }
+
+    public void Village_Street1_Button() {
+        StreetCamera = GameObject.Find("Village_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Village_Street2_Button() {
+        StreetCamera = GameObject.Find("Village_Street2 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Village_Street3_Button() {
+        StreetCamera = GameObject.Find("Village_Street3 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Mansion_Street1_Button() {
+        StreetCamera = GameObject.Find("Mansion_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Mansion_Street2_Button() {
+        StreetCamera = GameObject.Find("Mansion_Street2 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Mansion_Street3_Button() {
+        StreetCamera = GameObject.Find("Mansion_Street3 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Downtown_Street1_Button() {
+        StreetCamera = GameObject.Find("Downtown_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Chapter_Street1_Button() {
+        StreetCamera = GameObject.Find("Chapter_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Forest_Street1_Button() {
+        StreetCamera = GameObject.Find("Forest_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Forest_Street2_Button() {
+        StreetCamera = GameObject.Find("Forest_Street2 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Forest_Street3_Button() {
+        StreetCamera = GameObject.Find("Forest_Street3 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Slum_Street1_Button() {
+        StreetCamera = GameObject.Find("Slum_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Slum_Street2_Button() {
+        StreetCamera = GameObject.Find("Slum_Street2 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Market_Street1_Button() {
+        StreetCamera = GameObject.Find("Market_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Market_Street2_Button() {
+        StreetCamera = GameObject.Find("Market_Street2 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+    public void Harbor_Street1_Button() {
+        StreetCamera = GameObject.Find("Harbor_Street1 Camera").GetComponent<Camera>();
+        PopUpStreetUI();
+    }
+
+
 }
