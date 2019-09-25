@@ -48,7 +48,7 @@ public class CSVParser : MonoBehaviour
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
-        string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+        string[] stringArr = textAsset.Split(new string[] { "줄바꿈\r\n" }, System.StringSplitOptions.None);
         string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
 
         int index = 0;
@@ -74,6 +74,7 @@ public class CSVParser : MonoBehaviour
             {
                 /* """ -> " && s -> , 변환해서 데이터 넣기 */
                 dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
+                dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
                 dataArr[j] = ReplaceComma(dataArr[j]);
                 //Debug.Log("index = " + index);
                 //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
@@ -390,6 +391,18 @@ public class CSVParser : MonoBehaviour
             //"가 3개가 붙기 때문에, 텍스트 출력할때 보기좋게 1개로 줄인다.
             text = text.Replace("\"\"\"", "\"");
             
+            return text;
+        }
+        else
+            return text;
+    }
+
+    public string RemoveDoubleQuotationMark(string text)
+    {
+        if (text.Contains("\""))
+        {
+            text = text.Replace("\"", "");
+
             return text;
         }
         else

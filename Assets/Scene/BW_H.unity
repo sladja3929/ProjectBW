@@ -199,6 +199,12 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 8410298006571112137}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &586593405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6119604418184280566, guid: 4359ff62fd6425b43bacde06aa957093,
+    type: 3}
+  m_PrefabInstance: {fileID: 3026522053754925851}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &671501650 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 27248153542074805, guid: 4359ff62fd6425b43bacde06aa957093,
@@ -436,6 +442,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1268839048351094344, guid: 47fe2f38073653f41894e3bde41cdf1c,
     type: 3}
   m_PrefabInstance: {fileID: 1268839047149146623}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1507350965 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7938384810744688641, guid: 4359ff62fd6425b43bacde06aa957093,
+    type: 3}
+  m_PrefabInstance: {fileID: 3026522053754925851}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1539653124 stripped
 MonoBehaviour:
@@ -694,6 +706,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2988473080196528074, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 591736740, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -817,7 +834,7 @@ PrefabInstance:
     - target: {fileID: 270132506158399705, guid: 4359ff62fd6425b43bacde06aa957093,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 125.00004
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 548632874834104770, guid: 4359ff62fd6425b43bacde06aa957093,
         type: 3}
@@ -875,6 +892,16 @@ PrefabInstance:
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
       value: 914.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5564765069091262997, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3170595406708699885, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
@@ -1477,6 +1504,31 @@ PrefabInstance:
       propertyPath: clueListContent
       value: 
       objectReference: {fileID: 1740033582}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: characterNameBg
+      value: 
+      objectReference: {fileID: 586593405}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: conversationBg
+      value: 
+      objectReference: {fileID: 1507350965}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: conversationText
+      value: 
+      objectReference: {fileID: 986405244}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: npcNameText
+      value: 
+      objectReference: {fileID: 1539653124}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: npcImage
+      value: 
+      objectReference: {fileID: 671501650}
     - target: {fileID: 3814327114598580311, guid: 1ca91e1e1f62cca46b9920445c42e06c,
         type: 3}
       propertyPath: conversationText

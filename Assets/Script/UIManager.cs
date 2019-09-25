@@ -28,8 +28,20 @@ public class UIManager : MonoBehaviour {
     private GameObject textAboutFirstClue; // 정리된 단서에 대한 설명 텍스트
     [SerializeField]
     private GameObject textAboutSecondClue; // 정리된 단서에 대한 설명 텍스트
+
     [SerializeField]
-    private GameObject conversationUI;  //대화창 UI
+    private GameObject conversationUI;  //대화창 전체 UI
+    [SerializeField]
+    private GameObject characterNameBg; //대화 캐릭터명 창
+    [SerializeField]
+    private GameObject conversationBg;  //대화창 배경
+    [SerializeField]
+    private Text conversationText;      //대화 텍스트 창
+    [SerializeField]
+    private Text npcNameText;           //대화 캐릭터 텍스트 창
+    [SerializeField]
+    private Image npcImage;             //대화 캐릭터 이미지
+
     [SerializeField]
     private GameObject clueScroller;    //수첩 내의 단서 리스트 스크롤바
     [SerializeField]
@@ -91,8 +103,10 @@ public class UIManager : MonoBehaviour {
 
         isConversationing = false;
         canSkipConversation = false;
+        /* DialogManager에서 쓰임(test)
+        SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
         conversationUI.SetActive(false);
-        
+        */
         npcNameLists = new List<string>();
         sentenceList = new List<string>();
 
@@ -338,16 +352,130 @@ public class UIManager : MonoBehaviour {
         GetClueUI.SetActive(false);
     }
 
+    // 대화창 Fade in
     public void OpenConversationUI()
     {
         conversationUI.SetActive(true);
         isConversationing = true;
     }
 
+    // 대화창 Fade out
     public void CloseConversationUI()
     {
         conversationUI.SetActive(false);
         isConversationing = false;
+    }
+
+    // 1. 대화창 & 캐릭터명 창 fade in
+    // 2. 캐릭터 이미지 & 캐릭터 이름 fade in
+    // 3. 대화 출력(\n 을 csv에서 어떻게 받아올 수 있는지 고민해봐야함)
+    public IEnumerator FadeEffect(float fadeTime, string fadeWhat)
+    {
+        //대화 글자를 나타내게 하고 싶으면, conversationText의 color도 다른방식으로 이용하면 될듯
+        Color tempColor1, tempColor2, tempColor3, tempColor4;
+
+        tempColor1 = conversationBg.GetComponent<Image>().color;
+        tempColor2 = characterNameBg.GetComponent<Image>().color;
+        tempColor3 = npcNameText.color;
+        tempColor4 = npcImage.color;
+
+        if (fadeWhat.Equals("In"))
+        {
+            // 투명 -> 불투명
+            while (tempColor1.a < 1f && tempColor2.a < 1f && tempColor3.a < 1f && tempColor4.a < 1f)
+            {
+                tempColor1.a += Time.deltaTime / fadeTime;
+                tempColor2.a = tempColor1.a;
+                tempColor3.a = tempColor1.a;
+                tempColor4.a = tempColor1.a;
+
+                conversationBg.GetComponent<Image>().color = tempColor1;
+                characterNameBg.GetComponent<Image>().color = tempColor2;
+                npcNameText.color = tempColor3;
+                npcImage.color = tempColor4;
+
+                if (tempColor1.a >= 1f || tempColor2.a >= 1f || tempColor3.a >= 1f || tempColor4.a >= 1f)
+                {
+                    tempColor1.a = 1f;
+                    tempColor2.a = 1f;
+                    tempColor3.a = 1f;
+                    tempColor4.a = 1f;
+                }
+
+                yield return null;
+            }
+
+            conversationBg.GetComponent<Image>().color = tempColor1;
+            characterNameBg.GetComponent<Image>().color = tempColor2;
+            npcNameText.color = tempColor3;
+            npcImage.color = tempColor4;
+
+            //StartCoroutine(DialogManager.instance.FadeTextEffect(fadeTime, fadeWhat));
+        }
+        else if (fadeWhat.Equals("Out"))
+        {
+            // 불투명 -> 투명
+            while (tempColor1.a > 0f && tempColor2.a > 0f && tempColor3.a > 0f && tempColor4.a > 0f)
+            {
+                tempColor1.a -= Time.deltaTime / fadeTime;
+                tempColor2.a = tempColor1.a;
+                tempColor3.a = tempColor1.a;
+                tempColor4.a = tempColor1.a;
+
+                conversationBg.GetComponent<Image>().color = tempColor1;
+                characterNameBg.GetComponent<Image>().color = tempColor2;
+                npcNameText.color = tempColor3;
+                npcImage.color = tempColor4;
+
+                if (tempColor1.a <= 0f || tempColor2.a <= 0f || tempColor3.a <= 0f || tempColor4.a <= 0f)
+                {
+                    tempColor1.a = 0f;
+                    tempColor2.a = 0f;
+                    tempColor3.a = 0f;
+                    tempColor4.a = 0f;
+                }
+
+                yield return null;
+            }
+
+            conversationBg.GetComponent<Image>().color = tempColor1;
+            characterNameBg.GetComponent<Image>().color = tempColor2;
+            npcNameText.color = tempColor3;
+            npcImage.color = tempColor4;
+
+            //StartCoroutine(DialogManager.instance.FadeTextEffect(fadeTime, fadeWhat));
+            CloseConversationUI();
+        }
+
+        //yield return null;
+    }
+
+    public void SetAlphaToZero_ConversationUI()
+    {
+        Color tempColor;
+        tempColor = characterNameBg.GetComponent<Image>().color;
+        tempColor.a = 0f;
+        characterNameBg.GetComponent<Image>().color = tempColor;
+
+        tempColor = conversationBg.GetComponent<Image>().color;
+        tempColor.a = 0f;
+        conversationBg.GetComponent<Image>().color = tempColor;
+
+        tempColor = npcNameText.color;
+        tempColor.a = 0f;
+        npcNameText.color = tempColor;
+
+        tempColor = npcImage.color;
+        tempColor.a = 0f;
+        npcImage.color = tempColor;
+
+        /* 추후에 글자를 1개씩 "나타나게" 하는 효과가 필요할 경우 사용할 것
+        tempColor = conversationText.color;
+        tempColor.a = 0f;
+        conversationText.color = tempColor;
+        */
+
+        conversationUI.SetActive(false);
     }
 
     public void OpenGetClueButton()
@@ -408,5 +536,5 @@ public class UIManager : MonoBehaviour {
         colorBlock.pressedColor = Color.gray;
         nextButton.GetComponent<Button>().colors = colorBlock;
     }
-    
+
 }

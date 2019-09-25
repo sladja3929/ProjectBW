@@ -37,6 +37,10 @@ public class DialogManager : MonoBehaviour
     private NpcParser npcParser;
     private string tempNpcName;
 
+    private bool isFirstConversation;    //대화 묶음의 첫 대사인지 확인하는 변수(Fade in 관련)
+
+    private int enterLimitCount;              //줄바꿈 수를 제한하기 위한 변수(test)
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +50,7 @@ public class DialogManager : MonoBehaviour
             Destroy(gameObject);
         
         textLimit = 125;
+        enterLimitCount = 3;    //줄바꿈이 3번 일어나면 대화출력 종료 -> 대화창엔 3줄까지 출력될 것임
         isTextFull = false;
         isSentenceDone = false;
         index = 0;
@@ -65,6 +70,10 @@ public class DialogManager : MonoBehaviour
         eventManager = new EventConversationManager();
 
         npcParser = new NpcParser();
+
+        UIManager.instance.SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
+
+        isFirstConversation = false;
     }
 
     void Update()
@@ -84,6 +93,7 @@ public class DialogManager : MonoBehaviour
         /* npcFrom : 대화를 하는 주체 */
         UIManager.instance.isConversationing = true;    // 대화중
         UIManager.instance.OpenConversationUI();        // 대화창 오픈
+        StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
         //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
 
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
@@ -225,24 +235,40 @@ public class DialogManager : MonoBehaviour
         numOfText = 0;
         isSentenceDone = false;
 
+        if (!isFirstConversation)
+        {
+            yield return new WaitForSeconds(1.0f);  // 대화창 Fade in이 다 될때 까지 대기
+            isFirstConversation = true;
+        }
+
+        int tempEnterCount = 0;     // \n의 수를 체크할 변수 선언
+
         foreach (char letter in sentences[index].ToCharArray())
         {
             //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
             if (numOfText <= textLimit)
             {
-                if (numOfText == textLimit)
+                if (letter.Equals('\n'))
+                {
+                    tempEnterCount++;
+                }
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText == textLimit || tempEnterCount == enterLimitCount)
                     isTextFull = true;
                 conversationText.text += letter;
                 numOfText++;
                 UIManager.instance.canSkipConversation = false;
 
-                if (numOfText > textLimit)
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText > textLimit || tempEnterCount == enterLimitCount)
                 {
                     UIManager.instance.canSkipConversation = true;
                     yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
 
                     conversationText.text = "";
                     numOfText = 0;
+                    tempEnterCount = 0;
                 }
                 else
                 {
@@ -316,8 +342,10 @@ public class DialogManager : MonoBehaviour
                     interactionLists[tempIndex].SetRepeatability("3");
                 }
             }
+
+            StartCoroutine(UIManager.instance.FadeEffect(0.2f, "Out"));  //?초 동안 fade out 후 대화창 닫기
             UIManager.instance.isConversationing = false;
-            UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
+            //UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
 
             //대화로 인해 얻은 보상이 있으면 단서창에 추가
             if (rewardsLists.Count > 1)
@@ -368,7 +396,7 @@ public class DialogManager : MonoBehaviour
             curNumOfNpcNameLists = 0;
             rewardsLists.Clear();
             //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+            isFirstConversation = false;
         }
     }
-
 }
