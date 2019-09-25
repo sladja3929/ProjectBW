@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1703931598371727729}
   - component: {fileID: 1703931598371727728}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DirectionToTake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1703931599246893588}
   - component: {fileID: 1703931599246893589}
   - component: {fileID: 1703931599246893594}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FromXToY
   m_TagString: PortalPoint
   m_Icon: {fileID: 0}
