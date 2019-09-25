@@ -54,6 +54,11 @@ MonoBehaviour:
   textAboutFirstClue: {fileID: 0}
   textAboutSecondClue: {fileID: 0}
   conversationUI: {fileID: 0}
+  characterNameBg: {fileID: 0}
+  conversationBg: {fileID: 0}
+  conversationText: {fileID: 0}
+  npcNameText: {fileID: 0}
+  npcImage: {fileID: 0}
   clueScroller: {fileID: 0}
   firstClueUpButton: {fileID: 0}
   firstClueDownButton: {fileID: 0}
@@ -65,7 +70,7 @@ MonoBehaviour:
   tempYPosition: 0
   testButton: {fileID: 0}
   buttonIndex: 0
-  buttonNumOfAct: 0
+  buttonNumOfAct: 
   nextButton: {fileID: 0}
   colorBlock:
     m_NormalColor: {r: 0, g: 0, b: 0, a: 0}
