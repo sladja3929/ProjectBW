@@ -34,15 +34,18 @@ public class Inventory : MonoBehaviour {
         GameObject addedSlotButton = slotButton;
         Debug.Log("playerClueLists.Count = " + PlayerManager.instance.playerClueLists.Count);
 
+        int tempIndex = PlayerManager.instance.playerClueLists.Count - 1; /* 0926 변경 */
+
         // 캐릭터의 ClueList에서 해당하는 단서가 있는지 찾고, 있으면 tempIndex에 해당 단서의 index 대입
         for (int i = 0; i < PlayerManager.instance.playerClueLists.Count; i++)
         {
             if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals(clueName))
             {
-                int tempIndex = i;      // 캐릭터의 clueList에서 찾고자 하는 단서의 index가 저장될 변수
+                //int tempIndex = i;      // 캐릭터의 clueList에서 찾고자 하는 단서의 index가 저장될 변수  /* 0926 변경 */
                 Debug.Log("tempIndex = " + tempIndex);
                 // 슬롯을 수첩에 추가
                 slot.Add(Instantiate(addedSlotButton, inventoryPanel.transform));
+
                 // 알맞은 단서의 이미지를 적용 (단서명_슬롯 의 형태로 이미지 저장할것!!)
                 slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
 
@@ -64,6 +67,7 @@ public class Inventory : MonoBehaviour {
             else
             {
                 Debug.Log("해당하는 단서 없음");
+                tempIndex--;
             }
         } // for
         ResetSlotForTest();
