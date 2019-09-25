@@ -151,3 +151,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 0}
+  FadePanel: {fileID: 0}
+  FadeImage: {fileID: 0}
