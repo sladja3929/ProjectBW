@@ -67,13 +67,13 @@ public class Portal : MonoBehaviour
         /*페이드 아웃*/
         FadeImage.SetActive(true);
         Fadeanimator.SetBool("isfadeout", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         /*이동*/
         TakePortal();
         
         /*페이드 인*/
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         Fadeanimator.SetBool("isfadeout", false);
     }
 
