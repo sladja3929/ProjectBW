@@ -97,6 +97,7 @@ public class Interaction
     }
     */
     //임시(0822)
+    // 메르테의 현재 위치값과 비교해야할 상황이 올 수 있음. (11/12)
     public string GetPosition()
     {
         return position;
@@ -120,6 +121,7 @@ public class Interaction
     }
     */
     //임시(0822)
+    // 해당 time값에 특정 시간대의 코드가 들어있는지 확인하는 것으로 해당 시간대의 대화가 맞는지 확인할 수 있을 듯(테스트 필요) (11/12)
     public string GetTime()
     {
         return time;

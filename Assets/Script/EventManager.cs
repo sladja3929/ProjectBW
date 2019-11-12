@@ -42,6 +42,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //NPC의 발생 뿐만 아니라, 특정한 이벤트들도 다룰 수 있도록 함수 명 변경 필요(11/12)
     public void ActivateNpcForEvent(string eventIndex)
     {
         if (CheckEventIndexList(eventIndex))

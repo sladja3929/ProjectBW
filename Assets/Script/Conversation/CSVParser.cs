@@ -7,7 +7,7 @@ public class CSVParser : MonoBehaviour
 {
     /* UTF-8로 인코딩 된 csv 파일로부터 대화 데이터들을 모두 가져와서 저장해줄 클래스
     * csv 파일을 수정하고 나서는 꼭! 다른이름으로 저장을 한다(UTF-8 csv형식)
-    * 규칙! csv 파일 안에 쉼표(,)를 사용할경우에는 , 대신 s 로써 표현을 한다
+    * 규칙! csv 파일 안에 쉼표(,)를 사용할경우에는 , 대신 $ 로써 표현을 한다
     * <b> text </b> : bold 효과 표현
     * <i> text </i> : 기울임 효과 표현 
     * <size=?> text </size> : ?만큼의 size 효과 표현 
@@ -187,7 +187,7 @@ public class CSVParser : MonoBehaviour
                         tempInteraction.SetParent(int.Parse((dataList[i])[subjectArr[j]]));
 
                         break;
-
+                    /* 삭제 예정(11/12) */
                     case "단서 루트 해금":
 
                         string tempRevealList = ReplaceComma((dataList[i])[subjectArr[j]]);
@@ -195,7 +195,7 @@ public class CSVParser : MonoBehaviour
                         tempInteraction.SetRevealList(revealList);
 
                         break;
-
+                    /* 삭제 예정(11/12) */
                     case "발생 여부":
 
                         tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
