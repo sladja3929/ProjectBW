@@ -10,10 +10,12 @@ public class Interaction
     //private string time;        //임시(0822)
     private string[] time;        // 여러 시간대를 갖고 있을 수 있음 (1210)
     //private int position;       // 위치
-    private string position;    //임시(0822)
+    //private string position;    //임시(0822)
+    private string[] position; // 수정(1223)
     private int setOfDesc;      // 대화 묶음
     private int id;             // 상호작용의 id
-    private string startObject; // 상호작용이 시작되게하는 오브젝트
+    //private string startObject; // 상호작용이 시작되게하는 오브젝트
+    private string[] startObject; // 수정(1223)
     private string npcFrom;     // 각 상호작용의 주체 npc 혹은 오브젝트 이름
     //private string npcTo;       // 대화를 듣고있는 상대방 npc
     private string desc;        // 각 상호작용에서 발생하는 대화
@@ -99,12 +101,12 @@ public class Interaction
     */
     //임시(0822)
     // 메르테의 현재 위치값과 비교해야할 상황이 올 수 있음. (11/12)
-    public string GetPosition()
+    public string[] GetPosition()
     {
         return position;
     }
 
-    public void SetPosition(string position)
+    public void SetPosition(string[] position)
     {
         // 코드에 따라서 분류하는 if문 만들어야함
         this.position = position;
@@ -153,7 +155,7 @@ public class Interaction
                 return true;
             }
         }
-        //Debug.Log("CheckTime = false");
+        //Debug.Log("Time : " + timeSlot + "CheckTime = false");
         return false;
     }
 
@@ -182,12 +184,30 @@ public class Interaction
         this.id = id;
     }
 
-    public string GetStartObject()
+    public string[] GetStartObject()
     {
         return startObject;
     }
 
-    public void SetStartObject(string startObject)
+    // 대화 테이블에서 해당 StartObject가 알맞게 존재하는지 체크하는 함수(1223) -> DialogManager.cs 에서 사용
+    public bool CheckStartObject(string startObject)
+    {
+        string[] tempStartObject = this.GetStartObject();
+
+        for (int i = 0; i < tempStartObject.Length; i++)
+        {
+            //Debug.Log("tempStartObject[" + i + "] = " + tempStartObject[i]);
+            if (tempStartObject[i] == startObject)
+            {
+                return true;
+            }
+        }
+
+        //Debug.Log("startObject = " + startObject);
+        return false;
+    }
+
+    public void SetStartObject(string[] startObject)
     {
         this.startObject = startObject;
     }

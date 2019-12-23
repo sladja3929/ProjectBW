@@ -9,7 +9,7 @@ public class ClueStructure
     private int id;
     private string clueName;    //단서 이름(rewards)
     private string numOfAct;    //사건
-    private string timeSlot;    //시간대
+    private string timeSlot;    //시간대   -> 단서에서 시간대가 여러개일 경우가 필요하다고 생각될 때 수정하기(1223)
     private string obtainPos1;  //획득 위치 1
     private string obtainPos2;  //획득 위치 2
     private string firstInfoOfClue;  //단서창 1번 내용
@@ -113,10 +113,10 @@ public class ClueStructure
 
     public string GetObtainPos1()
     {
-        return this.obtainPos1;
+        return this.obtainPos1.ToString();
     }
 
-    public void SetObtainPos1(string obtainPos1)
+    public void SetObtainPos1(string[] obtainPos1)
     {
         /* parsing 해서 넣어야함*/
         this.obtainPos1 = obtainPosParser.ParsingObtainPos1(obtainPos1);
@@ -124,7 +124,7 @@ public class ClueStructure
 
     public string GetObtainPos2()
     {
-        return this.obtainPos2;
+        return this.obtainPos2.ToString();
     }
 
     public void SetObtainPos2(string obtainPos2)

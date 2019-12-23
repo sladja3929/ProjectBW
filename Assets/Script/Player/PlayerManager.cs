@@ -53,7 +53,7 @@ public class PlayerManager : MonoBehaviour {
 
         NumOfAct = "53";   //사건3 시작
         TimeSlot = "71";   //첫째주 시작
-
+    
         currentPosition = "Downtown_Street1";
 
         isInPortalZone = false;

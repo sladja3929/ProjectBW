@@ -468,7 +468,7 @@ public class NpcParser
                 return GetHarborNpcNameFromCode(characterCode);
 
             default:
-                return null;
+                return characterCode;
         }
     }
 
@@ -488,6 +488,6 @@ public class NpcParser
         else if ((tempNpcName = GetHarborNpcCodeFromName(characterName)) != null)
             return tempNpcName;
         else
-            return null;
+            return characterName;
     }
 }

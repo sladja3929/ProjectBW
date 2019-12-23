@@ -30,10 +30,8 @@ public class CSVParser : MonoBehaviour
     /* csv 파일 불러오면서 적용시키기 */
     void Awake()
     {
-
         ParsingConversationCSV();   // 대화 테이블 파싱
         ParsingClueDataCSV();       // 단서 테이블 파싱
-
     }//Awake()
 
     /* 대화 테이블을 파싱하는 함수 */
@@ -43,8 +41,8 @@ public class CSVParser : MonoBehaviour
         interactionLists = new List<Interaction>();
 
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
-        //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction.csv");
         string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
+        //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv");
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -76,6 +74,7 @@ public class CSVParser : MonoBehaviour
                 dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
                 dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
                 dataArr[j] = ReplaceComma(dataArr[j]);
+                dataArr[j] = ReplaceEnter(dataArr[j]);
                 //Debug.Log("index = " + index);
                 //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
                 //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
@@ -126,7 +125,20 @@ public class CSVParser : MonoBehaviour
                     case "위치":
 
                         //tempInteraction.SetPosition(int.Parse((dataList[i])[subjectArr[j]]));
-                        tempInteraction.SetPosition(((dataList[i])[subjectArr[j]]));
+                        //tempInteraction.SetPosition(((dataList[i])[subjectArr[j]]));
+                        string tempPosition = ((dataList[i])[subjectArr[j]]);
+                        string[] tempPositionList;
+                        if (tempPosition.Contains(","))
+                        {   // 여러개일 경우
+                            tempPositionList = tempPosition.Split(',');
+                            tempInteraction.SetPosition(tempPositionList);
+                        }
+                        else
+                        {   // 1개일 경우
+                            tempPositionList = new string[1];
+                            tempPositionList[0] = tempPosition;
+                            tempInteraction.SetPosition(tempPositionList);
+                        }
                         break;
 
                     case "대화 묶음":
@@ -140,8 +152,20 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "startObject":
-
-                        tempInteraction.SetStartObject((dataList[i])[subjectArr[j]]);
+                        //tempInteraction.SetStartObject((dataList[i])[subjectArr[j]]);
+                        string tempStartObject = (dataList[i])[subjectArr[j]];
+                        string[] tempStartObjectList;
+                        if (tempStartObject.Contains(","))
+                        {   // 여러개일 경우
+                            tempStartObjectList = tempStartObject.Split(',');
+                            tempInteraction.SetStartObject(tempStartObjectList);
+                        }
+                        else
+                        {   // 1개일 경우
+                            tempStartObjectList = new string[1];
+                            tempStartObjectList[0] = tempStartObject;
+                            tempInteraction.SetStartObject(tempStartObjectList);
+                        }
                         break;
 
                     case "npcFrom":
@@ -192,6 +216,7 @@ public class CSVParser : MonoBehaviour
                     case "rewards":
 
                         //rewards는 여러개 일 수 있음. 그것은 보상을 얻을때 , 를 기점으로 나눌것
+                        //Debug.Log("tempRewards = " + (dataList[i])[subjectArr[j]]);
                         string tempRewards = ReplaceComma((dataList[i])[subjectArr[j]]);
                         //string[] rewardsList = tempRewards.Split(',');
                         tempInteraction.SetRewards(tempRewards);
@@ -211,7 +236,7 @@ public class CSVParser : MonoBehaviour
                         tempInteraction.SetRevealList(revealList);
 
                         break;
-                    /* 삭제 예정(11/12) */
+                    // 아래 두 부분은, 나중에 이벤트 처리할 때 수정할 것(1223)
                     case "발생 여부":
 
                         tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
@@ -296,7 +321,7 @@ public class CSVParser : MonoBehaviour
         clueList = new Dictionary<int, Dictionary<string, string>>();
         clueStructureLists = new List<ClueStructure>();
         
-        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/ClueData_ver_1_0.csv");
+        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/단서.csv");
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -323,6 +348,7 @@ public class CSVParser : MonoBehaviour
                 /* """ -> " && s -> , 변환해서 데이터 넣기 */
                 dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
                 dataArr[j] = ReplaceComma(dataArr[j]);
+                dataArr[j] = ReplaceEnter(dataArr[j]);
                 //Debug.Log("index = " + index);
                 //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
                 //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
@@ -375,11 +401,26 @@ public class CSVParser : MonoBehaviour
 
                     case "획득 위치 1":
 
-                        tempClueStructure.SetObtainPos1((clueList[i])[subjectArr[j]]);
+                        //tempClueStructure.SetObtainPos1((clueList[i])[subjectArr[j]]);
+                        string tempObtainPos1 = (clueList[i])[subjectArr[j]];
+                        string[] tempObtainPos1List;
+
+                        if (tempObtainPos1.Contains(","))
+                        {   // 여러개일때
+                            tempObtainPos1List = tempObtainPos1.Split(',');
+                            tempClueStructure.SetObtainPos1(tempObtainPos1List);
+                        }
+                        else
+                        {   // 1개일때
+                            tempObtainPos1List = new string[1];
+                            tempObtainPos1List[0] = tempObtainPos1;
+                            tempClueStructure.SetObtainPos1(tempObtainPos1List);
+                        }
+
                         break;
 
                     case "획득 위치 2":
-
+                        
                         tempClueStructure.SetObtainPos2((clueList[i])[subjectArr[j]]);
                         break;
 
@@ -438,6 +479,20 @@ public class CSVParser : MonoBehaviour
         else
             return text;
     }
+
+    /* # -> '\n' */
+    public string ReplaceEnter(string text)
+    {
+        if (text.Contains("#"))
+        {
+            text = text.Replace("#", "\n");
+
+            return text;
+        }
+        else
+            return text;
+    }
+
 
     public Dictionary<int, Dictionary<string, string>> GetDataList()
     {

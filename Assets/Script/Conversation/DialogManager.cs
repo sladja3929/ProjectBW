@@ -98,23 +98,28 @@ public class DialogManager : MonoBehaviour
 
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
         
-        string targetObject = objectName;   //npcFrom에 해당하는 값
-
+        string targetObject = objectName;   //StartObject에 해당하는 값
+        
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
         //int indexOfInteraction = interactionLists.FindIndex(x => x.GetStartObject() == targetObject);
 
         /* 해당 오브젝트에 관한 이벤트가 있는지 먼저 확인해야함. */
         /* 이름(startObject)이 같은 것이 여러개일 수 있으니, int형 리스트의 형태로 저장하고, 그 중에서 골라내는 것은 어떨까???? */
         List<Interaction> targetOfInteractionList = new List<Interaction>();
-
-        // 대화의 시간대에, 게임의 시간대가 포함되어 있어야 하고, 말을 건 캐릭터의 이름이 StartObject인 대화만 고르기. (1210에 update 함)
-        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.GetStartObject() == targetObject));
+        
+        // 대화의 시간대에, 게임의 시간대가 포함되어 있어야 하고, 말을 건 캐릭터의 이름이 StartObject인 대화만 고르기. (1210에 update 함) -> startObject가 여러개 일 경우도 고려하게끔 수정
+        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true));
 
         // 해당 NPC와의 대화가 없을 경우, 함수 종료
-        // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함)
+        // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함) -> 반영완료 (1223)
         if (targetOfInteractionList.Count == 0)
         {
             Debug.Log("이 npc와 할 말이 없습니다.");
+
+            //메르테 초상화 + 메르테가 하는 대사처럼 만들기
+            StartCoroutine(TypeNull());
+
+
             return;
         }
 
@@ -154,14 +159,15 @@ public class DialogManager : MonoBehaviour
             // 이벤트가 없다면, 즉 반복 대사라면, 그것이 여러개 있는지 확인하고 여러개라면 각 대화 묶음을 한곳에 모으고, 하나의 대화묶음 선택
             List<Interaction> setOfDescList = new List<Interaction>();
             // 조건에 해당하는 모든 대사가 불려진다. 여기서 해당하는 모든 대사의 대화묶음 번호를 빼내야 한다. (1210에 update 함 -> CheckTime 추가)
-            setOfDescList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && x.GetStartObject() == targetObject && x.GetRepeatability() == "3");
+            // startObject가 여러개 일 때 처리를 추가함에 따라, startObject를 사용하던 부분 변경 (1223)
+            setOfDescList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && x.GetRepeatability() == "3");
 
-            // 해당 NPC와의 대화가 없을 경우, 함수 종료 (1210에 update 함)
-            if (setOfDescList.Count == 0)
-            {
-                Debug.Log("이 npc와 할 말이 없습니다.");
-                return;
-            }
+            // 해당 NPC와의 대화가 없을 경우, 함수 종료 (1210에 update 함) -> 이부분은 앞에서 실행하는 부분이라 필요없다고 판단함 (1223)
+            //if (setOfDescList.Count == 0)
+            //{
+            //    Debug.Log("이 npc와 할 말이 없습니다.");
+            //    return;
+            //}
             
             List<int> setOfDescIndexList = new List<int>();
 
@@ -234,6 +240,7 @@ public class DialogManager : MonoBehaviour
 
     }
 
+    // 알맞은 대화를 출력해주는 코루틴
     IEnumerator Type()
     {
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
@@ -298,6 +305,77 @@ public class DialogManager : MonoBehaviour
             } 
         }
         
+        UIManager.instance.canSkipConversation = true;
+
+        isSentenceDone = true;
+    }
+
+    // 해당 NPC와 대화할 것이 없을 때 시작되는 코루틴
+    IEnumerator TypeNull()
+    {
+        //대화 할 때 마다 대화중인 캐릭터 이름 변경
+        /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+        tempNpcName = npcParser.GetNpcNameFromCode("1000"); // 메르테 초상화를 위해
+
+        if (tempNpcName != null)
+        {
+            npcNameText.text = tempNpcName;
+            //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
+            npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
+        }
+        else
+            npcNameText.text = "stranger";
+
+        conversationText.text = "";
+        numOfText = 0;
+        isSentenceDone = false;
+
+        if (!isFirstConversation)
+        {
+            yield return new WaitForSeconds(1.0f);  // 대화창 Fade in이 다 될때 까지 대기
+            isFirstConversation = true;
+        }
+
+        int tempEnterCount = 0;     // \n의 수를 체크할 변수 선언
+
+        sentences = null;
+        sentences = new string[1];
+        sentences[0] = "이 NPC와는 할 말이 없습니다.";
+
+        foreach (char letter in sentences[index].ToCharArray())
+        {
+            //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
+            if (numOfText <= textLimit)
+            {
+                if (letter.Equals('\n'))
+                {
+                    tempEnterCount++;
+                }
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                    isTextFull = true;
+                conversationText.text += letter;
+                numOfText++;
+                UIManager.instance.canSkipConversation = false;
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText > textLimit || tempEnterCount == enterLimitCount)
+                {
+                    UIManager.instance.canSkipConversation = true;
+                    yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+
+                    conversationText.text = "";
+                    numOfText = 0;
+                    tempEnterCount = 0;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(typingSpeed);
+                }
+            }
+        }
+
         UIManager.instance.canSkipConversation = true;
 
         isSentenceDone = true;

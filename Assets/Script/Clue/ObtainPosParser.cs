@@ -33,16 +33,41 @@ public class ObtainPosParser
     // 건물 안에서 발견할 경우, 건물 안의 정보까지 추가되어야 함.
     // -> 주인공의 위치를 계속 저장해놓고 그 장소를 계속 변화하면서 쓰는건 어떨까?
 
-    public string ParsingObtainPos1(string posCode)
+    public string ParsingObtainPos1(string[] posCode)
     {
         string obtainPos1 = "";
-        char[] tempArray = posCode.ToCharArray();
+        char[] tempArray;
+        for (int i = 0; i < posCode.Length; i++)
+        {
+            tempArray = posCode[i].ToCharArray();
 
-        obtainPos1 += GetMainPos(tempArray[0]);
-        obtainPos1 += "_";
-        obtainPos1 += GetSidePos(tempArray[1]);
-        obtainPos1 += "_";
-        obtainPos1 += GetCutPos(tempArray[2]);
+            //첫번째 자리
+            obtainPos1 += GetMainPos(tempArray[0]);
+            obtainPos1 += "_";
+            //두번째 자리
+            obtainPos1 += GetSidePos(tempArray[1]);
+            obtainPos1 += "_";
+            //세번째 자리
+            obtainPos1 += GetCutPos(tempArray[2]);
+
+            if (tempArray.Length >= 4)
+            {
+                obtainPos1 += "_";
+                //네번째 자리
+                obtainPos1 += GetBuildingPos(tempArray[3]);
+
+
+                //건물안을 다 배치한 후, 5번째부터 나중에 규칙을 곰곰히 이해해보기.
+                //다섯번째 자리
+                //tempArray[3]이 e였을 경우, 그 다음 칸은 공백이므로, 다섯번째 자리는 tempArray[5]를 이용해야함.
+                //여섯번째 자리
+            }
+
+            if (i != posCode.Length - 1)
+            {
+                obtainPos1 += "&";
+            }
+        }
 
         /* 건물 안이라면? */
 
@@ -69,11 +94,77 @@ public class ObtainPosParser
         }
         else
         {
+            // 스토리상 획득 위치 2가 없을 때
+            if (posCode.Equals(""))
+                return "";
+
             // , 가 없으면 1개
             obtainPos2 += npcParser.GetNpcNameFromCode(posCode);
         }
 
         return obtainPos2;
+    }
+
+    private string GetBuildingPos(char buildingPosCode)
+    {
+        string buildingPos = "";
+
+        switch (buildingPosCode)
+        {
+            case 'a':
+                buildingPos = "레이나의 집";
+                break;
+
+            case 'b':
+                buildingPos = "발루아의 집";
+                break;
+
+            case 'c':
+                buildingPos = "정보상";
+                break;
+
+            case 'd':
+                buildingPos = "지부";
+                break;
+
+            case 'e':
+                buildingPos = "총장의 저택";
+                break;
+
+            case 'f':
+                buildingPos = "별채";
+                break;
+
+            case 'g':
+                buildingPos = "자작의 저택";
+                break;
+
+            case 'h':
+                buildingPos = "살롱";
+                break;
+
+            case 'i':
+                buildingPos = "부동산";
+                break;
+
+            case 'j':
+                buildingPos = "카페";
+                break;
+
+            case 'k':
+                buildingPos = "남매의 집";
+                break;
+
+            case 'l':
+                buildingPos = "유람선";
+                break;
+
+            default:
+                buildingPos = "???";
+                break;
+        }
+
+        return buildingPos;
     }
 
     private string GetCutPos(char cutPosCode)
