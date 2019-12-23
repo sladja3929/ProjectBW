@@ -7,7 +7,8 @@ public class Interaction
     /* 각 대화의 정보의 틀이 되는 클래스 */
     private int act;            // 사건
     //private int time;           // 시간대
-    private string time;        //임시(0822)
+    //private string time;        //임시(0822)
+    private string[] time;        // 여러 시간대를 갖고 있을 수 있음 (1210)
     //private int position;       // 위치
     private string position;    //임시(0822)
     private int setOfDesc;      // 대화 묶음
@@ -120,14 +121,43 @@ public class Interaction
         this.time = time;
     }
     */
+
     //임시(0822)
     // 해당 time값에 특정 시간대의 코드가 들어있는지 확인하는 것으로 해당 시간대의 대화가 맞는지 확인할 수 있을 듯(테스트 필요) (11/12)
-    public string GetTime()
+    //public string GetTime()
+    //{
+    //    return time;
+    //}
+
+    //public void SetTime(string time)
+    //{
+    //    this.time = time;
+    //}
+
+    // 여러 시간대 체크 가능한지 테스트(1210)
+    public string[] GetTime()
     {
         return time;
     }
 
-    public void SetTime(string time)
+    // 대화 테이블에서 해당 대화가 캐릭터의 시간대에 맞는 대화인지 체크하는 함수 (1210) -> DialogManager.cs 에서 사용
+    public bool CheckTime(string timeSlot)
+    {
+        string[] tempTime = this.GetTime();
+        
+        for (int i = 0; i < tempTime.Length; i++)
+        {
+            if (tempTime[i] == timeSlot)
+            {
+                //Debug.Log("tempTime[" + i + " ] = " + tempTime[i] + ", timeSlot = " + timeSlot + ", That's true");
+                return true;
+            }
+        }
+        //Debug.Log("CheckTime = false");
+        return false;
+    }
+
+    public void SetTime(string[] time)
     {
         this.time = time;
     }

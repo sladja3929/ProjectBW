@@ -106,8 +106,17 @@ public class DialogManager : MonoBehaviour
         /* 해당 오브젝트에 관한 이벤트가 있는지 먼저 확인해야함. */
         /* 이름(startObject)이 같은 것이 여러개일 수 있으니, int형 리스트의 형태로 저장하고, 그 중에서 골라내는 것은 어떨까???? */
         List<Interaction> targetOfInteractionList = new List<Interaction>();
-        targetOfInteractionList = interactionLists.FindAll(x => x.GetStartObject() == targetObject);
-        
+
+        // 대화의 시간대에, 게임의 시간대가 포함되어 있어야 하고, 말을 건 캐릭터의 이름이 StartObject인 대화만 고르기. (1210에 update 함)
+        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.GetStartObject() == targetObject));
+
+        // 해당 NPC와의 대화가 없을 경우, 함수 종료
+        // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함)
+        if (targetOfInteractionList.Count == 0)
+        {
+            Debug.Log("이 npc와 할 말이 없습니다.");
+            return;
+        }
 
         //대화목록의 id값
         //int tempId; 삭제 예정
@@ -144,9 +153,16 @@ public class DialogManager : MonoBehaviour
 
             // 이벤트가 없다면, 즉 반복 대사라면, 그것이 여러개 있는지 확인하고 여러개라면 각 대화 묶음을 한곳에 모으고, 하나의 대화묶음 선택
             List<Interaction> setOfDescList = new List<Interaction>();
-            // 조건에 해당하는 모든 대사가 불려진다. 여기서 해당하는 모든 대사의 대화묶음 번호를 빼내야 한다.
-            setOfDescList = interactionLists.FindAll(x => x.GetStartObject() == targetObject && x.GetRepeatability() == "3");
-            //Debug.Log("33333333333333333");
+            // 조건에 해당하는 모든 대사가 불려진다. 여기서 해당하는 모든 대사의 대화묶음 번호를 빼내야 한다. (1210에 update 함 -> CheckTime 추가)
+            setOfDescList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && x.GetStartObject() == targetObject && x.GetRepeatability() == "3");
+
+            // 해당 NPC와의 대화가 없을 경우, 함수 종료 (1210에 update 함)
+            if (setOfDescList.Count == 0)
+            {
+                Debug.Log("이 npc와 할 말이 없습니다.");
+                return;
+            }
+            
             List<int> setOfDescIndexList = new List<int>();
 
             // 모든 대사를 토대로, 어떤 대화 묶음이 존재하는지 확인하는 for문

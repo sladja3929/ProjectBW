@@ -72,7 +72,7 @@ public class CSVParser : MonoBehaviour
             //내부 dictionary에 각 속성들의 값을 대입하기위해 for문을 돌린다.
             for (int j = 0; j < dataArr.Length; j++)
             {
-                /* """ -> " && s -> , 변환해서 데이터 넣기 */
+                /* """ -> " , $ -> , 변환해서 데이터 넣기 */
                 dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
                 dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
                 dataArr[j] = ReplaceComma(dataArr[j]);
@@ -104,7 +104,23 @@ public class CSVParser : MonoBehaviour
                     case "시간대":
 
                         //tempInteraction.SetTime(int.Parse((dataList[i])[subjectArr[j]]));
-                        tempInteraction.SetTime(((dataList[i])[subjectArr[j]]));
+                        //tempInteraction.SetTime(((dataList[i])[subjectArr[j]]));
+
+                        // 각 대화가 여러 시간대에서 나타날 수 있는 대화일 때를 포함한 작업
+                        string tempTime = ((dataList[i])[subjectArr[j]]);
+                        string[] tempTimeList;
+                        if (tempTime.Contains(",")) 
+                        {   // 여러개일 경우
+                            tempTimeList = tempTime.Split(',');
+                            tempInteraction.SetTime(tempTimeList);
+                        }
+                        else
+                        {   // 1개일 경우
+                            tempTimeList = new string[1];
+                            tempTimeList[0] = tempTime;
+                            tempInteraction.SetTime(tempTimeList);
+                        }
+
                         break;
 
                     case "위치":
@@ -409,7 +425,7 @@ public class CSVParser : MonoBehaviour
             return text;
     }
 
-    /* s -> , */
+    /* $ -> , */
     public string ReplaceComma(string text)
     {
         if (text.Contains("$"))

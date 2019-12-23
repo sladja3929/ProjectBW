@@ -2934,6 +2934,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314361323372}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388313745914577
 GameObject:
   m_ObjectHideFlags: 0
@@ -3905,6 +3906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315371057264}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388313829806820
 GameObject:
   m_ObjectHideFlags: 0
@@ -4009,6 +4011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315155409916}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388313835783804
 GameObject:
   m_ObjectHideFlags: 0
@@ -4138,6 +4141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314188621866}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388313845943541
 GameObject:
   m_ObjectHideFlags: 0
@@ -7156,6 +7160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388313839742084}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314204214381
 GameObject:
   m_ObjectHideFlags: 0
@@ -7544,6 +7549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314889590841}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314236705075
 GameObject:
   m_ObjectHideFlags: 0
@@ -7774,6 +7780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314657013406}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314260177367
 GameObject:
   m_ObjectHideFlags: 0
@@ -9327,6 +9334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388313729853185}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314364005246
 GameObject:
   m_ObjectHideFlags: 0
@@ -9536,6 +9544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315614586764}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314379278326
 GameObject:
   m_ObjectHideFlags: 0
@@ -9970,6 +9979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315221777300}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314432219339
 GameObject:
   m_ObjectHideFlags: 0
@@ -10242,6 +10252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315180250892}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314457771774
 GameObject:
   m_ObjectHideFlags: 0
@@ -11398,6 +11409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315356443210}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314554529671
 GameObject:
   m_ObjectHideFlags: 0
@@ -12984,6 +12996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315007236880}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314655993858
 GameObject:
   m_ObjectHideFlags: 0
@@ -13089,6 +13102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314253319641}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314659397421
 GameObject:
   m_ObjectHideFlags: 0
@@ -13161,6 +13175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314699469877}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314677847518
 GameObject:
   m_ObjectHideFlags: 0
@@ -13555,6 +13570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314659397421}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314726915451
 GameObject:
   m_ObjectHideFlags: 0
@@ -15596,6 +15612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314235803488}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388314917801063
 GameObject:
   m_ObjectHideFlags: 0
@@ -16348,6 +16365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314655735630}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315015099393
 GameObject:
   m_ObjectHideFlags: 0
@@ -16556,6 +16574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315341211834}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315035250592
 GameObject:
   m_ObjectHideFlags: 0
@@ -17777,6 +17796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388313830248895}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315155612260
 GameObject:
   m_ObjectHideFlags: 0
@@ -18387,6 +18407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314448897762}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315180512521
 GameObject:
   m_ObjectHideFlags: 0
@@ -19088,6 +19109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314408126142}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315222490837
 GameObject:
   m_ObjectHideFlags: 0
@@ -19160,6 +19182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315813627600}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315224185494
 GameObject:
   m_ObjectHideFlags: 0
@@ -20160,6 +20183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315030378471}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315341725875
 GameObject:
   m_ObjectHideFlags: 0
@@ -20267,6 +20291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314551126457}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315371057264
 GameObject:
   m_ObjectHideFlags: 0
@@ -20339,6 +20364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388313823152393}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315378122822
 GameObject:
   m_ObjectHideFlags: 0
@@ -21617,6 +21643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315550348503}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315516971484
 GameObject:
   m_ObjectHideFlags: 0
@@ -21972,6 +21999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315501970145}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315550554843
 GameObject:
   m_ObjectHideFlags: 0
@@ -22883,6 +22911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388314371874968}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315614918000
 GameObject:
   m_ObjectHideFlags: 0
@@ -24113,6 +24142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315851242529}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315735279841
 GameObject:
   m_ObjectHideFlags: 0
@@ -25073,6 +25103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315222490837}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315817083855
 GameObject:
   m_ObjectHideFlags: 0
@@ -25375,6 +25406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2629388315733299148}
+  FadeImage: {fileID: 0}
 --- !u!1 &2629388315851339181
 GameObject:
   m_ObjectHideFlags: 0
@@ -31487,7 +31519,7 @@ PrefabInstance:
     - target: {fileID: 1847793638536350646, guid: 0d914ecfa82c4f945a910b2c58314bbe,
         type: 3}
       propertyPath: m_Name
-      value: "\uB9C8\uB9AC(\uCEE4\uD50C2)"
+      value: "\uB9C8\uB9AC"
       objectReference: {fileID: 0}
     - target: {fileID: 1847793638536350647, guid: 0d914ecfa82c4f945a910b2c58314bbe,
         type: 3}
@@ -31637,7 +31669,7 @@ PrefabInstance:
     - target: {fileID: 5387846943817478009, guid: 3290d667ea10ad146a641c19e6c817c9,
         type: 3}
       propertyPath: m_Name
-      value: "\uD3F4(\uCEE4\uD50C1)"
+      value: "\uD3F4"
       objectReference: {fileID: 0}
     - target: {fileID: 5387846943817478008, guid: 3290d667ea10ad146a641c19e6c817c9,
         type: 3}

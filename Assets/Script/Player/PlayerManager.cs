@@ -11,8 +11,9 @@ public class PlayerManager : MonoBehaviour {
 
     public List<ClueStructure> playerClueLists; // player가 얻은 단서들의 리스트
 
+    // 나중에 private set 으로 바꿀 수 있는지 체크해보기(1210)
     public string NumOfAct { get; set; }    // player가 현재 진행하고 있는 Act
-    public string Timeslot { get; set; }    // player가 현재 진행하고 있는 시간대
+    public string TimeSlot { get; set; }    // player가 현재 진행하고 있는 시간대
 
     /* 맵 이동 관련 변수 */
     [SerializeField] private GameObject player; // 플레이어의 위치값을 받을 변수
@@ -51,7 +52,7 @@ public class PlayerManager : MonoBehaviour {
             ClueLists[i] = new List<Clue>();
 
         NumOfAct = "53";   //사건3 시작
-        Timeslot = "71";   //첫째주 시작
+        TimeSlot = "71";   //첫째주 시작
 
         currentPosition = "Downtown_Street1";
 
