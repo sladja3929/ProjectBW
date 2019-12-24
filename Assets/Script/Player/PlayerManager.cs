@@ -82,6 +82,11 @@ public class PlayerManager : MonoBehaviour {
                 //if (hit.collider.name.Equals("GarbageBag"))
                 //    DialogManager.instance.InteractionWithObject(garbageBag);
             }
+            else if (hit.collider.tag == "door")
+            {
+                // 문과 상호작용 할 때, 건물 안으로 이동해야함.
+
+            }
         }
 	}
     
