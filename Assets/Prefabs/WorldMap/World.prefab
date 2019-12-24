@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 9090786022551556884}
   - component: {fileID: 6855203175986915538}
   m_Layer: 0
-  m_Name: Viscount's_Mansion_Wall3
+  m_Name: Viscount_Mansion_Wall3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1535,7 +1535,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615497671235740161}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -431, y: -185, z: 0}
+  m_LocalPosition: {x: -304, y: -185, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 3849860742491807560}
@@ -2238,12 +2238,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 839115663164602617}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 267, y: -226, z: 0}
+  m_LocalPosition: {x: 267, y: -200, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children:
   - {fileID: 2155645262459617786}
-  m_Father: {fileID: 2629388315249068547}
-  m_RootOrder: 6
+  m_Father: {fileID: 2629388315278703832}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4967799817603719242
 BoxCollider2D:
@@ -2258,7 +2258,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01685965, y: 0}
+  m_Offset: {x: 0.01685965, y: 0.06715232}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2269,7 +2269,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2748096, y: 1.8}
+  m_Size: {x: 1.2748096, y: 2.27709}
   m_EdgeRadius: 0
 --- !u!114 &3836715423890988218
 MonoBehaviour:
@@ -2416,7 +2416,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 951670475718537697}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2402, y: 0, z: 0}
+  m_LocalPosition: {x: 2520, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 3382085041060858887}
@@ -2531,7 +2531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1011976005899417891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1287, y: -185, z: 0}
+  m_LocalPosition: {x: 1009, y: -185, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 44858363320692101}
@@ -3109,7 +3109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166575790992300519}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2939, y: -120, z: 0}
+  m_LocalPosition: {x: 3019, y: -120, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 3382085041060858887}
@@ -3523,7 +3523,7 @@ GameObject:
   - component: {fileID: 6828856477853907384}
   - component: {fileID: 2833615203183280609}
   m_Layer: 0
-  m_Name: Viscount's_Mansion_Wall1
+  m_Name: Viscount_Mansion_Wall1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3895,7 +3895,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f2e32d981fe538a43a60bbf19727b149, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -6484,7 +6484,7 @@ GameObject:
   - component: {fileID: 1314094388018592022}
   - component: {fileID: 4559336195812012968}
   m_Layer: 0
-  m_Name: President's_Mansion_Wall2
+  m_Name: President_Mansion_Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6708,7 +6708,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1307595, y: 0}
+  m_Offset: {x: -0.1307595, y: 0.18086243}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6719,7 +6719,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8556885, y: 1.8}
+  m_Size: {x: 0.8556885, y: 2.1617248}
   m_EdgeRadius: 0
 --- !u!114 &524748899384088601
 MonoBehaviour:
@@ -7028,7 +7028,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2420317310332549368}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1888, y: 0, z: 0}
+  m_LocalPosition: {x: 2133, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 3382085041060858887}
@@ -7816,7 +7816,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 27ba52ce9c342ad428976d16c47a2212, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -10006,7 +10006,7 @@ GameObject:
   - component: {fileID: 2629388313940947572}
   - component: {fileID: 2629388313940947563}
   m_Layer: 0
-  m_Name: Valois'_House_Door
+  m_Name: Balrua_House_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13161,7 +13161,6 @@ Transform:
   - {fileID: 2629388314064325104}
   - {fileID: 2629388314353968600}
   - {fileID: 2629388314657013405}
-  - {fileID: 8194063071703416214}
   m_Father: {fileID: 2629388314078080106}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13674,7 +13673,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 2629388315817083854}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2629388314310672604
 SpriteRenderer:
@@ -14189,7 +14188,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2629388314353968601}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1860, y: -44, z: 0}
+  m_LocalPosition: {x: 1860, y: -48, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 2629388314264626990}
@@ -14753,7 +14752,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.3060999, y: 1.053705}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -14764,7 +14763,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 1.8}
+  m_Size: {x: 3.8400784, y: 3.9074101}
   m_EdgeRadius: 0
 --- !u!114 &2629388314371874974
 MonoBehaviour:
@@ -18663,7 +18662,7 @@ GameObject:
   - component: {fileID: 2629388314691631211}
   - component: {fileID: 2629388314691631210}
   m_Layer: 0
-  m_Name: Valois'_House
+  m_Name: Balrua_House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18677,12 +18676,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2629388314691631220}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2250, y: -44, z: 0}
+  m_LocalPosition: {x: 2250, y: -48, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children:
   - {fileID: 2629388313940947572}
   m_Father: {fileID: 2629388315817083854}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2629388314691631210
 SpriteRenderer:
@@ -22912,7 +22911,7 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children: []
   m_Father: {fileID: 2629388315817083854}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2629388315146770036
 SpriteRenderer:
@@ -24933,7 +24932,6 @@ Transform:
   - {fileID: 2629388315501970144}
   - {fileID: 2629388315155409907}
   - {fileID: 2629388313789207423}
-  - {fileID: 749179859501011124}
   m_Father: {fileID: 2629388314582662179}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25129,6 +25127,7 @@ Transform:
   - {fileID: 8264038875715872531}
   - {fileID: 2629388314761066638}
   - {fileID: 2629388315851242534}
+  - {fileID: 749179859501011124}
   m_Father: {fileID: 2629388314582662179}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25287,7 +25286,7 @@ GameObject:
   - component: {fileID: 2629388315328399479}
   - component: {fileID: 2629388315328399478}
   m_Layer: 10
-  m_Name: UpToTake
+  m_Name: PresidentMansionDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25314,7 +25313,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2629388315328399472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -30378,6 +30377,7 @@ Transform:
   m_Children:
   - {fileID: 2629388314508642981}
   - {fileID: 2629388313785463420}
+  - {fileID: 8194063071703416214}
   - {fileID: 2629388314691631211}
   - {fileID: 2629388315146770037}
   - {fileID: 2629388314310672605}
@@ -32053,7 +32053,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.044044495, y: 1.1885204}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -32064,7 +32064,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 1.8}
+  m_Size: {x: 4.3808794, y: 4.177041}
   m_EdgeRadius: 0
 --- !u!114 &1411131316525305283
 MonoBehaviour:
@@ -35269,7 +35269,7 @@ GameObject:
   - component: {fileID: 321626197837570387}
   - component: {fileID: 4431369700988728107}
   m_Layer: 10
-  m_Name: FromBaluaHouseToStreet3
+  m_Name: FromBalruaHouseToStreet3
   m_TagString: PortalPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35373,7 +35373,7 @@ GameObject:
   - component: {fileID: 6670217270108700845}
   - component: {fileID: 2115973424749610089}
   m_Layer: 0
-  m_Name: President's_Mansion_Second_Floor
+  m_Name: President_Mansion_Second_Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36611,7 +36611,7 @@ GameObject:
   - component: {fileID: 6755302515923315814}
   - component: {fileID: 3395410502267418815}
   m_Layer: 10
-  m_Name: UpToTake
+  m_Name: SalonDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36638,7 +36638,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4537762931532637718}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -37496,7 +37496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4778178407535212280}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -185, z: 0}
+  m_LocalPosition: {x: 303, y: -185, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 3849860742491807560}
@@ -39007,7 +39007,7 @@ GameObject:
   - component: {fileID: 1335590145989044023}
   - component: {fileID: 1343337315725504263}
   m_Layer: 10
-  m_Name: UpToTake
+  m_Name: ChapterDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39034,7 +39034,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5219801672916787288}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -39234,7 +39234,7 @@ GameObject:
   - component: {fileID: 2808220988158311039}
   - component: {fileID: 7919977398731255510}
   m_Layer: 0
-  m_Name: Viscount's_Mansion
+  m_Name: Viscount_Mansion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40572,7 +40572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5604812212447903798}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1717, y: -185, z: 0}
+  m_LocalPosition: {x: 1571, y: -185, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 44858363320692101}
@@ -41635,7 +41635,7 @@ GameObject:
   - component: {fileID: 6377378554946280352}
   - component: {fileID: 3180979747004520886}
   m_Layer: 10
-  m_Name: UpToTake
+  m_Name: BalruaHouseDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41662,7 +41662,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5960346939445889545}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -41794,7 +41794,7 @@ GameObject:
   - component: {fileID: 4450416430532074751}
   - component: {fileID: 613492787556049715}
   m_Layer: 0
-  m_Name: Balua_House
+  m_Name: Balrua_House
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44752,7 +44752,7 @@ GameObject:
   - component: {fileID: 9000217240285101615}
   - component: {fileID: 2170176484049254111}
   m_Layer: 10
-  m_Name: DownToTake
+  m_Name: ViscountMansionDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44766,7 +44766,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6767501332909168584}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.07, y: -0.81, z: 0}
+  m_LocalPosition: {x: -0.07, y: 0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1382091071926785739}
@@ -44779,7 +44779,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6767501332909168584}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -45509,7 +45509,7 @@ GameObject:
   - component: {fileID: 7447923481256357750}
   - component: {fileID: 5632648429614743609}
   m_Layer: 10
-  m_Name: FromStreet3ToBaluaHouse
+  m_Name: FromStreet3ToBalruaHouse
   m_TagString: PortalPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45523,12 +45523,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7008950223639755764}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2211, y: -226, z: 0}
+  m_LocalPosition: {x: 2211, y: -201, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children:
   - {fileID: 6377378554946280352}
-  m_Father: {fileID: 2629388314264626990}
-  m_RootOrder: 6
+  m_Father: {fileID: 2629388315817083854}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &7447923481256357750
 BoxCollider2D:
@@ -45543,7 +45543,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.010069072, y: 0}
+  m_Offset: {x: -0.010069072, y: 0.034802616}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -45554,7 +45554,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2247022, y: 1.8}
+  m_Size: {x: 1.2247022, y: 2.2706985}
   m_EdgeRadius: 0
 --- !u!114 &5632648429614743609
 MonoBehaviour:
@@ -45740,7 +45740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7075436112095968482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 146, y: -231, z: 0}
+  m_LocalPosition: {x: 146, y: -209, z: 0}
   m_LocalScale: {x: 56.25, y: 100, z: 1}
   m_Children:
   - {fileID: 1335590145989044023}
@@ -45760,7 +45760,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.06736934}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -45771,7 +45771,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 1.8}
+  m_Size: {x: 3.5, y: 1.9347386}
   m_EdgeRadius: 0
 --- !u!114 &7941987494978020897
 MonoBehaviour:
@@ -45987,7 +45987,7 @@ GameObject:
   - component: {fileID: 8853684868480290152}
   - component: {fileID: 3143763479968258690}
   m_Layer: 0
-  m_Name: Viscount's_Mansion_Wall2
+  m_Name: Viscount_Mansion_Wall2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46292,85 +46292,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &7224196168530863113
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4181208415158681042}
-  - component: {fileID: 7296100519016243465}
-  m_Layer: 0
-  m_Name: "\uC9C4\uC5F4\uB41C\uC637\uB4E4 (2)"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4181208415158681042
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7224196168530863113}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 429, y: -185, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children: []
-  m_Father: {fileID: 3849860742491807560}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7296100519016243465
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7224196168530863113}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 93f1f6d526b487e4da90183101300204, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 4.38, y: 1.53}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &7237815473852650046
 GameObject:
   m_ObjectHideFlags: 0
@@ -46494,7 +46415,7 @@ GameObject:
   - component: {fileID: 2155645262459617786}
   - component: {fileID: 6025682904697120480}
   m_Layer: 10
-  m_Name: UpToTake
+  m_Name: RainaHouseDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46508,7 +46429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7253231702516255842}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.16, z: 0}
+  m_LocalPosition: {x: 0, y: 0.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 749179859501011124}
@@ -46521,7 +46442,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7253231702516255842}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -47517,8 +47438,6 @@ Transform:
   - {fileID: 3488099234030598444}
   - {fileID: 6304995024702770244}
   - {fileID: 7752599519372222220}
-  - {fileID: 4181208415158681042}
-  - {fileID: 3842827148053789570}
   m_Father: {fileID: 6278351992434658528}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47763,7 +47682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7554621550477691967}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1251, y: 139, z: 0}
+  m_LocalPosition: {x: 1251, y: 214, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 44858363320692101}
@@ -47938,7 +47857,7 @@ GameObject:
   - component: {fileID: 7573598074773322059}
   - component: {fileID: 4730689652868967685}
   m_Layer: 0
-  m_Name: President's_Mansion_Door
+  m_Name: President_Mansion_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48194,8 +48113,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7644197731663255379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1809, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalPosition: {x: 1809, y: 49, z: 0}
+  m_LocalScale: {x: 100, y: 118.2765, z: 100}
   m_Children: []
   m_Father: {fileID: 4646760136789747269}
   m_RootOrder: 5
@@ -48402,7 +48321,7 @@ GameObject:
   - component: {fileID: 3038486953238646215}
   - component: {fileID: 266904593024085241}
   m_Layer: 0
-  m_Name: Viscount's_Mansion_Door
+  m_Name: Viscount_Mansion_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48704,7 +48623,7 @@ GameObject:
   - component: {fileID: 6411581835197489649}
   - component: {fileID: 5062571112600808257}
   m_Layer: 0
-  m_Name: President's_Mansion_First_Floor
+  m_Name: President_Mansion_First_Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50183,7 +50102,7 @@ GameObject:
   - component: {fileID: 4821346958643481471}
   - component: {fileID: 8569833948410985959}
   m_Layer: 0
-  m_Name: President's_Mansion
+  m_Name: President_Mansion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50282,85 +50201,6 @@ Transform:
   m_Father: {fileID: 5658617281067776083}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8624867598033280772
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3842827148053789570}
-  - component: {fileID: 3371301389897358050}
-  m_Layer: 0
-  m_Name: "\uC9C4\uC5F4\uB41C\uC637\uB4E4 (3)"
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3842827148053789570
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8624867598033280772}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 854, y: -185, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children: []
-  m_Father: {fileID: 3849860742491807560}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &3371301389897358050
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8624867598033280772}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 93f1f6d526b487e4da90183101300204, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 4.38, y: 1.53}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &8681298040348830318
 GameObject:
   m_ObjectHideFlags: 0
@@ -50520,7 +50360,7 @@ GameObject:
   - component: {fileID: 8711717263324486856}
   - component: {fileID: 4874761173601394040}
   m_Layer: 0
-  m_Name: President's_Mansion_Outhouse
+  m_Name: President_Mansion_Outhouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51809,11 +51649,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2629388314112844353}
     m_Modifications:
-    - target: {fileID: 5387846943817478009, guid: 3290d667ea10ad146a641c19e6c817c9,
-        type: 3}
-      propertyPath: m_Name
-      value: "\uD3F4"
-      objectReference: {fileID: 0}
     - target: {fileID: 5387846943817478008, guid: 3290d667ea10ad146a641c19e6c817c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -51868,6 +51703,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5387846943817478009, guid: 3290d667ea10ad146a641c19e6c817c9,
+        type: 3}
+      propertyPath: m_Name
+      value: "\uD3F4"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3290d667ea10ad146a641c19e6c817c9, type: 3}
