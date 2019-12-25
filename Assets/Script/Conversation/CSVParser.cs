@@ -41,8 +41,8 @@ public class CSVParser : MonoBehaviour
         interactionLists = new List<Interaction>();
 
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
-        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
-        //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv");
+        //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
+        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv");
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -84,6 +84,8 @@ public class CSVParser : MonoBehaviour
             index++;
         }//for i
 
+        Debug.Log("대화 갯수 = " + index);
+
         //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
         for (int i = 0; i < dataList.Count; i++)
         {
@@ -96,8 +98,14 @@ public class CSVParser : MonoBehaviour
                 switch (subjectArr[j])
                 {
                     case "사건":
-
-                        tempInteraction.SetAct(int.Parse((dataList[i])[subjectArr[j]]));
+                        try
+                        {
+                            tempInteraction.SetAct(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "사건에서 오류발생");
+                        }
                         break;
 
                     case "시간대":
@@ -142,13 +150,25 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "대화 묶음":
-
-                        tempInteraction.SetSetOfDesc(int.Parse((dataList[i])[subjectArr[j]]));
+                        try
+                        {
+                            tempInteraction.SetSetOfDesc(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "대화 묶음에서 오류발생");
+                        }
                         break;
 
                     case "id":
-
-                        tempInteraction.SetId(int.Parse((dataList[i])[subjectArr[j]]));
+                        try
+                        {
+                            tempInteraction.SetId(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList["+i+"])[subjectArr["+j+"]])" + (dataList[i])[subjectArr[j]] + "id에서 오류발생");
+                        }
                         break;
 
                     case "startObject":
@@ -166,11 +186,20 @@ public class CSVParser : MonoBehaviour
                             tempStartObjectList[0] = tempStartObject;
                             tempInteraction.SetStartObject(tempStartObjectList);
                         }
+                        //if (tempStartObject.Equals("1001")) {
+                        //    Debug.Log(tempStartObject + "의 대화 적용 완료");
+                        //}
                         break;
 
                     case "npcFrom":
-
-                        tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);
+                        try
+                        {
+                            tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "npcFrom에서 오류발생");
+                        }
                         break;
                     /*
                 case "npcTo":
@@ -179,13 +208,25 @@ public class CSVParser : MonoBehaviour
                     break;
                     */
                     case "desc":
-
-                        tempInteraction.SetDesc((dataList[i])[subjectArr[j]]);
+                        try
+                        {
+                            tempInteraction.SetDesc((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "desc에서 오류발생");
+                        }
                         break;
 
                     case "반복성":
-
-                        tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
+                        try
+                        {
+                            tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "반복성에서 오류발생");
+                        }
                         break;
 
                     case "대사 조건":
@@ -209,8 +250,14 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "status":
-
-                        tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
+                        try
+                        {
+                            tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "status에서 오류발생");
+                        }
                         break;
 
                     case "rewards":
@@ -224,8 +271,14 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "parent":
-
-                        tempInteraction.SetParent(int.Parse((dataList[i])[subjectArr[j]]));
+                        try
+                        {
+                            tempInteraction.SetParent(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "parent에서 오류발생");
+                        }
 
                         break;
                     /* 삭제 예정(11/12) */
@@ -238,14 +291,26 @@ public class CSVParser : MonoBehaviour
                         break;
                     // 아래 두 부분은, 나중에 이벤트 처리할 때 수정할 것(1223)
                     case "발생 여부":
-
-                        tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
+                        try
+                        {
+                            tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "발생 여부에서 오류발생");
+                        }
 
                         break;
 
                     case "새로운 이벤트":
-
-                        tempInteraction.SetEventIndexToOccur(((dataList[i])[subjectArr[j]]));
+                        try
+                        {
+                            tempInteraction.SetEventIndexToOccur(((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "새로운 이벤트에서 오류발생");
+                        }
                         break;
 
                     default:

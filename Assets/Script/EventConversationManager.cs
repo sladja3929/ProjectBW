@@ -42,12 +42,23 @@ public class EventConversationManager// : MonoBehaviour
                 if (targetOfInteractionList[i].GetConditionOfDesc().Length > 1)
                 {
                     //int numOfCorrectCondition = 0;  // 대사 조건에 부합하는 수를 알기 위한 변수 선언
-                    
+                    int tempIndex;
                     //대사 조건이 2개 이상인 경우
                     for (int j = 0; j < targetOfInteractionList[i].GetConditionOfDesc().Length; j++)
                     {
-                        //j번째 대사 조건에 해당하는 대화묶음의 index를 원래의 대사 목록중에서 찾은 다음 tempIndex에 저장
-                        int tempIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == int.Parse(targetOfInteractionList[i].GetConditionOfDesc()[j]));
+
+                        try
+                        {
+                            //j번째 대사 조건에 해당하는 대화묶음의 index를 원래의 대사 목록중에서 찾은 다음 tempIndex에 저장
+                            tempIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == int.Parse(targetOfInteractionList[i].GetConditionOfDesc()[j]));
+                        }
+                        catch
+                        {
+                            //int.Parse 포맷에 맞지 않으면 -1을 리턴하게 함 (1225 수정)
+                            // 임시적으로 만든 예외처리이고, 대화 조건에 숫자가 아닌 문자가 들어갔기 때문에 만들었음. ex) 멜리사와의 대화
+                            //      -> 추후에 문자그대로 처리해서 따로 변수를 만들어서 작업해야 할듯?
+                            return -1;
+                        }
 
                         if (interactionLists[tempIndex].GetStatus() >= 1)
                         {
