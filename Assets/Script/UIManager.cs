@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour {
         shownSlotIndex = 1;
         isMovingSlot = false;
 
-        //Background.SetActive(isOpenedNote);
+        Background.SetActive(isOpenedNote);
         NoteBook.SetActive(isOpenedNote);
         GetClueUI.SetActive(isOpenedNote);
         clueScroller.SetActive(isOpenedNote);
@@ -132,7 +132,7 @@ public class UIManager : MonoBehaviour {
 
             isOpenedNote = !isOpenedNote;
             //GetClueButton.SetActive(!isOpenedNote);
-            //Background.SetActive(isOpenedNote);
+            Background.SetActive(isOpenedNote);
             NoteBook.SetActive(isOpenedNote);
             GetClueUI.SetActive(isOpenedNote);
             clueScroller.SetActive(isOpenedNote);

@@ -83,7 +83,17 @@ public class PlayerManager : MonoBehaviour {
                 //    DialogManager.instance.InteractionWithObject(garbageBag);
             }
         }
-	}
+
+        /* for test 1226 */
+        if (Input.GetKey(KeyCode.Alpha1))
+        {
+            TimeSlot = "71";
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            TimeSlot = "83";
+        }
+    }
     
 
     /* player의 단서파일을 불러올때, 초기화시키기 위함 */
