@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour {
     public List<Clue>[] ClueLists;        // player가 얻은 단서들의 리스트
 
     public List<ClueStructure> playerClueLists; // player가 얻은 단서들의 리스트
+    public List<ClueStructure> playerClueLists_In_Certain_Timeslot; // 단서 정리에 사용될, 현재 시간대에 얻은 단서들의 목록
 
     // 나중에 private set 으로 바꿀 수 있는지 체크해보기(1210)
     public string NumOfAct { get; set; }    // player가 현재 진행하고 있는 Act
@@ -19,7 +20,6 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private GameObject player; // 플레이어의 위치값을 받을 변수
     private string currentPosition;             //플레이어의 맵에서의 현재 위치
     private bool isInPortalZone;                //플레이어가 포탈존에 있는지 유무 확인
-
 
     /* 오브젝트와의 상호작용을 위한 변수 */
     [SerializeField] private bool isNearObject;      //상호작용할 수 있는 오브젝트와 가까이 있는가?
@@ -46,6 +46,7 @@ public class PlayerManager : MonoBehaviour {
         ClueLists = new List<Clue>[5];  //Act5까지의 단서들 리스트
 
         playerClueLists = new List<ClueStructure>();
+        playerClueLists_In_Certain_Timeslot = new List<ClueStructure>();
 
         //ClueLists 초기화
         for (int i = 0; i < ClueLists.Length; i++)
@@ -105,6 +106,12 @@ public class PlayerManager : MonoBehaviour {
         playerClueLists.Clear();
     }
 
+    // 단서 정리를 마친 후에 쓰여질 함수
+    public void ResetClueList_In_Certain_Timeslot()
+    {
+        playerClueLists_In_Certain_Timeslot.Clear();
+    }
+
     /* player가 얻은 데이터를 단서리스트에 추가 */
     //public void AddClueToList(Clue clueData)
     //{
@@ -116,6 +123,7 @@ public class PlayerManager : MonoBehaviour {
     public void AddClueToList(ClueStructure clueData)
     {
         playerClueLists.Add(clueData);
+        playerClueLists_In_Certain_Timeslot.Add(clueData);  // 단서 정리를 위한 단서 저장
     }
 
     /* 단서 중복 방지 */

@@ -68,6 +68,13 @@ MonoBehaviour:
   shownSlotIndex: 0
   isMovingSlot: 0
   tempYPosition: 0
+  canvasForParchment: {fileID: 0}
+  parchment: {fileID: 0}
+  parchmentHelper: {fileID: 0}
+  parchmentClueScrollList: {fileID: 0}
+  rectOfParchment: {fileID: 0}
+  rectOfParchmentHelper: {fileID: 0}
+  rectOfParchmentClueScrollList: {fileID: 0}
   testButton: {fileID: 0}
   buttonIndex: 0
   buttonNumOfAct: 

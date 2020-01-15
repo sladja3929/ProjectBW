@@ -58,6 +58,28 @@ public class UIManager : MonoBehaviour {
     public bool isMovingSlot;          // 단서 슬롯이 이동해야하는지 여부를 저장하기 위한 변수
     public float tempYPosition;
 
+    /* 단서 정리 UI */
+    [SerializeField]
+    private GameObject canvasForParchment;  // 양피지에 나오는 단서 리스트의 부모를 캔버스로 바꾸기 위한 변수
+    [SerializeField]
+    private GameObject parchment; // 단서 정리할 때 나오는 전체 양피지의 오브젝트를 가진 변수
+    [SerializeField]
+    private GameObject parchmentHelper; // 양피지를 스크롤 할 수 있도록 도와주는 스크롤뷰 오브젝트
+    [SerializeField]
+    private GameObject parchmentClueScrollList; // 이중 스크롤 하기 위해서 필요한 변수 -> 따로 스크롤 뷰를 빼와서 양피지 helper의 위쪽 순서로 놓으면 이중 스크롤을 할 수 있음. (layer 개념과 비슷함)
+    private bool isOpenedParchment;         // 단서 정리창 열렸는지 여부
+    [SerializeField]
+    private RectTransform rectOfParchment;  // 양피지의 position 값을 가질 변수
+    [SerializeField]
+    private RectTransform rectOfParchmentHelper;    // 양피지 helper의 position 값을 가질 변수
+    [SerializeField]
+    private RectTransform rectOfParchmentClueScrollList;    // 양피지에 나타날 단서들의 리스트를 담을 스크롤뷰의 position 값을 가질 변수 ( = 양피지의 y위치 값과 같아야 함)
+    private float yMinValue_RectOfParchment = -720.0f;
+    private float yMinVallue_RectOfHelper = 0.0f;
+    private float tempValue_RectOfParchment;        // 양피지의 Rect y값과 helper의 Rect y값을 매칭시켜 양피지의 Rect y값을 변화시키면 스크롤이 될 것임
+    private float tempValue_RectOfHelper;
+
+    
     /* W,S로 버튼 이동 Test */
     public Button testButton;
     public int buttonIndex;
@@ -91,6 +113,7 @@ public class UIManager : MonoBehaviour {
         isOpened = false;
         isPaging = false;
         isOpenedNote = false;
+        isOpenedParchment = false;  /* test 1105 */
         howManyOpenNote = 0;
         tempIndex = -1;     // -1 == null
         shownSlotIndex = 1;
@@ -100,6 +123,10 @@ public class UIManager : MonoBehaviour {
         NoteBook.SetActive(isOpenedNote);
         GetClueUI.SetActive(isOpenedNote);
         clueScroller.SetActive(isOpenedNote);
+        /* 단서정리 test 1105 */
+        parchment.SetActive(isOpenedParchment);
+        parchmentHelper.SetActive(isOpenedParchment);
+        parchmentClueScrollList.SetActive(isOpenedParchment);
 
         isConversationing = false;
         canSkipConversation = false;
@@ -115,14 +142,56 @@ public class UIManager : MonoBehaviour {
         //customNav2 = new Navigation();
         //customNav.mode = Navigation.Mode.None;
         //customNav2.mode = Navigation.Mode.Vertical;
+
+        /* 양피지 스크롤을 위한 작업 */
+        tempValue_RectOfHelper = rectOfParchmentHelper.localPosition.y;
+
     }
 
     void Update()
     {
+        /* 단서 정리 테스트용 0115 */
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            // On & Off
+            isOpenedParchment = !isOpenedParchment;
+
+            //양피지를 보이게 하기
+            parchment.SetActive(isOpenedParchment);
+            parchmentHelper.SetActive(isOpenedParchment);
+            parchmentClueScrollList.SetActive(isOpenedParchment);
+
+            // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
+            if (Inventory.instance.numOfCertainClue < 4)
+                parchmentClueScrollList.transform.SetParent(parchment.transform);
+            else
+                parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
+
+            // 양피지에 단서 리스트 출력(중복처리해야함)
+            Inventory.instance.MakeClueSlotInParchment();
+        }
+
+        // 마우스 휠을 올리거나 내렸을때, 양피지가 열려있을 때, 양피지를 스크롤하는 작업
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 || Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            if (GetIsOpenParchment())
+            {
+                // 양피지의 위치값을 양피지 helper의 위치값과 양피지의 최소 위치값을 이용하여 적용시킴
+                rectOfParchment.localPosition = new Vector2(rectOfParchment.localPosition.x, rectOfParchmentHelper.localPosition.y + yMinValue_RectOfParchment);
+                // 바뀐 양피지의 위치값을 이용하여, 양피지의 단서 리스트가 표현되는 스크롤 뷰의 위치값을 같게 만듦 (양피지를 따라가게)
+                rectOfParchmentClueScrollList.localPosition = new Vector2(rectOfParchmentClueScrollList.localPosition.x, rectOfParchment.localPosition.y);
+
+                /*
+                tempValue_RectOfParchment = rectOfParchmentHelper.localPosition.y - tempValue_RectOfHelper; // 현재 y값과 후에 저장된 y값의 차이를 저장함, 이는 양피지의 위치에 반영될 것임
+                rectOfParchmentHelper.localPosition = new Vector2(rectOfParchmentHelper.localPosition.x, tempValue_RectOfParchment + yMinVallue_RectOfHelper);
+                rectOfParchment.localPosition = new Vector2(rectOfParchment.localPosition.x, tempValue_RectOfParchment + yMinValue_RectOfParchment);
+                tempValue_RectOfHelper = rectOfParchmentHelper.localPosition.y; // 이전에 저장된 y값을 백업 해놓기 -> tempValue_RectOfParchment 를 구하기 위해서 필요함
+                */
+            }
+        }
+
         if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing)
         {
-
-
             isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
 
             // 수첩 열고닫을때마다 초기화
@@ -326,6 +395,11 @@ public class UIManager : MonoBehaviour {
     public bool GetIsOpenNote()
     {
         return isOpenedNote;
+    }
+
+    public bool GetIsOpenParchment()
+    {
+        return isOpenedParchment;
     }
 
     public void NoteOpen()

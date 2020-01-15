@@ -8,6 +8,8 @@ TagManager:
   - character
   - PortalPoint
   - InteractionObject
+  - Parchment
+  - ParchmentList
   layers:
   - Default
   - TransparentFX
@@ -20,8 +22,8 @@ TagManager:
   - MiniMapOnly
   - Player
   - Portal
-  - 
-  - 
+  - Parchment
+  - ParchmentList
   - 
   - 
   - 

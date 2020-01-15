@@ -10,6 +10,13 @@ public class Inventory : MonoBehaviour {
     public GameObject inventory;     // canvas
     public GameObject slotButton;    // slot 
     public GameObject inventoryPanel; // 슬롯을 담는 판넬
+    /* 단서정리를 위해 0115 추가 */
+    [SerializeField]
+    private GameObject clueList_Panel_In_Parchment;    // 단서 정리 양피지에 단서들을 담을 판넬
+    [SerializeField]
+    private GameObject slot_In_Parchment;           //양피지의 판넬에 담길 슬롯의 프리팹을 저장할 변수
+    private List<GameObject> slotList_In_Parchment; // 양피지에 보일 단서들을 저장할 리스트 변수
+    public int numOfCertainClue;    // 양피지의 단서 리스트의 부모 자식 관계 설정을 위한, 현재 시간대에 얻은 단서의 개수
 
     private int dataCount;                  // clue count -> json 데이터 상의 단서 전체의 개수
     private List<GameObject> slot; // 획득한 단서에 해당하는 슬롯들을 담을 list
@@ -21,14 +28,44 @@ public class Inventory : MonoBehaviour {
             instance = this;
         
         slot = new List<GameObject>();
+        slotList_In_Parchment = new List<GameObject>();
         itemDatabase = GameObject.Find("DataManager").GetComponent<ItemDatabase>();
-        
-	}
+        numOfCertainClue = 0;
+
+    }
+
+    /* 단서 정리 (해당 시간대에 얻은 단서들을 양피지에 띄우기위한 함수) 0115 추가 */
+    public void MakeClueSlotInParchment()
+    {
+        // 플레이어가 현재 시간대에 얻은 단서들의 리스트를 가져온다.
+        List<ClueStructure> certainClueLists = PlayerManager.instance.playerClueLists_In_Certain_Timeslot;
+
+        if (certainClueLists.Count == 0)
+        {
+            Debug.Log("현 시간대에 얻은 단서가 없음");
+            return;
+        }
+
+        GameObject addedSlot = slot_In_Parchment;   // 단서정리에 필요한 슬롯의 프리팹 정보를 담을 변수
+        GameObject tempSlot;
+        string tempClueName;
+
+        // 리스트에 있는 단서들의 수만큼 for문으로 slot을 만들어 넣는다.
+        for (int i = 0; i < certainClueLists.Count; i++)
+        {
+            tempSlot = Instantiate(addedSlot, clueList_Panel_In_Parchment.transform);
+            tempClueName = certainClueLists[i].GetClueName();
+            tempSlot.transform.Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempClueName);
+            tempSlot.transform.Find("ClueName").GetComponent<Text>().text = "" + tempClueName;
+        }
+
+        numOfCertainClue++;
+    }
+    
 
     /* 단서를 획득할 때 마다, 수첩에 슬롯을 하나씩 추가시켜야함. */
     /* 이미 있는 단서를 획득처리할 경우 비정상적으로 작동하지만, 게임 내에서 중복되는 단서는 없을것 같다. */
     /* 있으면 수정해야댐 */
-   
     public void MakeClueSlot(string clueName, string numOfAct)
     {
         GameObject addedSlotButton = slotButton;
