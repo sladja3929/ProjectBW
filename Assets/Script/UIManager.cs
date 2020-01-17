@@ -78,8 +78,15 @@ public class UIManager : MonoBehaviour {
     private float yMinVallue_RectOfHelper = 0.0f;
     private float tempValue_RectOfParchment;        // 양피지의 Rect y값과 helper의 Rect y값을 매칭시켜 양피지의 Rect y값을 변화시키면 스크롤이 될 것임
     private float tempValue_RectOfHelper;
+    [SerializeField]
+    private GameObject parchmentUpButton;   // 양피지의 스크롤을 위한 위쪽 화살표
+    [SerializeField]
+    private GameObject parchmentDownButton;   // 양피지의 스크롤을 위한 아래쪽 화살표
+    [SerializeField]
+    private RectTransform paperOfDocument;     // 안드렌의 서류를 뜻하는 오브젝트
+    [SerializeField]
+    private GameObject documentCover;      // 안드렌의 서류봉투 열리는 부분의 게임 오브젝트
 
-    
     /* W,S로 버튼 이동 Test */
     public Button testButton;
     public int buttonIndex;
@@ -127,6 +134,8 @@ public class UIManager : MonoBehaviour {
         parchment.SetActive(isOpenedParchment);
         parchmentHelper.SetActive(isOpenedParchment);
         parchmentClueScrollList.SetActive(isOpenedParchment);
+        parchmentUpButton.SetActive(isOpenedParchment);
+        parchmentDownButton.SetActive(isOpenedParchment);
 
         isConversationing = false;
         canSkipConversation = false;
@@ -160,15 +169,26 @@ public class UIManager : MonoBehaviour {
             parchment.SetActive(isOpenedParchment);
             parchmentHelper.SetActive(isOpenedParchment);
             parchmentClueScrollList.SetActive(isOpenedParchment);
+            // 만약 양피지가 닫힐 때, 화살표도 없애기
+            if (!isOpenedParchment)
+            {
+                parchmentUpButton.SetActive(isOpenedParchment);
+                parchmentDownButton.SetActive(isOpenedParchment);
+            }
 
             // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
-            if (Inventory.instance.numOfCertainClue < 4)
+            if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4)
                 parchmentClueScrollList.transform.SetParent(parchment.transform);
             else
                 parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
 
             // 양피지에 단서 리스트 출력(중복처리해야함)
             Inventory.instance.MakeClueSlotInParchment();
+        }
+
+        if (documentCover.activeSelf && paperOfDocument.localPosition.y > 600)
+        {
+            documentCover.SetActive(false);
         }
 
         // 마우스 휠을 올리거나 내렸을때, 양피지가 열려있을 때, 양피지를 스크롤하는 작업
@@ -610,5 +630,4 @@ public class UIManager : MonoBehaviour {
         colorBlock.pressedColor = Color.gray;
         nextButton.GetComponent<Button>().colors = colorBlock;
     }
-
 }

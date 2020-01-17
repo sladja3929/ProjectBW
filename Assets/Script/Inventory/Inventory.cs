@@ -16,7 +16,6 @@ public class Inventory : MonoBehaviour {
     [SerializeField]
     private GameObject slot_In_Parchment;           //양피지의 판넬에 담길 슬롯의 프리팹을 저장할 변수
     private List<GameObject> slotList_In_Parchment; // 양피지에 보일 단서들을 저장할 리스트 변수
-    public int numOfCertainClue;    // 양피지의 단서 리스트의 부모 자식 관계 설정을 위한, 현재 시간대에 얻은 단서의 개수
 
     private int dataCount;                  // clue count -> json 데이터 상의 단서 전체의 개수
     private List<GameObject> slot; // 획득한 단서에 해당하는 슬롯들을 담을 list
@@ -30,7 +29,6 @@ public class Inventory : MonoBehaviour {
         slot = new List<GameObject>();
         slotList_In_Parchment = new List<GameObject>();
         itemDatabase = GameObject.Find("DataManager").GetComponent<ItemDatabase>();
-        numOfCertainClue = 0;
 
     }
 
@@ -59,7 +57,8 @@ public class Inventory : MonoBehaviour {
             tempSlot.transform.Find("ClueName").GetComponent<Text>().text = "" + tempClueName;
         }
 
-        numOfCertainClue++;
+        // 현재 시간대에 가지고 있는 단서 리스트 초기화
+        PlayerManager.instance.ResetClueList_In_Certain_Timeslot();
     }
     
 

@@ -4,67 +4,85 @@ using UnityEngine;
 
 public class ParchmentControll : MonoBehaviour
 {
-    /* 오브젝트와의 상호작용을 위한 변수 */
-    private Vector2 pos;            //마우스로 클릭한 곳의 위치
-    private Ray2D ray;              //마우스로 클릭한 곳에 보이지않는 광선을 쏨
-    private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
     private double maxScrollPosition;   // 스크롤할 수 있는 최대치 높이
     private double minScrollPosition;   // 스크롤할 수 있는 최소치 높이
+    private bool isPlayingDocumentAnim; // 안드렌 서류 타임라인 애니메이션이 실행되고 있는지를 알기 위한 변수
 
     [SerializeField]
-    private GameObject Parchment;       // 제어할 양피지 오브젝트
-    private RectTransform Rect_Parchment;   // 양피지의 RectTransform 컴포넌트 저장용
+    private RectTransform rect_Parchment;   // 제어할 양피지의 RectTransform 컴포넌트
 
+    /* 양피지를 옮기기 위한 화살표 */
+    [SerializeField]
+    private GameObject parchmentUpButton;
+    [SerializeField]
+    private GameObject parchmentDownButton;
+
+    public static ParchmentControll instance = null;
+    
     void Start()
     {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
         maxScrollPosition = 720.0f;
         minScrollPosition = -720.0f;
+        isPlayingDocumentAnim = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        /* 오브젝트와의 상호작용을 위한 if */
-        /* 양피지 중간에 단서 스크롤과 겹쳐지면 고쳐야함.. */
-
-        /* 양피지 위에 마우스 커서를 두고, 마우스 휠을 위로 올릴 때 */
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y == -720) // -720 일때 위 화살표 없애기
         {
-            /*
-            pos = Camera.main.WorldToScreenPoint(Input.mousePosition);
-            ray = new Ray2D(pos, Vector2.zero);
-            hit = Physics2D.Raycast(ray.origin, ray.direction);
-            */
-            //if (hit.collider.tag == "Parchment")
-            if (UIManager.instance.GetIsOpenParchment())
+            parchmentUpButton.SetActive(false);
+            parchmentDownButton.SetActive(true);
+        }
+        else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y == 720) // 720 일때 아래 화살표 없애기
+        {
+            parchmentUpButton.SetActive(true);
+            parchmentDownButton.SetActive(false);
+            
+            // 중복 실행을 방지
+            if (!isPlayingDocumentAnim)
             {
-                Rect_Parchment = Parchment.GetComponent<RectTransform>();
-
-                if (Rect_Parchment.localPosition.y >= minScrollPosition && Rect_Parchment.localPosition.y < maxScrollPosition)
-                {
-                    Parchment.GetComponent<RectTransform>().localPosition = new Vector2(Rect_Parchment.localPosition.x, Rect_Parchment.localPosition.y + 40.0f);
-                }
+                DocumentControll.instance.InvokeDocumentAnim();
+                isPlayingDocumentAnim = !isPlayingDocumentAnim;
             }
         }
-
-        /* 양피지 위에 마우스 커서를 두고, 마우스 휠을 아래로 내릴 때 */
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y > -720 && rect_Parchment.localPosition.y < 720) //-720 초과 ~720 미만 일때 양쪽 화살표 나타내기
         {
-            /*
-            pos = Camera.main.WorldToScreenPoint(Input.mousePosition);
-            ray = new Ray2D(pos, Vector2.zero);
-            hit = Physics2D.Raycast(ray.origin, ray.direction);
-            */
-            //if (hit.collider.tag == "Parchment")
-            if (UIManager.instance.GetIsOpenParchment())
-            {
-                Rect_Parchment = Parchment.GetComponent<RectTransform>();
-
-                if (Rect_Parchment.localPosition.y <= maxScrollPosition && Rect_Parchment.localPosition.y > minScrollPosition)
-                {
-                    Parchment.GetComponent<RectTransform>().localPosition = new Vector2(Rect_Parchment.localPosition.x, Rect_Parchment.localPosition.y - 40.0f);
-                }
-            }
+            parchmentUpButton.SetActive(true);
+            parchmentDownButton.SetActive(true);
         }
     }
+
+    // 단서 정리가 완전히 끝난 후 실행되야 할 함수임
+    public void SetIsPlayingDocumentAnimToFalse()
+    {
+        isPlayingDocumentAnim = false;
+    }
+
+    public void UpButton()
+    {
+        if(rect_Parchment.localPosition.y > -720)
+            rect_Parchment.localPosition = new Vector2(rect_Parchment.localPosition.x, rect_Parchment.localPosition.y - 80.0f);
+    }
+
+    public void DownButton()
+    {
+        if (rect_Parchment.localPosition.y < 720)
+            rect_Parchment.localPosition = new Vector2(rect_Parchment.localPosition.x, rect_Parchment.localPosition.y + 80.0f);
+    }
+
+    public GameObject GetUpArrowOfParchment()
+    {
+        return parchmentUpButton;
+    }
+
+    public GameObject GetDownArrowOfParchment()
+    {
+        return parchmentDownButton;
+    }
+
 }

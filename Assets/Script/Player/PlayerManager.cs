@@ -112,6 +112,12 @@ public class PlayerManager : MonoBehaviour {
         playerClueLists_In_Certain_Timeslot.Clear();
     }
 
+    // 현재 시간대에서 얻은 단서들의 갯수를 리턴하는 함수
+    public int GetCount_ClueList_In_Certain_Timeslot()
+    {
+        return playerClueLists_In_Certain_Timeslot.Count;
+    }
+
     /* player가 얻은 데이터를 단서리스트에 추가 */
     //public void AddClueToList(Clue clueData)
     //{
