@@ -21,20 +21,91 @@ public class NpcParser
     /// 
     /// 항구 - 인물 총 8명
     /// 마릴린 = 1500 / 므피어 = 1501 / 엑스트라 어부 = 1502
-    /// 아이 = 1503 / 악당1 = 1504 / 악당2 = 1505 / 유람선 직원 = 1506
+    /// 아이 = 1503 / 악당 1 = 1504 / 악당 2 = 1505 / 유람선 직원 = 1506
     /// 유람선 감금층 직원 = 1507
     /// 
+    /// 항구 - 상호작용하는 오브젝트 총 5개
+    /// 가판대 위치 1_항구 = 9500 / 가판대 위치 2_항구 = 9501 / 돛을 거는 기둥_항구 = 9502 / 작은 배_항구 = 9503 / 유람선_항구 = 9504
+    /// 
+    /// 유람선 안 - 상호작용하는 오브젝트 총 6개
+    /// 음식이 있는 테이블_유람선 = 9505 / 커다란 의자_유람선 = 9506 / 이상한 손잡이_유람선 = 9507 / 철장 1_유람선 = 9508 / 철장 2_유람선 = 9509 / 철장 3_유람선 = 9510
+    /// 
     /// 지부 - 인물 총 4명
-    /// 안내원 = 1400 / 접수원 = 1401 / 공사를 알리는 직원 = 1402
-    /// 쇼파1 직원 = 1403
+    /// 안내원 = 1400 / 접수원 = 1401 / 공사를 알리는 직원 = 1402 / 쇼파 1 직원 = 1403
+    /// 
+    /// 지부 - 상호작용하는 오브젝트 총 11개
+    /// 화분_지부 = 9400 / 책장_지부 = 9401 / 카펫_지부 = 9402 / 책상_지부 = 9403 / 사체_지부 = 9404
+    /// 달력 = 9405 / 편지 봉투_지부 = 9406 / 티켓_지부 = 9407 / 입양 서류_지부 = 9408 / 금고_지부 = 9409 / 금고속 종이_지부 = 9410
     /// 
     /// 슬램가 - 인물 총 7명
     /// 창고 지킴이 = 1300 / 조무래기 = 1301 / 노숙자 = 1302
     /// 어벙이 = 1303 / 짜증이 = 1304 / 바텐더 = 1305 / 사람들 = 1306
     /// 
+    /// 슬램가 - 상호작용하는 오브젝트 총 9개
+    /// 나무상자 = 9300 / 창문 = 9301 / 종이 = 9302 / 정보상 문 = 9303 / 기둥 = 9307 / 허름한 집 문 = 9308
+    /// 쓰레기 더미(왼쪽) = 9304 / 쓰레기 더미(중앙) = 9305 / 쓰레기 더미(오른쪽) = 9306
+    /// 
     /// 저택가 안의 별채 -  인물 총 5명
-    /// 왼쪽 아이 = 1215 / 오른쪽 아이 = 1216 / 여자 아이 = 1217
-    /// 남자 아이 = 1218 / 어린 아이(여자) = 1219
+    /// 왼쪽 아이 = 1207 / 오른쪽 아이 = 1208 / 여자 아이 = 1209
+    /// 남자 아이 = 1210 / 어린 아이(여자) = 1219
+    /// 
+    /// 저택가 - 인물 총 12명
+    /// 문지기 1 = 1200 / 문지기 2 = 1201 / 잠깐 나온 별채에 사는 아이 = 1202 / 총장 집 관리인 = 1203
+    /// 주방 하녀 = 1204 / 집사 = 1205 / 청소하는 하인 = 1206 / 청소하는 하녀 1 = 1211 / 청소하는 하인 2 = 1212
+    /// 식료품 옮기는 하인 = 1213 / 청소하는 하녀 2 = 1214 / 청소하는 하녀 3 = 1215
+    /// 
+    /// 저택가 - 상호작용하는 오브젝트 총 4개
+    /// 총장의 저택_저택가 = 9200 / 저택의 대문_저택가 = 9201 / 팻말_저택가 = 9202 / 갈림길_저택가 = 9203
+    /// 
+    /// 총장의 저택 1층 - 상호작용하는 오브젝트 총 16개
+    /// 옆문 = 9204 / 주방 문 = 9205 / 식탁 = 9206 / 창문 = 9207 / 와인 = 9208 / 샹들리에 = 9209 / 도자기 = 9210
+    /// 계단 = 9211 / 쇼파 = 9212 / 테이블 = 9213 / 그림 = 9214 / 벽난로 = 9215 / 상자더미 = 9216 / 창고문 = 9217
+    /// 총장의 방 문 = 9218 / 화분 = 9219
+    /// 
+    /// 총장의 저택 2층 - 상호작용하는 오브젝트 총 10개
+    /// 계단 = 9220 / 그림 1 = 9221 / 그림 2 = 9222 / 책장 = 9223 / 창문 = 9224 / 옷장 = 9225 / 테이블 = 9226
+    /// 책장 = 9227 / 작은 서랍장 = 9228 / 침대 = 9229
+    /// 
+    /// 자작의 저택 - 상호작용하는 오브젝트 총 18개
+    /// 테라스 문 = 9230 / 쇼파 1, 쇼파 2 = 9231 / 테이블 = 9232 / 장식용 검 = 9233 / 사슴 박제 = 9234
+    /// 벽난로 = 9235 / 원형계단 = 9236 / 선대 자작 초상화 = 9237 / 현 자작 초상화 = 9238 / 첫번째 방문 = 9239
+    /// 자작의 저택 = 9241 / 화분 = 9242 / 창문 = 9243 / 서랍장 = 9244 / 촛불 = 9245 / 침대 = 9246 / 샹들리에 = 9246
+    /// 
+    /// 시장 - 인물 총 5명
+    /// 채소가게 = 1600 / 생선가게 = 1601 / 노점상 = 1602 / 정육점 = 1603 / 사람들 무리 = 1604
+    /// 
+    /// 도심 - 인물 총 13명
+    /// 부동산 앞 서성이는 주민 = 1800 / 부동산 주인 = 1801 / 부동산 손님 = 1802
+    /// 귀족 부인 기다리는 하인 = 1803 / 귀족 아가씨 기다리는 하인 = 1804 / 옷을 구경하는 귀족 = 1805
+    /// 아부하는 살롱의 주인 = 1806 / 차를 마시는 귀족 = 1807 / 수다 떠는 여인 1 = 1808 / 수다 떠는 여인 2 = 1809
+    /// 약속 상대를 기다리는 손님 = 1810 / 주문을 고민하는 손님 = 1811 / 멜리사의 애인 = 1812
+    /// 
+    /// 도심 - 상호작용하는 오브젝트 총 4개
+    /// 부동산 = 9800 / 살롱 = 9801 / 카페 = 9802 / 분수 = 9803
+    /// 
+    /// 부동산 - 상호작용하는 오브젝트 총 6개
+    /// 문 = 9804 / 지도 = 9805 / 도자기 1 = 9806 / 도자기 2 = 9807 / 의자 1, 의자 2 = 9808 / 테이블 = 9809
+    /// 
+    /// 살롱 - 상호작용하는 오브젝트 총 6개
+    /// 진열된 옷들 1, 진열된 옷들 2 = 9810 / 샹들리에 = 9811 / 고급액자 = 9812 / 고급차상 = 9813 / 고급의자 1, 고급의자 2 = 9814 / 큰 거울 = 9815
+    /// 
+    /// 카페 - 상호작용하는 오브젝트 총 5개
+    /// 의자 1, 의자 2 = 9816 / 원형 테이블 1, 원형 테이블 2 = 9817 / 카페 의자 1, 카페 의자 2 , 카페 의자 3 = 9818
+    /// 카페 테이블 = 9819 / 샹들리에 = 9820
+    /// 
+    /// 숲 - 상호작용하는 오브젝트 총 11개
+    /// 숲의 초입 = 9700 / 나무들 = 9701 / 나무 밑둥 = 9702 / 덤불 = 9703 / 남매의 집 = 9704 / 호수다리 1 = 9705 / 호수다리 2 = 9706
+    /// 문 = 9707 / 화로 = 9708 / 나무책상 = 9709 / 2층 침대 = 9710
+    /// 
+    /// 주택가 - 상호작용하는 오브젝트 총 7개
+    /// 주민집 = 9100 / 분수대 = 9101 / 표지판 = 9102 / 나무 = 9103 / 발루아 집 = 9104
+    /// 우체통 = 9105 / 레이나 집문 = 9106
+    /// 
+    /// 레이나 집 - 상호작용하는 오브젝트 총 6개
+    /// 쓰레기통 = 9107 / 싱크대 = 9108 / 식탁 = 9109 / 더블침대 = 9110 / 옷장 = 9111 / 이층침대 = 9112
+    /// 
+    /// 발루아 집 - 상호작용하는 오브젝트 총 6개
+    /// 싱크대 = 9113 / 식탁 = 9114 / 옷장 = 9115 / 침대 = 9116 / 책장 = 9117 / 어질러진 책상 = 9118
     /// 
     /// </summary>
     /// <param name="characterCode"></param>
@@ -233,17 +304,53 @@ public class NpcParser
     {
         switch (characterCode)
         {
-            case "1215":
+            case "1200":
+                return "문지기 1";
+
+            case "1201":
+                return "문지기 2";
+
+            case "1202":
+                return "잠깐 나온 별채에 사는 아이";
+
+            case "1203":
+                return "총장 집 관리인";
+
+            case "1204":
+                return "주방 하녀";
+
+            case "1205":
+                return "집사";
+
+            case "1206":
+                return "청소하는 하인";
+
+            case "1207":
                 return "왼쪽 아이";
 
-            case "1216":
+            case "1208":
                 return "오른쪽 아이";
 
-            case "1217":
+            case "1209":
                 return "여자 아이";
 
-            case "1218":
+            case "1210":
                 return "남자 아이";
+
+            case "1211":
+                return "청소하는 하녀 1";
+
+            case "1212":
+                return "청소하는 하인 2";
+
+            case "1213":
+                return "식료품 옮기는 하인";
+
+            case "1214":
+                return "청소하는 하녀 2";
+
+            case "1215":
+                return "청소하는 하녀 3";
 
             case "1219":
                 return "어린 아이(여자)";
@@ -256,17 +363,53 @@ public class NpcParser
     {
         switch (characterName)
         {
+            case "문지기 1":
+                return "1200";
+
+            case "문지기 2":
+                return "1201";
+
+            case "잠깐 나온 별채에 사는 아이":
+                return "1202";
+
+            case "총장 집 관리인":
+                return "1203";
+
+            case "주방 하녀":
+                return "1204";
+
+            case "집사":
+                return "1205";
+
+            case "청소하는 하인":
+                return "1206";
+
             case "왼쪽 아이":
-                return "1215";
+                return "1207";
 
             case "오른쪽 아이":
-                return "1216";
+                return "1208";
 
             case "여자 아이":
-                return "1217";
+                return "1209";
 
             case "남자 아이":
-                return "1218";
+                return "1210";
+
+            case "청소하는 하녀 1":
+                return "1211";
+
+            case "청소하는 하인 2":
+                return "1212";
+
+            case "식료품 옮기는 하인":
+                return "1213";
+
+            case "청소하는 하녀 2":
+                return "1214";
+
+            case "청소하는 하녀 3":
+                return "1215";
 
             case "어린 아이(여자)":
                 return "1219";
@@ -351,7 +494,7 @@ public class NpcParser
                 return "공사를 알리는 직원";
 
             case "1403":
-                return "쇼파1 직원";
+                return "쇼파 1 직원";
 
             default:
                 return null;
@@ -370,7 +513,7 @@ public class NpcParser
             case "공사를 알리는 직원":
                 return "1402";
 
-            case "쇼파1 직원":
+            case "쇼파 1 직원":
                 return "1403";
 
             default:
@@ -396,10 +539,10 @@ public class NpcParser
                 return "아이";
 
             case "1504":
-                return "악당1";
+                return "악당 1";
 
             case "1505":
-                return "악당2";
+                return "악당 2";
 
             case "1506":
                 return "유람선 직원";
@@ -427,10 +570,10 @@ public class NpcParser
             case "아이":
                 return "1503";
 
-            case "악당1":
+            case "악당 1":
                 return "1504";
 
-            case "악당2":
+            case "악당 2":
                 return "1505";
 
             case "유람선 직원":
@@ -444,34 +587,813 @@ public class NpcParser
         }//switch()
     }
 
-
-    public string GetNpcNameFromCode(string characterCode)
+    // 2번째 index 값 = 6 -> 시장
+    public string GetMarketNpcNameFromCode(string characterCode)
     {
-        switch (characterCode[1])
+        switch (characterCode)
         {
-            case '0':
-                return GetMainNpcNameFromCode(characterCode);
+            case "1600":
+                return "채소가게";
 
-            case '1':
-                return GetVillageNpcNameFromCode(characterCode);
+            case "1601":
+                return "생선가게";
 
-            case '2':
-                return GetMansionNpcNameFromCode(characterCode);
+            case "1602":
+                return "노점상";
 
-            case '3':
-                return GetSlamNpcNameFromCode(characterCode);
+            case "1603":
+                return "정육점";
 
-            case '4':
-                return GetChapterNpcNameFromCode(characterCode);
-
-            case '5':
-                return GetHarborNpcNameFromCode(characterCode);
+            case "1604":
+                return "사람들 무리";
 
             default:
-                return characterCode;
+                return null;
+        }
+    }
+    public string GetMarketNpcCodeFromName(string characterName)
+    {
+        switch (characterName)
+        {
+            case "채소가게":
+                return "1600";
+
+            case "생선가게":
+                return "1601";
+
+            case "노점상":
+                return "1602";
+
+            case "정육점":
+                return "1603";
+
+            case "사람들 무리":
+                return "1604";
+
+            default:
+                return null;
         }
     }
 
+    // 2번째 index 값 = 8 -> 도심
+    public string GetDowntownNpcNameFromCode(string characterCode)
+    {
+        switch (characterCode)
+        {
+            case "1800":
+                return "부동산 앞 서성이는 주민";
+
+            case "1801":
+                return "부동산 주인";
+
+            case "1802":
+                return "부동산 손님";
+
+            case "1803":
+                return "귀족 부인 기다리는 하인";
+
+            case "1804":
+                return "귀족 아가씨 기다리는 하인";
+
+            case "1805":
+                return "옷을 구경하는 귀족";
+
+            case "1806":
+                return "아부하는 살롱의 주인";
+
+            case "1807":
+                return "차를 마시는 귀족";
+
+            case "1808":
+                return "수다 떠는 여인 1";
+
+            case "1809":
+                return "수다 떠는 여인 2";
+
+            case "1810":
+                return "약속 상대를 기다리는 손님";
+
+            case "1811":
+                return "주문을 고민하는 손님";
+
+            case "1812":
+                return "멜리사의 애인";
+
+            default:
+                return null;
+        }
+    }
+    public string GetDowntownNpcCodeFromName(string characterName)
+    {
+        switch (characterName)
+        {
+            case "부동산 앞 서성이는 주민":
+                return "1800";
+
+            case "부동산 주인":
+                return "1801";
+
+            case "부동산 손님":
+                return "1802";
+
+            case "귀족 부인 기다리는 하인":
+                return "1803";
+
+            case "귀족 아가씨 기다리는 하인":
+                return "1804";
+
+            case "옷을 구경하는 귀족":
+                return "1805";
+
+            case "아부하는 살롱의 주인":
+                return "1806";
+
+            case "차를 마시는 귀족":
+                return "1807";
+
+            case "수다 떠는 여인 1":
+                return "1808";
+
+            case "수다 떠는 여인 2":
+                return "1809";
+
+            case "약속 상대를 기다리는 손님":
+                return "1810";
+
+            case "주문을 고민하는 손님":
+                return "1811";
+
+            case "멜리사의 애인":
+                return "1812";
+
+            default:
+                return null;
+        }
+    }
+
+    /* 사물에 대한 코드 */
+    // 코드 -> 이름 일때 _맵 위치 불포함
+    public string GetObjectNameFromCode(string objectCode)
+    {
+        switch (objectCode)
+        {
+            // 항구
+            case "9500":
+                return "가판대 위치 1";
+            case "9501":
+                return "가판대 위치 2";
+            case "9502":
+                return "돛을 거는 기둥";
+            case "9503":
+                return "작은 배";
+            case "9504":
+                return "유람선";
+
+            // 유람선
+            case "9505":
+                return "음식이 있는 테이블";
+            case "9506":
+                return "커다란 의자";
+            case "9507":
+                return "이상한 손잡이";
+            case "9508":
+                return "철장 1";
+            case "9509":
+                return "철장 2";
+            case "9510":
+                return "철장 3";
+
+            // 지부
+            case "9400":
+                return "화분";
+            case "9401":
+                return "책장";
+            case "9402":
+                return "카펫";
+            case "9403":
+                return "책상";
+            case "9404":
+                return "사체";
+            case "9405":
+                return "달력";
+            case "9406":
+                return "편지 봉투";
+            case "9407":
+                return "티켓";
+            case "9408":
+                return "입양 서류";
+            case "9409":
+                return "금고";
+            case "9410":
+                return "금고속 종이";
+
+            // 저택가
+            case "9200":
+                return "총장의 저택";
+            case "9201":
+                return "저택의 대문";
+            case "9202":
+                return "표지판 1";
+            case "9203":
+                return "표지판 2";
+            case "9248":
+                return "표지판 3";
+
+            // 총장의 저택 1층
+            case "9204":
+                return "옆문";
+            case "9205":
+                return "주방 문";
+            case "9206":
+                return "식탁";
+            case "9207":
+                return "창문";
+            case "9208":
+                return "와인";
+            case "9209":
+                return "샹들리에";
+            case "9210":
+                return "도자기";
+            case "9211":
+                return "계단 1";
+            case "9212":
+                return "쇼파";
+            case "9213":
+                return "테이블";
+            case "9214":
+                return "그림";
+            case "9215":
+                return "벽난로";
+            case "9216":
+                return "상자더미";
+            case "9217":
+                return "창고문";
+            case "9218":
+                return "총장의 방 문";
+            case "9219":
+                return "화분";
+
+            // 총장의 저택 2층
+            case "9220":
+                return "계단 2";
+            case "9221":
+                return "그림 1";
+            case "9222":
+                return "그림 2";
+            case "9223":
+                return "책장 1";
+            case "9224":
+                return "창문";
+            case "9225":
+                return "옷장";
+            case "9226":
+                return "테이블";
+            case "9227":
+                return "책장 2";
+            case "9228":
+                return "작은 서랍장";
+            case "9229":
+                return "침대";
+
+            // 자작의 저택
+            case "9230":
+                return "테라스 문";
+            case "9231":
+                return "쇼파 1";
+            case "9232":
+                return "테이블";
+            case "9233":
+                return "장식용 검";
+            case "9234":
+                return "사슴 박제";
+            case "9235":
+                return "벽난로";
+            case "9236":
+                return "원형계단";
+            case "9237":
+                return "선대 자작 초상화";
+            case "9238":
+                return "현 자작 초상화";
+            case "9239":
+                return "첫번째 방문";
+            case "9240":
+                return "자작의 방 문";
+            case "9241":
+                return "자작의 저택";
+            case "9242":
+                return "화분";
+            case "9243":
+                return "창문";
+            case "9244":
+                return "서랍장";
+            case "9245":
+                return "촛불";
+            case "9246":
+                return "침대";
+            case "9247":
+                return "샹들리에";
+
+            // 슬램가
+            case "9300":
+                return "나무상자";
+            case "9301":
+                return "창문";
+            case "9302":
+                return "종이";
+            case "9303":
+                return "정보상 문";
+            case "9304":
+                return "쓰레기 더미(왼쪽)";
+            case "9305":
+                return "쓰레기 더미(중앙)";
+            case "9306":
+                return "쓰레기 더미(오른쪽)";
+            case "9307":
+                return "기둥";
+            case "9308":
+                return "허름한 집 문";
+
+            // 숲
+            case "9700":
+                return "숲의 초입";
+            case "9701":
+                return "나무들";
+            case "9702":
+                return "나무 밑둥";
+            case "9703":
+                return "덤불";
+            case "9704":
+                return "남매의 집";
+            case "9705":
+                return "호수 다리 1";
+            case "9706":
+                return "호수 다리 2";
+            case "9707":
+                return "문";
+            case "9708":
+                return "화로";
+            case "9709":
+                return "나무책상";
+            case "9710":
+                return "2층 침대";
+
+            // 주택가
+            case "9100":
+                return "주민집";
+            case "9101":
+                return "분수대";
+            case "9102":
+                return "표지판";
+            case "9103":
+                return "나무";
+            case "9104":
+                return "발루아 집";
+            case "9105":
+                return "우체통";
+            case "9106":
+                return "레이나 집문";
+
+            // 레이나 집
+            case "9107":
+                return "쓰레기통";
+            case "9108":
+                return "싱크대";
+            case "9109":
+                return "식탁";
+            case "9110":
+                return "더블침대";
+            case "9111":
+                return "옷장";
+            case "9112":
+                return "이층침대";
+
+            // 발루아 집
+            case "9113":
+                return "싱크대";
+            case "9114":
+                return "식탁";
+            case "9115":
+                return "옷장";
+            case "9116":
+                return "침대";
+            case "9117":
+                return "책장";
+            case "9118":
+                return "어질러진 책상";
+
+            // 도심
+            case "9800":
+                return "부동산";
+            case "9801":
+                return "살롱";
+            case "9802":
+                return "카페";
+            case "9803":
+                return "분수";
+
+            // 부동산
+            case "9804":
+                return "문";
+            case "9805":
+                return "지도";
+            case "9806":
+                return "도자기 1";
+            case "9807":
+                return "도자기 2";
+            case "9808":
+                return "의자 1";
+            case "9809":
+                return "테이블";
+
+            // 살롱
+            case "9810":
+                return "진열된 옷들 1";
+            case "9811":
+                return "샹들리에";
+            case "9812":
+                return "고급액자";
+            case "9813":
+                return "고급차상";
+            case "9814":
+                return "고급의자 1";
+            case "9815":
+                return "큰 거울";
+
+            // 카페
+            case "9816":
+                return "의자 1";
+            case "9817":
+                return "원형 테이블 1";
+            case "9818":
+                return "카페 의자 1";
+            case "9819":
+                return "카페 테이블";
+            case "9820":
+                return "샹들리에";
+
+            default:
+                return null;
+        }
+    }
+
+    // 이름 -> 코드일때 _맵 위치 포함
+    public string GetObjectCodeFromName(string objectName)
+    {
+        switch (objectName)
+        {
+            // 항구
+            case "가판대 위치 1_항구":
+                return "9500";
+            case "가판대 위치 2_항구":
+                return "9501";
+            case "돛은 거는 기둥_항구":
+                return "9502";
+            case "작은 배_항구":
+                return "9503";
+            case "유람선_항구":
+                return "9504";
+
+            // 유람선
+            case "음식이 있는 테이블_유람선":
+                return "9505";
+            case "커다란 의자_유람선":
+                return "9506";
+            case "이상한 손잡이_유람선":
+                return "9507";
+            case "철장 1_유람선":
+                return "9508";
+            case "철장 2_유람선":
+                return "9509";
+            case "철장 3_유람선":
+                return "9510";
+
+            // 지부
+            case "화분_지부":
+                return "9400";
+            case "책장_지부":
+                return "9401";
+            case "카펫_지부":
+                return "9402";
+            case "책상_지부":
+                int num = Random.Range(0, 4);
+                if (num == 0)
+                    return "9403";  // 책상에 대한 대화 출력
+                else if (num == 1)
+                    return "9406";  // 편지 봉투에 대한 대화 출력
+                else if (num == 2)
+                    return "9407";  // 티켓에 대한 대화 출력
+                else if (num == 3)
+                    return "9408";  // 입양 서류에 대한 대화 출력
+                else
+                    return null;
+            case "사체_지부":
+                return "9404";
+            case "달력_지부":
+                return "9405";
+            case "금고_지부":
+                return "9409";
+            case "금고속 종이_지부":
+                return "9410";
+
+            // 저택가
+            case "총장의 저택_저택가":
+                return "9200";
+            case "저택의 대문_저택가":
+                return "9201";
+            case "표지판 1_저택가":
+                return "9202";
+            case "표지판 2_저택가":
+                return "9203";
+            case "표지판 3_저택가":
+                return "9248";
+
+            // 총장의 저택 1층
+            case "옆문_총장의 저택 1층":
+                return "9204";
+            case "주방 문_총장의 저택 1층":
+                return "9205";
+            case "식탁_총장의 저택 1층":
+                return "9206";
+            case "창문_총장의 저택 1층":
+                return "9207";
+            case "와인_총장의 저택 1층":
+                return "9208";
+            case "샹들리에_총장의 저택 1층":
+                return "9209";
+            case "도자기_총장의 저택 1층":
+                return "9210";
+            case "계단 1_총장의 저택 1층":
+                return "9211";
+            case "쇼파_총장의 저택 1층":
+                return "9212";
+            case "테이블_총장의 저택 1층":
+                return "9213";
+            case "그림_총장의 저택 1층":
+                return "9214";
+            case "벽난로_총장의 저택 1층":
+                return "9215";
+            case "상자더미_총장의 저택 1층":
+                return "9216";
+            case "창고문_총장의 저택 1층":
+                return "9217";
+            case "총장의 방 문_총장의 저택 1층":
+                return "9218";
+            case "화분_총장의 저택 1층":
+                return "9219";
+
+            // 총장의 저택 2층
+            case "계단 2_총장의 저택 2층":
+                return "9220";
+            case "그림 1_총장의 저택 2층":
+                return "9221";
+            case "그림 2_총장의 저택 2층":
+                return "9222";
+            case "책장 1_총장의 저택 2층":
+                return "9223";
+            case "창문_총장의 저택 2층":
+                return "9224";
+            case "옷장_총장의 저택 2층":
+                return "9225";
+            case "테이블_총장의 저택 2층":
+                return "9226";
+            case "책장 2_총장의 저택 2층":
+                return "9227";
+            case "작은 서랍장_총장의 저택 2층":
+                return "9228";
+            case "침대_총장의 저택 2층":
+                return "9229";
+
+            // 자작의 저택
+            case "테라스 문_자작의 저택":
+                return "9230";
+            case "쇼파 1_자작의 저택":
+            case "쇼파 2_자작의 저택":
+                return "9231";
+            case "테이블_자작의 저택":
+                return "9232";
+            case "장식용 검_자작의 저택":
+                return "9233";
+            case "사슴 박제_자작의 저택":
+                return "9234";
+            case "벽난로_자작의 저택":
+                return "9235";
+            case "원형계단_자작의 저택":
+                return "9236";
+            case "선대 자작 초상화_자작의 저택":
+                return "9237";
+            case "현 자작 초상화_자작의 저택":
+                return "9238";
+            case "첫번째 방문_자작의 저택":
+                return "9239";
+            case "자작의 방 문_자작의 저택":
+                return "9240";
+            case "자작의 저택_자작의 저택":
+                return "9241";
+            case "화분_자작의 저택":
+                return "9242";
+            case "창문_자작의 저택":
+                return "9243";
+            case "서랍장_자작의 저택":
+                return "9244";
+            case "촛불_자작의 저택":
+                return "9245";
+            case "침대_자작의 저택":
+                return "9246";
+            case "샹들리에_자작의 저택":
+                return "9247";
+
+            // 슬램가
+            case "나무상자_슬램가":
+                return "9300";
+            case "창문_슬램가":
+                return "9301";
+            case "종이_슬램가":
+                return "9302";
+            case "정보상 문_슬램가":
+                return "9303";
+            case "쓰레기 더미(왼쪽)_슬램가":
+                return "9304";
+            case "쓰레기 더미(중앙)_슬램가":
+                return "9305";
+            case "쓰레기 더미(오른쪽)_슬램가":
+                return "9306";
+            case "기둥_슬램가":
+                return "9307";
+            case "허름한 집 문_슬램가":
+                return "9308";
+
+            // 숲
+            case "숲의 초입_숲":
+                return "9700";
+            case "나무들_숲":
+                return "9701";
+            case "나무 밑둥_숲":
+                return "9702";
+            case "덤불_숲":
+                return "9703";
+            case "남매의 집_숲":
+                return "9704";
+            case "호수 다리 1_숲":
+                return "9705";
+            case "호수 다리 2_숲":
+                return "9706";
+            case "문_숲":
+                return "9707";
+            case "화로_숲":
+                return "9708";
+            case "나무책상_숲":
+                return "9709";
+            case "2층 침대_숲":
+                return "9710";
+
+            // 주택가
+            case "주민집_주택가":
+                return "9100";
+            case "분수대_주택가":
+                return "9101";
+            case "표지판_주택가":
+                return "9102";
+            case "나무_주택가":
+                return "9103";
+            case "발루아 집_주택가":
+                return "9104";
+            case "우체통_주택가":
+                return "9105";
+            case "레이나 집문_주택가":
+                return "9106";
+
+            // 레이나 집
+            case "쓰레기통_레이나 집":
+                return "9107";
+            case "싱크대_레이나 집":
+                return "9108";
+            case "식탁_레이나 집":
+                return "9109";
+            case "더블침대_레이나 집":
+                return "9110";
+            case "옷장_레이나 집":
+                return "9111";
+            case "이층침대_레이나 집":
+                return "9112";
+
+            // 발루아 집
+            case "싱크대_발루아 집":
+                return "9113";
+            case "식탁_발루아 집":
+                return "9114";
+            case "옷장_발루아 집":
+                return "9115";
+            case "침대_발루아 집":
+                return "9116";
+            case "책장_발루아 집":
+                return "9117";
+            case "어질러진 책상_발루아 집":
+                return "9118";
+
+            // 도심
+            case "부동산_도심":
+                return "9800";
+            case "살롱_도심":
+                return "9801";
+            case "카페_도심":
+                return "9802";
+            case "분수_도심":
+                return "9803";
+
+            // 부동산
+            case "문_부동산":
+                return "9804";
+            case "지도_부동산":
+                return "9805";
+            case "도자기 1_부동산":
+                return "9806";
+            case "도자기 2_부동산":
+                return "9807";
+            case "의자 1_부동산":
+            case "의자 2_부동산":
+                return "9808";
+            case "테이블_부동산":
+                return "9809";
+
+            // 살롱
+            case "진열된 옷들 1_살롱":
+            case "진열된 옷들 2_살롱":
+                return "9810";
+            case "샹들리에_살롱":
+                return "9811";
+            case "고급액자_살롱":
+                return "9812";
+            case "고급차상_살롱":
+                return "9813";
+            case "고급의자 1_살롱":
+            case "고급의자 2_살롱":
+                return "9814";
+            case "큰 거울_살롱":
+                return "9815";
+
+            // 카페
+            case "의자 1_카페":
+            case "의자 2_카페":
+                return "9816";
+            case "원형 테이블 1_카페":
+            case "원형 테이블 2_카페":
+                return "9817";
+            case "카페 의자 1_카페":
+            case "카페 의자 2_카페":
+            case "카페 의자 3_카페":
+                return "9818";
+            case "카페 테이블_카페":
+                return "9819";
+            case "샹들리에_카페":
+                return "9820";
+
+            default:
+                return null;
+        }
+    }
+
+    // 코드 -> 이름 일때 _맵 위치 불포함
+    public string GetNpcNameFromCode(string characterCode)
+    {
+        if (characterCode[0].Equals('1'))
+        {
+            switch (characterCode[1])
+            {
+                case '0':
+                    return GetMainNpcNameFromCode(characterCode);
+
+                case '1':
+                    return GetVillageNpcNameFromCode(characterCode);
+
+                case '2':
+                    return GetMansionNpcNameFromCode(characterCode);
+
+                case '3':
+                    return GetSlamNpcNameFromCode(characterCode);
+
+                case '4':
+                    return GetChapterNpcNameFromCode(characterCode);
+
+                case '5':
+                    return GetHarborNpcNameFromCode(characterCode);
+
+                case '6':
+                    return GetMarketNpcNameFromCode(characterCode);
+
+                case '8':
+                    return GetDowntownNpcNameFromCode(characterCode);
+
+                default:
+                    return characterCode;
+            }
+        }
+        else
+        {
+            return GetObjectNameFromCode(characterCode);
+        }
+    }
+
+    // 이름 -> 코드일때 _맵 위치 포함
     public string GetNpcCodeFromName(string characterName)
     {
         //만약... 동명이인이 있다면, 어떤 장소에 있던 캐릭터인지 예외처리 해줘야함.
@@ -486,6 +1408,12 @@ public class NpcParser
         else if ((tempNpcName = GetChapterNpcCodeFromName(characterName)) != null)
             return tempNpcName;
         else if ((tempNpcName = GetHarborNpcCodeFromName(characterName)) != null)
+            return tempNpcName;
+        else if ((tempNpcName = GetMarketNpcCodeFromName(characterName)) != null)
+            return tempNpcName;
+        else if ((tempNpcName = GetDowntownNpcCodeFromName(characterName)) != null)
+            return tempNpcName;
+        else if ((tempNpcName = GetObjectCodeFromName(characterName)) != null)
             return tempNpcName;
         else
             return characterName;

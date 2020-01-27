@@ -14,6 +14,10 @@ public class Portal : MonoBehaviour
     private Animator Fadeanimator;      //Fadeinout용 애니메이터
     [SerializeField] private GameObject FadeImage;        //Fade용 이미지
 
+    private Vector2 pos;            //마우스로 클릭한 곳의 위치
+    private Ray2D ray;              //마우스로 클릭한 곳에 보이지않는 광선을 쏨
+    private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
+
     private void Awake() {
         // 포탈 스크립트를 가진 오브젝트는 오직 1개의 오브젝트만 가진다. (화살표 or 문)
         arrow = transform.GetChild(0).gameObject;
@@ -30,15 +34,53 @@ public class Portal : MonoBehaviour
 
             if(arrow != null)
                 arrow.SetActive(true);
-
+            /*
+            // ~ door 들 태그 door로 바꾸고 door.transform.tag == "PortalPoint" 로 바꿔놓기
             if (//조건 시작
                 (Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") || (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake")
                 || (Input.GetKeyDown(KeyCode.A) && arrow.transform.name == "LeftToTake") || (Input.GetKeyDown(KeyCode.D) && arrow.transform.name == "RightToTake")
-                || (Input.GetMouseButtonDown(0) && ( (door.transform.name == "RainaHouseDoor") || (door.transform.name == "BalruaHouseDoor") || (door.transform.name == "ChapterDoor") || (door.transform.name == "ViscountMansionDoor")
-                                                       || (door.transform.name == "PresidentMansionDoor") || (door.transform.name == "SalonDoor")))
+                || (Input.GetMouseButtonDown(0) && ((door.transform.name == "RainaHouseDoor") || (door.transform.name == "BalruaHouseDoor") || (door.transform.name == "ChapterDoor") || (door.transform.name == "ViscountMansionDoor")
+                                                       || (door.transform.name == "PresidentMansionDoor") || (door.transform.name == "SalonDoor") || (door.transform.name == "GirlsRoomDoor")
+                                                       || (door.transform.name == "BoysRoomDoor") || (door.transform.name == "StudyRoomDoor") || (door.transform.name == "DiningRoomDoor")
+                                                       || (door.transform.name == "PresidentRoomDoor") || (door.transform.name == "GuestRoom1Door") || (door.transform.name == "GuestRoom2Door")
+                                                       || (door.transform.name == "MerteOfficeDoor") || (door.transform.name == "MerteOfficeExitDoor") || (door.transform.name == "PresidentOfficeDoor")
+                                                       || (door.transform.name == "BroSisHouseDoor") || (door.transform.name == "BroSisHouseExitDoor") || (door.transform.name == "CafeDoor") || (door.transform.name == "InformationAgencyDoor")
+                                                       || (door.transform.name == "RealestateDoor")))
                 //조건 끝
-                ) {
+                )
+            {
                 StartCoroutine(FadeWithTakePortal());
+            }
+            */
+            if (//조건 시작
+                ((Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") || (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake")
+                || (Input.GetKeyDown(KeyCode.A) && arrow.transform.name == "LeftToTake") || (Input.GetKeyDown(KeyCode.D) && arrow.transform.name == "RightToTake"))
+                //조건 끝
+                )
+            {
+                StartCoroutine(FadeWithTakePortal());
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                ray = new Ray2D(pos, Vector2.zero);
+                hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                if (hit.collider == null)
+                {
+                    Debug.Log("아무것도 안맞죠?2");
+                }
+                else if (hit.collider.tag == "PortalPoint" && (door.transform.name != "UpToTake") && (door.transform.name != "RightToTake")
+                    && (door.transform.name != "DownToTake") && (door.transform.name != "LeftToTake"))
+                {
+                    if (door.transform.name == "BroSisHouseDoor")
+                        PlayerManager.instance.num_Enter_or_Investigate_BroSisHouse++;
+                    if (door.transform.name == "RainaHouseDoor")
+                        PlayerManager.instance.isInvestigated_Raina_house = true;
+
+                    StartCoroutine(FadeWithTakePortal());
+                }
             }
 
             //if (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake") {
@@ -54,7 +96,7 @@ public class Portal : MonoBehaviour
             //{
             //    StartCoroutine(FadeWithTakePortal());
             //}
-            
+
         }
     }
 
@@ -75,6 +117,7 @@ public class Portal : MonoBehaviour
         
         //MoveCamera에서 GetCurrentPosition사용
         PlayerManager.instance.SetCurrentPosition(position);
+        /* 플레이어가 이동한 곳에 따라 PlayerManager의 이벤트 변수들의 값을 바꿔주는 조건문이 필요 */
 
         MiniMapManager.instance.MoveArrowPosition();
         Debug.Log(PlayerManager.instance.GetCurrentPosition() + "으로 이동");
@@ -89,10 +132,12 @@ public class Portal : MonoBehaviour
 
         /*이동*/
         TakePortal();
-        
+
+        // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
+        EventManager.instance.PlayEvent();
+
         /*페이드 인*/
         yield return new WaitForSeconds(1f);
         Fadeanimator.SetBool("isfadeout", false);
     }
-
 }

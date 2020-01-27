@@ -55,12 +55,28 @@ public class ObtainPosParser
                 obtainPos1 += "_";
                 //네번째 자리
                 obtainPos1 += GetBuildingPos(tempArray[3]);
+               
+                if (!tempArray[3].Equals('e'))
+                {
+                    //다섯번째 자리
+                    obtainPos1 += "_";
+                    obtainPos1 += GetSidePos(tempArray[4]);
 
+                    //여섯번째 자리
+                    obtainPos1 += "_";
+                    obtainPos1 += GetRoomPos(tempArray[5]);
+                }
+                else
+                {
+                    //tempArray[3]이 e였을 경우, 그 다음 칸은 공백이므로, 다섯번째 자리는 tempArray[5]를 이용해야함.
+                    //다섯번째 자리
+                    obtainPos1 += "_";
+                    obtainPos1 += GetSidePos(tempArray[5]);
 
-                //건물안을 다 배치한 후, 5번째부터 나중에 규칙을 곰곰히 이해해보기.
-                //다섯번째 자리
-                //tempArray[3]이 e였을 경우, 그 다음 칸은 공백이므로, 다섯번째 자리는 tempArray[5]를 이용해야함.
-                //여섯번째 자리
+                    //여섯번째 자리
+                    obtainPos1 += "_";
+                    obtainPos1 += GetRoomPos(tempArray[6]);
+                }
             }
 
             if (i != posCode.Length - 1)
@@ -165,6 +181,48 @@ public class ObtainPosParser
         }
 
         return buildingPos;
+    }
+
+    private string GetRoomPos(char roomPosCode)
+    {
+        string roomPos = "";
+
+        switch (roomPosCode)
+        {
+            case '1':
+                roomPos = "컷1";
+                break;
+
+            case '2':
+                roomPos = "컷2";
+                break;
+
+            case '3':
+                roomPos = "컷3";
+                break;
+
+            case '4':
+                roomPos = "첫번째 방";
+                break;
+
+            case '5':
+                roomPos = "두번째 방";
+                break;
+
+            case '6':
+                roomPos = "세번째 방";
+                break;
+
+            case '7':
+                roomPos = "네번째 방";
+                break;
+
+            default:
+                roomPos = "???";
+                break;
+        }
+
+        return roomPos;
     }
 
     private string GetCutPos(char cutPosCode)

@@ -41,6 +41,9 @@ public class DialogManager : MonoBehaviour
 
     private int enterLimitCount;              //줄바꿈 수를 제한하기 위한 변수(test)
 
+    private string tempSentenceOfCondition; // 222번 이벤트를 위한 변수
+    private bool controlEventNum231;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +77,7 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
 
         isFirstConversation = false;
+        controlEventNum231 = false;
     }
 
     void Update()
@@ -99,6 +103,38 @@ public class DialogManager : MonoBehaviour
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
         
         string targetObject = objectName;   //StartObject에 해당하는 값
+
+        // 228번 이벤트를 위한 처리
+        if (targetObject.Equals("자작의 저택_자작의 저택"))
+        {
+            PlayerManager.instance.num_Try_to_Enter_in_Mansion++;
+        }
+
+        // 222번 이벤트를 위한 처리
+        if (targetObject.Equals("대화3개 다하면 자동"))
+            tempSentenceOfCondition = targetObject;
+        else
+            tempSentenceOfCondition = null;
+
+        if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("귀족 부인 기다리는 하인") || targetObject.Equals("귀족 아가씨 기다리는 하인")))
+        {
+            PlayerManager.instance.num_Talk_With_1803_1804_in_71++;
+        }
+
+        if (PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("멜리사"))
+        {
+            PlayerManager.instance.num_Talk_With_1003_in_73++;
+        }
+
+        if (targetObject.Equals("문_숲") || targetObject.Equals("화로_숲") || targetObject.Equals("2층 침대_숲") || targetObject.Equals("나무책상_숲"))
+        {
+            PlayerManager.instance.num_Enter_or_Investigate_BroSisHouse++;
+        }
+
+        if (PlayerManager.instance.TimeSlot.Equals("72") && targetObject.Equals("정육점"))
+        {
+            PlayerManager.instance.num_Talk_With_1603_in_72++;
+        }
         
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
         //int indexOfInteraction = interactionLists.FindIndex(x => x.GetStartObject() == targetObject);
@@ -114,7 +150,7 @@ public class DialogManager : MonoBehaviour
         // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함) -> 반영완료 (1223)
         if (targetOfInteractionList.Count == 0)
         {
-            Debug.Log("이 npc와 할 말이 없습니다.");
+            Debug.Log("할 말이 없습니다.");
 
             //메르테 초상화 + 메르테가 하는 대사처럼 만들기
             StartCoroutine(TypeNull());
@@ -141,9 +177,12 @@ public class DialogManager : MonoBehaviour
 
             //해당 이벤트 대사가 발생시키는 새로운 이벤트가 있다면, 진행시켜야함. ex) 발루아 등장
             int tempEventIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index);
-            string eventIndex = interactionLists[tempEventIndex].GetEventIndexToOccur();
-            
-            EventManager.instance.ActivateNpcForEvent(eventIndex);
+            string[] eventIndex = interactionLists[tempEventIndex].GetEventIndexToOccur();
+
+            for (int i = 0; i < eventIndex.Length; i++)
+            {
+                EventManager.instance.ActivateNpcForEvent(eventIndex[i]);
+            }
 
         }
         else
@@ -247,6 +286,12 @@ public class DialogManager : MonoBehaviour
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
         tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
 
+        // 231번 이벤트를 위한 코드
+        if (!controlEventNum231 && tempNpcNameLists[curNumOfNpcNameLists].Equals("1601") && PlayerManager.instance.TimeSlot.Equals("73"))
+        {
+            PlayerManager.instance.num_Talk_With_1601_in_73++;
+            controlEventNum231 = true;
+        }
 
         if (tempNpcName != null)
         {
@@ -308,6 +353,9 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.canSkipConversation = true;
 
         isSentenceDone = true;
+
+        // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
+        EventManager.instance.PlayEvent();
     }
 
     // 해당 NPC와 대화할 것이 없을 때 시작되는 코루틴
@@ -379,6 +427,9 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.canSkipConversation = true;
 
         isSentenceDone = true;
+
+        // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
+        EventManager.instance.PlayEvent();
     }
 
     /* 해당 tempId에 맞는 대화로 인해 얻을 수 있는 정보를 얻는 함수 *
@@ -496,6 +547,20 @@ public class DialogManager : MonoBehaviour
             rewardsLists.Clear();
             //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
             isFirstConversation = false;
+
+            if (tempSentenceOfCondition != null)
+            {
+                if (tempSentenceOfCondition.Equals("대화3개 다하면 자동"))
+                {
+                    EventManager.instance.triggerKickMerte = true;
+                    EventManager.instance.PlayEvent();
+                }
+            }
         }
+    }
+
+    public List<Interaction> GetInteractionList()
+    {
+        return interactionLists;
     }
 }

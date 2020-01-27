@@ -302,10 +302,35 @@ public class CSVParser : MonoBehaviour
 
                         break;
 
-                    case "새로운 이벤트":
+                    case "새로운 이벤트 발생":
+                        string tempEvent = (dataList[i])[subjectArr[j]];
+
                         try
                         {
-                            tempInteraction.SetEventIndexToOccur(((dataList[i])[subjectArr[j]]));
+                            //tempInteraction.SetEventIndexToOccur(((dataList[i])[subjectArr[j]]));
+
+                            if (tempEvent.Contains(","))   // 여러개일 경우
+                            {
+                                string[] tempEventList;
+                                tempEventList = tempEvent.Split(',');
+                                tempInteraction.SetEventIndexToOccur(tempEventList);
+                            }
+                            else
+                            {   // 1개이거나 없는 경우
+                                string[] tempEventList;
+                                tempEventList = new string[1];
+                                tempEventList[0] = tempEvent;
+                                tempInteraction.SetEventIndexToOccur(tempEventList);
+                            }
+
+                            /* 굳이 이 로직을 실행할 필요 없음 (1월 27일 메모)
+                            // 대화로 인해 발생할 이벤트가 존재한다면
+                            if (!((dataList[i])[subjectArr[j]]).Equals(""))
+                            {
+                                // npc와 관련된(생성 및 삭제) 새로운 이벤트가 있다면 추가
+                                EventManager.instance.AddToEventIndexList(tempInteraction.GetEventIndexToOccur());
+                            }
+                            */
                         }
                         catch
                         {

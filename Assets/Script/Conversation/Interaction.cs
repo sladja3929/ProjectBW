@@ -26,14 +26,14 @@ public class Interaction
     private string rewards;     // 해당 상호작용으로 얻을 수 있는 단서 목록
     private string[] revealList;  // 단서 루트 해금 리스트
     private string occurrence;     //발생 여부
-    private string eventIndexToOccur;   //새로운 이벤트
+    private string[] eventIndexToOccur;   //새로운 이벤트
 
-    public string GetEventIndexToOccur()
+    public string[] GetEventIndexToOccur()
     {
         return eventIndexToOccur;
     }
 
-    public void SetEventIndexToOccur(string eventIndexToOccur)
+    public void SetEventIndexToOccur(string[] eventIndexToOccur)
     {
         this.eventIndexToOccur = eventIndexToOccur;
     }

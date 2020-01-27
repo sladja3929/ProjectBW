@@ -56,6 +56,12 @@ TagManager:
   - name: Character
     uniqueID: 3468043051
     locked: 0
+  - name: Object
+    uniqueID: 1652659183
+    locked: 0
+  - name: EventCharacter
+    uniqueID: 443069473
+    locked: 0
   - name: Player
     uniqueID: 2189917601
     locked: 0

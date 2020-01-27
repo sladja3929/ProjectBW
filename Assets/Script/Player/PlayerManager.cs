@@ -32,6 +32,37 @@ public class PlayerManager : MonoBehaviour {
     private string garbageBag;
     private NpcParser npcParser;
 
+    /* 플레이어가 수행한 이벤트 리스트 */
+    private List<string> playedEventList;
+
+    /* EventManager의 PlayEvent 함수에서 이벤트를 다루기 위한 행동 변수들을 정의 */
+    // 이벤트의 조건이 "랜덤" 인 것이 정확히 무슨의미인지 확인해야할 필요가 있음.
+    //public int num_Talk_With_1100_1101 = 0;                 // 1100, 1101과 대화한 횟수 (관련 이벤트 203, 204)
+    public int num_Talk_With_1105 = 0;                      // 1105와 대화한 횟수 (관련 이벤트 209)
+    //public int num_Talk_With_1107_1108 = 0;                 // 1107, 1108과 대화한 횟수 (관련 이벤트 213, 214)
+    public bool isInvestigated_StrangeDoor = false;         // 이상한 문 오브젝트가 조사됐는지의 여부 (관련 이벤트 221)
+    //public bool isInvestigated_FirstJail = false;           // 첫번째 철장이 조사됐는지의 여부 (관련 이벤트 222)
+    //public bool isInvestigated_SecondJail = false;          // 두번째 철장이 조사됐는지의 여부 (관련 이벤트 222)
+    //public bool isInvestigated_ThridJail = false;           // 세번째 철장이 조사됐는지의 여부 (관련 이벤트 222)
+    public int num_Try_to_Enter_in_Mansion = 0;             // 자작의 저택 방문 시도 횟수 (관련 이벤트 228,233)
+    public int num_Talk_With_1601_in_73 = 0;                // 73 시간대에 1601과 대화한 횟수 (관련 이벤트 231)
+    public int num_Talk_With_1803_1804_in_71 = 0;           // 1803,1804와 대화한 횟수 (관련 이벤트 234)
+    public int num_Talk_With_1003_in_73 = 0;                // 73 시간대에 1003과 대화한 횟수 (관련 이벤트 235)
+    public int num_Interrogate_about_case = 0;              // 사건에 관해서 심문한 횟수 (관련 이벤트 236)
+    //public bool isEnter_InformationAgency = false;          // 정보상에 들어간 적 있는지의 여부 (관련 이벤트 237)
+    public int num_Enter_or_Investigate_BroSisHouse = 0;    // 남매의 집에 방문 or 조사한 횟수 (관련 이벤트 238)
+    public bool isCheckedSecretCode = false;                // 암호확인 여부 (관련 이벤트 239)
+    public bool isTakenSecretCodeEvent = false;             // 암호이벤트 이수 여부 (관련 이벤트 240)
+    public bool isInvestigated_Raina_house = false;         // 레이나 집 수사(오브젝트 조사) 여부 (관련 이벤트 242)
+    public int num_Talk_With_1603_in_72 = 0;                // 72 시간대에 1603과 대화한 횟수 (관련 이벤트 244)
+    public int num_Enter_in_Mansion = 0;                    // 자작의 저택에 들어간 횟수(방문 횟수, 관련 이벤트 245)
+    public int num_Talk_With_1113 = 0;                      // 1113과 대화한 횟수 (관련 이벤트 246)
+    public int num_Talk_With_1205_in_71 = 0;                // 71 시간대에 1205와 대화한 횟수 (관련 이벤트 247)
+    //public bool isEnter_In_512 = false;                     // 73 시간대에 512맵(항구 1사이드 2컷)에 처음 들어갈 때 발생 (관련 이벤트 248)
+    public bool isPossessed_3A01_3A08_Clues = false;        // 3A08까지 단서 획득 여부 (관련 이벤트 249, 250)
+    public bool isEnter_In_Cruise = false;                  // 유람선에 들어간 적이 있는지 여부 (관련 이벤트 251)
+
+
     // Use this for initialization
     void Awake () {
         if (instance == null)
@@ -58,6 +89,11 @@ public class PlayerManager : MonoBehaviour {
         currentPosition = "Downtown_Street1";
 
         isInPortalZone = false;
+
+        playedEventList = new List<string>();
+
+        // 추후에, 상호작용 될 수 있는 오브젝트의 근처에 있을 때만 상호작용 되도록 할 것(1월 27일 메모)
+        SetIsNearObject(true);
     }
 
     // Update is called once per frame
@@ -94,8 +130,32 @@ public class PlayerManager : MonoBehaviour {
         {
             TimeSlot = "83";
         }
+
+
     }
-    
+
+    // 플레이어가 수행한 이벤트를 추가
+    public void AddEventCodeToList(string eventCode)
+    {
+        playedEventList.Add(eventCode);
+    }
+
+    // 플레이어가 수행한 이벤트중 하나를 삭제
+    public void DeleteEventCodeFromList(string eventCode)
+    {
+        playedEventList.Remove(eventCode);
+    }
+
+    // 특정 이벤트가 플레이어에 의해 진행된 적이 있는지를 판단하는 함수
+    public bool CheckEventCodeFromPlayedEventList(string eventCode)
+    {
+        if (playedEventList.Contains(eventCode))
+            return true;
+        else if (playedEventList.Count == 0)
+            return false;
+        else
+            return false;
+    }
 
     /* player의 단서파일을 불러올때, 초기화시키기 위함 */
     public void ResetClueList()
