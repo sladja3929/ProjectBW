@@ -5,8 +5,8 @@ using UnityEngine;
 public class ObtainPosParser
 {
     /*
-    도심 100 주택가 101 저택가 102 슬램가 103
-    지부 104 항구 105 시장 106 숲 107
+    주택가 101 저택가 102 슬램가 103
+    지부 104 항구 105 시장 106 숲 107 도심 108
     */
 
     //건물안에 해당하는 코드를 포함시켜야함.(1208)
@@ -24,7 +24,7 @@ public class ObtainPosParser
      숲 -> 남매의 집 = k
      항구 -> 유람선 = l
      */
-    
+
     private NpcParser npcParser;
 
     // 획득 경로 1 파싱 (큰 구역_사이드_컷)
@@ -283,10 +283,6 @@ public class ObtainPosParser
 
         switch (mainPosCode)
         {
-            case '0':
-                mainPos = "도심";
-                break;
-
             case '1':
                 mainPos = "주택가";
                 break;
@@ -313,6 +309,10 @@ public class ObtainPosParser
 
             case '7':
                 mainPos = "숲";
+                break;
+
+            case '8':
+                mainPos = "도심";
                 break;
 
             default:

@@ -86,6 +86,15 @@ public class UIManager : MonoBehaviour {
     private RectTransform paperOfDocument;     // 안드렌의 서류를 뜻하는 오브젝트
     [SerializeField]
     private GameObject documentCover;      // 안드렌의 서류봉투 열리는 부분의 게임 오브젝트
+    public bool isReadParchment;            // 양피지를 끝까지 읽었는지 확인하는 변수
+    [SerializeField]
+    private GameObject fadeInOutPanel;      // 시간대가 지났다는 것을 알리기 위한 FadeInOut 패널
+    [SerializeField]
+    private Animator fadeInOutAnimator;     // fadeinout 애니메이터
+    [SerializeField]
+    private GameObject timeSlotText;        // 시간대 변경 텍스트
+    [SerializeField]
+    private GameObject wordOfMerte;         // 메르테의 말
 
     /* W,S로 버튼 이동 Test */
     public Button testButton;
@@ -98,11 +107,16 @@ public class UIManager : MonoBehaviour {
     private bool isOpened;          //수첩이 열려있는지 확인
     public bool isPaging;           //책이 펼쳐지고 있는 중에는 Act 버튼이 눌리면 안됨.
     public bool isConversationing;  //대화창이 열려있는지 확인
+    public bool isTypingText;      // 대화가 출력되고 있는가?
+    public bool isFading;           //대화창이 Fade되고 있는가?
     public bool canSkipConversation;//다른 대화로 넘어갈 수 있는지 확인
     public List<string> npcNameLists;  // 단서 내용1에 필요한 npc이름들 기록
     public List<string> sentenceList;     // 단서 내용1에 필요한 대화들 기록
     public int howManyOpenNote;
     private int tempIndex;              // 눌렀던 단서 슬롯을 또 누르게 되면 페이지 넘김 효과를 주지 않기 위한 변수
+
+    /* 포탈을 타고있을때 */
+    public bool isPortaling;    // 포탈을 통해 이동을 하고 있는지 확인
 
     //private List<Interaction> interactionLists;
 
@@ -136,8 +150,12 @@ public class UIManager : MonoBehaviour {
         parchmentClueScrollList.SetActive(isOpenedParchment);
         parchmentUpButton.SetActive(isOpenedParchment);
         parchmentDownButton.SetActive(isOpenedParchment);
+        isReadParchment = false;
+        isPortaling = false;
 
         isConversationing = false;
+        isTypingText = false;
+        isFading = false;
         canSkipConversation = false;
         /* DialogManager에서 쓰임(test)
         SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
@@ -160,8 +178,10 @@ public class UIManager : MonoBehaviour {
     void Update()
     {
         /* 단서 정리 테스트용 0115 */
-        if (Input.GetKeyDown(KeyCode.Y))
+        /*
+        if ((Input.GetKeyDown(KeyCode.E) && isReadParchment))
         {
+            isReadParchment = false;
             // On & Off
             isOpenedParchment = !isOpenedParchment;
 
@@ -184,7 +204,7 @@ public class UIManager : MonoBehaviour {
 
             // 양피지에 단서 리스트 출력(중복처리해야함)
             Inventory.instance.MakeClueSlotInParchment();
-        }
+        }*/
 
         if (documentCover.activeSelf && paperOfDocument.localPosition.y > 600)
         {
@@ -210,7 +230,7 @@ public class UIManager : MonoBehaviour {
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing)
+        if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
         {
             isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
 
@@ -357,6 +377,61 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    public bool GetIsOpenedParchment()
+    {
+        return isOpenedParchment;
+    }
+
+    public void ArrangeClue()
+    {
+        //if ((Input.GetKeyDown(KeyCode.E) && isReadParchment))
+        //{
+        isReadParchment = false;
+        // On & Off
+        isOpenedParchment = !isOpenedParchment;
+
+        //양피지를 보이게 하기
+        parchment.SetActive(isOpenedParchment);
+        parchmentHelper.SetActive(isOpenedParchment);
+        parchmentClueScrollList.SetActive(isOpenedParchment);
+
+        // 메르테의 말 ( 사건 3은 44개의 단서 )
+        float clearRate = (PlayerManager.instance.playerClueLists.Count / 44.0f) * 100;
+        if (clearRate < 5.0f)
+            wordOfMerte.GetComponent<Text>().text = "내가 현재 잘 하고 있는건지 잘 모르겠다. 조금만 더 열심히 해보자.";
+        else if(clearRate >= 5.0f && clearRate < 21.0f)
+            wordOfMerte.GetComponent<Text>().text = "좋아, 아직 초반이니까. 이정도면 많이 해낸거야. 꼭 범인을 밝혀내야만 해... 알았지? 우린 잘하고 있어.";
+        else if(clearRate >= 21.0f && clearRate < 41.0f)
+            wordOfMerte.GetComponent<Text>().text = "머리 속이 혼란스럽다. 나는 지금 이 일을 맡고 있는 걸 잘한걸까? 다시... 다시 해야만 해.";
+        else if(clearRate >= 41.0f && clearRate < 61.0f)
+            wordOfMerte.GetComponent<Text>().text = "어디서부터 잘못된건지 모르겠어... 누가 좀 알려줘... 제발... 고통스러워... 아니... 아닌가? 모르겠어 더 이상.";
+        else if(clearRate >= 61.0f && clearRate < 81.0f)
+            wordOfMerte.GetComponent<Text>().text = "더 이상의 미련은 없어. 이제 고지가 코 앞일테니까... 더 유능한 누군가가 대신 밝혀내주길... 이 지긋지긋한 사슬을. 그리고 끊어내줘. 그만하고 싶어.";
+        else if(clearRate >= 81.0f && clearRate < 96.0f)
+            wordOfMerte.GetComponent<Text>().text = "...";
+        else if(clearRate >= 96.0f && clearRate <= 100.0f)
+            wordOfMerte.GetComponent<Text>().text = "축하해.";
+
+        // 만약 양피지가 닫힐 때, 화살표도 없애기
+        if (!isOpenedParchment)
+        {
+            parchmentUpButton.SetActive(isOpenedParchment);
+            parchmentDownButton.SetActive(isOpenedParchment);
+
+            Inventory.instance.DestroySlotInParchment();
+        }
+
+        // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
+        if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4)
+            parchmentClueScrollList.transform.SetParent(parchment.transform);
+        else
+            parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
+
+        // 양피지에 단서 리스트 출력(중복처리해야함)
+        Inventory.instance.MakeClueSlotInParchment();
+        //}
+    }
+
     public void ResetWrittenClueData()
     {
         clueSketch.GetComponent<Image>().sprite = null;
@@ -460,6 +535,97 @@ public class UIManager : MonoBehaviour {
         isConversationing = false;
     }
 
+    // 시간대 변경을 위한 Fade In & Out
+    public IEnumerator FadeEffectForChangeTimeSlot()
+    {
+        isFading = true;
+
+        // 시간대가 변경되는 동안 캐릭터가 행동 못하게 해야함
+        // 1. FadeIn 된다.
+        /*페이드 아웃*/
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout", true);
+        yield return new WaitForSeconds(1.7f);
+        
+        /* 시간대가 지났다는 텍스트 띄우기 */
+        // 2. "~시간대가 지났다" 문구 출력한다
+        string timeslot = PlayerManager.instance.TimeSlot;
+        timeSlotText.SetActive(true);
+
+        if (PlayerManager.instance.NumOfAct.Equals("53"))
+            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "주가 지나갔다";
+        else if (PlayerManager.instance.NumOfAct.Equals("54"))
+            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "일이 지나갔다";
+
+        // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
+        EventManager.instance.PlayEvent();
+        Debug.Log("시간대 넘기는중");
+
+        yield return new WaitForSeconds(0.7f);
+
+        // 3. 문구와 같이 Fade Out 된다.
+        /* 문구 페이드 인 */
+        Color tempColor1;
+        tempColor1 = timeSlotText.GetComponent<Text>().color;
+        
+        while (tempColor1.a > 0f)
+        {
+            tempColor1.a -= Time.deltaTime / 2.1f;
+            timeSlotText.GetComponent<Text>().color = tempColor1;
+
+            if (tempColor1.a <= 0f)
+            {
+                tempColor1.a = 0f;
+            }
+            yield return null;
+        }
+
+        timeSlotText.GetComponent<Text>().color = tempColor1;
+        isFading = false;
+        timeSlotText.SetActive(false);
+
+        /* 패널 페이드 인*/
+        fadeInOutAnimator.SetBool("isfadeout", false);
+        yield return new WaitForSeconds(2.5f);
+
+        // 시간대 바꾸기
+
+        if (PlayerManager.instance.NumOfAct.Equals("53"))
+        {
+            if (PlayerManager.instance.TimeSlot.Equals("71"))
+                PlayerManager.instance.TimeSlot = "72";
+            else if (PlayerManager.instance.TimeSlot.Equals("72"))
+                PlayerManager.instance.TimeSlot = "73";
+            else if (PlayerManager.instance.TimeSlot.Equals("73"))
+                PlayerManager.instance.TimeSlot = "74";
+            else if (PlayerManager.instance.TimeSlot.Equals("74"))
+                PlayerManager.instance.TimeSlot = "74";
+        }
+        else if (PlayerManager.instance.NumOfAct.Equals("54"))
+        {
+            if (PlayerManager.instance.TimeSlot.Equals("75"))
+                PlayerManager.instance.TimeSlot = "76";
+            else if (PlayerManager.instance.TimeSlot.Equals("76"))
+                PlayerManager.instance.TimeSlot = "77";
+            else if (PlayerManager.instance.TimeSlot.Equals("77"))
+                PlayerManager.instance.TimeSlot = "78";
+            else if (PlayerManager.instance.TimeSlot.Equals("78"))
+                PlayerManager.instance.TimeSlot = "79";
+            else if (PlayerManager.instance.TimeSlot.Equals("79"))
+                PlayerManager.instance.TimeSlot = "79";
+        }
+
+        tempColor1 = timeSlotText.GetComponent<Text>().color;
+        tempColor1.a = 1f;
+        timeSlotText.GetComponent<Text>().color = tempColor1;
+
+        isFading = false;
+
+        // 디버깅용
+        PlayerManager.instance.checkNumOfAct = PlayerManager.instance.NumOfAct;
+        PlayerManager.instance.checkTimeSlot = PlayerManager.instance.TimeSlot;
+    }
+
     // 1. 대화창 & 캐릭터명 창 fade in
     // 2. 캐릭터 이미지 & 캐릭터 이름 fade in
     // 3. 대화 출력(\n 을 csv에서 어떻게 받아올 수 있는지 고민해봐야함)
@@ -505,6 +671,7 @@ public class UIManager : MonoBehaviour {
             npcImage.color = tempColor4;
 
             //StartCoroutine(DialogManager.instance.FadeTextEffect(fadeTime, fadeWhat));
+            isFading = false;
         }
         else if (fadeWhat.Equals("Out"))
         {
@@ -539,6 +706,7 @@ public class UIManager : MonoBehaviour {
 
             //StartCoroutine(DialogManager.instance.FadeTextEffect(fadeTime, fadeWhat));
             CloseConversationUI();
+            isFading = false;
         }
 
         //yield return null;

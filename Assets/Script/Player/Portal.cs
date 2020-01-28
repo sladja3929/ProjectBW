@@ -53,7 +53,7 @@ public class Portal : MonoBehaviour
             }
             */
             if (//조건 시작
-                ((Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") || (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake")
+                (!UIManager.instance.isPortaling && (Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") || (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake")
                 || (Input.GetKeyDown(KeyCode.A) && arrow.transform.name == "LeftToTake") || (Input.GetKeyDown(KeyCode.D) && arrow.transform.name == "RightToTake"))
                 //조건 끝
                 )
@@ -61,7 +61,8 @@ public class Portal : MonoBehaviour
                 StartCoroutine(FadeWithTakePortal());
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing 
+                && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.isPortaling)
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 ray = new Ray2D(pos, Vector2.zero);
@@ -78,6 +79,8 @@ public class Portal : MonoBehaviour
                         PlayerManager.instance.num_Enter_or_Investigate_BroSisHouse++;
                     if (door.transform.name == "RainaHouseDoor")
                         PlayerManager.instance.isInvestigated_Raina_house = true;
+                    if (door.transform.name == "ViscountMansionDoor")
+                        PlayerManager.instance.num_Enter_in_Mansion++;
 
                     StartCoroutine(FadeWithTakePortal());
                 }
@@ -125,6 +128,7 @@ public class Portal : MonoBehaviour
 
     private IEnumerator FadeWithTakePortal()
     {
+        UIManager.instance.isPortaling = true;
         /*페이드 아웃*/
         FadeImage.SetActive(true);
         Fadeanimator.SetBool("isfadeout", true);
@@ -132,6 +136,7 @@ public class Portal : MonoBehaviour
 
         /*이동*/
         TakePortal();
+        Debug.Log("포탈 타는중");
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         EventManager.instance.PlayEvent();
@@ -139,5 +144,6 @@ public class Portal : MonoBehaviour
         /*페이드 인*/
         yield return new WaitForSeconds(1f);
         Fadeanimator.SetBool("isfadeout", false);
+        UIManager.instance.isPortaling = false;
     }
 }

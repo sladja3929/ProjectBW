@@ -97,12 +97,24 @@ public class DialogManager : MonoBehaviour
         /* npcFrom : 대화를 하는 주체 */
         UIManager.instance.isConversationing = true;    // 대화중
         UIManager.instance.OpenConversationUI();        // 대화창 오픈
+        UIManager.instance.isFading = true;
         StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
         //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
 
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
         
         string targetObject = objectName;   //StartObject에 해당하는 값
+
+        // 236번 이벤트를 위한 처리
+        if (targetObject.Equals("멜리사"))
+        {
+            PlayerManager.instance.num_Interrogate_about_case++;
+        }
+
+        if (targetObject.Equals("잠깐 나온 별채에 사는 아이"))
+        {
+            PlayerManager.instance.num_Talk_With_1202++;
+        }
 
         // 228번 이벤트를 위한 처리
         if (targetObject.Equals("자작의 저택_자작의 저택"))
@@ -124,6 +136,11 @@ public class DialogManager : MonoBehaviour
         if (PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("멜리사"))
         {
             PlayerManager.instance.num_Talk_With_1003_in_73++;
+            PlayerManager.instance.num_Talk_With_1003++;
+        }
+        else if (!PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("멜리사"))
+        {
+            PlayerManager.instance.num_Talk_With_1003++;
         }
 
         if (targetObject.Equals("문_숲") || targetObject.Equals("화로_숲") || targetObject.Equals("2층 침대_숲") || targetObject.Equals("나무책상_숲"))
@@ -135,7 +152,13 @@ public class DialogManager : MonoBehaviour
         {
             PlayerManager.instance.num_Talk_With_1603_in_72++;
         }
-        
+
+        if (targetObject.Equals("쓰레기통_레이나 집") || targetObject.Equals("싱크대_레이나 집") || targetObject.Equals("옷장_레이나 집")
+            || targetObject.Equals("식탁_레이나 집") || targetObject.Equals("이층침대_레이나 집") || targetObject.Equals("더블침대_레이나 집"))
+        {
+            PlayerManager.instance.num_investigation_Raina_house_object++;
+        }
+
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
         //int indexOfInteraction = interactionLists.FindIndex(x => x.GetStartObject() == targetObject);
 
@@ -236,6 +259,11 @@ public class DialogManager : MonoBehaviour
         int tempParent = interactionLists[tempParentIndex].GetParent();
         Debug.Log("대화묶음 " + tempSetOfDesc_Index + "의 초기의 tempParent : " + tempParent);
 
+        if (tempSetOfDesc_Index == 5027 || tempSetOfDesc_Index == 5030)
+        {
+            PlayerManager.instance.num_Play_5027_or_5030++;
+        }
+
         //대화가 진행됐는지 알 수 있도록 status값을 이용 -> 대화 안했으면 0, 했으면 1 -> 1일 때의 예외처리도 추후에 추가해야함.
         //추후에 각 대화에 해당하는, 변경된 status값을 저장하기 위한 코드 필요(통째로 csv형식으로 저장하는 것이 좋을듯) 
         //int tempStatus = int.Parse((dataLists[tempId])["status"]);
@@ -275,16 +303,22 @@ public class DialogManager : MonoBehaviour
         //}
 
         /* while문을 빠져나오면 sentenceLists에 대화목록이 쭉 저장되어있을 것이다. */
-        StartCoroutine(Type());
 
+        if (!UIManager.instance.isTypingText)
+        {
+            StartCoroutine(Type());
+        }
     }
 
     // 알맞은 대화를 출력해주는 코루틴
     IEnumerator Type()
     {
+        UIManager.instance.isTypingText = true;
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
         tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
+
+        UIManager.instance.isConversationing = true;
 
         // 231번 이벤트를 위한 코드
         if (!controlEventNum231 && tempNpcNameLists[curNumOfNpcNameLists].Equals("1601") && PlayerManager.instance.TimeSlot.Equals("73"))
@@ -347,12 +381,15 @@ public class DialogManager : MonoBehaviour
                 {
                     yield return new WaitForSeconds(typingSpeed);
                 }
-            } 
+            }
         }
+        
         
         UIManager.instance.canSkipConversation = true;
 
         isSentenceDone = true;
+
+        UIManager.instance.isTypingText = false;
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         EventManager.instance.PlayEvent();
@@ -469,93 +506,103 @@ public class DialogManager : MonoBehaviour
     public void NextSentence()
     {
         UIManager.instance.canSkipConversation = false;
+        UIManager.instance.isConversationing = true;
         Debug.Log("index = " + index);
-        if (index < sentences.Length - 1)
+        try
         {
-            index++;
-            
-            conversationText.text = "";
-            StartCoroutine(Type());
-        } else
-        {
-            conversationText.text = "";
-           
-            for(int i=0; i< tempCertainDescIndexLists.Count; i++)
-            {   //지금 까지 한 모든 대화 읽음 처리
-                //(dataLists[tempIdLists[i]])["status"] = "1";
-                int tempIndex = tempCertainDescIndexLists[i]; //interactionLists.FindIndex(x => x.GetId() == tempIdLists[i]);
-                interactionLists[tempIndex].SetStatus(interactionLists[tempIndex].GetStatus() + 1); //진행된 대화는 status 1 증가
-
-                //만약 반복성이 4였던 대사를 출력하고 있다면, 그 대사 각각을 4에서 3으로 바꿔줌
-                if (interactionLists[tempIndex].GetRepeatability() == "4")
-                {
-                    interactionLists[tempIndex].SetRepeatability("3");
-                }
-            }
-
-            StartCoroutine(UIManager.instance.FadeEffect(0.2f, "Out"));  //?초 동안 fade out 후 대화창 닫기
-            UIManager.instance.isConversationing = false;
-            //UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
-
-            //대화로 인해 얻은 보상이 있으면 단서창에 추가
-            if (rewardsLists.Count > 1)
+            if (index < sentences.Length - 1)
             {
+                index++;
+
+                conversationText.text = "";
+                StartCoroutine(Type());
+            }
+            else
+            {
+                conversationText.text = "";
+
+                for (int i = 0; i < tempCertainDescIndexLists.Count; i++)
+                {   //지금 까지 한 모든 대화 읽음 처리
+                    //(dataLists[tempIdLists[i]])["status"] = "1";
+                    int tempIndex = tempCertainDescIndexLists[i]; //interactionLists.FindIndex(x => x.GetId() == tempIdLists[i]);
+                    interactionLists[tempIndex].SetStatus(interactionLists[tempIndex].GetStatus() + 1); //진행된 대화는 status 1 증가
+
+                    //만약 반복성이 4였던 대사를 출력하고 있다면, 그 대사 각각을 4에서 3으로 바꿔줌
+                    if (interactionLists[tempIndex].GetRepeatability() == "4")
+                    {
+                        interactionLists[tempIndex].SetRepeatability("3");
+                    }
+                }
+
+                UIManager.instance.isFading = true;
+                StartCoroutine(UIManager.instance.FadeEffect(0.2f, "Out"));  //?초 동안 fade out 후 대화창 닫기
+                                                                             //UIManager.instance.isConversationing = false;
+                                                                             //UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
+
+                //대화로 인해 얻은 보상이 있으면 단서창에 추가
+                if (rewardsLists.Count > 1)
+                {
+                    for (int i = 0; i < rewardsLists.Count; i++)
+                    {
+                        GameManager.instance.GetClue(rewardsLists[i]);
+                    }
+                }
+                else if (rewardsLists.Count == 1)
+                {
+                    GameManager.instance.GetClue(rewardsLists[0]);
+                }
+
+                /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
                 for (int i = 0; i < rewardsLists.Count; i++)
                 {
-                    GameManager.instance.GetClue(rewardsLists[i]);
+                    string tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
+                    for (int j = 0; j < tempNpcNameLists.Count; j++)
+                    {   //이름 : "대화"
+                        /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+                        tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
+
+                        if (tempNpcName == null)
+                            tempNpcName = "stranger";
+
+                        tempText += (tempNpcName + " : " + sentenceLists[j]);
+                        tempText += "\n";
+                    }
+                    tempText += "</i>";
+                    //Debug.Log(tempText);
+
+                    for (int j = 0; j < PlayerManager.instance.playerClueLists.Count; j++)
+                    {
+                        if (rewardsLists[i].Equals(PlayerManager.instance.playerClueLists[j].GetClueName()))
+                            PlayerManager.instance.playerClueLists[j].SetFirstInfoOfClue(tempText);
+                    }
                 }
-            }
-            else if(rewardsLists.Count == 1)
-            {
-                GameManager.instance.GetClue(rewardsLists[0]);
-            }
 
-            /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
-            for (int i = 0; i < rewardsLists.Count; i++)
-            {
-                string tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
-                for (int j = 0; j < tempNpcNameLists.Count; j++)
-                {   //이름 : "대화"
-                    /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
-                    tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
+                //하나의 대화가 끝났으므로, 리셋
+                index = 0;
+                numOfText = 0;
+                sentences = null;
+                sentenceLists.Clear();
+                imagePathLists.Clear();
+                tempCertainDescIndexLists.Clear();
+                tempNpcNameLists.Clear();
+                curNumOfNpcNameLists = 0;
+                rewardsLists.Clear();
+                //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+                isFirstConversation = false;
 
-                    if (tempNpcName == null)
-                        tempNpcName = "stranger";
-
-                    tempText += (tempNpcName + " : " + sentenceLists[j]);
-                    tempText += "\n";
-                }
-                tempText += "</i>";
-                //Debug.Log(tempText);
-                
-                for (int j = 0; j < PlayerManager.instance.playerClueLists.Count; j++)
+                if (tempSentenceOfCondition != null)
                 {
-                    if (rewardsLists[i].Equals(PlayerManager.instance.playerClueLists[j].GetClueName()))
-                        PlayerManager.instance.playerClueLists[j].SetFirstInfoOfClue(tempText);
+                    if (tempSentenceOfCondition.Equals("대화3개 다하면 자동"))
+                    {
+                        EventManager.instance.triggerKickMerte = true;
+                        EventManager.instance.PlayEvent();
+                    }
                 }
             }
-
-            //하나의 대화가 끝났으므로, 리셋
-            index = 0;
-            numOfText = 0;
-            sentences = null;
-            sentenceLists.Clear();
-            imagePathLists.Clear();
-            tempCertainDescIndexLists.Clear();
-            tempNpcNameLists.Clear();
-            curNumOfNpcNameLists = 0;
-            rewardsLists.Clear();
-            //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
-            isFirstConversation = false;
-
-            if (tempSentenceOfCondition != null)
-            {
-                if (tempSentenceOfCondition.Equals("대화3개 다하면 자동"))
-                {
-                    EventManager.instance.triggerKickMerte = true;
-                    EventManager.instance.PlayEvent();
-                }
-            }
+        }
+        catch
+        {
+            return;
         }
     }
 

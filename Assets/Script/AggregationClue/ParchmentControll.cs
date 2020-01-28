@@ -10,6 +10,10 @@ public class ParchmentControll : MonoBehaviour
 
     [SerializeField]
     private RectTransform rect_Parchment;   // 제어할 양피지의 RectTransform 컴포넌트
+    [SerializeField]
+    private RectTransform rect_AggregationClueScrollList;
+    [SerializeField]
+    private RectTransform rect_Helper_Content;
 
     /* 양피지를 옮기기 위한 화살표 */
     [SerializeField]
@@ -42,19 +46,54 @@ public class ParchmentControll : MonoBehaviour
         {
             parchmentUpButton.SetActive(true);
             parchmentDownButton.SetActive(false);
-            
+            UIManager.instance.isReadParchment = true;
+
             // 중복 실행을 방지
+            // 2월 발표회 이후 구현할 예정 (1월 28일 메모)
+            /*
             if (!isPlayingDocumentAnim)
             {
                 DocumentControll.instance.InvokeDocumentAnim();
                 isPlayingDocumentAnim = !isPlayingDocumentAnim;
             }
+            */
         }
         else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y > -720 && rect_Parchment.localPosition.y < 720) //-720 초과 ~720 미만 일때 양쪽 화살표 나타내기
         {
             parchmentUpButton.SetActive(true);
             parchmentDownButton.SetActive(true);
         }
+
+    }
+
+    public Vector2 GetHelperContentPosition()
+    {
+        return rect_Helper_Content.localPosition;
+    }
+
+    public void SetHelperContentPosition(Vector2 position)
+    {
+        rect_Helper_Content.localPosition = position;
+    }
+
+    public Vector2 GetAggregationClueListScrollListPosition()
+    {
+        return rect_AggregationClueScrollList.localPosition;
+    }
+
+    public void SetAggregationClueListScrollListPosition(Vector2 position)
+    {
+        rect_AggregationClueScrollList.localPosition = position;
+    }
+
+    public Vector2 GetParchmentPosition()
+    {
+        return rect_Parchment.localPosition;
+    }
+
+    public void SetParchmentPosition(Vector2 position)
+    {
+        rect_Parchment.localPosition = position;
     }
 
     // 단서 정리가 완전히 끝난 후 실행되야 할 함수임

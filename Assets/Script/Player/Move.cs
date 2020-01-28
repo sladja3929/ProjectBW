@@ -22,39 +22,53 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing)
+        if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading)
         {
             float xInput = Input.GetAxisRaw("Horizontal");
             float yInput = Input.GetAxisRaw("Vertical");
 
             //모션이 끊기면서 이동되는 이유는 무엇일까..?
             //한번에 이동하는 간격이 길어서 그런것 같은데..
-            myRigidBody.velocity = new Vector2((xInput / 1.0f) * speed, (yInput / 1.0f) * speed);
-
-            if (xInput != 0)
+            if (!UIManager.instance.isPortaling)
             {
-                //transform.Translate(xInput * speed * Time.deltaTime, 0, 0);
+                myRigidBody.velocity = new Vector2((xInput / 1.0f) * speed, (yInput / 1.0f) * speed);
 
                 if (xInput != 0)
-                    myAnimator.SetFloat("y", 0);
+                {
+                    if (xInput != 0)
+                        myAnimator.SetFloat("y", 0);
 
-                myAnimator.SetFloat("x", xInput);
+                    myAnimator.SetFloat("x", xInput);
 
-                myAnimator.SetBool("Walking", true);
+                    myAnimator.SetBool("Walking", true);
+                }
+
+                if (yInput != 0)
+                {
+                    if (xInput != 0)
+                        myAnimator.SetFloat("y", 0);
+                    else
+                        myAnimator.SetFloat("y", yInput);
+
+                    myAnimator.SetBool("Walking", true);
+                }
             }
-
-            if (yInput != 0)
+            else if (UIManager.instance.isPortaling)
             {
-                //transform.Translate(0, yInput * speed * Time.deltaTime, 0);
+                myRigidBody.velocity = new Vector2((xInput / 1.0f) * 0, (yInput / 1.0f) * 0);
 
-                if (xInput != 0)
-                    myAnimator.SetFloat("y", 0);
-                else
-                    myAnimator.SetFloat("y", yInput);
+                if (yInput != 0)
+                {
+                    if (xInput != 0)
+                        myAnimator.SetFloat("y", 0);
+                    else
+                        myAnimator.SetFloat("y", yInput);
 
-                myAnimator.SetBool("Walking", true);
+                    myAnimator.SetBool("Walking", false);
+                }
             }
-        } else if(UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing)
+        }
+        else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling)
         {
             //캐릭터 도리도리 현상 발생. 
             myRigidBody.velocity = Vector2.zero;
@@ -63,16 +77,22 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        if(!UIManager.instance.isConversationing)
-            Flip(horizontal);
-
-        if (horizontal == 0 && vertical == 0)
+        if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.isPortaling)
         {
-            myAnimator.SetBool("Walking", false);
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+
+            if (!UIManager.instance.isConversationing)
+                Flip(horizontal);
+
+            if ((horizontal == 0 && vertical == 0) || UIManager.instance.isPortaling)
+            {
+                myAnimator.SetBool("Walking", false);
+            }
         }
+
+        if (UIManager.instance.GetIsOpenedParchment())
+            myAnimator.SetBool("Walking", false);
     }
 
     private void Flip(float horizontal)

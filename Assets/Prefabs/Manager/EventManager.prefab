@@ -45,3 +45,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcListForEvent:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  positionOfPrisonInCruise: {fileID: 0}
+  positionOfMerte: {fileID: 0}
+  positionOfCruiseOutside: {fileID: 0}
+  triggerKickMerte: 0
+  positionOfMainCamera: {fileID: 0}

@@ -52,6 +52,7 @@ public class Inventory : MonoBehaviour {
         for (int i = 0; i < certainClueLists.Count; i++)
         {
             tempSlot = Instantiate(addedSlot, clueList_Panel_In_Parchment.transform);
+            slotList_In_Parchment.Add(tempSlot);
             tempClueName = certainClueLists[i].GetClueName();
             tempSlot.transform.Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempClueName);
             tempSlot.transform.Find("ClueName").GetComponent<Text>().text = "" + tempClueName;
@@ -107,6 +108,19 @@ public class Inventory : MonoBehaviour {
             }
         } // for
         ResetSlotForTest();
+    }
+
+    public int GetNumSlotList_In_Parchment()
+    {
+        return slotList_In_Parchment.Count;
+    }
+
+    public void DestroySlotInParchment()
+    {
+        for (int i = 0; i < slotList_In_Parchment.Count; i++)
+        {
+            Destroy(slotList_In_Parchment[i]);
+        }
     }
 
     public void MakeClueSlot(string numOfAct)

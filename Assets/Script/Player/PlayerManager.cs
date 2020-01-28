@@ -16,6 +16,9 @@ public class PlayerManager : MonoBehaviour {
     public string NumOfAct { get; set; }    // player가 현재 진행하고 있는 Act
     public string TimeSlot { get; set; }    // player가 현재 진행하고 있는 시간대
 
+    public string checkNumOfAct;
+    public string checkTimeSlot;
+
     /* 맵 이동 관련 변수 */
     [SerializeField] private GameObject player; // 플레이어의 위치값을 받을 변수
     private string currentPosition;             //플레이어의 맵에서의 현재 위치
@@ -45,9 +48,12 @@ public class PlayerManager : MonoBehaviour {
     //public bool isInvestigated_SecondJail = false;          // 두번째 철장이 조사됐는지의 여부 (관련 이벤트 222)
     //public bool isInvestigated_ThridJail = false;           // 세번째 철장이 조사됐는지의 여부 (관련 이벤트 222)
     public int num_Try_to_Enter_in_Mansion = 0;             // 자작의 저택 방문 시도 횟수 (관련 이벤트 228,233)
+    public int num_Talk_With_1003 = 0;                      // 1003(멜리사)와 대화를 진행한 횟수 (관련 이벤트 230)
+    public int num_investigation_Raina_house_object = 0;    // 레이나의 집의 오브젝트와 상호작용한 횟수 (관련 이벤트 230)
+    public int num_Play_5027_or_5030 = 0;                   // 5027 or 5030 대화가 진행된 횟수 (관련 이벤트 230)
     public int num_Talk_With_1601_in_73 = 0;                // 73 시간대에 1601과 대화한 횟수 (관련 이벤트 231)
     public int num_Talk_With_1803_1804_in_71 = 0;           // 1803,1804와 대화한 횟수 (관련 이벤트 234)
-    public int num_Talk_With_1003_in_73 = 0;                // 73 시간대에 1003과 대화한 횟수 (관련 이벤트 235)
+    public int num_Talk_With_1003_in_73 = 0;                // 73 시간대에 1003과 대화한 횟수 (관련 이벤트 235, 230)
     public int num_Interrogate_about_case = 0;              // 사건에 관해서 심문한 횟수 (관련 이벤트 236)
     //public bool isEnter_InformationAgency = false;          // 정보상에 들어간 적 있는지의 여부 (관련 이벤트 237)
     public int num_Enter_or_Investigate_BroSisHouse = 0;    // 남매의 집에 방문 or 조사한 횟수 (관련 이벤트 238)
@@ -56,7 +62,7 @@ public class PlayerManager : MonoBehaviour {
     public bool isInvestigated_Raina_house = false;         // 레이나 집 수사(오브젝트 조사) 여부 (관련 이벤트 242)
     public int num_Talk_With_1603_in_72 = 0;                // 72 시간대에 1603과 대화한 횟수 (관련 이벤트 244)
     public int num_Enter_in_Mansion = 0;                    // 자작의 저택에 들어간 횟수(방문 횟수, 관련 이벤트 245)
-    public int num_Talk_With_1113 = 0;                      // 1113과 대화한 횟수 (관련 이벤트 246)
+    public int num_Talk_With_1202 = 0;                      // 1113과 대화한 횟수 (관련 이벤트 246)
     public int num_Talk_With_1205_in_71 = 0;                // 71 시간대에 1205와 대화한 횟수 (관련 이벤트 247)
     //public bool isEnter_In_512 = false;                     // 73 시간대에 512맵(항구 1사이드 2컷)에 처음 들어갈 때 발생 (관련 이벤트 248)
     public bool isPossessed_3A01_3A08_Clues = false;        // 3A08까지 단서 획득 여부 (관련 이벤트 249, 250)
@@ -85,8 +91,12 @@ public class PlayerManager : MonoBehaviour {
 
         NumOfAct = "53";   //사건3 시작
         TimeSlot = "71";   //첫째주 시작
-    
-        currentPosition = "Downtown_Street1";
+
+        checkNumOfAct = NumOfAct;
+        checkTimeSlot = TimeSlot;
+
+        //currentPosition = "Downtown_Street1";
+        currentPosition = "Chapter_Merte_Office";
 
         isInPortalZone = false;
 
@@ -99,29 +109,75 @@ public class PlayerManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         /* 오브젝트와의 상호작용을 위한 if */
-        if (Input.GetMouseButtonDown(0) && isNearObject && !UIManager.instance.isConversationing)
+        if (!UIManager.instance.isConversationing)
         {
-            pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ray = new Ray2D(pos, Vector2.zero);
-            hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-            if (hit.collider == null)
+            if ( ( (Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling)
+                    || (Input.GetKeyDown(KeyCode.E) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling)) 
+                && isNearObject)
             {
-                Debug.Log("아무것도 안맞죠?");
-            }
-            else if (hit.collider.tag == "InteractionObject")
-            {
-                Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
-                DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
-                //if(hit.collider.name.Equals("ER"))
-                //    DialogManager.instance.InteractionWithObject(er);
+                pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                ray = new Ray2D(pos, Vector2.zero);
+                hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-                //if (hit.collider.name.Equals("GarbageBag"))
-                //    DialogManager.instance.InteractionWithObject(garbageBag);
+                if (hit.collider == null)
+                {
+                    Debug.Log("아무것도 안맞죠?");
+                }
+                else if (hit.collider.tag == "InteractionObject")
+                {
+                    if (hit.collider.name.Equals("책상_메르테 사무실"))
+                    {
+                        if (!UIManager.instance.isReadParchment)
+                        {
+                            Debug.Log("단서 정리 시스템 활성화");
+
+                            if (ParchmentControll.instance.GetParchmentPosition().y != -720)
+                                ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
+
+                            if(ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
+                                ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
+
+                            if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
+                                ParchmentControll.instance.SetHelperContentPosition(new Vector2(0, 0));
+
+                            UIManager.instance.ArrangeClue();
+                        }
+                        else
+                            Debug.Log("단서 정리 시스템 활성화 실패");
+                    }
+                    else
+                    {
+                        Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
+                        try
+                        {
+                            if (!UIManager.instance.isConversationing && !UIManager.instance.isFading)
+                                DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                            //if(hit.collider.name.Equals("ER"))
+                            //    DialogManager.instance.InteractionWithObject(er);
+
+                            //if (hit.collider.name.Equals("GarbageBag"))
+                            //    DialogManager.instance.InteractionWithObject(garbageBag);
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                }
             }
         }
 
+        if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("단서 정리 시스템 종료");
+            UIManager.instance.ArrangeClue();
+            //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
+            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+            UIManager.instance.isReadParchment = false;
+        }
+
         /* for test 1226 */
+        /*
         if (Input.GetKey(KeyCode.Alpha1))
         {
             TimeSlot = "71";
@@ -130,7 +186,7 @@ public class PlayerManager : MonoBehaviour {
         {
             TimeSlot = "83";
         }
-
+        */
 
     }
 

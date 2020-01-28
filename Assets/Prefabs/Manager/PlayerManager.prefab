@@ -43,5 +43,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d0ab09d21ab63458439cdcbe8a0aeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1978628101, guid: fdfa493aaeb1e7245b4072c063982879, type: 3}
+  checkNumOfAct: 
+  checkTimeSlot: 
+  player: {fileID: 0}
   isNearObject: 0
+  num_Talk_With_1105: 0
+  isInvestigated_StrangeDoor: 0
+  num_Try_to_Enter_in_Mansion: 0
+  num_Talk_With_1003: 0
+  num_investigation_Raina_house_object: 0
+  num_Play_5027_or_5030: 0
+  num_Talk_With_1601_in_73: 0
+  num_Talk_With_1803_1804_in_71: 0
+  num_Talk_With_1003_in_73: 0
+  num_Interrogate_about_case: 0
+  num_Enter_or_Investigate_BroSisHouse: 0
+  isCheckedSecretCode: 0
+  isTakenSecretCodeEvent: 0
+  isInvestigated_Raina_house: 0
+  num_Talk_With_1603_in_72: 0
+  num_Enter_in_Mansion: 0
+  num_Talk_With_1202: 0
+  num_Talk_With_1205_in_71: 0
+  isPossessed_3A01_3A08_Clues: 0
+  isEnter_In_Cruise: 0

@@ -23,6 +23,9 @@ public class EventManager : MonoBehaviour
     private Transform positionOfCruiseOutside;
     private bool isActivatedEvent222;
     public bool triggerKickMerte; // 222번 이벤트에 사용
+    [SerializeField]
+    private Transform positionOfMainCamera; // 252번 이벤트에 사용
+    private Vector3 position_Of_Sector1_Of_Street1_In_Village = new Vector3(5000f, 5300f, -10);
 
     void Awake()
     {
@@ -279,6 +282,13 @@ public class EventManager : MonoBehaviour
             }
         }
 
+        // 252번 이벤트가 발생 했고, 카메라가 보여지게하는 위치가 주택가 1사이드 1컷이라면, 2032대화묶음 실행
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("252") && PlayerManager.instance.TimeSlot.Equals("74")
+            && positionOfMainCamera.localPosition == position_Of_Sector1_Of_Street1_In_Village)
+        {
+            DialogManager.instance.InteractionWithObject("252번이벤트");
+        }
+
         // 닫혀있는 금고(20)를, 열려있는 금고(21)로 바꾸고, 금고속 종이(22)를 나타나게 하기 -> 253번 이벤트
         if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("253"))
         {
@@ -445,6 +455,15 @@ public class EventManager : MonoBehaviour
 
         // 이벤트 230
         // 멜리사 엔딩 조건 70% 이상 달성 시 이벤트 발생
+        // 레이나 집에서 오브젝트 조사 3회 이상 , 카페에서 멜리사와 대화 2회 이상 , 5027 or 5030 대화 1회 진행
+        if (PlayerManager.instance.num_investigation_Raina_house_object >= 3 && PlayerManager.instance.num_Talk_With_1003 >= 2
+            && PlayerManager.instance.num_Play_5027_or_5030 >= 1)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("230"))
+            {
+                PlayerManager.instance.AddEventCodeToList("230");
+            }
+        }
 
         // 이벤트 231
         if (PlayerManager.instance.num_Talk_With_1601_in_73 >= 1)
@@ -473,7 +492,7 @@ public class EventManager : MonoBehaviour
             }
         }
 
-        // 이벤트 236
+        // 이벤트 236 (멜리사에게 5회 이상 대화 시도)
         if (PlayerManager.instance.num_Interrogate_about_case >= 5)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("236"))
@@ -553,7 +572,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 246
-        if (PlayerManager.instance.num_Talk_With_1113 >= 1)
+        if (PlayerManager.instance.num_Talk_With_1202 >= 2)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("246"))
             {
