@@ -108,11 +108,22 @@ public class PlayerManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+
+        if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
+        {
+            UIManager.instance.isFading = true;
+            //Debug.Log("단서 정리 시스템 종료");
+            UIManager.instance.ArrangeClue();
+            //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
+            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+            UIManager.instance.isReadParchment = false;
+        }
+
         /* 오브젝트와의 상호작용을 위한 if */
         if (!UIManager.instance.isConversationing)
         {
-            if ( ( (Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling)
-                    || (Input.GetKeyDown(KeyCode.E) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling)) 
+            if ( ( (Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading)
+                    || (Input.GetKeyDown(KeyCode.E) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading)) 
                 && isNearObject)
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -121,7 +132,7 @@ public class PlayerManager : MonoBehaviour {
 
                 if (hit.collider == null)
                 {
-                    Debug.Log("아무것도 안맞죠?");
+                    //Debug.Log("아무것도 안맞죠?");
                 }
                 else if (hit.collider.tag == "InteractionObject")
                 {
@@ -129,12 +140,12 @@ public class PlayerManager : MonoBehaviour {
                     {
                         if (!UIManager.instance.isReadParchment)
                         {
-                            Debug.Log("단서 정리 시스템 활성화");
+                            //Debug.Log("단서 정리 시스템 활성화");
 
                             if (ParchmentControll.instance.GetParchmentPosition().y != -720)
                                 ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
 
-                            if(ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
+                            if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
                                 ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
 
                             if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
@@ -143,15 +154,19 @@ public class PlayerManager : MonoBehaviour {
                             UIManager.instance.ArrangeClue();
                         }
                         else
-                            Debug.Log("단서 정리 시스템 활성화 실패");
+                        {
+                            //Debug.Log("단서 정리 시스템 활성화 실패");
+                        }
                     }
                     else
                     {
-                        Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
+                        //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
                         try
                         {
                             if (!UIManager.instance.isConversationing && !UIManager.instance.isFading)
+                            {
                                 DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                            }
                             //if(hit.collider.name.Equals("ER"))
                             //    DialogManager.instance.InteractionWithObject(er);
 
@@ -165,15 +180,6 @@ public class PlayerManager : MonoBehaviour {
                     }
                 }
             }
-        }
-
-        if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("단서 정리 시스템 종료");
-            UIManager.instance.ArrangeClue();
-            //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
-            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
-            UIManager.instance.isReadParchment = false;
         }
 
         /* for test 1226 */

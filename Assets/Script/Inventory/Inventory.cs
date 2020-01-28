@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour {
 
         if (certainClueLists.Count == 0)
         {
-            Debug.Log("현 시간대에 얻은 단서가 없음");
+            //Debug.Log("현 시간대에 얻은 단서가 없음");
             return;
         }
 
@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour {
     public void MakeClueSlot(string clueName, string numOfAct)
     {
         GameObject addedSlotButton = slotButton;
-        Debug.Log("playerClueLists.Count = " + PlayerManager.instance.playerClueLists.Count);
+        //Debug.Log("playerClueLists.Count = " + PlayerManager.instance.playerClueLists.Count);
 
         int tempIndex = PlayerManager.instance.playerClueLists.Count - 1; /* 0926 변경 */
 
@@ -79,12 +79,14 @@ public class Inventory : MonoBehaviour {
             if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals(clueName))
             {
                 //int tempIndex = i;      // 캐릭터의 clueList에서 찾고자 하는 단서의 index가 저장될 변수  /* 0926 변경 */
-                Debug.Log("tempIndex = " + tempIndex);
+                //Debug.Log("tempIndex = " + tempIndex);
                 // 슬롯을 수첩에 추가
                 slot.Add(Instantiate(addedSlotButton, inventoryPanel.transform));
 
                 // 알맞은 단서의 이미지를 적용 (단서명_슬롯 의 형태로 이미지 저장할것!!)
                 slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
+
+                slot[tempIndex].transform.Find("SlotText").GetComponent<Text>().text = clueName;
 
                 // 단서의 이미지를 적용시킨 후, 슬롯을 클릭했을때의 이벤트 처리
                 slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => addedSlotButton.GetComponent<SlotButtonColor>().ChangeSlotColor(tempIndex));
@@ -103,7 +105,7 @@ public class Inventory : MonoBehaviour {
             }
             else
             {
-                Debug.Log("해당하는 단서 없음");
+                //Debug.Log("해당하는 단서 없음");
                 tempIndex--;
             }
         } // for
@@ -136,8 +138,10 @@ public class Inventory : MonoBehaviour {
 
             // 슬롯을 수첩에 추가
             slot.Add(Instantiate(addedSlotButton, inventoryPanel.transform));
+
             // 알맞은 단서의 이미지를 적용
             slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
+            slot[tempIndex].transform.Find("SlotText").GetComponent<Text>().text = clueName;
 
             // 단서의 이미지를 적용시킨 후, 슬롯을 클릭했을때의 이벤트 처리
             slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => addedSlotButton.GetComponent<SlotButtonColor>().ChangeSlotColor(tempIndex));
@@ -150,7 +154,7 @@ public class Inventory : MonoBehaviour {
             tempColorBlock.highlightedColor = Color.white;
             tempColorBlock.pressedColor = Color.white;
             slot[tempIndex].transform.GetComponent<Button>().colors = tempColorBlock;
-            Debug.Log(clueName + " 슬롯 생성 완료");
+            //Debug.Log(clueName + " 슬롯 생성 완료");
         }
     }
 

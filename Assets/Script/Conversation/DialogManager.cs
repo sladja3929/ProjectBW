@@ -21,6 +21,7 @@ public class DialogManager : MonoBehaviour
     private int textLimit;  //한 대화창에 출력할 최대 텍스트 수
     public bool isTextFull; //한 대화창에 출력할 최대 텍스트에 도달했는지의 여부
     public bool isSentenceDone; //출력할 문장이 다 출력 됐는지 여부
+    public bool atOnce;     // 한번에 한 단어만 출력
 
     private Dictionary<int, Dictionary<string, string>> dataList;
     private List<Interaction> interactionLists;
@@ -37,6 +38,7 @@ public class DialogManager : MonoBehaviour
     private NpcParser npcParser;
     private string tempNpcName;
 
+    [SerializeField]
     private bool isFirstConversation;    //대화 묶음의 첫 대사인지 확인하는 변수(Fade in 관련)
 
     private int enterLimitCount;              //줄바꿈 수를 제한하기 위한 변수(test)
@@ -56,6 +58,7 @@ public class DialogManager : MonoBehaviour
         enterLimitCount = 3;    //줄바꿈이 3번 일어나면 대화출력 종료 -> 대화창엔 3줄까지 출력될 것임
         isTextFull = false;
         isSentenceDone = false;
+        atOnce = false;
         index = 0;
         numNpcNameLists = 0;
         curNumOfNpcNameLists = 0;
@@ -86,6 +89,7 @@ public class DialogManager : MonoBehaviour
         if( (numOfText > textLimit) || (UIManager.instance.isConversationing && isSentenceDone) )
         {
             UIManager.instance.canSkipConversation = true;
+            isSentenceDone = false;
         }
     }
 
@@ -95,10 +99,10 @@ public class DialogManager : MonoBehaviour
         /* 시연을 위해서는 "ER의 증언"과 "터진 쓰레기 봉지" 를 파라미터로 받아올 것임. */
         /* 대화가 여러개 있을 수도 있다.. */
         /* npcFrom : 대화를 하는 주체 */
-        UIManager.instance.isConversationing = true;    // 대화중
-        UIManager.instance.OpenConversationUI();        // 대화창 오픈
-        UIManager.instance.isFading = true;
-        StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
+        //UIManager.instance.isConversationing = true;    // 대화중
+        //UIManager.instance.OpenConversationUI();        // 대화창 오픈
+        //UIManager.instance.isFading = true;
+        //StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
         //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
 
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
@@ -173,7 +177,12 @@ public class DialogManager : MonoBehaviour
         // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함) -> 반영완료 (1223)
         if (targetOfInteractionList.Count == 0)
         {
-            Debug.Log("할 말이 없습니다.");
+            //Debug.Log("할 말이 없습니다.");
+
+            UIManager.instance.isConversationing = true;    // 대화중
+            UIManager.instance.OpenConversationUI();        // 대화창 오픈
+            UIManager.instance.isFading = true;
+            StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
 
             //메르테 초상화 + 메르테가 하는 대사처럼 만들기
             StartCoroutine(TypeNull());
@@ -225,12 +234,21 @@ public class DialogManager : MonoBehaviour
             setOfDescList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && x.GetRepeatability() == "3");
 
             // 해당 NPC와의 대화가 없을 경우, 함수 종료 (1210에 update 함) -> 이부분은 앞에서 실행하는 부분이라 필요없다고 판단함 (1223)
-            //if (setOfDescList.Count == 0)
-            //{
-            //    Debug.Log("이 npc와 할 말이 없습니다.");
-            //    return;
-            //}
-            
+            if (setOfDescList.Count == 0)
+            {
+                //Debug.Log("이 npc와 할 말이 없습니다.");
+
+                UIManager.instance.isConversationing = true;    // 대화중
+                UIManager.instance.OpenConversationUI();        // 대화창 오픈
+                UIManager.instance.isFading = true;
+                StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
+
+                //메르테 초상화 + 메르테가 하는 대사처럼 만들기
+                StartCoroutine(TypeNull());
+
+                return;
+            }
+
             List<int> setOfDescIndexList = new List<int>();
 
             // 모든 대사를 토대로, 어떤 대화 묶음이 존재하는지 확인하는 for문
@@ -244,10 +262,16 @@ public class DialogManager : MonoBehaviour
 
             // 여러개의 대화묶음 번호중에 하나를 채택하기
             int randomValue = Random.Range(0, setOfDescIndexList.Count);
-            Debug.Log("Random value = " + randomValue);
+            //Debug.Log("Random value = " + randomValue);
             tempSetOfDesc_Index = setOfDescIndexList[randomValue];
 
         }
+
+        UIManager.instance.isConversationing = true;    // 대화중
+        UIManager.instance.OpenConversationUI();        // 대화창 오픈
+        UIManager.instance.isFading = true;
+        StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
+
         /* 구해진 tempSetOfDesc_Index 에 해당하는 대화묶음에 해당하는 대사들을 id를 통해서 호출하기를 구현 */
         int indexOfInteraction = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index);
         tempId = int.Parse((dataList[indexOfInteraction])["id"]);
@@ -257,7 +281,7 @@ public class DialogManager : MonoBehaviour
         //대화가 이어질 수 있도록 parent값을 이용
         int tempParentIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index && x.GetId() == tempId);
         int tempParent = interactionLists[tempParentIndex].GetParent();
-        Debug.Log("대화묶음 " + tempSetOfDesc_Index + "의 초기의 tempParent : " + tempParent);
+        //Debug.Log("대화묶음 " + tempSetOfDesc_Index + "의 초기의 tempParent : " + tempParent);
 
         if (tempSetOfDesc_Index == 5027 || tempSetOfDesc_Index == 5030)
         {
@@ -303,11 +327,12 @@ public class DialogManager : MonoBehaviour
         //}
 
         /* while문을 빠져나오면 sentenceLists에 대화목록이 쭉 저장되어있을 것이다. */
-
+        
         if (!UIManager.instance.isTypingText)
         {
-            StartCoroutine(Type());
+            StartCoroutine(Type()); // 첫 대화 출력
         }
+        
     }
 
     // 알맞은 대화를 출력해주는 코루틴
@@ -353,7 +378,7 @@ public class DialogManager : MonoBehaviour
         foreach (char letter in sentences[index].ToCharArray())
         {
             //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
-            if (numOfText <= textLimit)
+            if (numOfText <= textLimit && !atOnce)
             {
                 if (letter.Equals('\n'))
                 {
@@ -363,7 +388,9 @@ public class DialogManager : MonoBehaviour
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText == textLimit || tempEnterCount == enterLimitCount)
                     isTextFull = true;
+
                 conversationText.text += letter;
+                atOnce = true;
                 numOfText++;
                 UIManager.instance.canSkipConversation = false;
 
@@ -380,6 +407,7 @@ public class DialogManager : MonoBehaviour
                 else
                 {
                     yield return new WaitForSeconds(typingSpeed);
+                    atOnce = false;
                 }
             }
         }
@@ -430,7 +458,7 @@ public class DialogManager : MonoBehaviour
         foreach (char letter in sentences[index].ToCharArray())
         {
             //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
-            if (numOfText <= textLimit)
+            if (numOfText <= textLimit && !atOnce)
             {
                 if (letter.Equals('\n'))
                 {
@@ -440,7 +468,9 @@ public class DialogManager : MonoBehaviour
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText == textLimit || tempEnterCount == enterLimitCount)
                     isTextFull = true;
+
                 conversationText.text += letter;
+                atOnce = true;
                 numOfText++;
                 UIManager.instance.canSkipConversation = false;
 
@@ -457,6 +487,7 @@ public class DialogManager : MonoBehaviour
                 else
                 {
                     yield return new WaitForSeconds(typingSpeed);
+                    atOnce = false;
                 }
             }
         }
@@ -488,14 +519,14 @@ public class DialogManager : MonoBehaviour
                 for (int i = 0; i < rewardArr.Length; i++)
                 {
                     rewardsLists.Add(rewardArr[i]);
-                    Debug.Log((i + 1) + "번째로 획득할 단서 : " + rewardArr[i]);
+                    //Debug.Log((i + 1) + "번째로 획득할 단서 : " + rewardArr[i]);
                 }
             }
             else
             {
                 string reward = dataList[certainDescIndex]["rewards"];
                 rewardsLists.Add(reward);
-                Debug.Log("획득할 단서 : " + rewardsLists[0]);
+                //Debug.Log("획득할 단서 : " + rewardsLists[0]);
             }
         }
 
@@ -507,7 +538,7 @@ public class DialogManager : MonoBehaviour
     {
         UIManager.instance.canSkipConversation = false;
         UIManager.instance.isConversationing = true;
-        Debug.Log("index = " + index);
+        //Debug.Log("index = " + index);
         try
         {
             if (index < sentences.Length - 1)
@@ -589,6 +620,7 @@ public class DialogManager : MonoBehaviour
                 rewardsLists.Clear();
                 //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
                 isFirstConversation = false;
+                UIManager.instance.isTypingText = false;
 
                 if (tempSentenceOfCondition != null)
                 {

@@ -70,7 +70,7 @@ public class Portal : MonoBehaviour
 
                 if (hit.collider == null)
                 {
-                    Debug.Log("아무것도 안맞죠?2");
+                    //Debug.Log("아무것도 안맞죠?2");
                 }
                 else if (hit.collider.tag == "PortalPoint" && (door.transform.name != "UpToTake") && (door.transform.name != "RightToTake")
                     && (door.transform.name != "DownToTake") && (door.transform.name != "LeftToTake"))
@@ -123,7 +123,7 @@ public class Portal : MonoBehaviour
         /* 플레이어가 이동한 곳에 따라 PlayerManager의 이벤트 변수들의 값을 바꿔주는 조건문이 필요 */
 
         MiniMapManager.instance.MoveArrowPosition();
-        Debug.Log(PlayerManager.instance.GetCurrentPosition() + "으로 이동");
+        //Debug.Log(PlayerManager.instance.GetCurrentPosition() + "으로 이동");
     }
 
     private IEnumerator FadeWithTakePortal()
@@ -136,7 +136,7 @@ public class Portal : MonoBehaviour
 
         /*이동*/
         TakePortal();
-        Debug.Log("포탈 타는중");
+        //Debug.Log("포탈 타는중");
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         EventManager.instance.PlayEvent();

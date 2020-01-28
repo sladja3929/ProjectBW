@@ -91,7 +91,7 @@ public class AutoFlip : MonoBehaviour {
             // 보고있는 단서를 다시 보려하면 페이지 넘김 효과 적용 안함
             if (UIManager.instance.GetTempIndex() == tempIndex)
             {
-                Debug.Log("봤던걸 왜 또 봐");
+                //Debug.Log("봤던걸 왜 또 봐");
                 UIManager.instance.isPaging = false;
                 return;
             }

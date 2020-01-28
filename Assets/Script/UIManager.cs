@@ -277,7 +277,7 @@ public class UIManager : MonoBehaviour {
             else
             {
                 DialogManager.instance.NextSentence();
-                Debug.Log("NextSentence() 실행중");
+                //Debug.Log("NextSentence() 실행중");
             }
         }
 
@@ -336,7 +336,7 @@ public class UIManager : MonoBehaviour {
             }
             else if (isPaging)
             {
-                Debug.Log("페이지 넘기는중");
+                //Debug.Log("페이지 넘기는중");
                 //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
             }
 
@@ -370,7 +370,7 @@ public class UIManager : MonoBehaviour {
             }
             else if (isPaging)
             {
-                Debug.Log("페이지 넘기는중");
+                //Debug.Log("페이지 넘기는중");
                 //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
             }
         }
@@ -458,7 +458,7 @@ public class UIManager : MonoBehaviour {
         if (tempList.Count == 0)
         {
             // 해당 사건의 획득한 단서가 없으면 빈 페이지를 보여줌
-            Debug.Log("사건" + numOfAct + "의 단서가 없어요");
+            //Debug.Log("사건" + numOfAct + "의 단서가 없어요");
             CloseClueUI();
             return;
         }
@@ -559,34 +559,9 @@ public class UIManager : MonoBehaviour {
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         EventManager.instance.PlayEvent();
-        Debug.Log("시간대 넘기는중");
+        //Debug.Log("시간대 넘기는중");
 
         yield return new WaitForSeconds(0.7f);
-
-        // 3. 문구와 같이 Fade Out 된다.
-        /* 문구 페이드 인 */
-        Color tempColor1;
-        tempColor1 = timeSlotText.GetComponent<Text>().color;
-        
-        while (tempColor1.a > 0f)
-        {
-            tempColor1.a -= Time.deltaTime / 2.1f;
-            timeSlotText.GetComponent<Text>().color = tempColor1;
-
-            if (tempColor1.a <= 0f)
-            {
-                tempColor1.a = 0f;
-            }
-            yield return null;
-        }
-
-        timeSlotText.GetComponent<Text>().color = tempColor1;
-        isFading = false;
-        timeSlotText.SetActive(false);
-
-        /* 패널 페이드 인*/
-        fadeInOutAnimator.SetBool("isfadeout", false);
-        yield return new WaitForSeconds(2.5f);
 
         // 시간대 바꾸기
 
@@ -615,15 +590,40 @@ public class UIManager : MonoBehaviour {
                 PlayerManager.instance.TimeSlot = "79";
         }
 
+        // 디버깅용
+        PlayerManager.instance.checkNumOfAct = PlayerManager.instance.NumOfAct;
+        PlayerManager.instance.checkTimeSlot = PlayerManager.instance.TimeSlot;
+
+        // 3. 문구와 같이 Fade Out 된다.
+        /* 문구 페이드 인 */
+        Color tempColor1;
+        tempColor1 = timeSlotText.GetComponent<Text>().color;
+        
+        while (tempColor1.a > 0f)
+        {
+            tempColor1.a -= Time.deltaTime / 2.1f;
+            timeSlotText.GetComponent<Text>().color = tempColor1;
+
+            if (tempColor1.a <= 0f)
+            {
+                tempColor1.a = 0f;
+            }
+            yield return null;
+        }
+
+        timeSlotText.GetComponent<Text>().color = tempColor1;
+        isFading = false;
+        timeSlotText.SetActive(false);
+
+        /* 패널 페이드 인*/
+        fadeInOutAnimator.SetBool("isfadeout", false);
+        yield return new WaitForSeconds(2.5f);
+
         tempColor1 = timeSlotText.GetComponent<Text>().color;
         tempColor1.a = 1f;
         timeSlotText.GetComponent<Text>().color = tempColor1;
 
         isFading = false;
-
-        // 디버깅용
-        PlayerManager.instance.checkNumOfAct = PlayerManager.instance.NumOfAct;
-        PlayerManager.instance.checkTimeSlot = PlayerManager.instance.TimeSlot;
     }
 
     // 1. 대화창 & 캐릭터명 창 fade in

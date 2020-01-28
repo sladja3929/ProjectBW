@@ -84,7 +84,7 @@ public class CSVParser : MonoBehaviour
             index++;
         }//for i
 
-        Debug.Log("대화 갯수 = " + index);
+        //Debug.Log("대화 갯수 = " + index);
 
         //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
         for (int i = 0; i < dataList.Count; i++)
@@ -104,7 +104,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "사건에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "사건에서 오류발생");
                         }
                         break;
 
@@ -156,7 +156,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "대화 묶음에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "대화 묶음에서 오류발생");
                         }
                         break;
 
@@ -167,7 +167,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList["+i+"])[subjectArr["+j+"]])" + (dataList[i])[subjectArr[j]] + "id에서 오류발생");
+                            //Debug.Log("(dataList["+i+"])[subjectArr["+j+"]])" + (dataList[i])[subjectArr[j]] + "id에서 오류발생");
                         }
                         break;
 
@@ -198,7 +198,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "npcFrom에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "npcFrom에서 오류발생");
                         }
                         break;
                     /*
@@ -214,7 +214,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "desc에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "desc에서 오류발생");
                         }
                         break;
 
@@ -225,7 +225,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "반복성에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "반복성에서 오류발생");
                         }
                         break;
 
@@ -277,7 +277,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "parent에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "parent에서 오류발생");
                         }
 
                         break;
@@ -297,7 +297,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "발생 여부에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "발생 여부에서 오류발생");
                         }
 
                         break;
@@ -334,7 +334,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "새로운 이벤트에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "새로운 이벤트에서 오류발생");
                         }
                         break;
 
