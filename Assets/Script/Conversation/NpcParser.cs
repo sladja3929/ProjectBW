@@ -420,7 +420,7 @@ public class NpcParser
     }
 
     // 2번째 index 값 = 3 -> 슬램가
-    public string GetSlamNpcNameFromCode(string characterCode)
+    public string GetSlumNpcNameFromCode(string characterCode)
     {
         switch (characterCode)
         {
@@ -449,7 +449,7 @@ public class NpcParser
                 return null;
         }
     }
-    public string GetSlamNpcCodeFromName(string characterName)
+    public string GetSlumNpcCodeFromName(string characterName)
     {
         switch (characterName)
         {
@@ -1369,7 +1369,7 @@ public class NpcParser
                     return GetMansionNpcNameFromCode(characterCode);
 
                 case '3':
-                    return GetSlamNpcNameFromCode(characterCode);
+                    return GetSlumNpcNameFromCode(characterCode);
 
                 case '4':
                     return GetChapterNpcNameFromCode(characterCode);
@@ -1404,6 +1404,8 @@ public class NpcParser
         else if ((tempNpcName = GetVillageNpcCodeFromName(characterName)) != null)
             return tempNpcName;
         else if ((tempNpcName = GetMansionNpcCodeFromName(characterName)) != null)
+            return tempNpcName;
+        else if ((tempNpcName = GetSlumNpcCodeFromName(characterName)) != null)
             return tempNpcName;
         else if ((tempNpcName = GetChapterNpcCodeFromName(characterName)) != null)
             return tempNpcName;

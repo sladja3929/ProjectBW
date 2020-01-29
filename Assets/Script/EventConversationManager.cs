@@ -20,14 +20,16 @@ public class EventConversationManager// : MonoBehaviour
     public int CheckEvent(List<Interaction> targetOfInteractionList, List<Interaction> interactionLists)
     {
         int resultIndex = -1;
+        
 
         for (int i = 0; i < targetOfInteractionList.Count; i++)
         {
             if (targetOfInteractionList[i].GetRepeatability().Equals("4") && targetOfInteractionList[i].GetConditionOfDesc().Length != 1//targetOfInteractionList[i].GetConditionOfDesc() != null
                             && targetOfInteractionList[i].GetStatus() == 0)
             {
-
+                
                 resultIndex = targetOfInteractionList[i].GetSetOfDesc(); // 해당 event 대화묶음의 index를 리턴
+                //Debug.Log("resultIndex1 = " + resultIndex);
                 //Debug.Log("4444444444444444444");
                 //Debug.Log("Index1" + resultIndex);
                 return resultIndex;
@@ -36,13 +38,14 @@ public class EventConversationManager// : MonoBehaviour
               && targetOfInteractionList[i].GetStatus() == 0)
             {
                 int index = targetOfInteractionList[i].GetSetOfDesc();
-
+                
                 // 이벤트 226번
                 if (index == 4025)
                 {
                     //사체묘사 대사와 함께 해당 사체의 일러스트가 화면에 띄워진다. -> 대사는 자동진행이니, 사체의 일러스트만 띄우기 위한 임의의 UIManager의 제어 변수를 만들어서 조작하면 됨.
                 }
                 //Debug.Log("index2" + index);
+                //Debug.Log("resultIndex2 = " + index);
                 return index;
             }
             else if (targetOfInteractionList[i].GetRepeatability().Equals("2") && targetOfInteractionList[i].GetConditionOfDesc().Length == 1//targetOfInteractionList[i].GetConditionOfDesc() == null
@@ -51,13 +54,16 @@ public class EventConversationManager// : MonoBehaviour
                 // 반복성이 2인데, 대사조건이 없고, 한번도 진행되지 않은 대화일 때 처리
                 // 반복성이 2인 대화를 1개 1개씩 진행되게끔 함
                 int index = targetOfInteractionList[i].GetSetOfDesc();
-
+                
                 //2002, 2045, 2023, 2028, 2065, 2070 대화 묶음에 해당하는 부분만 50%확률로 진행되도록 처리
                 if (index == 2002 || index == 2045 || index == 2023 || index == 2028 || index == 2065 || index == 2070)
                 {
                     int randNum = Random.Range(0, 2);
                     if (randNum == 0)
+                    {
+                        //Debug.Log("resultIndex3 = " + index);
                         return index;
+                    }
                 }
                 //Debug.Log("index3" + index);
                 return targetOfInteractionList[i].GetSetOfDesc();
@@ -68,8 +74,9 @@ public class EventConversationManager// : MonoBehaviour
               // 반복성이 2이고, 대사조건이 있고, 한번도 진행되지 않은 대화일때 처리
               //대사조건이 있는 이벤트라는 것을 확인했으면, 해당 대사조건이 가리키는 id의 status가 대사조건에 부합하는지 확인해야 한다.
               //현재 이벤트는 암묵적으로 1회만 발생하는 것으로 생각한다.(07.12)
-
+                
                 //Debug.Log("222222222222222222222222222");
+
                 if (targetOfInteractionList[i].GetConditionOfDesc().Length > 1)
                 {
                     //int numOfCorrectCondition = 0;  // 대사 조건에 부합하는 수를 알기 위한 변수 선언
@@ -77,11 +84,11 @@ public class EventConversationManager// : MonoBehaviour
                     //대사 조건이 2개 이상인 경우
                     for (int j = 0; j < targetOfInteractionList[i].GetConditionOfDesc().Length; j++)
                     {
-
                         try
                         {
                             //j번째 대사 조건에 해당하는 대화묶음의 index를 원래의 대사 목록중에서 찾은 다음 tempIndex에 저장
                             tempIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == int.Parse(targetOfInteractionList[i].GetConditionOfDesc()[j]));
+                            //Debug.Log("tempIndex = " + tempIndex);
                         }
                         catch
                         {
@@ -91,10 +98,21 @@ public class EventConversationManager// : MonoBehaviour
                             return -1;
                         }
 
-                        if (interactionLists[tempIndex].GetStatus() >= 1)
+                        try
                         {
-                            //tempIndex에 해당하는 status가 1 이상일 경우 -> 즉 tempIndex에 해당하는 대사가 1번 이상 나타났을 경우
-                            numOfCorrectCondition++;    //조건 만족 수 1 증가
+                            if (interactionLists[tempIndex].GetStatus() >= 1)
+                            {
+                                //tempIndex에 해당하는 status가 1 이상일 경우 -> 즉 tempIndex에 해당하는 대사가 1번 이상 나타났을 경우
+                                numOfCorrectCondition++;    //조건 만족 수 1 증가
+                            }
+                            else
+                            {
+                                return -1;
+                            }
+                        }
+                        catch
+                        {
+                            //Debug.Log("10targetObject");
                         }
                     }
 
@@ -102,14 +120,20 @@ public class EventConversationManager// : MonoBehaviour
                     {
                         resultIndex = targetOfInteractionList[i].GetSetOfDesc(); // 해당 event 대화묶음의 index를 리턴
                         numOfCorrectCondition = 0;
-                        //Debug.Log("index4" + resultIndex);
+
+                        //Debug.Log("resultIndex4 = " + resultIndex);
                         return resultIndex;
+                    }
+                    else
+                    {
+
+                        //Debug.Log("11targetObject");
+                        return -1;
                     }
 
                 }
                 else
                 {
-
                     //대사 조건이 1개인 경우
                     if (targetOfInteractionList[i].GetConditionOfDesc()[0] != "x" || targetOfInteractionList[i].GetConditionOfDesc()[0] != "")
                     {
@@ -123,7 +147,7 @@ public class EventConversationManager// : MonoBehaviour
                                 resultIndex = targetOfInteractionList[i].GetSetOfDesc(); // 해당 event 대사의 id를 저장
                                 numOfCorrectCondition = 0;
 
-                                //Debug.Log("index5" + resultIndex);
+                                //Debug.Log("resultIndex5 = " + resultIndex);
                                 return resultIndex;
                             }//if
                             
@@ -134,19 +158,19 @@ public class EventConversationManager// : MonoBehaviour
                             resultIndex = targetOfInteractionList[i].GetSetOfDesc();
                             numOfCorrectCondition = 0;
 
-                            //Debug.Log("index6" + resultIndex);
+                            //Debug.Log("resultIndex6 = " + resultIndex);
                             return resultIndex;
                         }
                     }//if
-                    
-                    
+
                 }//if-else
             }//if
         }//for-i
 
         //resultIndex가 -1이면, 이벤트 발생은 없는 것임
         numOfCorrectCondition = 0;
-        //Debug.Log("index7" + resultIndex);
+
+        //Debug.Log("resultIndex7 = " + resultIndex);
         return resultIndex;
     }
 

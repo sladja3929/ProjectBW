@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour {
 
 
     // Use this for initialization
-    void Awake () {
+    void Awake() {
         if (instance == null)
             instance = this;
 
@@ -96,7 +96,8 @@ public class PlayerManager : MonoBehaviour {
         checkTimeSlot = TimeSlot;
 
         //currentPosition = "Downtown_Street1";
-        currentPosition = "Chapter_Merte_Office";
+        currentPosition = "Chapter_Merte_Office"; // 메르테 위치 : 11419, 5169
+        //currentPosition = "Slum_Information_agency"; // -3212 -224
 
         isInPortalZone = false;
 
@@ -107,7 +108,7 @@ public class PlayerManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
 
         if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
         {
@@ -122,8 +123,8 @@ public class PlayerManager : MonoBehaviour {
         /* 오브젝트와의 상호작용을 위한 if */
         if (!UIManager.instance.isConversationing)
         {
-            if ( ( (Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading)
-                    || (Input.GetKeyDown(KeyCode.E) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading)) 
+            if (((Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading)
+                    || (Input.GetKeyDown(KeyCode.E) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading))
                 && isNearObject)
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -194,6 +195,12 @@ public class PlayerManager : MonoBehaviour {
         }
         */
 
+    }
+
+    // 플레이어(메르테)의 x포지션 값 반환
+    public float GetPositionOfMerte()
+    {
+        return player.GetComponent<Transform>().localPosition.x;
     }
 
     // 플레이어가 수행한 이벤트를 추가

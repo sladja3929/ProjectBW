@@ -256,7 +256,7 @@ public class CSVParser : MonoBehaviour
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "status에서 오류발생");
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "status에서 오류발생");
                         }
                         break;
 

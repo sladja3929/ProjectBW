@@ -38,10 +38,16 @@ public class EventManager : MonoBehaviour
         hasBeenInHarbor = false;
         isActivatedEvent222 = false;
 
-    /* for test */
-    // 이벤트 시스템 구현으로 인한 주석처리(테스트용, 1월 23일)
-    //AddToEventIndexList("202");    //발루아 등장 이벤트 index 추가
+        /* for test */
+        // 이벤트 시스템 구현으로 인한 주석처리(테스트용, 1월 23일)
+        //AddToEventIndexList("202");    //발루아 등장 이벤트 index 추가
 
+        // 항구의 쉐렌, 악당 1, 악당 2를 비활성화 시키고, 주택가의 쉐렌을 활성화 시키기 위한 이벤트 저장
+        AddToEventIndexList("0209");
+
+        // id 200번 이벤트부터 253번 이벤트까지 저장
+        for (int i = 200; i <= 253; i++)
+            AddToEventIndexList(i.ToString());
 
         DisableNpcForEvent();
     }
@@ -58,7 +64,7 @@ public class EventManager : MonoBehaviour
     {
         for (int i = 0; i < npcListForEvent.Count; i++)
         {
-            if (i == 4 || i == 14 || i == 16 || i == 20 || i == 23) { }
+            if (i == 4 || i == 14 || i == 16 || i == 20 || i == 23 || i == 26) { }
             else
                 npcListForEvent[i].SetActive(false);
         }
@@ -71,7 +77,6 @@ public class EventManager : MonoBehaviour
     {
         if (CheckEventIndexList(eventIndex))
         {
-
             switch (eventIndex)
             {
                 // 체스미터 등장 이벤트
@@ -119,11 +124,16 @@ public class EventManager : MonoBehaviour
                 case "225":
                 case "226": // 대화테이블에 4025묶음의 새로운 이벤트 속성값을 226으로 넣어야함
                 case "227":
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayEvent();
+                    break;
                 case "232":
+                case "240":
                 case "243":
                 case "252":
                 case "253":
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayEvent();
                     break;
 
                 // 정보상 건물 안의 엑스트라들 등장(인물 배치후, 적용할것)
@@ -255,6 +265,8 @@ public class EventManager : MonoBehaviour
         {
             if (!npcListForEvent[19].activeSelf)
                 npcListForEvent[19].SetActive(true);
+            if (npcListForEvent[26].activeSelf)
+                npcListForEvent[26].SetActive(false);
         }
 
         // 사제와 누워있는 아이를 활성화하는 이벤트
@@ -318,6 +330,38 @@ public class EventManager : MonoBehaviour
                     npcListForEvent[25].SetActive(true);
             }
         }
+
+        // 71 시간대에는 주택가의 쉐렌(30)을 활성화
+        if (!npcListForEvent[30].activeSelf && PlayerManager.instance.TimeSlot.Equals("71"))
+        {
+            npcListForEvent[30].SetActive(true);
+        }
+
+        // 72 시간대에 진행되는 항구 이벤트가 발생하지 않았다면, 항구의 쉐렌(27), 악당 1(28), 악당 2(29) 활성화, 주택가의 쉐렌(30) 비활성화
+        if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("0209") && PlayerManager.instance.TimeSlot.Equals("72"))
+        {
+            if (!npcListForEvent[27].activeSelf)
+                npcListForEvent[27].SetActive(true);
+            if (!npcListForEvent[28].activeSelf)
+                npcListForEvent[28].SetActive(true);
+            if (!npcListForEvent[29].activeSelf)
+                npcListForEvent[29].SetActive(true);
+            if (npcListForEvent[30].activeSelf)
+                npcListForEvent[30].SetActive(false);
+        }
+
+        // 72 시간대에 진행되는 항구 이벤트가 발생하면 항구의 쉐렌(27), 악당 1(28), 악당 2(29) 비활성화 & 주택가의 쉐렌(30) 활성화
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("0209"))
+        {
+            if (npcListForEvent[27].activeSelf)
+                npcListForEvent[27].SetActive(false);
+            if (npcListForEvent[28].activeSelf)
+                npcListForEvent[28].SetActive(false);
+            if (npcListForEvent[29].activeSelf)
+                npcListForEvent[29].SetActive(false);
+            if (!npcListForEvent[30].activeSelf)
+                npcListForEvent[30].SetActive(true);
+        }
         // 특정 인물 등장 이벤트 처리 끝
 
 
@@ -336,7 +380,7 @@ public class EventManager : MonoBehaviour
         */
 
         // 이벤트 208 209에 필요한 이벤트 -> 72시간대에 플레이어가 항구를 처음 가게되면, 8014 대화 발생시키기
-        if (PlayerManager.instance.TimeSlot.Equals("72") && PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Street1"))
+        if (PlayerManager.instance.TimeSlot.Equals("72") && PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Street1") && PlayerManager.instance.GetPositionOfMerte() >= 642.0f)
         {
             if (!hasBeenInHarbor)
             {
@@ -346,7 +390,7 @@ public class EventManager : MonoBehaviour
             }
         }
 
-        /*
+        
         // 이벤트 209
         if (PlayerManager.instance.num_Talk_With_1105 >= 1)
         {
@@ -355,7 +399,7 @@ public class EventManager : MonoBehaviour
             {
                 PlayerManager.instance.AddEventCodeToList("209");
             }
-        }*/
+        }
 
         // 이벤트 208
         if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("209"))
@@ -428,7 +472,7 @@ public class EventManager : MonoBehaviour
 
         // 이벤트 228
         // 자작의 대문이 비활성화 되어있어야 함. npcEventList 20번
-        if (PlayerManager.instance.num_Try_to_Enter_in_Mansion == 0)
+        if (PlayerManager.instance.num_Try_to_Enter_in_Mansion >= 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("228"))
             {
@@ -518,8 +562,8 @@ public class EventManager : MonoBehaviour
                 PlayerManager.instance.AddEventCodeToList("238");
             }
         }
-
-        // 이벤트 239 & 240
+        /*
+        // 이벤트 239
         if (!PlayerManager.instance.isCheckedSecretCode)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("239"))
@@ -527,11 +571,34 @@ public class EventManager : MonoBehaviour
                 PlayerManager.instance.AddEventCodeToList("239");
             }
         }
-        else if (PlayerManager.instance.isCheckedSecretCode)
+
+        // 이벤트 240
+        if (PlayerManager.instance.isCheckedSecretCode)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("240"))
             {
+                if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("239"))
+                    PlayerManager.instance.DeleteEventCodeFromList("239");
+
                 PlayerManager.instance.AddEventCodeToList("240");
+            }
+        }*/
+
+        if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("240"))
+        {
+            //Debug.Log("240번 이벤트가 없어");
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("239"))
+            {
+                PlayerManager.instance.AddEventCodeToList("239");
+            }
+        }
+
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("240"))
+        {
+            //Debug.Log("240번 이벤트가 이미 있어");
+            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("239"))
+            {
+                PlayerManager.instance.DeleteEventCodeFromList("239");
             }
         }
 

@@ -108,20 +108,27 @@ public class DialogManager : MonoBehaviour
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
         
         string targetObject = objectName;   //StartObject에 해당하는 값
+        //Debug.Log("targetObject = " + targetObject);
 
         // 236번 이벤트를 위한 처리
-        if (targetObject.Equals("멜리사"))
+        if (targetObject.Equals("1003"))
         {
             PlayerManager.instance.num_Interrogate_about_case++;
         }
 
-        if (targetObject.Equals("잠깐 나온 별채에 사는 아이"))
+        // 209번 이벤트를 위한 처리
+        if (targetObject.Equals("1105"))
+        {
+            PlayerManager.instance.num_Talk_With_1105++;
+        }
+
+        if (targetObject.Equals("1202"))
         {
             PlayerManager.instance.num_Talk_With_1202++;
         }
 
         // 228번 이벤트를 위한 처리
-        if (targetObject.Equals("자작의 저택_자작의 저택"))
+        if (targetObject.Equals("9241"))
         {
             PlayerManager.instance.num_Try_to_Enter_in_Mansion++;
         }
@@ -132,33 +139,38 @@ public class DialogManager : MonoBehaviour
         else
             tempSentenceOfCondition = null;
 
-        if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("귀족 부인 기다리는 하인") || targetObject.Equals("귀족 아가씨 기다리는 하인")))
+        if (targetObject.Equals("이벤트 자동발생"))
+            tempSentenceOfCondition = targetObject;
+        else
+            tempSentenceOfCondition = null;
+
+        if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("1803") || targetObject.Equals("1804")))
         {
             PlayerManager.instance.num_Talk_With_1803_1804_in_71++;
         }
 
-        if (PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("멜리사"))
+        if (PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("1003"))
         {
             PlayerManager.instance.num_Talk_With_1003_in_73++;
             PlayerManager.instance.num_Talk_With_1003++;
         }
-        else if (!PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("멜리사"))
+        else if (!PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("1003"))
         {
             PlayerManager.instance.num_Talk_With_1003++;
         }
 
-        if (targetObject.Equals("문_숲") || targetObject.Equals("화로_숲") || targetObject.Equals("2층 침대_숲") || targetObject.Equals("나무책상_숲"))
+        if (targetObject.Equals("9707") || targetObject.Equals("9708") || targetObject.Equals("9710") || targetObject.Equals("9709"))
         {
             PlayerManager.instance.num_Enter_or_Investigate_BroSisHouse++;
         }
 
-        if (PlayerManager.instance.TimeSlot.Equals("72") && targetObject.Equals("정육점"))
+        if (PlayerManager.instance.TimeSlot.Equals("72") && targetObject.Equals("1603"))
         {
             PlayerManager.instance.num_Talk_With_1603_in_72++;
         }
 
-        if (targetObject.Equals("쓰레기통_레이나 집") || targetObject.Equals("싱크대_레이나 집") || targetObject.Equals("옷장_레이나 집")
-            || targetObject.Equals("식탁_레이나 집") || targetObject.Equals("이층침대_레이나 집") || targetObject.Equals("더블침대_레이나 집"))
+        if (targetObject.Equals("9107") || targetObject.Equals("9108") || targetObject.Equals("9111")
+            || targetObject.Equals("9109") || targetObject.Equals("9112") || targetObject.Equals("9110"))
         {
             PlayerManager.instance.num_investigation_Raina_house_object++;
         }
@@ -190,11 +202,11 @@ public class DialogManager : MonoBehaviour
 
             return;
         }
-
+        
         //대화목록의 id값
         //int tempId; 삭제 예정
         int eventCheckValue = eventManager.CheckEvent(targetOfInteractionList, interactionLists);
-
+        
         //대화묶음의 번호 값
         int tempSetOfDesc_Index;
         //대화 묶음 안의 첫 대사 id
@@ -210,12 +222,13 @@ public class DialogManager : MonoBehaviour
             //해당 이벤트 대사가 발생시키는 새로운 이벤트가 있다면, 진행시켜야함. ex) 발루아 등장
             int tempEventIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index);
             string[] eventIndex = interactionLists[tempEventIndex].GetEventIndexToOccur();
-
+            
             for (int i = 0; i < eventIndex.Length; i++)
             {
+                //Debug.Log("발생될 이벤트 = " + eventIndex);
                 EventManager.instance.ActivateNpcForEvent(eventIndex[i]);
             }
-
+            
         }
         else
         {
@@ -245,7 +258,7 @@ public class DialogManager : MonoBehaviour
 
                 //메르테 초상화 + 메르테가 하는 대사처럼 만들기
                 StartCoroutine(TypeNull());
-
+                
                 return;
             }
 
@@ -271,7 +284,8 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.OpenConversationUI();        // 대화창 오픈
         UIManager.instance.isFading = true;
         StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
-
+        
+        
         /* 구해진 tempSetOfDesc_Index 에 해당하는 대화묶음에 해당하는 대사들을 id를 통해서 호출하기를 구현 */
         int indexOfInteraction = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index);
         tempId = int.Parse((dataList[indexOfInteraction])["id"]);
@@ -629,7 +643,15 @@ public class DialogManager : MonoBehaviour
                         EventManager.instance.triggerKickMerte = true;
                         EventManager.instance.PlayEvent();
                     }
+
+                    if (tempSentenceOfCondition.Equals("이벤트 자동발생"))
+                    {
+                        PlayerManager.instance.AddEventCodeToList("0209");
+                        EventManager.instance.PlayEvent();
+                    }
                 }
+
+                EventManager.instance.PlayEvent();
             }
         }
         catch

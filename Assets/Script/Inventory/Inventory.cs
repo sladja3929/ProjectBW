@@ -100,7 +100,7 @@ public class Inventory : MonoBehaviour {
                 tempColorBlock.pressedColor = Color.white;
                 slot[tempIndex].transform.GetComponent<Button>().colors = tempColorBlock;
 
-                Debug.Log(clueName + " 슬롯 생성 완료");
+                //Debug.Log(clueName + " 슬롯 생성 완료");
                 break;
             }
             else
