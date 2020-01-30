@@ -290,8 +290,7 @@ public class NpcParser
             case "토케":
                 return "1109";
 
-            case "슈벤" +
-            "":
+            case "슈벤":
                 return "1110";
 
             default:

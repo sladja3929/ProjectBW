@@ -26,6 +26,7 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     private Transform positionOfMainCamera; // 252번 이벤트에 사용
     private Vector3 position_Of_Sector1_Of_Street1_In_Village = new Vector3(5000f, 5300f, -10);
+    public bool isPlaying8014Conversation = false;
 
     void Awake()
     {
@@ -46,7 +47,7 @@ public class EventManager : MonoBehaviour
         AddToEventIndexList("0209");
 
         // id 200번 이벤트부터 253번 이벤트까지 저장
-        for (int i = 200; i <= 253; i++)
+        for (int i = 200; i <= 254; i++)
             AddToEventIndexList(i.ToString());
 
         DisableNpcForEvent();
@@ -64,7 +65,7 @@ public class EventManager : MonoBehaviour
     {
         for (int i = 0; i < npcListForEvent.Count; i++)
         {
-            if (i == 4 || i == 14 || i == 16 || i == 20 || i == 23 || i == 26) { }
+            if (i == 4 || i == 14 || i == 30 || i == 20 || i == 23 || i == 26) { }
             else
                 npcListForEvent[i].SetActive(false);
         }
@@ -92,6 +93,8 @@ public class EventManager : MonoBehaviour
                 // 발루아 등장 이벤트(71에서 72로 시간대가 넘어갈경우 발루아는 218번이 발생하기 전까지 비활성화 되어야함(나중에 추가할 것)
                 case "202":
                 case "203":
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    break;
                 case "204":
                     if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
                         PlayerManager.instance.AddEventCodeToList(eventIndex);
@@ -114,6 +117,9 @@ public class EventManager : MonoBehaviour
                     PlayerManager.instance.isInvestigated_StrangeDoor = true;
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
+                case "209":
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    break;
                 case "210":
                 case "215":
                 case "216":
@@ -125,15 +131,14 @@ public class EventManager : MonoBehaviour
                 case "226": // 대화테이블에 4025묶음의 새로운 이벤트 속성값을 226으로 넣어야함
                 case "227":
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayEvent();
                     break;
                 case "232":
                 case "240":
                 case "243":
                 case "252":
                 case "253":
+                case "254":
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayEvent();
                     break;
 
                 // 정보상 건물 안의 엑스트라들 등장(인물 배치후, 적용할것)
@@ -141,7 +146,6 @@ public class EventManager : MonoBehaviour
                     if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.NumOfAct.Equals("53"))
                     {
                         PlayerManager.instance.AddEventCodeToList(eventIndex);
-                        PlayerManager.instance.AddEventCodeToList("207");
                     }
                     break;
 
@@ -193,17 +197,15 @@ public class EventManager : MonoBehaviour
             }
         }
 
-        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("207"))
+        if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("207") && PlayerManager.instance.TimeSlot.Equals("72"))
         {
-            if (PlayerManager.instance.TimeSlot.Equals("72") && PlayerManager.instance.NumOfAct.Equals("53"))
+            //index 5 ~ 12 : 정보상 엑스트라들
+            for (int i = 5; i <= 12; i++)
             {
-                //index 5 ~ 12 : 정보상 엑스트라들
-                for (int i = 5; i <= 12; i++)
-                {
-                    if (!npcListForEvent[i].activeSelf)
-                        npcListForEvent[i].SetActive(true);
-                }
+                if (!npcListForEvent[i].activeSelf)
+                    npcListForEvent[i].SetActive(true);
             }
+            PlayerManager.instance.AddEventCodeToList("207");
         }
 
         if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("218"))
@@ -244,6 +246,17 @@ public class EventManager : MonoBehaviour
         {
             if (npcListForEvent[13].activeSelf)
                 npcListForEvent[13].SetActive(false);
+        }
+
+        // 총장 사무실의 책장에 손잡이를 발생시키는 이벤트 254
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("254"))
+        {
+            // 일반 책장(30) 비활성화
+            if (npcListForEvent[30].activeSelf)
+                npcListForEvent[30].SetActive(false);
+            // 손잡이 달린 책장(16) 활성화
+            if (!npcListForEvent[16].activeSelf)
+                npcListForEvent[16].SetActive(true);
         }
 
         // 비밀 공간 포탈 등장 이벤트 (손잡이책장 16, 열린 책장 17, 비밀공간으로 가는 포탈 18)
@@ -330,13 +343,7 @@ public class EventManager : MonoBehaviour
                     npcListForEvent[25].SetActive(true);
             }
         }
-
-        // 71 시간대에는 주택가의 쉐렌(30)을 활성화
-        if (!npcListForEvent[30].activeSelf && PlayerManager.instance.TimeSlot.Equals("71"))
-        {
-            npcListForEvent[30].SetActive(true);
-        }
-
+        
         // 72 시간대에 진행되는 항구 이벤트가 발생하지 않았다면, 항구의 쉐렌(27), 악당 1(28), 악당 2(29) 활성화, 주택가의 쉐렌(30) 비활성화
         if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("0209") && PlayerManager.instance.TimeSlot.Equals("72"))
         {
@@ -346,8 +353,6 @@ public class EventManager : MonoBehaviour
                 npcListForEvent[28].SetActive(true);
             if (!npcListForEvent[29].activeSelf)
                 npcListForEvent[29].SetActive(true);
-            if (npcListForEvent[30].activeSelf)
-                npcListForEvent[30].SetActive(false);
         }
 
         // 72 시간대에 진행되는 항구 이벤트가 발생하면 항구의 쉐렌(27), 악당 1(28), 악당 2(29) 비활성화 & 주택가의 쉐렌(30) 활성화
@@ -359,8 +364,6 @@ public class EventManager : MonoBehaviour
                 npcListForEvent[28].SetActive(false);
             if (npcListForEvent[29].activeSelf)
                 npcListForEvent[29].SetActive(false);
-            if (!npcListForEvent[30].activeSelf)
-                npcListForEvent[30].SetActive(true);
         }
         // 특정 인물 등장 이벤트 처리 끝
 
@@ -384,13 +387,14 @@ public class EventManager : MonoBehaviour
         {
             if (!hasBeenInHarbor)
             {
+                isPlaying8014Conversation = true;
                 DialogManager.instance.InteractionWithObject("이벤트 자동발생");   // 8014 대화묶음 실행
 
                 hasBeenInHarbor = true;
             }
         }
 
-        
+        /*
         // 이벤트 209
         if (PlayerManager.instance.num_Talk_With_1105 >= 1)
         {
@@ -400,7 +404,7 @@ public class EventManager : MonoBehaviour
                 PlayerManager.instance.AddEventCodeToList("209");
             }
         }
-
+        */
         // 이벤트 208
         if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("209"))
         {
@@ -684,7 +688,7 @@ public class EventManager : MonoBehaviour
                     clueNum2++;
                 if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals("유람선 티켓"))
                     clueNum2++;
-                if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals("입양서류"))
+                if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals("입양 서류"))
                     clueNum2++;
                 if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals("입양과 후원"))
                     clueNum2++;

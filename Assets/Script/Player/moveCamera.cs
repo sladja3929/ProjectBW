@@ -363,7 +363,8 @@ public class MoveCamera : MonoBehaviour
             else if (playerPosition.x >= (position_Of_Sector2_Of_Street1_In_Harbor.x - 640.0f) && playerPosition.x < (position_Of_Sector2_Of_Street1_In_Harbor.x + 640.0f))
             {
                 // 208, 209번 이벤트에 필요한 이벤트 대화 발생용
-                EventManager.instance.PlayEvent();
+                if(!EventManager.instance.isPlaying8014Conversation)
+                    EventManager.instance.PlayEvent();
                 transform.localPosition = position_Of_Sector2_Of_Street1_In_Harbor;
             }
         }

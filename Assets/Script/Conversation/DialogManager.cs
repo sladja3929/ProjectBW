@@ -355,6 +355,7 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.isTypingText = true;
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+        Debug.Log("curNumOfNpcNameLists = " + curNumOfNpcNameLists);
         tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
 
         UIManager.instance.isConversationing = true;
@@ -622,6 +623,8 @@ public class DialogManager : MonoBehaviour
                     }
                 }
 
+                Debug.Log("대화가 모두 끝나서, 초기화 되기 직전");
+
                 //하나의 대화가 끝났으므로, 리셋
                 index = 0;
                 numOfText = 0;
@@ -650,6 +653,8 @@ public class DialogManager : MonoBehaviour
                         EventManager.instance.PlayEvent();
                     }
                 }
+
+                Debug.Log("대화가 모두 끝나서, 초기화");
 
                 EventManager.instance.PlayEvent();
             }
