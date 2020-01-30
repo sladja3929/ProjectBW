@@ -103,6 +103,12 @@ public class ItemDatabase : MonoBehaviour {
         return numOfAct;
     }
 
+    public void AddClueForTest(string name)
+    {
+        int clueIndex = clueStructureLists.FindIndex(x => x.GetClueName() == name);
+        PlayerManager.instance.AddClueToList(clueStructureLists[clueIndex]);
+    }
+
     /* 추후에 단서의 content를 변경시킬 함수 필요 */
     public void ClueUpdate()
     {

@@ -22,11 +22,14 @@ public class EventManager : MonoBehaviour
     [SerializeField]
     private Transform positionOfCruiseOutside;
     private bool isActivatedEvent222;
+    public bool isFinishedConversationFor222 = false;
     public bool triggerKickMerte; // 222번 이벤트에 사용
     [SerializeField]
     private Transform positionOfMainCamera; // 252번 이벤트에 사용
     private Vector3 position_Of_Sector1_Of_Street1_In_Village = new Vector3(5000f, 5300f, -10);
     public bool isPlaying8014Conversation = false;
+    // 이벤트 249
+    private int clueNum2 = 0;
 
     void Awake()
     {
@@ -65,7 +68,7 @@ public class EventManager : MonoBehaviour
     {
         for (int i = 0; i < npcListForEvent.Count; i++)
         {
-            if (i == 4 || i == 14 || i == 30 || i == 20 || i == 23 || i == 26) { }
+            if (i == 4 || i == 14 || i == 30 || i == 32 || i == 20 || i == 23 || i == 26) { }
             else
                 npcListForEvent[i].SetActive(false);
         }
@@ -232,6 +235,15 @@ public class EventManager : MonoBehaviour
             // 유람선 활성화
             if (!npcListForEvent[13].activeSelf)
                 npcListForEvent[13].SetActive(true);
+
+            if (!npcListForEvent[31].activeSelf)
+                npcListForEvent[31].SetActive(true);
+
+            if (npcListForEvent[32].activeSelf)
+                npcListForEvent[32].SetActive(false);
+
+            if (!npcListForEvent[33].activeSelf)
+                npcListForEvent[33].SetActive(true);
         }
 
         // 유람선 포탈 등장 이벤트 (15)
@@ -241,11 +253,27 @@ public class EventManager : MonoBehaviour
                 npcListForEvent[15].SetActive(true);
         }
 
-        // 유람선이 없어지는 이벤트
+        // 유람선 및 포탈이 없어지는 이벤트, 유람선 직원(31)도 없애야댐, 나룻배 등장
         if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("223"))
         {
             if (npcListForEvent[13].activeSelf)
                 npcListForEvent[13].SetActive(false);
+
+            // 나룻배 활성화
+            if (!npcListForEvent[14].activeSelf)
+                npcListForEvent[14].SetActive(true);
+
+            if (npcListForEvent[15].activeSelf)
+                npcListForEvent[15].SetActive(false);
+
+            if (npcListForEvent[31].activeSelf)
+                npcListForEvent[31].SetActive(false);
+
+            if (!npcListForEvent[32].activeSelf)
+                npcListForEvent[32].SetActive(true);
+
+            if (npcListForEvent[33].activeSelf)
+                npcListForEvent[33].SetActive(false);
         }
 
         // 총장 사무실의 책장에 손잡이를 발생시키는 이벤트 254
@@ -343,7 +371,17 @@ public class EventManager : MonoBehaviour
                     npcListForEvent[25].SetActive(true);
             }
         }
-        
+
+        if (!PlayerManager.instance.TimeSlot.Equals("72"))
+        {
+            if (npcListForEvent[27].activeSelf)
+                npcListForEvent[27].SetActive(false);
+            if (npcListForEvent[28].activeSelf)
+                npcListForEvent[28].SetActive(false);
+            if (npcListForEvent[29].activeSelf)
+                npcListForEvent[29].SetActive(false);
+        }
+
         // 72 시간대에 진행되는 항구 이벤트가 발생하지 않았다면, 항구의 쉐렌(27), 악당 1(28), 악당 2(29) 활성화, 주택가의 쉐렌(30) 비활성화
         if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("0209") && PlayerManager.instance.TimeSlot.Equals("72"))
         {
@@ -434,14 +472,13 @@ public class EventManager : MonoBehaviour
             {
                 PlayerManager.instance.isInvestigated_StrangeDoor = false;  // 한번만 이동이 이루어지도록 처리
                 //유람선 지하로 맵 이동 시키기 -> 나중에 Invoke 같은 함수 써서, 특정 대화가 끝나거나 시작하면 이동되게끔 해보기 (1월 27일 메모)
-                PlayerManager.instance.SetCurrentPosition("Harbor_Prison");
-                positionOfMerte.localPosition = positionOfPrisonInCruise.localPosition;
+                Invoke("PlayActForEvent221", 1.0f);
             }
         }
 
 
         // 이벤트 222
-        if (!isActivatedEvent222)
+        if (!isActivatedEvent222 && isFinishedConversationFor222)
         {
             List<Interaction>[] targetOfInteractionList = new List<Interaction>[3];
             List<Interaction> tempInteractionList = DialogManager.instance.GetInteractionList();
@@ -449,22 +486,30 @@ public class EventManager : MonoBehaviour
             targetOfInteractionList[1] = tempInteractionList.FindAll(x => (x.GetSetOfDesc() == 8034 && x.GetParent() == 3));
             targetOfInteractionList[2] = tempInteractionList.FindAll(x => (x.GetSetOfDesc() == 8035 && x.GetParent() == 3));
 
-            if (targetOfInteractionList[0][0].GetStatus() == 1 && targetOfInteractionList[1][0].GetStatus() == 1 && targetOfInteractionList[2][0].GetStatus() == 1)
+            //Debug.Log("status 1 = " + targetOfInteractionList[0][0].GetStatus());
+            //Debug.Log("status 2 = " + targetOfInteractionList[1][0].GetStatus());
+            //Debug.Log("status 3 = " + targetOfInteractionList[2][0].GetStatus());
+
+            if (targetOfInteractionList[0][0].GetStatus() >= 1 && targetOfInteractionList[1][0].GetStatus() >= 1 && targetOfInteractionList[2][0].GetStatus() >= 1)
             {
                 if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("222"))
                 {
                     // 철장 1 2 3을 모두 조사했으면, 이벤트 대사와 함께, 플레이어를 유람선 밖으로 내보내도록 조작해야함
                     PlayerManager.instance.AddEventCodeToList("222");
                     isActivatedEvent222 = true;
-                    DialogManager.instance.InteractionWithObject("대화3개 다하면 자동");
+                    //Debug.Log("들어 왔냐");
+                    //DialogManager.instance.InteractionWithObject("대화3개 다하면 자동");
+                    Invoke("PlayScriptForEvent222", 1.0f);
                 }
             }
         }
+
         if (triggerKickMerte)
         {
             // 메르테를 유람선 밖으로 내보내기
             PlayerManager.instance.SetCurrentPosition("Harbor_Street1");
-            positionOfMerte.localPosition = positionOfCruiseOutside.localPosition;
+            //positionOfMerte.localPosition = positionOfCruiseOutside.localPosition;
+            positionOfMerte.localPosition = new Vector3(1345.0f, 3560.0f, 0.0f);
             triggerKickMerte = false;
         }
 
@@ -669,8 +714,6 @@ public class EventManager : MonoBehaviour
             }
         }
 
-        // 이벤트 249
-        int clueNum2 = 0;
 
         if (!PlayerManager.instance.isPossessed_3A01_3A08_Clues)
         {
@@ -702,6 +745,7 @@ public class EventManager : MonoBehaviour
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("249"))
             {
+                //Debug.Log("249 이벤트 추가");
                 PlayerManager.instance.AddEventCodeToList("249");
             }
         }
@@ -712,7 +756,10 @@ public class EventManager : MonoBehaviour
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("250"))
             {
                 if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("249"))
+                {
+                    //Debug.Log("249 이벤트 삭제");
                     PlayerManager.instance.DeleteEventCodeFromList("249");
+                }
 
                 PlayerManager.instance.AddEventCodeToList("250");
             }
@@ -737,6 +784,18 @@ public class EventManager : MonoBehaviour
     public void PlayScriptForEvent251()
     {
         DialogManager.instance.InteractionWithObject("유람선첫진입");
+    }
+
+    public void PlayScriptForEvent222()
+    {
+        DialogManager.instance.InteractionWithObject("대화3개 다하면 자동");
+    }
+
+    public void PlayActForEvent221()
+    {
+        PlayerManager.instance.SetCurrentPosition("Harbor_Prison");
+        //positionOfMerte.localPosition = positionOfPrisonInCruise.localPosition;
+        positionOfMerte.localPosition = new Vector3(-1100.0f, 5970.0f, 0f);
     }
 
 }

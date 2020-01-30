@@ -105,10 +105,24 @@ public class PlayerManager : MonoBehaviour {
 
         // 추후에, 상호작용 될 수 있는 오브젝트의 근처에 있을 때만 상호작용 되도록 할 것(1월 27일 메모)
         SetIsNearObject(true);
+
     }
 
     // Update is called once per frame
     void Update() {
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            /* for test event 222 */
+            ItemDatabase.instance.AddClueForTest("풍선과 배");
+            ItemDatabase.instance.AddClueForTest("수상한 공간");
+            ItemDatabase.instance.AddClueForTest("꽃 거래 내역서");
+            ItemDatabase.instance.AddClueForTest("달력의 날짜");
+            ItemDatabase.instance.AddClueForTest("큰 돈과 큰 배");
+            ItemDatabase.instance.AddClueForTest("유람선 티켓");
+            ItemDatabase.instance.AddClueForTest("입양 서류");
+            ItemDatabase.instance.AddClueForTest("입양과 후원");
+        }
 
         if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
         {

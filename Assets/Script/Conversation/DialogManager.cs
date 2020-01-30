@@ -135,11 +135,11 @@ public class DialogManager : MonoBehaviour
 
         // 222번 이벤트를 위한 처리
         if (targetObject.Equals("대화3개 다하면 자동"))
+        {
             tempSentenceOfCondition = targetObject;
-        else
-            tempSentenceOfCondition = null;
-
-        if (targetObject.Equals("이벤트 자동발생"))
+            //Debug.Log("tempSentenceOfCondition = " + tempSentenceOfCondition);
+        }
+        else if (targetObject.Equals("이벤트 자동발생"))
             tempSentenceOfCondition = targetObject;
         else
             tempSentenceOfCondition = null;
@@ -183,7 +183,7 @@ public class DialogManager : MonoBehaviour
         List<Interaction> targetOfInteractionList = new List<Interaction>();
         
         // 대화의 시간대에, 게임의 시간대가 포함되어 있어야 하고, 말을 건 캐릭터의 이름이 StartObject인 대화만 고르기. (1210에 update 함) -> startObject가 여러개 일 경우도 고려하게끔 수정
-        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true));
+        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
 
         // 해당 NPC와의 대화가 없을 경우, 함수 종료
         // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함) -> 반영완료 (1223)
@@ -355,18 +355,19 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.isTypingText = true;
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
-        Debug.Log("curNumOfNpcNameLists = " + curNumOfNpcNameLists);
+        //Debug.Log("curNumOfNpcNameLists = " + curNumOfNpcNameLists);
+        
         tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
 
         UIManager.instance.isConversationing = true;
-
+        
         // 231번 이벤트를 위한 코드
         if (!controlEventNum231 && tempNpcNameLists[curNumOfNpcNameLists].Equals("1601") && PlayerManager.instance.TimeSlot.Equals("73"))
         {
             PlayerManager.instance.num_Talk_With_1601_in_73++;
             controlEventNum231 = true;
         }
-
+        
         if (tempNpcName != null)
         {
             npcNameText.text = tempNpcName;
@@ -389,7 +390,7 @@ public class DialogManager : MonoBehaviour
         }
 
         int tempEnterCount = 0;     // \n의 수를 체크할 변수 선언
-
+        
         foreach (char letter in sentences[index].ToCharArray())
         {
             //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
@@ -426,8 +427,7 @@ public class DialogManager : MonoBehaviour
                 }
             }
         }
-        
-        
+
         UIManager.instance.canSkipConversation = true;
 
         isSentenceDone = true;
@@ -623,7 +623,7 @@ public class DialogManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log("대화가 모두 끝나서, 초기화 되기 직전");
+                //Debug.Log("대화가 모두 끝나서, 초기화 되기 직전");
 
                 //하나의 대화가 끝났으므로, 리셋
                 index = 0;
@@ -638,11 +638,15 @@ public class DialogManager : MonoBehaviour
                 //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
                 isFirstConversation = false;
                 UIManager.instance.isTypingText = false;
+                EventManager.instance.isFinishedConversationFor222 = true;
+
+//                Debug.Log("tempSentenceOfCondition = " + tempSentenceOfCondition);
 
                 if (tempSentenceOfCondition != null)
                 {
                     if (tempSentenceOfCondition.Equals("대화3개 다하면 자동"))
                     {
+                        //Debug.Log("안에 들어 왔냐");
                         EventManager.instance.triggerKickMerte = true;
                         EventManager.instance.PlayEvent();
                     }
@@ -654,7 +658,7 @@ public class DialogManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log("대화가 모두 끝나서, 초기화");
+                //Debug.Log("대화가 모두 끝나서, 초기화");
 
                 EventManager.instance.PlayEvent();
             }
