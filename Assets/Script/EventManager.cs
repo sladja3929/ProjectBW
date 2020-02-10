@@ -15,6 +15,7 @@ public class EventManager : MonoBehaviour
     private int tempIndex;
 
     private bool hasBeenInHarbor;
+    private bool hasPlayed252Event;
     [SerializeField]
     private Transform positionOfPrisonInCruise;
     [SerializeField]
@@ -28,6 +29,7 @@ public class EventManager : MonoBehaviour
     private Transform positionOfMainCamera; // 252번 이벤트에 사용
     private Vector3 position_Of_Sector1_Of_Street1_In_Village = new Vector3(5000f, 5300f, -10);
     public bool isPlaying8014Conversation = false;
+    public bool isPlaying2032Conversation = false;
     // 이벤트 249
     private int clueNum2 = 0;
 
@@ -40,6 +42,7 @@ public class EventManager : MonoBehaviour
 
         eventIndexList = new List<string>();
         hasBeenInHarbor = false;
+        hasPlayed252Event = false;
         isActivatedEvent222 = false;
 
         /* for test */
@@ -50,7 +53,7 @@ public class EventManager : MonoBehaviour
         AddToEventIndexList("0209");
 
         // id 200번 이벤트부터 253번 이벤트까지 저장
-        for (int i = 200; i <= 254; i++)
+        for (int i = 200; i <= 256; i++)
             AddToEventIndexList(i.ToString());
 
         DisableNpcForEvent();
@@ -86,12 +89,17 @@ public class EventManager : MonoBehaviour
                 // 체스미터 등장 이벤트
                 // 72시간대가 되면 도심 분수대 앞에 체스미터가 나와야함.(추후 추가할 것)
                 case "200":
-                    if(PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
+                    //{
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //    Debug.Log("200번 이벤트 발생");
+                    //}
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 case "201":
-                    if (PlayerManager.instance.TimeSlot.Equals("71") && (PlayerManager.instance.NumOfAct.Equals("53") || PlayerManager.instance.NumOfAct.Equals("54")))
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //if (PlayerManager.instance.TimeSlot.Equals("71") && (PlayerManager.instance.NumOfAct.Equals("53") || PlayerManager.instance.NumOfAct.Equals("54")))
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 // 발루아 등장 이벤트(71에서 72로 시간대가 넘어갈경우 발루아는 218번이 발생하기 전까지 비활성화 되어야함(나중에 추가할 것)
                 case "202":
@@ -99,22 +107,26 @@ public class EventManager : MonoBehaviour
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 case "204":
-                    if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 case "211":
-                    if ( (PlayerManager.instance.TimeSlot.Equals("71") || PlayerManager.instance.TimeSlot.Equals("72")) && PlayerManager.instance.TimeSlot.Equals("53"))
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //if ( (PlayerManager.instance.TimeSlot.Equals("71") || PlayerManager.instance.TimeSlot.Equals("72")) && PlayerManager.instance.TimeSlot.Equals("53"))
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 case "212":
                 case "213":
                 case "214":
-                    if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 case "205": // 해당 이벤트관련 작업 완료
-                    if (PlayerManager.instance.NumOfAct.Equals("53"))
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //if (PlayerManager.instance.NumOfAct.Equals("53"))
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
                 case "221":
                     PlayerManager.instance.isInvestigated_StrangeDoor = true;
@@ -146,10 +158,11 @@ public class EventManager : MonoBehaviour
 
                 // 정보상 건물 안의 엑스트라들 등장(인물 배치후, 적용할것)
                 case "206":
-                    if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.NumOfAct.Equals("53"))
-                    {
-                        PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    }
+                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.NumOfAct.Equals("53"))
+                    //{
+                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    //}
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
 
                 case "218":
@@ -178,11 +191,14 @@ public class EventManager : MonoBehaviour
     public void PlayEvent()
     {
         // 특정 인물 등장 이벤트 처리 시작
-        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("200") && PlayerManager.instance.TimeSlot.Equals("72"))
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("200") && PlayerManager.instance.TimeSlot.Equals("71"))
         {
             //tempIndex = npcListForEvent.FindIndex(x => x.gameObject.name == "체스미터");
             if (!npcListForEvent[1].activeSelf)
+            {
                 npcListForEvent[1].SetActive(true);
+                Debug.Log("체스미터 활성화");
+            }
         }
 
         if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("202"))
@@ -208,6 +224,14 @@ public class EventManager : MonoBehaviour
                 if (!npcListForEvent[i].activeSelf)
                     npcListForEvent[i].SetActive(true);
             }
+
+            // 바텐더(4) 비활성화, 와인병을 든 바텐더(34) 활성화 
+            if (!npcListForEvent[34].activeSelf)
+            {
+                npcListForEvent[4].SetActive(false);
+                npcListForEvent[34].SetActive(true);
+            }
+
             PlayerManager.instance.AddEventCodeToList("207");
         }
 
@@ -336,10 +360,16 @@ public class EventManager : MonoBehaviour
         }
 
         // 252번 이벤트가 발생 했고, 카메라가 보여지게하는 위치가 주택가 1사이드 1컷이라면, 2032대화묶음 실행
-        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("252") && PlayerManager.instance.TimeSlot.Equals("74")
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("252") && PlayerManager.instance.TimeSlot.Equals("74") //&& !UIManager.instance.isConversationing
             && positionOfMainCamera.localPosition == position_Of_Sector1_Of_Street1_In_Village)
         {
-            DialogManager.instance.InteractionWithObject("252번이벤트");
+            if (!hasPlayed252Event)
+            {
+                isPlaying2032Conversation = true;
+                DialogManager.instance.InteractionWithObject("252");
+
+                hasPlayed252Event = true;
+            }
         }
 
         // 닫혀있는 금고(20)를, 열려있는 금고(21)로 바꾸고, 금고속 종이(22)를 나타나게 하기 -> 253번 이벤트
@@ -403,6 +433,17 @@ public class EventManager : MonoBehaviour
             if (npcListForEvent[29].activeSelf)
                 npcListForEvent[29].SetActive(false);
         }
+
+        // 사건 3에서 사체(35)를 활성화, 이외의 사건에서는 비활성화
+        if (!npcListForEvent[35].activeSelf)
+        {
+            if(PlayerManager.instance.NumOfAct.Equals("53"))
+                npcListForEvent[35].SetActive(true);
+        }
+
+        if (!PlayerManager.instance.NumOfAct.Equals("53"))
+            npcListForEvent[35].SetActive(false);
+
         // 특정 인물 등장 이벤트 처리 끝
 
 

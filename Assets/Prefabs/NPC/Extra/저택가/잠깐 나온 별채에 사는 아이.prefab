@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2888396061600100622}
   - component: {fileID: 2888396061600100623}
   m_Layer: 0
-  m_Name: "\uADC0\uC871 \uBD80\uC778 \uAE30\uB2E4\uB9AC\uB294 \uD558\uC778"
+  m_Name: "\uC7A0\uAE50 \uB098\uC628 \uBCC4\uCC44\uC5D0 \uC0AC\uB294 \uC544\uC774"
   m_TagString: InteractionObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: -826924245
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 04c7f879109449a47946cd401ddc918f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1db0d9823762ec44da4d63a57304cbd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,8 +94,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.38, y: 2.51}
+  m_Offset: {x: 0.01, y: -0.35}
+  m_Size: {x: 0.58, y: 1.02}
   m_Direction: 0
 --- !u!114 &2888396061600100623
 MonoBehaviour:

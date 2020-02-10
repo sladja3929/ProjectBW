@@ -7,6 +7,7 @@ public class MoveCamera : MonoBehaviour
     [SerializeField] private GameObject player;
     private string whereIsPlayer;
     private Vector3 playerPosition;
+    
 
     /* Main Camera 오브젝트의 위치를 직접 옮기며 측정 */
     /* 슬램가 거리 1 */
@@ -252,6 +253,9 @@ public class MoveCamera : MonoBehaviour
 
             if (playerPosition.x >= (position_Of_Sector1_Of_Street1_In_Village.x - 640.0f) && playerPosition.x < (position_Of_Sector1_Of_Street1_In_Village.x + 640.0f))
             {
+                // 252번 이벤트에 필요한 이벤트 대화 발생용
+                if (!EventManager.instance.isPlaying2032Conversation && PlayerManager.instance.TimeSlot.Equals("74"))
+                    EventManager.instance.PlayEvent();
                 transform.localPosition = position_Of_Sector1_Of_Street1_In_Village;
             }
             else if (playerPosition.x >= (position_Of_Sector2_Of_Street1_In_Village.x - 640.0f) && playerPosition.x < (position_Of_Sector2_Of_Street1_In_Village.x + 640.0f))

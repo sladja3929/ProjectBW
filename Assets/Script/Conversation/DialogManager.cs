@@ -144,6 +144,18 @@ public class DialogManager : MonoBehaviour
         else
             tempSentenceOfCondition = null;
 
+        // 226번 이벤트를 위한 처리
+        if (targetObject.Equals("9404"))
+        {
+            tempSentenceOfCondition = targetObject;
+            // 사체 묘사 사진 활성화
+            UIManager.instance.ActivateDeadBodyImage();
+        }
+        else
+        {
+            tempSentenceOfCondition = null;
+        }
+
         if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("1803") || targetObject.Equals("1804")))
         {
             PlayerManager.instance.num_Talk_With_1803_1804_in_71++;
@@ -655,6 +667,12 @@ public class DialogManager : MonoBehaviour
                     {
                         PlayerManager.instance.AddEventCodeToList("0209");
                         EventManager.instance.PlayEvent();
+                    }
+
+                    // 사체 묘사 이미지 비활성화
+                    if (tempSentenceOfCondition.Equals("9404"))
+                    {
+                        UIManager.instance.RemoveDeadBodyImage();
                     }
                 }
 

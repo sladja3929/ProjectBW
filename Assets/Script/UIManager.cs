@@ -118,10 +118,13 @@ public class UIManager : MonoBehaviour {
     /* 포탈을 타고있을때 */
     public bool isPortaling;    // 포탈을 통해 이동을 하고 있는지 확인
 
+    [SerializeField]
+    private GameObject deadBodyImage;   // 사체 묘사 이미지
+
     //private List<Interaction> interactionLists;
 
-    public Navigation customNav;
-    public Navigation customNav2;
+    //public Navigation customNav;
+    //public Navigation customNav2;
 
     // Use this for initialization
     void Awake () {
@@ -766,6 +769,18 @@ public class UIManager : MonoBehaviour {
     public void SetTempIndex(int tempIndex)
     {
         this.tempIndex = tempIndex;
+    }
+
+    public void ActivateDeadBodyImage()
+    {
+        if (!deadBodyImage.activeSelf)
+            deadBodyImage.SetActive(true);
+    }
+
+    public void RemoveDeadBodyImage()
+    {
+        if (deadBodyImage.activeSelf)
+            deadBodyImage.SetActive(false);
     }
 
     public void SetColorBlockToWhite()
