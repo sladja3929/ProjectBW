@@ -18,6 +18,7 @@ public class MiniMapManager : MonoBehaviour
     private bool isOpen;
     private bool isZoomIn;
 
+    /*마커 좌표*/
     private Vector3 miniMap_Position_Slum_Street1 = new Vector3(-10.4f, -4.5f, -1f);
     private Vector3 miniMap_Position_Slum_Street2 = new Vector3(-10f, -6.5f, -1f);
     private Vector3 miniMap_Position_Market_Street1 = new Vector3(-10.5f, 2f, -1f);
@@ -30,6 +31,10 @@ public class MiniMapManager : MonoBehaviour
     private Vector3 miniMap_Position_Mansion_Street2 = new Vector3(10.5f, 1f, -1f);
     private Vector3 miniMap_Position_Mansion_Street3 = new Vector3(10f, -1f, -1f);
     private Vector3 miniMap_Position_Downtown_Street1 = new Vector3(-0.2f, -0.5f, -1f);
+    private Vector3 miniMap_Position_Forest_Street1 = new Vector3(0.75f, -7.5f, -1f);
+    private Vector3 miniMap_Position_Forest_Street2 = new Vector3(0.75f, -9.3f, -1f);
+    private Vector3 miniMap_Position_Forest_Street3 = new Vector3(0.75f, -11f, -1f);
+    private Vector3 miniMap_Position_Chapter_Street1 = new Vector3(0.2f, 3.5f, -1f);
 
     void Start()
     {
@@ -40,7 +45,9 @@ public class MiniMapManager : MonoBehaviour
         isZoomIn = false;
 
         arrow = transform.GetChild(0).gameObject;
-        MoveArrowPosition();
+
+        arrow.transform.localPosition = miniMap_Position_Chapter_Street1;
+        //MoveArrowPosition();
         miniMapUI.SetActive(false);
         StreetUI.SetActive(false);
     }
@@ -74,52 +81,63 @@ public class MiniMapManager : MonoBehaviour
     }
 
     public void MoveArrowPosition() {
-        if(PlayerManager.instance.GetCurrentPosition() == "Slum_Street1") {
-            arrow.transform.localPosition = miniMap_Position_Slum_Street1;
-        }
 
-        else if (PlayerManager.instance.GetCurrentPosition() == "Slum_Street2") {
-            arrow.transform.localPosition = miniMap_Position_Slum_Street2;
-        }
+        Debug.Log(PlayerManager.instance.GetCurrentPosition());
 
-        else if (PlayerManager.instance.GetCurrentPosition() == "Market_Street1") {
-            arrow.transform.localPosition = miniMap_Position_Market_Street1;
-        }
+        string MerteCurPos = PlayerManager.instance.GetCurrentPosition();
 
-        else if (PlayerManager.instance.GetCurrentPosition() == "Market_Street2") {
-            arrow.transform.localPosition = miniMap_Position_Market_Street2;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Market_Street3") {
-            arrow.transform.localPosition = miniMap_Position_Market_Street3;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Village_Street1") {
-            arrow.transform.localPosition = miniMap_Position_Village_Street1;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Village_Street2") {
-            arrow.transform.localPosition = miniMap_Position_Village_Street2;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Village_Street3") {
-            arrow.transform.localPosition = miniMap_Position_Village_Street3;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Mansion_Street1") {
-            arrow.transform.localPosition = miniMap_Position_Mansion_Street1;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Mansion_Street2") {
-            arrow.transform.localPosition = miniMap_Position_Mansion_Street2;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Mansion_Street3") {
-            arrow.transform.localPosition = miniMap_Position_Mansion_Street3;
-        }
-
-        else if (PlayerManager.instance.GetCurrentPosition() == "Downtown_Street1") {
-            arrow.transform.localPosition = miniMap_Position_Downtown_Street1;
+        switch (MerteCurPos)
+        {
+            case "Slum_Street1":
+                arrow.transform.localPosition = miniMap_Position_Slum_Street1;
+                break;
+            case "Slum_Street2":
+                arrow.transform.localPosition = miniMap_Position_Slum_Street2;
+                break;
+            case "Market_Street1":
+                arrow.transform.localPosition = miniMap_Position_Market_Street1;
+                break;
+            case "Market_Street2":
+                arrow.transform.localPosition = miniMap_Position_Market_Street2;
+                break;
+            case "Market_Street3":
+                arrow.transform.localPosition = miniMap_Position_Market_Street3;
+                break;
+            case "Village_Street1":
+                arrow.transform.localPosition = miniMap_Position_Village_Street1;
+                break;
+            case "Village_Street2":
+                arrow.transform.localPosition = miniMap_Position_Village_Street2;
+                break;
+            case "Village_Street3":
+                arrow.transform.localPosition = miniMap_Position_Village_Street3;
+                break;
+            case "Mansion_Street1":
+                arrow.transform.localPosition = miniMap_Position_Mansion_Street1;
+                break;
+            case "Mansion_Street2":
+                arrow.transform.localPosition = miniMap_Position_Mansion_Street2;
+                break;
+            case "Mansion_Street3":
+                arrow.transform.localPosition = miniMap_Position_Mansion_Street3;
+                break;
+            case "Downtown_Street1":
+                arrow.transform.localPosition = miniMap_Position_Downtown_Street1;
+                break;
+            case "Chapter_Street1":
+                arrow.transform.localPosition = miniMap_Position_Chapter_Street1;
+                break;
+            case "Forest_Street1":
+                arrow.transform.localPosition = miniMap_Position_Forest_Street1;
+                break;
+            case "Forest_Street2":
+                arrow.transform.localPosition = miniMap_Position_Forest_Street2;
+                break;
+            case "Forest_Street3":
+                arrow.transform.localPosition = miniMap_Position_Forest_Street3;
+                break;
+            default:
+                break;
         }
     }
 
