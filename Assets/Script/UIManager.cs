@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour {
     public bool isTypingText;      // 대화가 출력되고 있는가?
     public bool isFading;           //대화창이 Fade되고 있는가?
     public bool canSkipConversation;//다른 대화로 넘어갈 수 있는지 확인
+    public bool playerWantToSkip;   // 플레이어가 스킵을 할 경우
     public List<string> npcNameLists;  // 단서 내용1에 필요한 npc이름들 기록
     public List<string> sentenceList;     // 단서 내용1에 필요한 대화들 기록
     public int howManyOpenNote;
@@ -160,6 +161,7 @@ public class UIManager : MonoBehaviour {
         isTypingText = false;
         isFading = false;
         canSkipConversation = false;
+        playerWantToSkip = false;
         /* DialogManager에서 쓰임(test)
         SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
         conversationUI.SetActive(false);
@@ -270,17 +272,26 @@ public class UIManager : MonoBehaviour {
             ActivateUpDownButton(!isOpenedNote);
         }
 
-        if (Input.GetMouseButtonDown(0) && isConversationing && canSkipConversation)
+        if ( ( Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) ) && isConversationing && !isFading)
         {
-            //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
-            if (DialogManager.instance.isTextFull)
+            if (canSkipConversation)
             {
-                DialogManager.instance.isTextFull = false;
+                //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
+                if (DialogManager.instance.isTextFull)
+                {
+                    DialogManager.instance.isTextFull = false;
+                    Debug.Log("isTextFull => false");
+                }
+                else
+                {
+                    DialogManager.instance.NextSentence();
+                    Debug.Log("NextSentence() 실행중");
+                }
             }
             else
             {
-                DialogManager.instance.NextSentence();
-                //Debug.Log("NextSentence() 실행중");
+                playerWantToSkip = true;
+                Debug.Log("스킵 눌림");
             }
         }
 

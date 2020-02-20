@@ -83,6 +83,7 @@ MonoBehaviour:
   fadeInOutPanel: {fileID: 0}
   fadeInOutAnimator: {fileID: 0}
   timeSlotText: {fileID: 0}
+  wordOfMerte: {fileID: 0}
   testButton: {fileID: 0}
   buttonIndex: 0
   buttonNumOfAct: 
@@ -99,21 +100,12 @@ MonoBehaviour:
   isTypingText: 0
   isFading: 0
   canSkipConversation: 0
+  playerWantToSkip: 0
   npcNameLists: []
   sentenceList: []
   howManyOpenNote: 0
-  customNav:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  customNav2:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+  isPortaling: 0
+  deadBodyImage: {fileID: 0}
 --- !u!114 &3814327114598580311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,3 +124,5 @@ MonoBehaviour:
   typingSpeed: 0.02
   isTextFull: 0
   isSentenceDone: 0
+  atOnce: 0
+  isFirstConversation: 0

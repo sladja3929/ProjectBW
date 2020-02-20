@@ -18,7 +18,9 @@ public class DialogManager : MonoBehaviour
     private int index;
     public float typingSpeed;
     private int numOfText = 0;  //현재 출력된 텍스트 수
+    private int numOfTextLimit = 0; // 대화창의 한 줄에 쓰여진 텍스트 수
     private int textLimit;  //한 대화창에 출력할 최대 텍스트 수
+    private int tempLimitInOneLine; // 대화 한 줄에 쓰여질 수 있는 텍스트 수
     public bool isTextFull; //한 대화창에 출력할 최대 텍스트에 도달했는지의 여부
     public bool isSentenceDone; //출력할 문장이 다 출력 됐는지 여부
     public bool atOnce;     // 한번에 한 단어만 출력
@@ -56,6 +58,7 @@ public class DialogManager : MonoBehaviour
         
         textLimit = 125;
         enterLimitCount = 3;    //줄바꿈이 3번 일어나면 대화출력 종료 -> 대화창엔 3줄까지 출력될 것임
+        tempLimitInOneLine = 30;    // 띄어쓰기 + 글자가 30자 이상일 경우, 강제로 줄바꿈
         isTextFull = false;
         isSentenceDone = false;
         atOnce = false;
@@ -368,7 +371,7 @@ public class DialogManager : MonoBehaviour
         //대화 할 때 마다 대화중인 캐릭터 이름 변경
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
         //Debug.Log("curNumOfNpcNameLists = " + curNumOfNpcNameLists);
-        
+
         tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
 
         UIManager.instance.isConversationing = true;
@@ -387,12 +390,13 @@ public class DialogManager : MonoBehaviour
             npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
         }
         else
-            npcNameText.text = "stranger";
+            npcNameText.text = "???";
 
         if (tempNpcNameLists.Count > 1) curNumOfNpcNameLists++;
 
         conversationText.text = "";
         numOfText = 0;
+        numOfTextLimit = 0;
         isSentenceDone = false;
 
         if (!isFirstConversation)
@@ -403,10 +407,11 @@ public class DialogManager : MonoBehaviour
 
         int tempEnterCount = 0;     // \n의 수를 체크할 변수 선언
         
+        // 한 문장의 한 단어씩 출력하는 반복문
         foreach (char letter in sentences[index].ToCharArray())
         {
             //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
-            if (numOfText <= textLimit && !atOnce)
+            if (numOfText <= textLimit && !atOnce) 
             {
                 if (letter.Equals('\n'))
                 {
@@ -417,10 +422,26 @@ public class DialogManager : MonoBehaviour
                 if (numOfText == textLimit || tempEnterCount == enterLimitCount)
                     isTextFull = true;
 
+                // 플레이어가 대화를 스킵하고자 할 경우, for문 탈출
+                if (UIManager.instance.playerWantToSkip)
+                {
+                    break;
+                }
+                
                 conversationText.text += letter;
                 atOnce = true;
                 numOfText++;
+                numOfTextLimit++;
                 UIManager.instance.canSkipConversation = false;
+
+                // 자동으로 한줄 띄우기
+                if (numOfTextLimit >= tempLimitInOneLine)
+                {
+                    conversationText.text += '\n';
+                    tempEnterCount++;
+                    numOfTextLimit = 0;
+                    Debug.Log("정상 로직");
+                }
 
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText > textLimit || tempEnterCount == enterLimitCount)
@@ -431,6 +452,10 @@ public class DialogManager : MonoBehaviour
                     conversationText.text = "";
                     numOfText = 0;
                     tempEnterCount = 0;
+                    numOfTextLimit = 0;
+
+                    atOnce = false;
+                    UIManager.instance.playerWantToSkip = false;
                 }
                 else
                 {
@@ -438,6 +463,58 @@ public class DialogManager : MonoBehaviour
                     atOnce = false;
                 }
             }
+        }
+
+        // 대화가 스킵됐을 때의 로직
+        if (UIManager.instance.playerWantToSkip)
+        {
+            string tempString = "";
+            tempEnterCount = 0;
+            numOfText = 0;
+            numOfTextLimit = 0;
+            
+            foreach (char letter in sentences[index].ToCharArray())
+            {
+                if (letter.Equals('\n'))
+                {
+                    tempEnterCount++;
+                }
+
+                tempString += letter;
+
+                numOfText++;
+                numOfTextLimit++;
+
+                // 자동으로 한줄 띄우기
+                if (numOfTextLimit >= tempLimitInOneLine)
+                {
+                    tempString += '\n';
+                    tempEnterCount++;
+                    numOfTextLimit = 0;
+                    Debug.Log("스킵 로직");
+                }
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText > textLimit || tempEnterCount == enterLimitCount)
+                {
+                    conversationText.text = tempString;
+
+                    UIManager.instance.canSkipConversation = true;
+                    yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+
+                    conversationText.text = "";
+                    tempString = "";
+                    numOfText = 0;
+                    tempEnterCount = 0;
+                    numOfTextLimit = 0;
+                    UIManager.instance.playerWantToSkip = false;
+                }
+
+                conversationText.text = tempString;
+            }
+
+
+            UIManager.instance.playerWantToSkip = false;
         }
 
         UIManager.instance.canSkipConversation = true;
@@ -464,7 +541,7 @@ public class DialogManager : MonoBehaviour
             npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
         }
         else
-            npcNameText.text = "stranger";
+            npcNameText.text = "???";
 
         conversationText.text = "";
         numOfText = 0;
@@ -496,6 +573,12 @@ public class DialogManager : MonoBehaviour
                 if (numOfText == textLimit || tempEnterCount == enterLimitCount)
                     isTextFull = true;
 
+                // 플레이어가 대화를 스킵하고자 할 경우, for문 탈출
+                if (UIManager.instance.playerWantToSkip)
+                {
+                    break;
+                }
+
                 conversationText.text += letter;
                 atOnce = true;
                 numOfText++;
@@ -517,6 +600,14 @@ public class DialogManager : MonoBehaviour
                     atOnce = false;
                 }
             }
+        }
+
+        // 대화가 스킵됐을 때의 로직
+        if (UIManager.instance.playerWantToSkip)
+        {
+            conversationText.text = sentences[index];
+
+            UIManager.instance.playerWantToSkip = false;
         }
 
         UIManager.instance.canSkipConversation = true;
@@ -560,6 +651,16 @@ public class DialogManager : MonoBehaviour
         sentenceLists.Add((dataList[certainDescIndex])["desc"]);  //해당 id값의 대화 추가
     }
 
+    // 대화 스킵 함수
+    public void SkipConversation()
+    {
+        UIManager.instance.canSkipConversation = true;
+        UIManager.instance.isConversationing = true;
+        //isTextFull = true;
+        UIManager.instance.isTypingText = false;
+
+        conversationText.text = sentences[index];
+    }
 
     public void NextSentence()
     {

@@ -70,8 +70,21 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   positionOfPrisonInCruise: {fileID: 0}
   positionOfMerte: {fileID: 0}
   positionOfCruiseOutside: {fileID: 0}
+  isFinishedConversationFor222: 0
   triggerKickMerte: 0
   positionOfMainCamera: {fileID: 0}
+  isPlaying8014Conversation: 0
+  isPlaying2032Conversation: 0

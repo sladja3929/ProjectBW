@@ -68,6 +68,7 @@ public class PlayerManager : MonoBehaviour {
     public bool isPossessed_3A01_3A08_Clues = false;        // 3A08까지 단서 획득 여부 (관련 이벤트 249, 250)
     public bool isEnter_In_Cruise = false;                  // 유람선에 들어간 적이 있는지 여부 (관련 이벤트 251)
 
+    public bool skipText;   // 대화 출력을 스킵할 때 사용
 
     // Use this for initialization
     void Awake() {
@@ -106,6 +107,7 @@ public class PlayerManager : MonoBehaviour {
         // 추후에, 상호작용 될 수 있는 오브젝트의 근처에 있을 때만 상호작용 되도록 할 것(1월 27일 메모)
         SetIsNearObject(true);
 
+        skipText = false;
     }
 
     // Update is called once per frame
@@ -138,8 +140,7 @@ public class PlayerManager : MonoBehaviour {
         /* 오브젝트와의 상호작용을 위한 if */
         if (!UIManager.instance.isConversationing)
         {
-            if (((Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading)
-                    || (Input.GetKeyDown(KeyCode.E) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !UIManager.instance.isFading))
+            if ((( ( Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
                 && isNearObject)
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -197,6 +198,15 @@ public class PlayerManager : MonoBehaviour {
                 }
             }
         }
+
+        //if (UIManager.instance.isTypingText)
+        //{
+        //    if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+        //    {
+        //        skipText = true;
+        //        UIManager.instance.isTypingText = false;
+        //    }
+        //}
 
         /* for test 1226 */
         /*
