@@ -324,7 +324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3911187927254592720
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2381,11 +2381,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3911187927254592720}
     m_Modifications:
-    - target: {fileID: 3151337206904802228, guid: d3b23b1ff88b78e4fba3198194f1c330,
-        type: 3}
-      propertyPath: m_Name
-      value: InsideUI
-      objectReference: {fileID: 0}
     - target: {fileID: 1966096911314539002, guid: d3b23b1ff88b78e4fba3198194f1c330,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2490,6 +2485,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3151337206904802228, guid: d3b23b1ff88b78e4fba3198194f1c330,
+        type: 3}
+      propertyPath: m_Name
+      value: InsideUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3b23b1ff88b78e4fba3198194f1c330, type: 3}
