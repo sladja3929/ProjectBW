@@ -44722,7 +44722,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1573111119
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bdb1094a88117f143a233ec0e21bfa45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -76821,7 +76821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7700248943568443963
 Transform:
   m_ObjectHideFlags: 0
@@ -81156,35 +81156,15 @@ CompositeCollider2D:
         Y: -2609999872
       - X: 19200000000
         Y: -2609999872
-  - m_Collider: {fileID: 7002846721914854806}
-    m_ColliderPaths:
-    - - X: 32000000000
-        Y: -3440000000
-      - X: 19200000000
-        Y: -3440000000
-      - X: 19200000000
-        Y: -3600000000
-      - X: 32000000000
-        Y: -3600000000
-  - m_Collider: {fileID: 5947076917813230369}
-    m_ColliderPaths:
-    - - X: 32000000000
-        Y: -2209999872
-      - X: 19200000000
-        Y: -2209999872
-      - X: 19200000000
-        Y: -2609999872
-      - X: 32000000000
-        Y: -2609999872
   m_CompositePaths:
     m_Paths:
     - - {x: -640, y: -261}
-      - {x: 3200, y: -261}
-      - {x: 3200, y: -220.99998}
+      - {x: 1920, y: -261}
+      - {x: 1920, y: -220.99998}
       - {x: -640, y: -220.99998}
     - - {x: -640, y: -360}
-      - {x: 3200, y: -360}
-      - {x: 3200, y: -344}
+      - {x: 1920, y: -360}
+      - {x: 1920, y: -344}
       - {x: -640, y: -344}
   m_VertexDistance: 0.0005
 --- !u!1 &8685509843853384092

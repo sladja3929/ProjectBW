@@ -81,12 +81,12 @@ public class MiniMapManager : MonoBehaviour
 
         /*건물 내부인지 감식 후 실시간 적용*/
         CheckMerteInside();
-            if (Input.GetKeyDown(KeyCode.M) && isOpen == false)
+            if (Input.GetKeyDown(KeyCode.Tab) && isOpen == false)
             {
                 miniMapUI.SetActive(true);
                 isOpen = true;
             }
-            else if (Input.GetKeyDown(KeyCode.M) && isOpen == true)
+            else if (Input.GetKeyDown(KeyCode.Tab) && isOpen == true)
             {
 
                 if (isZoomOpen == true)
