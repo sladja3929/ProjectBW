@@ -491,7 +491,6 @@ public class DialogManager : MonoBehaviour
                     tempString += '\n';
                     tempEnterCount++;
                     numOfTextLimit = 0;
-                    Debug.Log("스킵 로직");
                 }
 
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
