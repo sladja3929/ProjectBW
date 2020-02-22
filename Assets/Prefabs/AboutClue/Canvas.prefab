@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 70.597, y: -101.54}
-  m_SizeDelta: {x: 474.5, y: 914.7}
+  m_SizeDelta: {x: 473.42752, y: 914.0565}
   m_Pivot: {x: 1, y: 0.1}
 --- !u!222 &16137588
 CanvasRenderer:
@@ -513,7 +513,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -70.597, y: -101.55}
-  m_SizeDelta: {x: 474.5, y: 914.7}
+  m_SizeDelta: {x: 473.42752, y: 914.0565}
   m_Pivot: {x: 0, y: 0.1}
 --- !u!222 &276119059
 CanvasRenderer:
@@ -989,7 +989,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 238.49512, y: -105.37775}
-  m_SizeDelta: {x: 949, y: 1579}
+  m_SizeDelta: {x: 946.85504, y: 1576.855}
   m_Pivot: {x: 1, y: 0.12}
 --- !u!222 &519360254
 CanvasRenderer:
@@ -2590,7 +2590,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 238.49512, y: -106.38922}
-  m_SizeDelta: {x: 474.5, y: 914.7}
+  m_SizeDelta: {x: 473.42752, y: 914.0565}
   m_Pivot: {x: 0.000000020489097, y: 0.12}
 --- !u!222 &972024985
 CanvasRenderer:
@@ -6481,7 +6481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6698113, g: 0.4454877, b: 0.4454877, a: 1}
+  m_Color: {r: 0.49019608, g: 0.49019608, b: 0.49019608, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -6796,7 +6796,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1406701503725934089}
   m_HandleRect: {fileID: 8161280268140342381}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7358,7 +7358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 124.99994}
+  m_AnchoredPosition: {x: 0, y: 125}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5234463859588333774
@@ -7962,6 +7962,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 591736740}
     m_Modifications:
+    - target: {fileID: 3911187927254592723, guid: 0c87012d00828f342984ea1df6e6345b,
+        type: 3}
+      propertyPath: m_Name
+      value: MiniMap_UI
+      objectReference: {fileID: 0}
     - target: {fileID: 3911187927254592720, guid: 0c87012d00828f342984ea1df6e6345b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8071,11 +8076,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3911187927254592723, guid: 0c87012d00828f342984ea1df6e6345b,
-        type: 3}
-      propertyPath: m_Name
-      value: MiniMap_UI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c87012d00828f342984ea1df6e6345b, type: 3}
@@ -8227,6 +8227,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7273888996480310302}
     m_Modifications:
+    - target: {fileID: 8474724096727702535, guid: 1004733c3cffe314cb3aae857046f468,
+        type: 3}
+      propertyPath: m_Name
+      value: AggregationClueScrollList
+      objectReference: {fileID: 0}
     - target: {fileID: 8570384763000985136, guid: 1004733c3cffe314cb3aae857046f468,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8332,11 +8337,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 8474724096727702535, guid: 1004733c3cffe314cb3aae857046f468,
-        type: 3}
-      propertyPath: m_Name
-      value: AggregationClueScrollList
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1004733c3cffe314cb3aae857046f468, type: 3}
 --- !u!224 &2658231186443043700 stripped
@@ -8358,6 +8358,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 591736740}
     m_Modifications:
+    - target: {fileID: 3462515109863242288, guid: f363b3723c04b704391f3536efd05549,
+        type: 3}
+      propertyPath: m_Name
+      value: FadeinoutPanelForClue
+      objectReference: {fileID: 0}
     - target: {fileID: 2487661576361061921, guid: f363b3723c04b704391f3536efd05549,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8462,11 +8467,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3462515109863242288, guid: f363b3723c04b704391f3536efd05549,
-        type: 3}
-      propertyPath: m_Name
-      value: FadeinoutPanelForClue
       objectReference: {fileID: 0}
     - target: {fileID: 7400828876003881675, guid: f363b3723c04b704391f3536efd05549,
         type: 3}
