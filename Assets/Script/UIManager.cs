@@ -280,18 +280,18 @@ public class UIManager : MonoBehaviour {
                 if (DialogManager.instance.isTextFull)
                 {
                     DialogManager.instance.isTextFull = false;
-                    Debug.Log("isTextFull => false");
+                    //Debug.Log("isTextFull => false");
                 }
                 else
                 {
                     DialogManager.instance.NextSentence();
-                    Debug.Log("NextSentence() 실행중");
+                    //Debug.Log("NextSentence() 실행중");
                 }
             }
             else
             {
                 playerWantToSkip = true;
-                Debug.Log("스킵 눌림");
+                //Debug.Log("스킵 눌림");
             }
         }
 
