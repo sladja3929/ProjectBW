@@ -21,6 +21,8 @@ public class MiniMapManager : MonoBehaviour
     public RenderTexture TempRenderTexture;
 
     /*미니맵 카메라*/
+    private GameObject StreetCameraWhole; //카메라를 관리하는 empty object용 - Findchild 용도
+    private GameObject InsideCameraWhole;
     private Camera StreetCamera;
     private Camera InsideCamera;
 
@@ -65,6 +67,9 @@ public class MiniMapManager : MonoBehaviour
         arrow = transform.GetChild(0).gameObject;
         MapName = GameObject.Find("MapName").GetComponent<Text>();
 
+        StreetCameraWhole = GameObject.Find("Street Camera");
+        InsideCameraWhole = GameObject.Find("Inside Camera");
+
         /*초기위치 지부 설정*/
         arrow.transform.localPosition = miniMap_Position_Chapter_Street1;
         MapName.text = "안녕";
@@ -72,6 +77,9 @@ public class MiniMapManager : MonoBehaviour
 
         miniMapUI.SetActive(false);
         StreetUI.SetActive(false);
+
+        /*건물 내부인지 감식 후 적용*/
+        CheckMerteInside();
     }
 
     void Update()
@@ -79,18 +87,23 @@ public class MiniMapManager : MonoBehaviour
         /*맵 이름 적용*/
         ShowMapName();
 
-        /*건물 내부인지 감식 후 실시간 적용*/
-        CheckMerteInside();
             if (Input.GetKeyDown(KeyCode.Tab) && isOpen == false)
             {
                 miniMapUI.SetActive(true);
                 isOpen = true;
+
+                if (isOpen == true && isInsideNow == true && isInsideOpen == false)
+                {
+                    PopUpInsideUI();
+                }
             }
+            //미니맵 끄기
             else if (Input.GetKeyDown(KeyCode.Tab) && isOpen == true)
             {
 
                 if (isZoomOpen == true)
                 {
+                    StreetCamera.gameObject.SetActive(false);
                     StreetCamera.targetTexture = TempRenderTexture;
                     StreetUI.SetActive(false);
                     miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
@@ -99,6 +112,7 @@ public class MiniMapManager : MonoBehaviour
 
                 if (isInsideOpen == true)
                 {
+                    InsideCamera.gameObject.SetActive(false);
                     InsideCamera.targetTexture = TempRenderTexture;
                     InsideUI.SetActive(false);
                     miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
@@ -109,23 +123,39 @@ public class MiniMapManager : MonoBehaviour
                 isOpen = false;
             }
 
-        if (Input.GetMouseButtonDown(0) && isZoomOpen == true)
-        {
-            StreetCamera.targetTexture = TempRenderTexture;
-            StreetUI.SetActive(false);
-            miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
-            isZoomOpen = false;
-        }
+            //스트리트 카메라 켜져있을 때
 
-        /*맵이 켜진채로 작용*/
+            if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0)) && isZoomOpen == true)
+            {
+                StreetCamera.targetTexture = TempRenderTexture;
+                StreetUI.SetActive(false);
+                miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+                isZoomOpen = false;
+            }
+   
+    }
+
+    /*미니맵이 켜진채로 작용 - 포탈을 넘을 때 */
+    public void MoveMap()
+    {
+        /*현재 위치 로그*/
+        Debug.Log(PlayerManager.instance.GetCurrentPosition());
+
         //외부 - > 내부
         if (isOpen == true && isInsideNow == true && isInsideOpen == false)
         {
+            //Debug.Log("외부에서 내부로");
+            if (StreetCamera != null)
+            { 
+                StreetCamera.gameObject.SetActive(false);
+            }
             PopUpInsideUI();
         }
         //내부 -> 외부
         else if (isOpen == true && isInsideNow == false && isInsideOpen == true)
         {
+            //Debug.Log("내부에서 외부로");
+            InsideCamera.gameObject.SetActive(false);
             InsideCamera.targetTexture = TempRenderTexture;
             InsideUI.SetActive(false);
             miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
@@ -134,6 +164,8 @@ public class MiniMapManager : MonoBehaviour
         //내부 -> 내부
         if (isOpen == true && isInsideOpen == true && isInsideNow == true)
         {
+            //Debug.Log("내부에서 내부로");
+            InsideCamera.gameObject.SetActive(false);
             InsideCamera.targetTexture = TempRenderTexture;
             PopUpInsideUI();
         }
@@ -142,112 +174,156 @@ public class MiniMapManager : MonoBehaviour
     /*맵 이름 표시 함수*/
     private void ShowMapName()
     {
+        string tmp = "맵이름";
         string MerteCurPos = PlayerManager.instance.GetCurrentPosition();
-        MapName.text = MerteCurPos;
+        //MapName.text = MerteCurPos;
 
-        //한글이름으로 변환용
-        //switch (MerteCurPos)
-        //{
-        //    case "Slum_Street1":
-        //        break;
-        //    case "Slum_Street2":
-        //        break;
-        //    case "Market_Street1":
-        //        break;
-        //    case "Market_Street2":
-        //        break;
-        //    case "Market_Street3":
-        //        break;
-        //    case "Village_Street1":
-        //        break;
-        //    case "Village_Street2":
-        //        break;
-        //    case "Village_Street3":
-        //        break;
-        //    case "Mansion_Street1":
-        //        break;
-        //    case "Mansion_Street2":
-        //        break;
-        //    case "Mansion_Street3":
-        //        break;
-        //    case "Downtown_Street1":
-        //        break;
-        //    case "Chapter_Street1":
-        //        break;
-        //    case "Forest_Street1":
-        //        break;
-        //    case "Forest_Street2":
-        //        break;
-        //    case "Forest_Street3":
-        //        break;
-        //    case "Harbor_Street1":
-        //        break;
-        //    case "Village_Raina_House":
-        //        break;
-        //    case "Village_Balrua_House":
-        //        break;
-        //    case "Chapter_Chapter_First_Floor":
-        //        break;
-        //    case "Chapter_Chapter_Second_Floor":
-        //        break;
-        //    case "Mansion_Viscount_Mansion_First_Floor":
-        //        break;
-        //    case "Mansion_Viscount_Mansion_Second_Floor":
-        //        break;
-        //    case "Mansion_President_Mansion_First_Floor":
-        //        break;
-        //    case "Mansion_President_Mansion_Second_Floor":
-        //        break;
-        //    case "Mansion_President_Mansion_Outhouse":
-        //        break;
-        //    case "Downtown_Salon":
-        //        break;
-        //    case "Downtown_Cafe":
-        //        break;
-        //    case "Downtown_Real_estate":
-        //        break;
-        //    case "Harbor_Cruise":
-        //        break;
-        //    case "Harbor_Prison":
-        //        break;
-        //    case "Forest_Bro_sis_home":
-        //        break;
-        //    case "Slum_Information_agency":
-        //        break;
-        //    case "Chapter_President_Office":
-        //        break;
-        //    case "Chapter_Secret_Space":
-        //        break;
-        //    case "Chapter_Merte_Office":
-        //        break;
-        //    case "Mansion_Guest_Room1":
-        //        break;
-        //    case "Mansion_Guest_Room2":
-        //        break;
-        //    case "Mansion_President_Room":
-        //        break;
-        //    case "Mansion_Girls_Room":
-        //        break;
-        //    case "Mansion_Boys_Room":
-        //        break;
-        //    case "Mansion_Study_Room":
-        //        break;
-        //    case "Mansion_Dining_Room":
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (MerteCurPos)
+        {
+            case "Slum_Street1":
+                tmp = "슬럼가 거리 1";
+                break;
+            case "Slum_Street2":
+                tmp = "슬럼가 거리 2";
+                break;
+            case "Market_Street1":
+                tmp = "시장 1";
+                break;
+            case "Market_Street2":
+                tmp = "시장 2";
+                break;
+            case "Market_Street3":
+                tmp = "시장 3";
+                break;
+            case "Village_Street1":
+                tmp = "주택가 거리 1";
+                break;
+            case "Village_Street2":
+                tmp = "주택가 거리 2";
+                break;
+            case "Village_Street3":
+                tmp = "주택가 거리 3";
+                break;
+            case "Mansion_Street1":
+                tmp = "저택가 거리 1";
+                break;
+            case "Mansion_Street2":
+                tmp = "저택가 거리 2";
+                break;
+            case "Mansion_Street3":
+                tmp = "저택가 거리 3";
+                break;
+            case "Downtown_Street1":
+                tmp = "도심 거리";
+                break;
+            case "Chapter_Street1":
+                tmp = "지부 앞";
+                break;
+            case "Forest_Street1":
+                tmp = "숲 1";
+                break;
+            case "Forest_Street2":
+                tmp = "숲 2";
+                break;
+            case "Forest_Street3":
+                tmp = "숲 3";
+                break;
+            case "Harbor_Street1":
+                tmp = "선착장";
+                break;
+            case "Village_Raina_House":
+                tmp = "레이나의 집";
+                break;
+            case "Village_Balrua_House":
+                tmp = "발루아의 집";
+                break;
+            case "Chapter_Chapter_First_Floor":
+                tmp = "지부 1층";
+                break;
+            case "Chapter_Chapter_Second_Floor":
+                tmp = "지부 2층";
+                break;
+            case "Mansion_Viscount_Mansion_First_Floor":
+                tmp = "자작의 저택 1층";
+                break;
+            case "Mansion_Viscount_Mansion_Second_Floor":
+                tmp = "자작의 저택 2층";
+                break;
+            case "Mansion_President_Mansion_First_Floor":
+                tmp = "총장의 저택 1층";
+                break;
+            case "Mansion_President_Mansion_Second_Floor":
+                tmp = "총장의 저택 2층";
+                break;
+            case "Mansion_President_Mansion_Outhouse":
+                tmp = "총장의 저택 별채";
+                break;
+            case "Downtown_Salon":
+                tmp = "살롱";
+                break;
+            case "Downtown_Cafe":
+                tmp = "카페";
+                break;
+            case "Downtown_Real_estate":
+                tmp = "부동산";
+                break;
+            case "Harbor_Cruise":
+                tmp = "유람선";
+                break;
+            case "Harbor_Prison":
+                tmp = "감옥";
+                break;
+            case "Forest_Bro_sis_home":
+                tmp = "남매의 집";
+                break;
+            case "Slum_Information_agency":
+                tmp = "정보상";
+                break;
+            case "Chapter_President_Office":
+                tmp = "총장의 사무실";
+                break;
+            case "Chapter_Secret_Space":
+                tmp = "비밀의 방";
+                break;
+            case "Chapter_Merte_Office":
+                tmp = "메르테의 사무실";
+                break;
+            case "Mansion_Guest_Room1":
+                tmp = "손님방 1";
+                break;
+            case "Mansion_Guest_Room2":
+                tmp = "손님방 2";
+                break;
+            case "Mansion_President_Room":
+                tmp = "총장의 방";
+                break;
+            case "Mansion_Girls_Room":
+                tmp = "소녀의 방";
+                break;
+            case "Mansion_Boys_Room":
+                tmp = "소년의 방";
+                break;
+            case "Mansion_Study_Room":
+                tmp = "공부방";
+                break;
+            case "Mansion_Dining_Room":
+                tmp = "식당";
+                break;
+            default:
+                break;
+        }
 
-         
+        MapName.text = tmp;
     }
 
     /*건물 내부인지 감식 함수*/
-    private void CheckMerteInside()
+    public void CheckMerteInside()
     {
         string MerteCurPos = PlayerManager.instance.GetCurrentPosition();
 
         switch (MerteCurPos)
         {
+            //내부
             case "Village_Raina_House":
             case "Village_Balrua_House":
             case "Chapter_Chapter_First_Floor":
@@ -276,6 +352,7 @@ public class MiniMapManager : MonoBehaviour
             case "Mansion_Dining_Room":
                 isInsideNow = true;
                 break;
+            //외부
             default:
                 isInsideNow = false;
                 break;
@@ -284,8 +361,6 @@ public class MiniMapManager : MonoBehaviour
     }
 
     public void MoveArrowPosition() {
-
-        Debug.Log(PlayerManager.instance.GetCurrentPosition());
 
         string MerteCurPos = PlayerManager.instance.GetCurrentPosition();
 
@@ -352,6 +427,7 @@ public class MiniMapManager : MonoBehaviour
         isZoomOpen = true;
         StreetUI.SetActive(true);
         miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(false);
+        StreetCamera.gameObject.SetActive(true);
         StreetCamera.targetTexture = StreetRenderTexture;
     }
 
@@ -449,198 +525,196 @@ public class MiniMapManager : MonoBehaviour
         }
         //Debug.Log(MerteCurPos+"로 내부 갱신 카메라는 현재 "+ InsideCamera.name);
 
-
+        InsideCamera.gameObject.SetActive(true);
         InsideCamera.targetTexture = InsideRenderTexture;
     }
 
     /*건물 내부 미니맵*/
     public void Village_Raina_House_Inside()
     {
-        InsideCamera = GameObject.Find("Village_Raina_House Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Village_Raina_House Camera").GetComponent<Camera>();    
     }
     public void Village_Balrua_House_Inside()
     {
-        InsideCamera = GameObject.Find("Village_Balrua_House Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Village_Balrua_House Camera").GetComponent<Camera>();
     }
     public void Chapter_Chapter_First_Floor_Inside()
     {
-        InsideCamera = GameObject.Find("Chapter_Chapter_First_Floor Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Chapter_Chapter_First_Floor Camera").GetComponent<Camera>();
     }
     public void Chapter_Chapter_Second_Floor_Inside()
     {
-        InsideCamera = GameObject.Find("Chapter_Chapter_Second_Floor Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Chapter_Chapter_Second_Floor Camera").GetComponent<Camera>();
     }
     public void Mansion_Viscount_Mansion_First_Floor_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Viscount_Mansion_First_Floor Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Viscount_Mansion_First_Floor Camera").GetComponent<Camera>();
     }
     public void Mansion_Viscount_Mansion_Second_Floor_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Viscount_Mansion_Second_Floor Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Viscount_Mansion_Second_Floor Camera").GetComponent<Camera>();
     }
     public void Mansion_President_Mansion_First_Floor_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_President_Mansion_First_Floor Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_President_Mansion_First_Floor Camera").GetComponent<Camera>();
     }
     public void Mansion_President_Mansion_Second_Floor_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_President_Mansion_Second_Floor Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_President_Mansion_Second_Floor Camera").GetComponent<Camera>();
     }
     public void Mansion_President_Mansion_Outhouse_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_President_Mansion_Outhouse Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_President_Mansion_Outhouse Camera").GetComponent<Camera>();
     }
     public void Downtown_Salon_Inside()
     {
-        InsideCamera = GameObject.Find("Downtown_Salon Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Downtown_Salon Camera").GetComponent<Camera>();
     }
     public void Downtown_Cafe_Inside()
     {
-        InsideCamera = GameObject.Find("Downtown_Cafe Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Downtown_Cafe Camera").GetComponent<Camera>();
     }
     public void Downtown_Real_estate_Inside()
     {
-        InsideCamera = GameObject.Find("Downtown_Real_estate Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Downtown_Real_estate Camera").GetComponent<Camera>();
     }
     public void Harbor_Cruise_Inside()
     {
-        InsideCamera = GameObject.Find("Harbor_Cruise Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Harbor_Cruise Camera").GetComponent<Camera>();
     }
     public void Harbor_Prison_Inside()
     {
-        InsideCamera = GameObject.Find("Harbor_Prison Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Harbor_Prison Camera").GetComponent<Camera>();
     }
     public void Forest_Bro_sis_home_Inside()
     {
-        InsideCamera = GameObject.Find("Forest_Bro_sis_home Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Forest_Bro_sis_home Camera").GetComponent<Camera>();
     }
     public void Slum_Information_agency_Inside()
     {
-        InsideCamera = GameObject.Find("Slum_Information_agency Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Slum_Information_agency Camera").GetComponent<Camera>();
     }
     public void Chapter_President_Office_Inside()
     {
-        InsideCamera = GameObject.Find("Chapter_President_Office Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Chapter_President_Office Camera").GetComponent<Camera>();
     }
     public void Chapter_Secret_Space_Inside()
     {
-        InsideCamera = GameObject.Find("Chapter_Secret_Space Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Chapter_Secret_Space Camera").GetComponent<Camera>();
     }
     public void Chapter_Merte_Office_Inside()
     {
-        InsideCamera = GameObject.Find("Chapter_Merte_Office Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Chapter_Merte_Office Camera").GetComponent<Camera>();
     }
     public void Mansion_Guest_Room1_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Guest_Room1 Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Guest_Room1 Camera").GetComponent<Camera>();
     }
     public void Mansion_Guest_Room2_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Guest_Room2 Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Guest_Room2 Camera").GetComponent<Camera>();
     }
     public void Mansion_President_Room_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_President_Room Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_President_Room Camera").GetComponent<Camera>();
     }
     public void Mansion_Girls_Room_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Girls_Room Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Girls_Room Camera").GetComponent<Camera>();
     }
     public void Mansion_Boys_Room_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Boys_Room Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Boys_Room Camera").GetComponent<Camera>();
     }
     public void Mansion_Study_Room_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Study_Room Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Study_Room Camera").GetComponent<Camera>();
     }
     public void Mansion_Dining_Room_Inside()
     {
-        InsideCamera = GameObject.Find("Mansion_Dining_Room Camera").GetComponent<Camera>();
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Dining_Room Camera").GetComponent<Camera>();
     }
 
 
     /*클릭으로 확대하는 스트리트별 미니맵*/
     public void Village_Street1_Button() {
-        StreetCamera = GameObject.Find("Village_Street1 Camera").GetComponent<Camera>();
+       
+        StreetCamera = StreetCameraWhole.transform.Find("Village_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Village_Street2_Button() {
-        StreetCamera = GameObject.Find("Village_Street2 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Village_Street2 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Village_Street3_Button() {
-        StreetCamera = GameObject.Find("Village_Street3 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Village_Street3 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Mansion_Street1_Button() {
-        StreetCamera = GameObject.Find("Mansion_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Mansion_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Mansion_Street2_Button() {
-        StreetCamera = GameObject.Find("Mansion_Street2 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Mansion_Street2 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Mansion_Street3_Button() {
-        StreetCamera = GameObject.Find("Mansion_Street3 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Mansion_Street3 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Downtown_Street1_Button() {
-        StreetCamera = GameObject.Find("Downtown_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Downtown_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Chapter_Street1_Button() {
-        StreetCamera = GameObject.Find("Chapter_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Chapter_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Forest_Street1_Button() {
-        StreetCamera = GameObject.Find("Forest_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Forest_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Forest_Street2_Button() {
-        StreetCamera = GameObject.Find("Forest_Street2 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Forest_Street2 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Forest_Street3_Button() {
-        StreetCamera = GameObject.Find("Forest_Street3 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Forest_Street3 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Slum_Street1_Button() {
-        StreetCamera = GameObject.Find("Slum_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Slum_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Slum_Street2_Button() {
-        StreetCamera = GameObject.Find("Slum_Street2 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Slum_Street2 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Market_Street1_Button() {
-        StreetCamera = GameObject.Find("Market_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Market_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Market_Street2_Button() {
-        StreetCamera = GameObject.Find("Market_Street2 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Market_Street2 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
 
     public void Harbor_Street1_Button() {
-        StreetCamera = GameObject.Find("Harbor_Street1 Camera").GetComponent<Camera>();
+        StreetCamera = StreetCameraWhole.transform.Find("Harbor_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
     }
-
-    /*맵 상단에 맵 이름 표시*/
-
 }

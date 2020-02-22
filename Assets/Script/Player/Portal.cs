@@ -124,6 +124,12 @@ public class Portal : MonoBehaviour
 
         MiniMapManager.instance.MoveArrowPosition();
         //Debug.Log(PlayerManager.instance.GetCurrentPosition() + "으로 이동");
+
+        /*건물 내부인지 감식 후 적용*/
+        MiniMapManager.instance.CheckMerteInside();
+
+        /*포탈을 넘을 때 카메라 제어 및 미니맵 상의 이동*/
+        MiniMapManager.instance.MoveMap();
     }
 
     private IEnumerator FadeWithTakePortal()
