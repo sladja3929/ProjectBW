@@ -5573,8 +5573,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 112, y: -323}
-  m_SizeDelta: {x: 1029.5, y: 82.5}
+  m_AnchoredPosition: {x: -389, y: 317}
+  m_SizeDelta: {x: 500, y: 82.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3045731315586298223
 CanvasRenderer:
@@ -5611,7 +5611,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 50
-    m_Alignment: 1
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -7962,11 +7962,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 591736740}
     m_Modifications:
-    - target: {fileID: 3911187927254592723, guid: 0c87012d00828f342984ea1df6e6345b,
-        type: 3}
-      propertyPath: m_Name
-      value: MiniMap_UI
-      objectReference: {fileID: 0}
     - target: {fileID: 3911187927254592720, guid: 0c87012d00828f342984ea1df6e6345b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8071,6 +8066,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3911187927254592723, guid: 0c87012d00828f342984ea1df6e6345b,
+        type: 3}
+      propertyPath: m_Name
+      value: MiniMap_UI
       objectReference: {fileID: 0}
     - target: {fileID: 5890827013051410123, guid: 0c87012d00828f342984ea1df6e6345b,
         type: 3}
@@ -8227,11 +8227,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7273888996480310302}
     m_Modifications:
-    - target: {fileID: 8474724096727702535, guid: 1004733c3cffe314cb3aae857046f468,
-        type: 3}
-      propertyPath: m_Name
-      value: AggregationClueScrollList
-      objectReference: {fileID: 0}
     - target: {fileID: 8570384763000985136, guid: 1004733c3cffe314cb3aae857046f468,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8337,6 +8332,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8474724096727702535, guid: 1004733c3cffe314cb3aae857046f468,
+        type: 3}
+      propertyPath: m_Name
+      value: AggregationClueScrollList
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1004733c3cffe314cb3aae857046f468, type: 3}
 --- !u!224 &2658231186443043700 stripped
@@ -8358,11 +8358,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 591736740}
     m_Modifications:
-    - target: {fileID: 3462515109863242288, guid: f363b3723c04b704391f3536efd05549,
-        type: 3}
-      propertyPath: m_Name
-      value: FadeinoutPanelForClue
-      objectReference: {fileID: 0}
     - target: {fileID: 2487661576361061921, guid: f363b3723c04b704391f3536efd05549,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -8467,6 +8462,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3462515109863242288, guid: f363b3723c04b704391f3536efd05549,
+        type: 3}
+      propertyPath: m_Name
+      value: FadeinoutPanelForClue
       objectReference: {fileID: 0}
     - target: {fileID: 7400828876003881675, guid: f363b3723c04b704391f3536efd05549,
         type: 3}
