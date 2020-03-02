@@ -61,6 +61,7 @@ public class Portal : MonoBehaviour
                 StartCoroutine(FadeWithTakePortal());
             }
 
+            /*
             if (Input.GetMouseButtonDown(0) && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing 
                 && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.isPortaling)
             {
@@ -85,7 +86,7 @@ public class Portal : MonoBehaviour
                     StartCoroutine(FadeWithTakePortal());
                 }
             }
-
+            */
             //if (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake") {
             //    StartCoroutine(FadeWithTakePortal());
             //}

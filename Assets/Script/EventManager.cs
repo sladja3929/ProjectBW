@@ -386,17 +386,20 @@ public class EventManager : MonoBehaviour
                 npcListForEvent[22].SetActive(true);
         }
 
-        // 상호작용이 가능한 자작의 저택(23)을 비활성화하고, 상호작용이 불가능한 자작의 저택(24)과, 자작의 저택으로 가는 포탈(25) 활성화하기
+        // 상호작용이 가능한 자작의 저택(23)을 비활성화하고, 상호작용이 불가능한 자작의 저택(24)과, 자작의 저택으로 가는 포탈(25) 활성화하기 -> 변경(0302)
+        // 자작의 저택으로 가는 포탈(25) 활성화하기
         if (PlayerManager.instance.num_Try_to_Enter_in_Mansion >= 3)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("233"))
             {
                 PlayerManager.instance.AddEventCodeToList("233");
-
+                /*
                 if (npcListForEvent[23].activeSelf)
                     npcListForEvent[23].SetActive(false);
+                
                 if (!npcListForEvent[24].activeSelf)
                     npcListForEvent[24].SetActive(true);
+                    */
                 if (!npcListForEvent[25].activeSelf)
                     npcListForEvent[25].SetActive(true);
             }
