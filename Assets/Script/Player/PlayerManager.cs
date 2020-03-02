@@ -231,13 +231,21 @@ public class PlayerManager : MonoBehaviour {
     // 플레이어가 수행한 이벤트를 추가
     public void AddEventCodeToList(string eventCode)
     {
-        playedEventList.Add(eventCode);
+        // 발생하지 않은 이벤트만 추가
+        if (!CheckEventCodeFromPlayedEventList(eventCode))
+        {
+            playedEventList.Add(eventCode);
+        }
     }
 
     // 플레이어가 수행한 이벤트중 하나를 삭제
     public void DeleteEventCodeFromList(string eventCode)
     {
-        playedEventList.Remove(eventCode);
+        // 발생한 이벤트만 삭제
+        if (CheckEventCodeFromPlayedEventList(eventCode))
+        {
+            playedEventList.Remove(eventCode);
+        }
     }
 
     // 특정 이벤트가 플레이어에 의해 진행된 적이 있는지를 판단하는 함수

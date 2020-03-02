@@ -144,8 +144,6 @@ public class DialogManager : MonoBehaviour
         }
         else if (targetObject.Equals("이벤트 자동발생"))
             tempSentenceOfCondition = targetObject;
-        else
-            tempSentenceOfCondition = null;
 
         // 226번 이벤트를 위한 처리
         if (targetObject.Equals("9404"))
@@ -153,10 +151,6 @@ public class DialogManager : MonoBehaviour
             tempSentenceOfCondition = targetObject;
             // 사체 묘사 사진 활성화
             UIManager.instance.ActivateDeadBodyImage();
-        }
-        else
-        {
-            tempSentenceOfCondition = null;
         }
 
         if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("1803") || targetObject.Equals("1804")))
@@ -752,7 +746,7 @@ public class DialogManager : MonoBehaviour
                 UIManager.instance.isTypingText = false;
                 EventManager.instance.isFinishedConversationFor222 = true;
 
-//                Debug.Log("tempSentenceOfCondition = " + tempSentenceOfCondition);
+                //Debug.Log("tempSentenceOfCondition = " + tempSentenceOfCondition);
 
                 if (tempSentenceOfCondition != null)
                 {
