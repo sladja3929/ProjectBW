@@ -33,7 +33,9 @@ public class EventManager : MonoBehaviour
     // 이벤트 249
     private int clueNum2 = 0;
 
-    void Awake()
+    private EventVariable eventVariable;    //PlayerManager의 eventVariable 변수의 주소를 가질 변수
+
+    void Start()
     {
         if (instance == null)
             instance = this;
@@ -44,6 +46,7 @@ public class EventManager : MonoBehaviour
         hasBeenInHarbor = false;
         hasPlayed252Event = false;
         isActivatedEvent222 = false;
+        eventVariable = PlayerManager.instance.GetEventVariableClass();
 
         /* for test */
         // 이벤트 시스템 구현으로 인한 주석처리(테스트용, 1월 23일)
@@ -64,6 +67,11 @@ public class EventManager : MonoBehaviour
     public void AddToEventIndexList(string eventIndex)
     {
         eventIndexList.Add(eventIndex);
+    }
+
+    public List<string> GetEventIndexList()
+    {
+        return eventIndexList;
     }
 
     // npcList에 있는 모든 npc들 비활성화
@@ -89,53 +97,18 @@ public class EventManager : MonoBehaviour
                 // 체스미터 등장 이벤트
                 // 72시간대가 되면 도심 분수대 앞에 체스미터가 나와야함.(추후 추가할 것)
                 case "200":
-                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
-                    //{
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    //    Debug.Log("200번 이벤트 발생");
-                    //}
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
                 case "201":
-                    //if (PlayerManager.instance.TimeSlot.Equals("71") && (PlayerManager.instance.NumOfAct.Equals("53") || PlayerManager.instance.NumOfAct.Equals("54")))
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
                 // 발루아 등장 이벤트(71에서 72로 시간대가 넘어갈경우 발루아는 218번이 발생하기 전까지 비활성화 되어야함(나중에 추가할 것)
                 case "202":
                 case "203":
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
                 case "204":
-                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
+                case "205":
+                case "209":
+                case "210":
                 case "211":
-                    //if ( (PlayerManager.instance.TimeSlot.Equals("71") || PlayerManager.instance.TimeSlot.Equals("72")) && PlayerManager.instance.TimeSlot.Equals("53"))
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
                 case "212":
                 case "213":
                 case "214":
-                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.TimeSlot.Equals("53"))
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
-                case "205": // 해당 이벤트관련 작업 완료
-                    //if (PlayerManager.instance.NumOfAct.Equals("53"))
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
-                case "221":
-                    PlayerManager.instance.isInvestigated_StrangeDoor = true;
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
-                case "209":
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
-                case "210":
                 case "215":
                 case "216":
                 case "217":
@@ -145,33 +118,27 @@ public class EventManager : MonoBehaviour
                 case "225":
                 case "226": // 대화테이블에 4025묶음의 새로운 이벤트 속성값을 226으로 넣어야함
                 case "227":
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
                 case "232":
                 case "240":
                 case "243":
                 case "252":
                 case "253":
                 case "254":
-                    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    break;
-
                 // 정보상 건물 안의 엑스트라들 등장(인물 배치후, 적용할것)
                 case "206":
-                    //if (PlayerManager.instance.TimeSlot.Equals("71") && PlayerManager.instance.NumOfAct.Equals("53"))
-                    //{
-                    //    PlayerManager.instance.AddEventCodeToList(eventIndex);
-                    //}
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
 
+                case "221":
+                    eventVariable.isInvestigated_StrangeDoor = true;
+                    PlayerManager.instance.AddEventCodeToList(eventIndex);
+                    break;
                 case "218":
                     PlayerManager.instance.DeleteEventCodeFromList("202");
                     PlayerManager.instance.AddEventCodeToList(eventIndex);
                     break;
 
                 default:
-
                     break;
             }
         }
@@ -388,7 +355,7 @@ public class EventManager : MonoBehaviour
 
         // 상호작용이 가능한 자작의 저택(23)을 비활성화하고, 상호작용이 불가능한 자작의 저택(24)과, 자작의 저택으로 가는 포탈(25) 활성화하기 -> 변경(0302)
         // 자작의 저택으로 가는 포탈(25) 활성화하기
-        if (PlayerManager.instance.num_Try_to_Enter_in_Mansion >= 3)
+        if (eventVariable.num_Try_to_Enter_in_Mansion >= 3)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("233"))
             {
@@ -494,7 +461,8 @@ public class EventManager : MonoBehaviour
                 && (PlayerManager.instance.TimeSlot.Equals("72") || PlayerManager.instance.TimeSlot.Equals("73") || PlayerManager.instance.TimeSlot.Equals("74")))
             {
                 PlayerManager.instance.AddEventCodeToList("208");
-                PlayerManager.instance.isCheckedSecretCode = true;
+                eventVariable.isCheckedSecretCode = true;
+                
             }
         }
 
@@ -510,11 +478,11 @@ public class EventManager : MonoBehaviour
 
 
         // 이벤트 221
-        if (PlayerManager.instance.isInvestigated_StrangeDoor)
+        if (eventVariable.isInvestigated_StrangeDoor)
         {
             if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("221"))
             {
-                PlayerManager.instance.isInvestigated_StrangeDoor = false;  // 한번만 이동이 이루어지도록 처리
+                eventVariable.isInvestigated_StrangeDoor = false;  // 한번만 이동이 이루어지도록 처리
                 //유람선 지하로 맵 이동 시키기 -> 나중에 Invoke 같은 함수 써서, 특정 대화가 끝나거나 시작하면 이동되게끔 해보기 (1월 27일 메모)
                 Invoke("PlayActForEvent221", 1.0f);
             }
@@ -565,7 +533,7 @@ public class EventManager : MonoBehaviour
 
         // 이벤트 228
         // 자작의 대문이 비활성화 되어있어야 함. npcEventList 20번
-        if (PlayerManager.instance.num_Try_to_Enter_in_Mansion >= 1)
+        if (eventVariable.num_Try_to_Enter_in_Mansion >= 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("228"))
             {
@@ -593,8 +561,8 @@ public class EventManager : MonoBehaviour
         // 이벤트 230
         // 멜리사 엔딩 조건 70% 이상 달성 시 이벤트 발생
         // 레이나 집에서 오브젝트 조사 3회 이상 , 카페에서 멜리사와 대화 2회 이상 , 5027 or 5030 대화 1회 진행
-        if (PlayerManager.instance.num_investigation_Raina_house_object >= 3 && PlayerManager.instance.num_Talk_With_1003 >= 2
-            && PlayerManager.instance.num_Play_5027_or_5030 >= 1)
+        if (eventVariable.num_investigation_Raina_house_object >= 3 && eventVariable.num_Talk_With_1003 >= 2
+            && eventVariable.num_Play_5027_or_5030 >= 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("230"))
             {
@@ -603,7 +571,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 231
-        if (PlayerManager.instance.num_Talk_With_1601_in_73 >= 1)
+        if (eventVariable.num_Talk_With_1601_in_73 >= 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("231"))
             {
@@ -612,7 +580,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 234
-        if (PlayerManager.instance.num_Talk_With_1803_1804_in_71 == 0)
+        if (eventVariable.num_Talk_With_1803_1804_in_71 == 0)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("234"))
             {
@@ -621,7 +589,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 235
-        if (PlayerManager.instance.num_Talk_With_1003_in_73 == 1)
+        if (eventVariable.num_Talk_With_1003_in_73 == 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("235"))
             {
@@ -630,7 +598,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 236 (멜리사에게 5회 이상 대화 시도)
-        if (PlayerManager.instance.num_Interrogate_about_case >= 5)
+        if (eventVariable.num_Interrogate_about_case >= 5)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("236"))
             {
@@ -648,7 +616,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 238
-        if (PlayerManager.instance.num_Enter_or_Investigate_BroSisHouse >= 2)
+        if (eventVariable.num_Enter_or_Investigate_BroSisHouse >= 2)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("238"))
             {
@@ -705,7 +673,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 242
-        if (PlayerManager.instance.isInvestigated_Raina_house)
+        if (eventVariable.isInvestigated_Raina_house)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("242"))
             {
@@ -714,7 +682,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 244
-        if (PlayerManager.instance.num_Talk_With_1603_in_72 == 1)
+        if (eventVariable.num_Talk_With_1603_in_72 == 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("244"))
             {
@@ -723,7 +691,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 245
-        if (PlayerManager.instance.num_Enter_in_Mansion >= 1)
+        if (eventVariable.num_Enter_in_Mansion >= 1)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("245"))
             {
@@ -732,7 +700,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 246
-        if (PlayerManager.instance.num_Talk_With_1202 >= 2)
+        if (eventVariable.num_Talk_With_1202 >= 2)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("246"))
             {
@@ -741,7 +709,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 247
-        if (PlayerManager.instance.num_Talk_With_1205_in_71 == 0)
+        if (eventVariable.num_Talk_With_1205_in_71 == 0)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("247"))
             {
@@ -759,8 +727,9 @@ public class EventManager : MonoBehaviour
         }
 
 
-        if (!PlayerManager.instance.isPossessed_3A01_3A08_Clues)
+        if (!eventVariable.isPossessed_3A01_3A08_Clues)
         {
+            clueNum2 = 0;
             for (int i = 0; i < PlayerManager.instance.playerClueLists.Count; i++)
             {
                 if (PlayerManager.instance.playerClueLists[i].GetClueName().Equals("풍선과 배"))
@@ -783,9 +752,9 @@ public class EventManager : MonoBehaviour
         }
 
         if (clueNum2 == 8)
-            PlayerManager.instance.isPossessed_3A01_3A08_Clues = true;
+            eventVariable.isPossessed_3A01_3A08_Clues = true;
 
-        if (!PlayerManager.instance.isPossessed_3A01_3A08_Clues)
+        if (!eventVariable.isPossessed_3A01_3A08_Clues)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("249"))
             {
@@ -795,7 +764,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 250
-        if (PlayerManager.instance.isPossessed_3A01_3A08_Clues)
+        if (eventVariable.isPossessed_3A01_3A08_Clues)
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("250"))
             {
@@ -810,7 +779,7 @@ public class EventManager : MonoBehaviour
         }
 
         // 이벤트 251
-        if (!PlayerManager.instance.isEnter_In_Cruise && PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Cruise"))
+        if (!eventVariable.isEnter_In_Cruise && PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Cruise"))
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("251"))
             {
@@ -822,7 +791,7 @@ public class EventManager : MonoBehaviour
 
         // 251번 이벤트를 위한 처리
         if (PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Cruise"))
-            PlayerManager.instance.isEnter_In_Cruise = true;
+            eventVariable.isEnter_In_Cruise = true;
     }
 
     public void PlayScriptForEvent251()

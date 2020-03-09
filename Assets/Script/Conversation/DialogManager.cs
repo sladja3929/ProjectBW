@@ -48,6 +48,8 @@ public class DialogManager : MonoBehaviour
     private string tempSentenceOfCondition; // 222번 이벤트를 위한 변수
     private bool controlEventNum231;
 
+    private EventVariable eventVariable;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +81,7 @@ public class DialogManager : MonoBehaviour
         eventManager = new EventConversationManager();
 
         npcParser = new NpcParser();
+        eventVariable = PlayerManager.instance.GetEventVariableClass();
 
         UIManager.instance.SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
 
@@ -96,6 +99,13 @@ public class DialogManager : MonoBehaviour
         }
     }
 
+    // 대화 테이블 관련 정보 최신화
+    public void SetLists()
+    {
+        dataList = GameObject.Find("DataManager").GetComponent<CSVParser>().GetDataList();
+        interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetInteractionLists();
+    }
+
     public void InteractionWithObject(string objectName)
     {
         /* 확장성을 위해 objectName을 파라미터로 받아서, 해당 물체를 조사하는 상호작용 구현하기 */
@@ -111,29 +121,28 @@ public class DialogManager : MonoBehaviour
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
         
         string targetObject = objectName;   //StartObject에 해당하는 값
-        //Debug.Log("targetObject = " + targetObject);
 
         // 236번 이벤트를 위한 처리
         if (targetObject.Equals("1003"))
         {
-            PlayerManager.instance.num_Interrogate_about_case++;
+            eventVariable.num_Interrogate_about_case++;
         }
 
         // 209번 이벤트를 위한 처리
         if (targetObject.Equals("1105"))
         {
-            PlayerManager.instance.num_Talk_With_1105++;
+            eventVariable.num_Talk_With_1105++;
         }
 
         if (targetObject.Equals("1202"))
         {
-            PlayerManager.instance.num_Talk_With_1202++;
+            eventVariable.num_Talk_With_1202++;
         }
 
         // 228번 이벤트를 위한 처리
         if (targetObject.Equals("9241"))
         {
-            PlayerManager.instance.num_Try_to_Enter_in_Mansion++;
+            eventVariable.num_Try_to_Enter_in_Mansion++;
         }
 
         // 222번 이벤트를 위한 처리
@@ -146,7 +155,7 @@ public class DialogManager : MonoBehaviour
             tempSentenceOfCondition = targetObject;
 
         // 226번 이벤트를 위한 처리
-        if (targetObject.Equals("9404"))
+        if (targetObject.Equals("9404") && PlayerManager.instance.TimeSlot.Equals("71"))
         {
             tempSentenceOfCondition = targetObject;
             // 사체 묘사 사진 활성화
@@ -155,33 +164,33 @@ public class DialogManager : MonoBehaviour
 
         if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("1803") || targetObject.Equals("1804")))
         {
-            PlayerManager.instance.num_Talk_With_1803_1804_in_71++;
+            eventVariable.num_Talk_With_1803_1804_in_71++;
         }
 
         if (PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("1003"))
         {
-            PlayerManager.instance.num_Talk_With_1003_in_73++;
-            PlayerManager.instance.num_Talk_With_1003++;
+            eventVariable.num_Talk_With_1003_in_73++;
+            eventVariable.num_Talk_With_1003++;
         }
         else if (!PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("1003"))
         {
-            PlayerManager.instance.num_Talk_With_1003++;
+            eventVariable.num_Talk_With_1003++;
         }
 
         if (targetObject.Equals("9707") || targetObject.Equals("9708") || targetObject.Equals("9710") || targetObject.Equals("9709"))
         {
-            PlayerManager.instance.num_Enter_or_Investigate_BroSisHouse++;
+            eventVariable.num_Enter_or_Investigate_BroSisHouse++;
         }
 
         if (PlayerManager.instance.TimeSlot.Equals("72") && targetObject.Equals("1603"))
         {
-            PlayerManager.instance.num_Talk_With_1603_in_72++;
+            eventVariable.num_Talk_With_1603_in_72++;
         }
 
         if (targetObject.Equals("9107") || targetObject.Equals("9108") || targetObject.Equals("9111")
             || targetObject.Equals("9109") || targetObject.Equals("9112") || targetObject.Equals("9110"))
         {
-            PlayerManager.instance.num_investigation_Raina_house_object++;
+            eventVariable.num_investigation_Raina_house_object++;
         }
 
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
@@ -308,7 +317,7 @@ public class DialogManager : MonoBehaviour
 
         if (tempSetOfDesc_Index == 5027 || tempSetOfDesc_Index == 5030)
         {
-            PlayerManager.instance.num_Play_5027_or_5030++;
+            eventVariable.num_Play_5027_or_5030++;
         }
 
         //대화가 진행됐는지 알 수 있도록 status값을 이용 -> 대화 안했으면 0, 했으면 1 -> 1일 때의 예외처리도 추후에 추가해야함.
@@ -373,7 +382,7 @@ public class DialogManager : MonoBehaviour
         // 231번 이벤트를 위한 코드
         if (!controlEventNum231 && tempNpcNameLists[curNumOfNpcNameLists].Equals("1601") && PlayerManager.instance.TimeSlot.Equals("73"))
         {
-            PlayerManager.instance.num_Talk_With_1601_in_73++;
+            eventVariable.num_Talk_With_1601_in_73++;
             controlEventNum231 = true;
         }
         
@@ -703,7 +712,7 @@ public class DialogManager : MonoBehaviour
                 {
                     GameManager.instance.GetClue(rewardsLists[0]);
                 }
-
+                
                 /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
                 for (int i = 0; i < rewardsLists.Count; i++)
                 {
