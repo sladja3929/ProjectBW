@@ -588,7 +588,10 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("73"))
                 PlayerManager.instance.TimeSlot = "74";
             else if (PlayerManager.instance.TimeSlot.Equals("74"))
-                PlayerManager.instance.TimeSlot = "74";
+            {
+                PlayerManager.instance.NumOfAct = "54";
+                PlayerManager.instance.TimeSlot = "75";
+            }
         }
         else if (PlayerManager.instance.NumOfAct.Equals("54"))
         {
@@ -638,6 +641,7 @@ public class UIManager : MonoBehaviour {
         timeSlotText.GetComponent<Text>().color = tempColor1;
 
         isFading = false;
+
     }
 
     // 1. 대화창 & 캐릭터명 창 fade in

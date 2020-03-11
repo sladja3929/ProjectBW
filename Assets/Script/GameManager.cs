@@ -1,18 +1,29 @@
 ﻿using LitJson;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using System.IO;
+using System.Threading.Tasks;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
     private EventVariable eventVariable;
+    public enum GameState {Idle, NewGame_Loaded, PastGame_Loaded };
+    private GameState gameState;
+
+    public Thread thread;
+
+    // 대칭키 비밀번호
+    private const string passwordForAES = "gmrrhkqor";
+    private DataEncryption dataAES;
 
     void Awake()
     {
         DontDestroyOnLoad(this);
     }
+
 
     // Use this for initialization
     void Start () {
@@ -21,41 +32,9 @@ public class GameManager : MonoBehaviour {
         else if (instance != this)
             Destroy(gameObject);
 
-        eventVariable = PlayerManager.instance.GetEventVariableClass();
-    }
-
-    void Update()
-    {
-        // 처음 하기
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            // 초기 데이터를 불러오고
-            CSVParser.instance.InitDataFromCSV();
-            // 불러온 데이터를 적용시킴
-            DialogManager.instance.SetLists();
-            ItemDatabase.instance.SetLists();
-        }
-
-        // 저장
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            CSVParser.instance.SaveCSVData();
-            SavePlayerData();
-            eventVariable.SaveEventVariables();
-        }
-
-        // 불러오기
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            // 저장된 데이터를 불러오고
-            CSVParser.instance.LoadCSVData();
-            // 불러온 데이터를 적용시킴
-            DialogManager.instance.SetLists();
-            ItemDatabase.instance.SetLists();
-            LoadPlayerData();
-            eventVariable.LoadEventVariables();
-            //PlayerManager.instance.ResetClueList_In_Certain_Timeslot();
-        }
+        gameState = GameState.Idle;
+        eventVariable = new EventVariable();
+        dataAES = new DataEncryption();
     }
 
     public void GetClue(string clueName)
@@ -75,26 +54,72 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public string EncryptData(string text)
+    {
+        return dataAES.EncryptString(text, passwordForAES);
+    }
+
+    public string DecryptData(string text)
+    {
+        return dataAES.DecryptString(text, passwordForAES);
+    }
+
+    public GameState GetGameState()
+    {
+        return gameState;
+    }
+
+    public void SetGameState(GameState gameState)
+    {
+        this.gameState = gameState;
+    }
+
     // 처음 부터
     public void PlayNewGame()
     {
-        // 초기 데이터를 불러오고
-        CSVParser.instance.InitDataFromCSV();
+        // 비동기적으로 초기 데이터를 불러옴
+        thread = new Thread(CSVParser.instance.InitDataFromCSV);
+        thread.IsBackground = true;
+        thread.Start();
+        //CSVParser.instance.InitDataFromCSV();
         // 불러온 데이터를 적용시킴
-        DialogManager.instance.SetLists();
-        ItemDatabase.instance.SetLists();
+        //DialogManager.instance.SetLists();
+        //ItemDatabase.instance.SetLists();
     }
 
     // 이어 하기
     public void PlaySaveGame()
     {
-        // 저장된 데이터를 불러오고
-        CSVParser.instance.LoadCSVData();
-        // 불러온 데이터를 적용시킴
-        DialogManager.instance.SetLists();
-        ItemDatabase.instance.SetLists();
-        LoadPlayerData();
-        eventVariable.LoadEventVariables();
+        try
+        {
+            // 비동기적으로 저장된 데이터를 불러옴
+            thread = new Thread(CSVParser.instance.LoadCSVData);
+            thread.IsBackground = true;
+            thread.Start();
+            //CSVParser.instance.LoadCSVData();
+            // 불러온 데이터를 적용시킴
+            //DialogManager.instance.SetLists();
+            //ItemDatabase.instance.SetLists();
+            //LoadPlayerData();
+            eventVariable.LoadEventVariables();
+        }
+        catch
+        {
+            // 로드 실패시 -> 저장된 게임 데이터가 없을 시
+            gameState = GameState.Idle;
+            return;
+        }
+    }
+
+    // PlayerManager.cs 에서 비동기적으로 사용되는 함수
+    public void SaveGameData(object th)
+    {
+        CSVParser.instance.SaveCSVData();
+        SavePlayerData();
+        eventVariable.SaveEventVariables();
+
+        //Thread tempTh = (Thread)th;
+        //tempTh.Abort();
     }
 
     /* Load된 Player의 정보를 적용 */
@@ -133,5 +158,10 @@ public class GameManager : MonoBehaviour {
         PlayerInfo tempPlayerInfo = new PlayerInfo(PlayerManager.instance.NumOfAct, PlayerManager.instance.TimeSlot, PlayerManager.instance.GetPlayedEventList(), PlayerManager.instance.playerClueLists);
 
         tempPlayerInfo.SavePlayerInfo();
+    }
+
+    public void SetEventVariable(ref EventVariable eventVariable)
+    {
+        this.eventVariable = eventVariable;
     }
 }

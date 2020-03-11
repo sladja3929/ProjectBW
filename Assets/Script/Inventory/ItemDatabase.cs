@@ -26,7 +26,6 @@ public class ItemDatabase : MonoBehaviour {
     {
         if (instance == null)
             instance = this;
-
     }
 
     // 단서 정보 최신화

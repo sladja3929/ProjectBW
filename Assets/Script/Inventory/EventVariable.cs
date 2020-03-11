@@ -124,6 +124,7 @@ public class EventVariable
     {
         string loadDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         string tempJsonString = File.ReadAllText(loadDataPath);
+        tempJsonString = GameManager.instance.DecryptData(tempJsonString);
         JsonData jsonData = JsonMapper.ToObject(tempJsonString);
         SetEventvariables(jsonData);
     }
@@ -134,7 +135,7 @@ public class EventVariable
         string saveDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         // EventVariable 클래스 통째로 json화
         JsonData tempJsonData = JsonMapper.ToJson(this);
-        string tempStringData = tempJsonData.ToString();
+        string tempStringData = GameManager.instance.EncryptData(tempJsonData.ToString());
         File.WriteAllText(saveDataPath, tempStringData);
     }
 }

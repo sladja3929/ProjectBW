@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour {
@@ -82,7 +83,23 @@ public class PlayerManager : MonoBehaviour {
 
         skipText = false;
 
-        ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame
+    }
+
+    void Start()
+    {
+        if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+        {
+            DialogManager.instance.SetLists();
+            ItemDatabase.instance.SetLists();
+            GameManager.instance.LoadPlayerData();
+            GameManager.instance.SetEventVariable(ref GetEventVariableClass());
+            ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame
+        }
+        else if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
+        {
+            DialogManager.instance.SetLists();
+            ItemDatabase.instance.SetLists();
+        }
     }
 
     // Update is called once per frame
@@ -107,6 +124,12 @@ public class PlayerManager : MonoBehaviour {
             UIManager.instance.isFading = true;
             //Debug.Log("단서 정리 시스템 종료");
             UIManager.instance.ArrangeClue();
+
+            // 데이터 세이브(비동기)
+            GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+            GameManager.instance.thread.IsBackground = true;
+            GameManager.instance.thread.Start(GameManager.instance.thread);
+
             //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
             StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
             UIManager.instance.isReadParchment = false;

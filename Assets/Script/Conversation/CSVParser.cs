@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Threading.Tasks;
 
 public class CSVParser : MonoBehaviour
 {
@@ -50,6 +51,19 @@ public class CSVParser : MonoBehaviour
         //InitDataFromCSV();
     }//Awake()
 
+    // 초기 데이터 파일 암호화 용도
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F1))
+    //    {
+    //        string temp = File.ReadAllText(initConversationDataPath);
+    //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp));
+
+    //        temp = File.ReadAllText(initClueDataPath);
+    //        File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp));
+    //    }
+    //}
+
     /* 타이틀에서 새로하기를 눌렀을 때, 실행 */
     public void InitDataFromCSV()
     {
@@ -66,6 +80,8 @@ public class CSVParser : MonoBehaviour
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
         //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
         string textAsset = File.ReadAllText(dataPath);
+        
+        textAsset = GameManager.instance.DecryptData(textAsset);
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -440,6 +456,8 @@ public class CSVParser : MonoBehaviour
         
         string textAsset = File.ReadAllText(dataPath);
 
+        textAsset = GameManager.instance.DecryptData(textAsset);
+
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
         string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
@@ -584,8 +602,10 @@ public class CSVParser : MonoBehaviour
             conversationData += "줄바꿈\r\n";
         }
 
-        string resultString = attributeString + conversationData;
-        File.WriteAllText(playerConversationDataPath, resultString, System.Text.Encoding.UTF8);
+        // 생성된 세이브 파일 암호화
+        string resultString = GameManager.instance.EncryptData(attributeString + conversationData);
+        // 세이브 파일 생성
+        File.WriteAllText(playerConversationDataPath, resultString);
     }
 
     /* 저장된 csv 파일 불러오기 */
@@ -595,6 +615,36 @@ public class CSVParser : MonoBehaviour
         string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
         ParsingConversationCSV(conversationDataPath);
         ParsingClueDataCSV(clueDataPath);
+    }
+
+    // 세이브 파일이 있는지 체크
+    public bool CheckSaveData()
+    {
+        string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+        string eventVariableDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
+        string playerInfoDataPath = Application.streamingAssetsPath + "/Data/PlayerInfo.json";
+        string initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
+        string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+        
+        if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+        {
+            if (File.Exists(initConversationDataPath) == false || File.Exists(clueDataPath) == false || File.Exists(conversationDataPath) == false
+                || File.Exists(eventVariableDataPath) == false || File.Exists(playerInfoDataPath) == false)
+                return false;
+            else
+                return true;
+        }
+        else if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
+        {
+            if (File.Exists(initConversationDataPath) == false || File.Exists(clueDataPath) == false)
+                return false;
+            else
+                return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /* """ -> " */
