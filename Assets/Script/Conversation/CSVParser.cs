@@ -87,7 +87,7 @@ public class CSVParser : MonoBehaviour
         
         string textAsset = File.ReadAllText(dataPath.ToString(), System.Text.Encoding.UTF8);
         
-        textAsset = GameManager.instance.DecryptData(textAsset);
+        //textAsset = GameManager.instance.DecryptData(textAsset);
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -462,7 +462,7 @@ public class CSVParser : MonoBehaviour
         
         string textAsset = File.ReadAllText(dataPath, System.Text.Encoding.UTF8);
 
-        textAsset = GameManager.instance.DecryptData(textAsset);
+        //textAsset = GameManager.instance.DecryptData(textAsset);
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -610,10 +610,10 @@ public class CSVParser : MonoBehaviour
         }
 
         // 생성된 세이브 파일 암호화
-        string resultString = GameManager.instance.EncryptData(attributeString + conversationData);
+        //string resultString = GameManager.instance.EncryptData(attributeString + conversationData);
         // 세이브 파일 생성
-        //File.WriteAllText(playerConversationDataPath, attributeString + conversationData, System.Text.Encoding.UTF8);
-        File.WriteAllText(playerConversationDataPath,resultString, System.Text.Encoding.UTF8);
+        File.WriteAllText(playerConversationDataPath, attributeString + conversationData, System.Text.Encoding.UTF8);
+        //File.WriteAllText(playerConversationDataPath,resultString, System.Text.Encoding.UTF8);
     }
 
     /* 저장된 csv 파일 불러오기 */

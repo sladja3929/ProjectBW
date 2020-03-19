@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour {
 
     public Thread thread;
     public Thread thread2;
+    
+    public List<string> playerEventIndexLists;
+    public List<string> playerClueNameLists;
+    public List<string> playerFirstInfoOfClueLists;
 
     // 대칭키 비밀번호
     private const string passwordForAES = "gmrrhkqor";
@@ -163,26 +167,23 @@ public class GameManager : MonoBehaviour {
         PlayerInfo tempPlayerInfo = new PlayerInfo();
 
         tempPlayerInfo.LoadPlayerInfo();
+        
+        PlayerManager.instance.NumOfAct = tempPlayerInfo.GetNumOfAct();
+        PlayerManager.instance.TimeSlot = tempPlayerInfo.GetTimeSlot();
 
-        string tempNumOfAct = tempPlayerInfo.GetNumOfAct();
-        string tempTimeSlot = tempPlayerInfo.GetTimeSlot();
-        List<string> tempEventIndexLists = tempPlayerInfo.GetEventIndexList();
-        List<string> tempPlayerClueNameLists = tempPlayerInfo.GetPlayerClueNameLists();
-        List<string> tempFirstInfoOfClueLists = tempPlayerInfo.GetFirstInfoOfClueLists(); // 로드 끝
+        playerEventIndexLists = tempPlayerInfo.GetEventIndexList();
+        playerClueNameLists = tempPlayerInfo.GetPlayerClueNameLists();
+        playerFirstInfoOfClueLists = tempPlayerInfo.GetFirstInfoOfClueLists(); // 로드 끝
 
-        /* 적용 */
-        PlayerManager.instance.NumOfAct = tempNumOfAct;
-        PlayerManager.instance.TimeSlot = tempTimeSlot;
-
-        for (int i = 0; i < tempEventIndexLists.Count; i++)
+        for (int i = 0; i < playerEventIndexLists.Count; i++)
         {
-            PlayerManager.instance.AddEventCodeToList(tempEventIndexLists[i]);
+            PlayerManager.instance.AddEventCodeToList(playerEventIndexLists[i]);
         }
 
-        for (int i = 0; i < tempPlayerClueNameLists.Count; i++)
+        for (int i = 0; i < playerClueNameLists.Count; i++)
         {
-            GetClue(tempPlayerClueNameLists[i]);
-            PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(tempFirstInfoOfClueLists[i]);
+            GetClue(playerClueNameLists[i]);
+            PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(playerFirstInfoOfClueLists[i]);
         }
     }
 

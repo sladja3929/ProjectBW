@@ -64,9 +64,6 @@ public class PlayerManager : MonoBehaviour {
         for (int i = 0; i < ClueLists.Length; i++)
             ClueLists[i] = new List<Clue>();
 
-        NumOfAct = "53";   //사건3 시작
-        TimeSlot = "71";   //첫째주 시작
-
         //NumOfAct = "54";   //사건4 시작
         //TimeSlot = "75";   //첫날 시작
 
@@ -91,18 +88,43 @@ public class PlayerManager : MonoBehaviour {
 
     void Start()
     {
-        if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+        if (GameManager.instance.GetGameState().Equals(GameManager.GameState.NewGame_Loaded))
+        {
+            NumOfAct = "53";   //사건3 시작
+            TimeSlot = "71";   //첫째주 시작
+
+            UIManager.instance.act4Button.SetActive(false);
+            UIManager.instance.act5Button.SetActive(false);
+
+            checkNumOfAct = NumOfAct;
+            checkTimeSlot = TimeSlot;
+
+            DialogManager.instance.SetLists();
+            ItemDatabase.instance.SetLists();
+        }
+        else if (GameManager.instance.GetGameState().Equals(GameManager.GameState.PastGame_Loaded))
         {
             DialogManager.instance.SetLists();
             ItemDatabase.instance.SetLists();
             GameManager.instance.LoadPlayerData();
             GameManager.instance.SetEventVariable(ref GetEventVariableClass());
+
+            if (NumOfAct.Equals("53"))
+            {
+                UIManager.instance.act4Button.SetActive(false);
+                UIManager.instance.act5Button.SetActive(false);
+            }
+            else if (NumOfAct.Equals("54"))
+            {
+                UIManager.instance.SetNameOfCase("사건4 연쇄살인 4번째 피해자_????");
+                UIManager.instance.act4Button.SetActive(true);
+                UIManager.instance.act5Button.SetActive(false);
+            }
+
+            checkNumOfAct = NumOfAct;
+            checkTimeSlot = TimeSlot;
+
             ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame
-        }
-        else if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
-        {
-            DialogManager.instance.SetLists();
-            ItemDatabase.instance.SetLists();
         }
     }
 
@@ -129,13 +151,14 @@ public class PlayerManager : MonoBehaviour {
             //Debug.Log("단서 정리 시스템 종료");
             UIManager.instance.ArrangeClue();
 
-            // 데이터 세이브(비동기)
-            GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-            GameManager.instance.thread.IsBackground = true;
-            GameManager.instance.thread.Start();
-
             //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
             StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+
+            // 데이터 세이브(비동기)
+            //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+            //GameManager.instance.thread.IsBackground = true;
+            //GameManager.instance.thread.Start();
+
             UIManager.instance.isReadParchment = false;
         }
 

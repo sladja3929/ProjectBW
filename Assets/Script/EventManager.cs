@@ -427,15 +427,15 @@ public class EventManager : MonoBehaviour
                 npcListForEvent[29].SetActive(false);
         }
 
-        // 사건 3에서 사체(35)를 활성화, 이외의 사건에서는 비활성화
-        if (!npcListForEvent[35].activeSelf)
+        // 사건3 첫쨋날에만 사체(35)를 활성화, 이외의 시간에서는 비활성화
+        if (PlayerManager.instance.TimeSlot.Equals("71"))
         {
-            if (PlayerManager.instance.NumOfAct.Equals("53"))
-                npcListForEvent[35].SetActive(true);
+            npcListForEvent[35].SetActive(true);
         }
-
-        if (!PlayerManager.instance.NumOfAct.Equals("53"))
+        else if(!PlayerManager.instance.TimeSlot.Equals("71"))
+        {
             npcListForEvent[35].SetActive(false);
+        }
 
         // 특정 인물 등장 이벤트 처리 끝
 

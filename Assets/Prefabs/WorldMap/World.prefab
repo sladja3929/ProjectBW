@@ -8030,7 +8030,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 786154819717992201}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1414, y: -118, z: 0}
+  m_LocalPosition: {x: 1650, y: -118, z: 0}
   m_LocalScale: {x: 110, y: 150, z: 100}
   m_Children: []
   m_Father: {fileID: 5907583629552769562}
@@ -15874,7 +15874,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1574188921257150824}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1413, y: -200, z: 0}
+  m_LocalPosition: {x: 1649, y: -200, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children:
   - {fileID: 490453708079056425}
@@ -25538,7 +25538,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2629388313789207416}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 862, y: 14, z: 0}
+  m_LocalPosition: {x: 860, y: 14, z: 0}
   m_LocalScale: {x: 130, y: 130, z: 1}
   m_Children: []
   m_Father: {fileID: 2629388315249068547}
@@ -56672,7 +56672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445673979448852317}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -465, y: -200, z: 0}
+  m_LocalPosition: {x: 538, y: -200, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children:
   - {fileID: 6710402478385404852}
@@ -56692,7 +56692,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.7608687, y: -0.32849652}
+  m_Offset: {x: 0, y: -0.32849652}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -69235,7 +69235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5132495459569512141}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -460, y: -200, z: 0}
+  m_LocalPosition: {x: -542, y: -200, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1}
   m_Children:
   - {fileID: 7273438812552481745}
@@ -69255,7 +69255,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.87108135, y: -0.17601031}
+  m_Offset: {x: 0, y: -0.17601031}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76824,7 +76824,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5871248178105861162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.88, y: -0.06, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5777730261427840174}
@@ -78490,7 +78490,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6047035580533337446}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
-  m_LocalPosition: {x: -0.73, y: -0.31, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6846460064599045893}
@@ -89035,7 +89035,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7196329758420292192}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -542, y: -186.9, z: 0}
+  m_LocalPosition: {x: 538, y: -186.9, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 8744309247496670411}
@@ -108588,7 +108588,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 04c7f879109449a47946cd401ddc918f,
+      objectReference: {fileID: 21300000, guid: 9c0266f00e318914aa9d681d5f17c52f,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3c7d41f18fcee042a8dfc7b6f2d1929, type: 3}
@@ -113214,7 +113214,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 04c7f879109449a47946cd401ddc918f,
+      objectReference: {fileID: 21300000, guid: edfe1284da8a1e544b83a8fd8deeb102,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffb8e2315e455474fb2b4319cdd8e6ba, type: 3}

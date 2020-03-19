@@ -59,6 +59,13 @@ public class UIManager : MonoBehaviour {
     public bool isMovingSlot;          // 단서 슬롯이 이동해야하는지 여부를 저장하기 위한 변수
     public float tempYPosition;
 
+    [SerializeField]
+    public GameObject act3Button;
+    [SerializeField]
+    public GameObject act4Button;
+    [SerializeField]
+    public GameObject act5Button;
+
     /* 단서 정리 UI */
     [SerializeField]
     private GameObject canvasForParchment;  // 양피지에 나오는 단서 리스트의 부모를 캔버스로 바꾸기 위한 변수
@@ -96,6 +103,8 @@ public class UIManager : MonoBehaviour {
     private GameObject timeSlotText;        // 시간대 변경 텍스트
     [SerializeField]
     private GameObject wordOfMerte;         // 메르테의 말
+    [SerializeField]
+    private GameObject nameOfCase;          // 양피지 맨 윗쪽에 있는 텍스트
 
     /* W,S로 버튼 이동 Test */
     public Button testButton;
@@ -234,6 +243,18 @@ public class UIManager : MonoBehaviour {
                 tempValue_RectOfHelper = rectOfParchmentHelper.localPosition.y; // 이전에 저장된 y값을 백업 해놓기 -> tempValue_RectOfParchment 를 구하기 위해서 필요함
                 */
             }
+        }
+
+        // esc로 수첩 닫기
+        if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+        {
+            isOpened = !isOpened;
+            isOpenedNote = !isOpenedNote;
+
+            Background.SetActive(isOpenedNote);
+            NoteBook.SetActive(isOpenedNote);
+            GetClueUI.SetActive(isOpenedNote);
+            clueScroller.SetActive(isOpenedNote);
         }
 
         if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
@@ -593,12 +614,16 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("74"))
             {
                 PlayerManager.instance.NumOfAct = "54";
+                SetNameOfCase("사건4 연쇄살인 4번째 피해자_????");
                 EventManager.instance.AbleNpcForEvent(36);
             }
         }
 
         if (PlayerManager.instance.NumOfAct.Equals("54"))
         {
+            if(!act4Button.activeSelf)
+                act4Button.SetActive(true);
+
             if (PlayerManager.instance.TimeSlot.Equals("74"))
                 PlayerManager.instance.TimeSlot = "75";
             else if (PlayerManager.instance.TimeSlot.Equals("75"))
@@ -610,8 +635,19 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("78"))
                 PlayerManager.instance.TimeSlot = "79";
             else if (PlayerManager.instance.TimeSlot.Equals("79"))
+            {
+                PlayerManager.instance.NumOfAct = "55";
                 PlayerManager.instance.TimeSlot = "79";
+
+                if (!act5Button.activeSelf)
+                    act5Button.SetActive(true);
+            }
         }
+
+        // 세이브
+        GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+        GameManager.instance.thread.IsBackground = true;
+        GameManager.instance.thread.Start();
 
         // 디버깅용
         PlayerManager.instance.checkNumOfAct = PlayerManager.instance.NumOfAct;
@@ -889,5 +925,10 @@ public class UIManager : MonoBehaviour {
         colorBlock.highlightedColor = Color.gray;
         colorBlock.pressedColor = Color.gray;
         nextButton.GetComponent<Button>().colors = colorBlock;
+    }
+
+    public void SetNameOfCase(string textOfAct4)
+    {
+        nameOfCase.GetComponent<Text>().text = textOfAct4;
     }
 }

@@ -53,8 +53,8 @@ public class Portal : MonoBehaviour
             }
             */
             if (//조건 시작
-                (!UIManager.instance.isPortaling && (Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") || (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake")
-                || (Input.GetKeyDown(KeyCode.A) && arrow.transform.name == "LeftToTake") || (Input.GetKeyDown(KeyCode.D) && arrow.transform.name == "RightToTake"))
+                (!UIManager.instance.isPortaling && ( (Input.GetKeyDown(KeyCode.W) && arrow.transform.name == "UpToTake") || (Input.GetKeyDown(KeyCode.S) && arrow.transform.name == "DownToTake")
+                || (Input.GetKeyDown(KeyCode.A) && arrow.transform.name == "LeftToTake") || (Input.GetKeyDown(KeyCode.D) && arrow.transform.name == "RightToTake") ))
                 //조건 끝
                 )
             {

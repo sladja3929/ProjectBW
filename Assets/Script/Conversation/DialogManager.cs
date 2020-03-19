@@ -50,6 +50,8 @@ public class DialogManager : MonoBehaviour
 
     private EventVariable eventVariable;
 
+    private string tempObjectPortrait;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -123,6 +125,7 @@ public class DialogManager : MonoBehaviour
         string targetObject = objectName;   //StartObject에 해당하는 값
 
         tempSentenceOfCondition = targetObject;
+        tempObjectPortrait = targetObject;
         
         // 209번 이벤트를 위한 처리
         if (targetObject.Equals("1105"))
@@ -440,8 +443,17 @@ public class DialogManager : MonoBehaviour
         if (tempNpcName != null)
         {
             npcNameText.text = tempNpcName;
+            string objectName = npcParser.GetObjectNameFromCode(tempObjectPortrait);
+            //Debug.Log("objectName = " + objectName);
             //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
-            npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
+            if (tempNpcName.Equals("서술자"))
+            {
+                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfObject/" + objectName);
+            }
+            else
+            {
+                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
+            }
         }
         else
             npcNameText.text = "???";
@@ -470,11 +482,14 @@ public class DialogManager : MonoBehaviour
                 if (letter.Equals('\n'))
                 {
                     tempEnterCount++;
+                    numOfTextLimit = 0;
                 }
 
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                {
                     isTextFull = true;
+                }
 
                 // 플레이어가 대화를 스킵하고자 할 경우, for문 탈출
                 if (UIManager.instance.playerWantToSkip)
@@ -492,9 +507,15 @@ public class DialogManager : MonoBehaviour
                 if (numOfTextLimit >= tempLimitInOneLine)
                 {
                     conversationText.text += '\n';
+
                     tempEnterCount++;
                     numOfTextLimit = 0;
-                    //Debug.Log("정상 로직");
+
+                    // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                    if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                    {
+                        isTextFull = true;
+                    }
                 }
 
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
@@ -532,6 +553,7 @@ public class DialogManager : MonoBehaviour
                 if (letter.Equals('\n'))
                 {
                     tempEnterCount++;
+                    numOfTextLimit = 0;
                 }
 
                 tempString += letter;
@@ -815,7 +837,7 @@ public class DialogManager : MonoBehaviour
                 index++;
 
                 conversationText.text = "";
-                
+
                 // 302번 이벤트 대화묶음의 index가 4일때 검은화면
                 if (index == 4 && tempSentenceOfCondition != null)
                 {
@@ -855,8 +877,8 @@ public class DialogManager : MonoBehaviour
 
                 UIManager.instance.isFading = true;
                 StartCoroutine(UIManager.instance.FadeEffect(0.2f, "Out"));  //?초 동안 fade out 후 대화창 닫기
-                                                                                //UIManager.instance.isConversationing = false;
-                                                                                //UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
+                                                                             //UIManager.instance.isConversationing = false;
+                                                                             //UIManager.instance.CloseConversationUI();   //모든 대화가 끝나면 대화창 닫기
 
                 //대화로 인해 얻은 보상이 있으면 단서창에 추가
                 if (rewardsLists.Count > 1)
@@ -870,7 +892,7 @@ public class DialogManager : MonoBehaviour
                 {
                     GameManager.instance.GetClue(rewardsLists[0]);
                 }
-                
+
                 /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
                 for (int i = 0; i < rewardsLists.Count; i++)
                 {
@@ -954,12 +976,30 @@ public class DialogManager : MonoBehaviour
                 }
 
                 //Debug.Log("대화가 모두 끝나서, 초기화");
-
+                //UIManager.instance.RemoveDeadBodyImage();
                 EventManager.instance.PlayEvent();
             }
         }
         catch
         {
+            Debug.Log("대화중 오류 발생");
+            //하나의 대화가 끝났으므로, 리셋
+            index = 0;
+            numOfText = 0;
+            sentences = null;
+            sentenceLists.Clear();
+            imagePathLists.Clear();
+            tempCertainDescIndexLists.Clear();
+            tempNpcNameLists.Clear();
+            curNumOfNpcNameLists = 0;
+            rewardsLists.Clear();
+            //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+            isFirstConversation = false;
+            UIManager.instance.isTypingText = false;
+            EventManager.instance.isFinishedConversationFor222 = true;
+
+            UIManager.instance.RemoveDeadBodyImage();
+
             return;
         }
     }
