@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -569,7 +570,9 @@ public class UIManager : MonoBehaviour {
         if (PlayerManager.instance.NumOfAct.Equals("53"))
             timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "주가 지나갔다";
         else if (PlayerManager.instance.NumOfAct.Equals("54"))
-            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "일이 지나갔다";
+        {
+            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + (int.Parse(timeslot) - 74) + "일이 지나갔다";
+        }
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         EventManager.instance.PlayEvent();
@@ -590,12 +593,15 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("74"))
             {
                 PlayerManager.instance.NumOfAct = "54";
-                PlayerManager.instance.TimeSlot = "75";
+                EventManager.instance.AbleNpcForEvent(36);
             }
         }
-        else if (PlayerManager.instance.NumOfAct.Equals("54"))
+
+        if (PlayerManager.instance.NumOfAct.Equals("54"))
         {
-            if (PlayerManager.instance.TimeSlot.Equals("75"))
+            if (PlayerManager.instance.TimeSlot.Equals("74"))
+                PlayerManager.instance.TimeSlot = "75";
+            else if (PlayerManager.instance.TimeSlot.Equals("75"))
                 PlayerManager.instance.TimeSlot = "76";
             else if (PlayerManager.instance.TimeSlot.Equals("76"))
                 PlayerManager.instance.TimeSlot = "77";
@@ -642,6 +648,62 @@ public class UIManager : MonoBehaviour {
 
         isFading = false;
 
+    }
+
+    // 301번 이벤트를 위한 Fade In & Out
+    public IEnumerator FadeEffectForEvent301()
+    {
+        // 1. FadeIn 된다.
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout", true);
+
+        isFading = true;
+        isConversationing = true;
+        yield return new WaitForSeconds(1.7f);
+
+        yield return new WaitForSeconds(0.7f);
+
+        // 2. Fade Out 된다.
+        fadeInOutAnimator.SetBool("isfadeout", false);
+
+        PlayerManager.instance.SetPlayerPosition(new Vector3(15850.0f, 4100.0f, 0));
+        PlayerManager.instance.SetCurrentPosition("Mansion_Viscount_Mansion_Second_Floor");
+        PlayerManager.instance.AddEventCodeToList("301");
+
+        yield return new WaitForSeconds(2.5f);
+
+        isFading = false;
+
+        // 302번 이벤트에 해당하는 대사묶음이 작성될 경우 수정 (0313)
+        DialogManager.instance.InteractionWithObject("302");
+    }
+
+    // 302번 이벤트를 위한 Fade In 코루틴
+    public IEnumerator FadeInForEvent302()
+    {
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout2", true);
+        yield return new WaitForSeconds(2.4f);
+
+        PlayerManager.instance.SetPlayerPosition(new Vector3(11419.0f, 5220.0f, 0));
+        PlayerManager.instance.SetCurrentPosition("Chapter_Merte_Office");
+        PlayerManager.instance.AddEventCodeToList("302");
+        
+        yield return null;
+    }
+
+    // 302번 이벤트를 위한 Fade Out 코루틴
+    public IEnumerator FadeOutForEvent302()
+    {
+        fadeInOutAnimator.SetBool("isfadeout2", false);
+
+        yield return new WaitForSeconds(2.5f);
+
+        //CloseConversationUI();
+        isConversationing = false;
+        isFading = false;
+        EventManager.instance.isPlaying302Event = false;
+        yield return null;
     }
 
     // 1. 대화창 & 캐릭터명 창 fade in

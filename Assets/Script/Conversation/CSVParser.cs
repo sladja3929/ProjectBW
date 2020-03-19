@@ -31,6 +31,7 @@ public class CSVParser : MonoBehaviour
 
     private string initConversationDataPath;
     private string initClueDataPath;
+    public string chapter4_ConversationDataPath;
     private string playerConversationDataPath;
 
     /* csv 파일 불러오면서 적용시키기 */
@@ -43,8 +44,10 @@ public class CSVParser : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
-        initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
+        //initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
+        initConversationDataPath = Application.streamingAssetsPath + "/Data/전체_테이블.csv";
         initClueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+        //chapter4_ConversationDataPath = Application.streamingAssetsPath + "/Data/사건_4_전체_테이블.csv";
         playerConversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
 
         // 파일 컨트롤은 GameManager에서 수행
@@ -57,10 +60,12 @@ public class CSVParser : MonoBehaviour
     //    if (Input.GetKeyDown(KeyCode.F1))
     //    {
     //        string temp = File.ReadAllText(initConversationDataPath);
-    //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp));
+    //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
 
     //        temp = File.ReadAllText(initClueDataPath);
-    //        File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp));
+    //        File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
     //    }
     //}
 
@@ -72,14 +77,15 @@ public class CSVParser : MonoBehaviour
     }
 
     /* 대화 테이블을 파싱하는 함수 */
-    public void ParsingConversationCSV(string dataPath)
+    public void ParsingConversationCSV(object dataPath)
     {
         dataList = new Dictionary<int, Dictionary<string, string>>();
         interactionLists = new List<Interaction>();
 
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
         //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
-        string textAsset = File.ReadAllText(dataPath);
+        
+        string textAsset = File.ReadAllText(dataPath.ToString(), System.Text.Encoding.UTF8);
         
         textAsset = GameManager.instance.DecryptData(textAsset);
 
@@ -454,7 +460,7 @@ public class CSVParser : MonoBehaviour
         clueList = new Dictionary<int, Dictionary<string, string>>();
         clueStructureLists = new List<ClueStructure>();
         
-        string textAsset = File.ReadAllText(dataPath);
+        string textAsset = File.ReadAllText(dataPath, System.Text.Encoding.UTF8);
 
         textAsset = GameManager.instance.DecryptData(textAsset);
 
@@ -583,29 +589,31 @@ public class CSVParser : MonoBehaviour
 
         for (int i = 0; i < interactionLists.Count; i++)
         {
-            conversationData += (interactionLists[i].GetAct() + ",");
-            conversationData += (RecoverComma(interactionLists[i].GetTime()) + ",");
-            conversationData += (RecoverComma(interactionLists[i].GetPosition()) + ",");
-            conversationData += (interactionLists[i].GetSetOfDesc() + ",");
-            conversationData += (interactionLists[i].GetId() + ",");
-            conversationData += (RecoverComma(interactionLists[i].GetStartObject()) + ",");
-            conversationData += (interactionLists[i].GetNpcFrom() + ",");
-            conversationData += (RecoverEnter(RecoverComma(interactionLists[i].GetDesc())) + ",");
-            conversationData += (interactionLists[i].GetRepeatability() + ",");
-            conversationData += (RecoverComma(interactionLists[i].GetConditionOfDesc()) + ",");
-            conversationData += (interactionLists[i].GetStatus() + ",");
-            conversationData += (interactionLists[i].GetParent() + ",");
-            conversationData += (interactionLists[i].GetRewards() + ",");
-            conversationData += (RecoverComma(interactionLists[i].GetRevealList()) + ",");
-            conversationData += (interactionLists[i].GetOccurrence() + ",");
-            conversationData += (RecoverComma(interactionLists[i].GetEventIndexToOccur()) + ",");
-            conversationData += "줄바꿈\r\n";
+            conversationData += (
+                (interactionLists[i].GetAct() + ",") +
+                (RecoverComma(interactionLists[i].GetTime()) + ",") +
+                (RecoverComma(interactionLists[i].GetPosition()) + ",") +
+                (interactionLists[i].GetSetOfDesc() + ",") +
+                (interactionLists[i].GetId() + ",") +
+                (RecoverComma(interactionLists[i].GetStartObject()) + ",") +
+                (interactionLists[i].GetNpcFrom() + ",") +
+                (RecoverEnter(RecoverComma(interactionLists[i].GetDesc())) + ",") +
+                (interactionLists[i].GetRepeatability() + ",") +
+                (RecoverComma(interactionLists[i].GetConditionOfDesc()) + ",") +
+                (interactionLists[i].GetStatus() + ",") +
+                (interactionLists[i].GetParent() + ",") +
+                (interactionLists[i].GetRewards() + ",") +
+                (RecoverComma(interactionLists[i].GetRevealList()) + ",") +
+                (interactionLists[i].GetOccurrence() + ",") +
+                (RecoverComma(interactionLists[i].GetEventIndexToOccur()) + ",") +
+                "줄바꿈\r\n");
         }
 
         // 생성된 세이브 파일 암호화
         string resultString = GameManager.instance.EncryptData(attributeString + conversationData);
         // 세이브 파일 생성
-        File.WriteAllText(playerConversationDataPath, resultString);
+        //File.WriteAllText(playerConversationDataPath, attributeString + conversationData, System.Text.Encoding.UTF8);
+        File.WriteAllText(playerConversationDataPath,resultString, System.Text.Encoding.UTF8);
     }
 
     /* 저장된 csv 파일 불러오기 */
@@ -623,7 +631,7 @@ public class CSVParser : MonoBehaviour
         string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
         string eventVariableDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         string playerInfoDataPath = Application.streamingAssetsPath + "/Data/PlayerInfo.json";
-        string initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
+        string initConversationDataPath = Application.streamingAssetsPath + "/Data/전체_테이블.csv";
         string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
         
         if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)

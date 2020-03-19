@@ -14,16 +14,40 @@ public class GameManager : MonoBehaviour {
     private GameState gameState;
 
     public Thread thread;
+    public Thread thread2;
 
     // 대칭키 비밀번호
     private const string passwordForAES = "gmrrhkqor";
     private DataEncryption dataAES;
+
+    public Texture2D activateMouseCursorTexture;
+    private Vector2 pos;            //마우스 위치
+    private Ray2D ray;              //마우스 위치에 광선
+    private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
 
     void Awake()
     {
         DontDestroyOnLoad(this);
     }
 
+    void FixedUpdate()
+    {
+        pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        ray = new Ray2D(pos, Vector2.zero);
+        hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.tag.Equals("InteractionObject"))
+            {
+                SetCursorActivate();
+            }
+        }
+        else
+        {
+            SetCursorIdle();
+        }
+    }
 
     // Use this for initialization
     void Start () {
@@ -35,7 +59,20 @@ public class GameManager : MonoBehaviour {
         gameState = GameState.Idle;
         eventVariable = new EventVariable();
         dataAES = new DataEncryption();
+
+        activateMouseCursorTexture = Resources.Load<Texture2D>("Image/Cursor/Active");
     }
+
+    public void SetCursorActivate()
+    {
+        Cursor.SetCursor(activateMouseCursorTexture, Vector2.zero, CursorMode.Auto);
+    }
+
+    public void SetCursorIdle()
+    {
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
+
 
     public void GetClue(string clueName)
     {
@@ -112,14 +149,11 @@ public class GameManager : MonoBehaviour {
     }
 
     // PlayerManager.cs 에서 비동기적으로 사용되는 함수
-    public void SaveGameData(object th)
+    public void SaveGameData()
     {
         CSVParser.instance.SaveCSVData();
         SavePlayerData();
         eventVariable.SaveEventVariables();
-
-        //Thread tempTh = (Thread)th;
-        //tempTh.Abort();
     }
 
     /* Load된 Player의 정보를 적용 */

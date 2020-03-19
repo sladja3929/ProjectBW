@@ -58,7 +58,16 @@ public class Portal : MonoBehaviour
                 //조건 끝
                 )
             {
-                StartCoroutine(FadeWithTakePortal());
+                // 314번 이벤트를 위한 처리
+                if (arrow.transform.name == "RightToTake" && PlayerManager.instance.GetCurrentPosition().Equals("Chapter_President_Office") && PlayerManager.instance.NumOfAct.Equals("54"))
+                    DialogManager.instance.InteractionWithObject("비밀공간_진입불가");
+                else if (arrow.transform.name == "LeftToTake" && PlayerManager.instance.GetCurrentPosition().Equals("Chapter_Chapter_First_Floor"))
+                {
+                    // 305번 이벤트를 위한 처리
+                    DialogManager.instance.InteractionWithObject("제렐사무실");
+                }
+                else
+                    StartCoroutine(FadeWithTakePortal());
             }
 
             /*

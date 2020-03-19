@@ -42,6 +42,7 @@ public class PlayerManager : MonoBehaviour {
     private EventVariable eventVariable;
 
     public bool skipText;   // 대화 출력을 스킵할 때 사용
+    
 
     // Use this for initialization
     void Awake() {
@@ -65,6 +66,9 @@ public class PlayerManager : MonoBehaviour {
 
         NumOfAct = "53";   //사건3 시작
         TimeSlot = "71";   //첫째주 시작
+
+        //NumOfAct = "54";   //사건4 시작
+        //TimeSlot = "75";   //첫날 시작
 
         checkNumOfAct = NumOfAct;
         checkTimeSlot = TimeSlot;
@@ -128,7 +132,7 @@ public class PlayerManager : MonoBehaviour {
             // 데이터 세이브(비동기)
             GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
             GameManager.instance.thread.IsBackground = true;
-            GameManager.instance.thread.Start(GameManager.instance.thread);
+            GameManager.instance.thread.Start();
 
             //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
             StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
@@ -136,9 +140,9 @@ public class PlayerManager : MonoBehaviour {
         }
 
         /* 오브젝트와의 상호작용을 위한 if */
-        if (!UIManager.instance.isConversationing)
+        if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
         {
-            if ((( ( Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
+            if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
                 && isNearObject)
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -334,6 +338,7 @@ public class PlayerManager : MonoBehaviour {
 
     public void SetCurrentPosition(string currentPosition)
     {
+        //Debug.Log(currentPosition + "으로 워프!");
         this.currentPosition = currentPosition;
     }
 
