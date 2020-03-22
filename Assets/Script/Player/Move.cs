@@ -24,8 +24,12 @@ public class Move : MonoBehaviour
     {
         if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐 때
         {
+            
+
             if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !EventManager.instance.isPlaying302Event)
             {
+
+                
                 float xInput = Input.GetAxisRaw("Horizontal");
                 float yInput = Input.GetAxisRaw("Vertical");
 

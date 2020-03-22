@@ -17,7 +17,7 @@ public class BGMManager : MonoBehaviour
 
     /*씬 이름들*/
     public const string titlescene = "Title_Tmp";
-    public const string gamescene = "BW_K";
+    public const string gamescene = "BW_H";
 
 
     private void Awake()
@@ -52,6 +52,7 @@ public class BGMManager : MonoBehaviour
         int nextBGMnowPlaying = preBGMnowPlaying;
 
         string curscene = SceneManager.GetActiveScene().name;
+        Debug.Log("curscene : " + curscene);
 
         if (curscene == titlescene)//타이틀 씬 (메인)
         {

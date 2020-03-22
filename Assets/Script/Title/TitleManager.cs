@@ -27,12 +27,13 @@ public class TitleManager : MonoBehaviour
         //GameManager.instance.PlayNewGame();
         LoadDataForScene();
         
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");    
 
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
+        
     }
 
     // 처음부터
