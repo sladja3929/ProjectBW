@@ -614,7 +614,7 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("74"))
             {
                 PlayerManager.instance.NumOfAct = "54";
-                SetNameOfCase("사건4 연쇄살인 4번째 피해자_????");
+                SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
                 EventManager.instance.AbleNpcForEvent(36);
             }
         }

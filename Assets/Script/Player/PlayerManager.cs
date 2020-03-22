@@ -83,7 +83,6 @@ public class PlayerManager : MonoBehaviour {
         SetIsNearObject(true);
 
         skipText = false;
-
     }
 
     void Start()
@@ -116,7 +115,7 @@ public class PlayerManager : MonoBehaviour {
             }
             else if (NumOfAct.Equals("54"))
             {
-                UIManager.instance.SetNameOfCase("사건4 연쇄살인 4번째 피해자_????");
+                UIManager.instance.SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
                 UIManager.instance.act4Button.SetActive(true);
                 UIManager.instance.act5Button.SetActive(false);
             }

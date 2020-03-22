@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
     private Ray2D ray;              //마우스 위치에 광선
     private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
 
+    public bool isEncrypted;        // 암호화 온오프
+
     void Awake()
     {
         DontDestroyOnLoad(this);
@@ -51,6 +53,18 @@ public class GameManager : MonoBehaviour {
         {
             SetCursorIdle();
         }
+
+        //// 암호화 ON
+        //if (Input.GetKeyDown(KeyCode.F6))
+        //{
+        //    isEncrypted = true;
+        //}
+
+        //// 암호화 OFF
+        //if (Input.GetKeyDown(KeyCode.F7))
+        //{
+        //    isEncrypted = false;
+        //}
     }
 
     // Use this for initialization
@@ -65,6 +79,8 @@ public class GameManager : MonoBehaviour {
         dataAES = new DataEncryption();
 
         activateMouseCursorTexture = Resources.Load<Texture2D>("Image/Cursor/Active");
+
+        isEncrypted = true;
     }
 
     public void SetCursorActivate()

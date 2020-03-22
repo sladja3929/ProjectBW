@@ -91,7 +91,10 @@ public class PlayerInfo
     {
         string loadDataPath = Application.streamingAssetsPath + "/Data/PlayerInfo.json";
         string tempJsonString = File.ReadAllText(loadDataPath);
-        //tempJsonString = GameManager.instance.DecryptData(tempJsonString);
+
+        if (GameManager.instance.isEncrypted)
+            tempJsonString = GameManager.instance.DecryptData(tempJsonString);
+
         JsonData jsonData = JsonMapper.ToObject(tempJsonString);
         SetPlayerInfo(jsonData);
     }
@@ -103,9 +106,16 @@ public class PlayerInfo
         // PlayerInfo 클래스 통째로 json화
         JsonData tempJsonData = JsonMapper.ToJson(this);
 
-        //string tempStringData = GameManager.instance.EncryptData(tempJsonData.ToString());
-        //File.WriteAllText(saveDataPath, tempStringData);
+        if (GameManager.instance.isEncrypted)
+        {
+            string tempStringData = GameManager.instance.EncryptData(tempJsonData.ToString());
+            File.WriteAllText(saveDataPath, tempStringData);
+        }
+        else
+        {
+            File.WriteAllText(saveDataPath, tempJsonData.ToString(), System.Text.Encoding.UTF8);
+        }
 
-        File.WriteAllText(saveDataPath, tempJsonData.ToString(), System.Text.Encoding.UTF8);
+
     }
 }
