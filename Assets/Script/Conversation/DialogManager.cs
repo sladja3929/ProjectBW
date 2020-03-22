@@ -16,7 +16,7 @@ public class DialogManager : MonoBehaviour
     
     private string[] sentences;
     private int index;
-    public float typingSpeed;
+    public float typingSpeed;//타이핑스피드 - 자막재생속도
     private int numOfText = 0;  //현재 출력된 텍스트 수
     private int numOfTextLimit = 0; // 대화창의 한 줄에 쓰여진 텍스트 수
     private int textLimit;  //한 대화창에 출력할 최대 텍스트 수
@@ -55,7 +55,7 @@ public class DialogManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-        
+
         textLimit = 125;
         enterLimitCount = 3;    //줄바꿈이 3번 일어나면 대화출력 종료 -> 대화창엔 3줄까지 출력될 것임
         tempLimitInOneLine = 30;    // 띄어쓰기 + 글자가 30자 이상일 경우, 강제로 줄바꿈
@@ -422,11 +422,15 @@ public class DialogManager : MonoBehaviour
                     break;
                 }
                 
+                
+
                 conversationText.text += letter;
                 atOnce = true;
                 numOfText++;
                 numOfTextLimit++;
                 UIManager.instance.canSkipConversation = false;
+
+                //글자 타이핑 소리?
 
                 // 자동으로 한줄 띄우기
                 if (numOfTextLimit >= tempLimitInOneLine)

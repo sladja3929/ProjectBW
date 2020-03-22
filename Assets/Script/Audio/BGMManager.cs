@@ -1,15 +1,24 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BGMManager : MonoBehaviour
 {
     static public BGMManager instance;
 
-    public AudioClip[] clips; // 배경음악들
+    public AudioClip[] clips; // BGM 리스트
     private AudioSource source;
 
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
+
+    private float BGMVolume; //BGM 볼륨
+
+    private int BGMnowplaying; //현재 재생중인 BGM
+
+    /*씬 이름들*/
+    public const string titlescene = "Title_Tmp";
+    public const string gamescene = "BW_K";
+
 
     private void Awake()
     {
@@ -19,67 +28,152 @@ public class BGMManager : MonoBehaviour
         }
         else
         {
-            //DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
             instance = this;
         }
     }
 
     void Start()
-    {
+    {       
         source = GetComponent<AudioSource>();
-        Play(1);
+
+        BGMVolume = 1f; //초기 볼륨
+
+
+        AutoSelectBGM();//BGM 셀렉
+        PlayBGM(BGMnowplaying);//BGM 재생
+
     }
 
-    public void Play(int _playMusicTrack)
+    /*BGM 자동선택 - 씬과 플레이어 위치 판별*/
+    public void AutoSelectBGM()
     {
-        source.volume = 1f;
+        int preBGMnowPlaying = BGMnowplaying;
+        int nextBGMnowPlaying = preBGMnowPlaying;
+
+        string curscene = SceneManager.GetActiveScene().name;
+
+        if (curscene == titlescene)//타이틀 씬 (메인)
+        {
+            nextBGMnowPlaying = 0;
+        }
+        else if (curscene == gamescene)// 인게임 씬
+        {
+            //플레이어 위치 받아와서 분류
+            string curpos = PlayerManager.instance.GetCurrentPosition();
+            string curhighpos = PlayerManager.instance.GetHigherCurrentPosition();
+            nextBGMnowPlaying = GetAreaBGM(curpos, curhighpos);
+        }
+        //이후 프롤로그 + 엔딩 추가
+
+
+        /*BGM 변경 시*/
+        if (preBGMnowPlaying != nextBGMnowPlaying)
+        {
+            BGMnowplaying = nextBGMnowPlaying;
+            FadeOutBGM();
+            //StopBGM();
+            PlayBGM(BGMnowplaying);
+            FadeInBGM();
+        }           
+    }
+
+    /*플레이어의 위치에 따른 BGM변경*/
+    private int GetAreaBGM(string curpos_, string curhighpos_)
+    {
+        int area_num;
+        switch (curhighpos_)
+        {           
+            case "Forest":
+            case "Mansion":
+            case "Chapter":
+                area_num = 2;
+                break;
+            case "Downtown":
+            case "Market":
+                area_num = 3;
+                break;
+            case "Viallage":
+            case "Harbor":
+                area_num = 4;
+                break;
+            case "Slum":
+                area_num = 5;
+                break;
+            default:
+                area_num = 0;
+                break;
+        }
+
+        if (curpos_ == "Mansion_President_Mansion_Outhouse")
+            area_num = 4;
+        else if (curpos_ == "Harbor_Cruise")
+            area_num = 6;
+        else if (curpos_ == "Harbor_Prison")
+            area_num = 7;
+
+
+        return area_num;
+    }
+
+    /*BGM 재생*/
+    public void PlayBGM(int _playMusicTrack)
+    {
+        source.volume = BGMVolume;
         source.clip = clips[_playMusicTrack];
         source.Play();
     }
 
-    public void SetVolumn(float _volumn)
+    /*볼륨 조정*/
+    public void SetBGMVolume(float _volume)
     {
-        source.volume = _volumn;
+        BGMVolume = _volume;
+        source.volume = BGMVolume;
     }
 
-    public void Pause()
+    /*음악 일시 정지*/
+    public void PauseBGM()
     {
         source.Pause();
     }
 
-    public void Unpause()
+    /*음악 일시 정지 해제*/
+    public void UnpauseBGM()
     {
         source.UnPause();
     }
 
-    public void Stop()
+    /*음악 재생 중단*/
+    public void StopBGM()
     {
         source.Stop();
     }
 
-    public void FadeOutMusic()
+    /*음악 페이드 아웃*/
+    public void FadeOutBGM()
     {
         StopAllCoroutines();
-        StartCoroutine(FadeOutMusicCoroutine());
+        StartCoroutine(FadeOutBGMCoroutine());
     }
 
-    IEnumerator FadeOutMusicCoroutine()
+    IEnumerator FadeOutBGMCoroutine()
     {
-        for (float i = 1.0f; i >= 0f; i -= 0.01f)
+        for (float i = BGMVolume; i >= 0f; i -= 0.01f)
         {
             source.volume = i;
             yield return waitTime;
         }
     }
 
-    public void FadeInMusic()
+    /*음악 페이드 인*/
+    public void FadeInBGM()
     {
         StopAllCoroutines();
-        StartCoroutine(FadeInMusicCoroutine());
+        StartCoroutine(FadeInBGMCoroutine());
     }
-    IEnumerator FadeInMusicCoroutine()
+    IEnumerator FadeInBGMCoroutine()
     {
-        for (float i = 0f; i <= 1f; i += 0.01f)
+        for (float i = 0f; i <= BGMVolume; i += 0.01f)
         {
             source.volume = i;
             yield return waitTime;

@@ -127,99 +127,102 @@ public class PlayerManager : MonoBehaviour {
         //    ItemDatabase.instance.AddClueForTest("입양과 후원");
         //}
 
-        if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
-        {
-            UIManager.instance.isFading = true;
-            //Debug.Log("단서 정리 시스템 종료");
-            UIManager.instance.ArrangeClue();
-            //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
-            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
-            UIManager.instance.isReadParchment = false;
-        }
+        if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
+        { 
 
-        /* 오브젝트와의 상호작용을 위한 if */
-        if (!UIManager.instance.isConversationing)
-        {
-            if ((( ( Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
-                && isNearObject)
+            if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
             {
-                pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                ray = new Ray2D(pos, Vector2.zero);
-                hit = Physics2D.Raycast(ray.origin, ray.direction);
+                UIManager.instance.isFading = true;
+                //Debug.Log("단서 정리 시스템 종료");
+                UIManager.instance.ArrangeClue();
+                //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
+                StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+                UIManager.instance.isReadParchment = false;
+            }
 
-                if (hit.collider == null)
+            /* 오브젝트와의 상호작용을 위한 if */
+            if (!UIManager.instance.isConversationing)
+            {
+                if ((( ( Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
+                    && isNearObject)
                 {
-                    //Debug.Log("아무것도 안맞죠?");
-                }
-                else if (hit.collider.tag == "InteractionObject")
-                {
-                    if (hit.collider.name.Equals("책상_메르테 사무실"))
+                    pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    ray = new Ray2D(pos, Vector2.zero);
+                    hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                    if (hit.collider == null)
                     {
-                        if (!UIManager.instance.isReadParchment)
+                        //Debug.Log("아무것도 안맞죠?");
+                    }
+                    else if (hit.collider.tag == "InteractionObject")
+                    {
+                        if (hit.collider.name.Equals("책상_메르테 사무실"))
                         {
-                            //Debug.Log("단서 정리 시스템 활성화");
+                            if (!UIManager.instance.isReadParchment)
+                            {
+                                //Debug.Log("단서 정리 시스템 활성화");
 
-                            if (ParchmentControll.instance.GetParchmentPosition().y != -720)
-                                ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
+                                if (ParchmentControll.instance.GetParchmentPosition().y != -720)
+                                    ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
 
-                            if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
-                                ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
+                                if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
+                                    ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
 
-                            if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
-                                ParchmentControll.instance.SetHelperContentPosition(new Vector2(0, 0));
+                                if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
+                                    ParchmentControll.instance.SetHelperContentPosition(new Vector2(0, 0));
 
-                            UIManager.instance.ArrangeClue();
+                                UIManager.instance.ArrangeClue();
+                            }
+                            else
+                            {
+                                //Debug.Log("단서 정리 시스템 활성화 실패");
+                            }
                         }
                         else
                         {
-                            //Debug.Log("단서 정리 시스템 활성화 실패");
-                        }
-                    }
-                    else
-                    {
-                        //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
-                        try
-                        {
-                            if (!UIManager.instance.isConversationing && !UIManager.instance.isFading)
+                            //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
+                            try
                             {
-                                DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                                if (!UIManager.instance.isConversationing && !UIManager.instance.isFading)
+                                {
+                                    DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                                }
+                                //if(hit.collider.name.Equals("ER"))
+                                //    DialogManager.instance.InteractionWithObject(er);
+
+                                //if (hit.collider.name.Equals("GarbageBag"))
+                                //    DialogManager.instance.InteractionWithObject(garbageBag);
                             }
-                            //if(hit.collider.name.Equals("ER"))
-                            //    DialogManager.instance.InteractionWithObject(er);
+                            catch
+                            {
 
-                            //if (hit.collider.name.Equals("GarbageBag"))
-                            //    DialogManager.instance.InteractionWithObject(garbageBag);
-                        }
-                        catch
-                        {
-
+                            }
                         }
                     }
                 }
             }
-        }
 
-        //if (UIManager.instance.isTypingText)
-        //{
-        //    if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
-        //    {
-        //        skipText = true;
-        //        UIManager.instance.isTypingText = false;
-        //    }
-        //}
+                //if (UIManager.instance.isTypingText)
+                //{
+                //    if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+                //    {
+                //        skipText = true;
+                //        UIManager.instance.isTypingText = false;
+                //    }
+                //}
 
-        /* for test 1226 */
-        /*
-        if (Input.GetKey(KeyCode.Alpha1))
-        {
-            TimeSlot = "71";
+                /* for test 1226 */
+                /*
+                if (Input.GetKey(KeyCode.Alpha1))
+                {
+                    TimeSlot = "71";
+                }
+                if (Input.GetKey(KeyCode.Alpha3))
+                {
+                    TimeSlot = "83";
+                }
+                */
         }
-        if (Input.GetKey(KeyCode.Alpha3))
-        {
-            TimeSlot = "83";
-        }
-        */
-
     }
 
     // 플레이어(메르테)의 x포지션 값 반환
@@ -327,6 +330,14 @@ public class PlayerManager : MonoBehaviour {
     public string GetCurrentPosition()
     {
         return currentPosition;
+    }
+
+    public string GetHigherCurrentPosition()
+    {
+        string str = currentPosition;
+        string[] result = str.Split(new char[] { '_' });
+
+        return result[0];
     }
 
     public void SetCurrentPosition(string currentPosition)

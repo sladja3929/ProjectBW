@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
@@ -8,16 +9,15 @@ public class PauseManager : MonoBehaviour
 
     public GameObject PausePanel;
     public GameObject SettingPanel;
-
-    bool ispaused; // 일시정지창 오픈?
-    bool issetting; // 환경설정창 오픈?
+   
+    private bool issetting; // 환경설정중인가?
 
 
     void Start()
     {
         //theSM = SettingManager.instance;
         theSM = FindObjectOfType<SettingManager>();
-        ispaused = false;
+        UIManager.instance.SetIsPausedFalse();
         issetting = false;
     }
 
@@ -26,17 +26,16 @@ public class PauseManager : MonoBehaviour
         /*키입력 받아 일시정지*/
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (ispaused == false)
+            if (UIManager.instance.GetIsPaused() == false)
             {
-                //게임일시정지
+                UIManager.instance.SetIsPausedTrue();
                 OpenPausePanel();
             }
-            else if (ispaused == true && issetting == false)
+            else if (UIManager.instance.GetIsPaused() == true && GetIsSetting() == false)
             {
-                //게임일시정지 해제
-                ClosePausePanel();
+                BacktoGame();
             }
-            else if (ispaused == true && issetting == true)
+            else if (UIManager.instance.GetIsPaused() == true && GetIsSetting() == true)
             {
                 theSM.SaveCurSetting();//환경설정 저장
                 CloseSettingPanel();
@@ -46,22 +45,26 @@ public class PauseManager : MonoBehaviour
 
     public void BacktoGame()
     {
-        ClosePausePanel();
-        //게임일시정지 해제
+        EffectManager.instance.Play("버튼 클릭음");
+        UIManager.instance.SetIsPausedFalse();
+        ClosePausePanel();       
     }
 
     public void BacktoMain()
     {
+        EffectManager.instance.Play("버튼 클릭음");
         ClosePausePanel();
-        //게임일시정지 해제
-        //데이터저장 - 유성님께 받아서 하기 
-        //타이틀화면으로 이동
+        UIManager.instance.SetIsPausedFalse();
+        //데이터저장 - 유성님 이어주세요! 
+        SceneManager.LoadScene("Title_Tmp");
     }
 
     public void OpenSettingPanel()
     {
-        issetting = true;
+        EffectManager.instance.Play("버튼 클릭음");
+        issetting = true;        
         SettingPanel.SetActive(true);
+        SettingManager.instance.GetPrevSetting();//패널 열면서 이전설정 불러오기
     }
 
     void CloseSettingPanel()
@@ -72,19 +75,12 @@ public class PauseManager : MonoBehaviour
 
     void OpenPausePanel()
     {
-        ispaused = true;
         PausePanel.SetActive(true);
     }
 
     void ClosePausePanel()
     {
-        ispaused = false;
         PausePanel.SetActive(false);
-    }
-
-    bool GetIsPaused()
-    {
-        return ispaused;
     }
 
     bool GetIsSetting()

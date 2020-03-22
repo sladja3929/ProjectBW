@@ -22,56 +22,59 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading)
+        if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐 때
         {
-            float xInput = Input.GetAxisRaw("Horizontal");
-            float yInput = Input.GetAxisRaw("Vertical");
-
-            //모션이 끊기면서 이동되는 이유는 무엇일까..?
-            //한번에 이동하는 간격이 길어서 그런것 같은데..
-            if (!UIManager.instance.isPortaling)
+            if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading)
             {
-                myRigidBody.velocity = new Vector2((xInput / 1.0f) * speed, (yInput / 1.0f) * speed);
+                float xInput = Input.GetAxisRaw("Horizontal");
+                float yInput = Input.GetAxisRaw("Vertical");
 
-                if (xInput != 0)
+                //모션이 끊기면서 이동되는 이유는 무엇일까..?
+                //한번에 이동하는 간격이 길어서 그런것 같은데..
+                if (!UIManager.instance.isPortaling)
                 {
+                    myRigidBody.velocity = new Vector2((xInput / 1.0f) * speed, (yInput / 1.0f) * speed);
+
                     if (xInput != 0)
-                        myAnimator.SetFloat("y", 0);
+                    {
+                        if (xInput != 0)
+                            myAnimator.SetFloat("y", 0);
 
-                    myAnimator.SetFloat("x", xInput);
+                        myAnimator.SetFloat("x", xInput);
 
-                    myAnimator.SetBool("Walking", true);
+                        myAnimator.SetBool("Walking", true);
+                    }
+
+                    if (yInput != 0)
+                    {
+                        if (xInput != 0)
+                            myAnimator.SetFloat("y", 0);
+                        else
+                            myAnimator.SetFloat("y", yInput);
+
+                        myAnimator.SetBool("Walking", true);
+                    }
                 }
-
-                if (yInput != 0)
+                else if (UIManager.instance.isPortaling)
                 {
-                    if (xInput != 0)
-                        myAnimator.SetFloat("y", 0);
-                    else
-                        myAnimator.SetFloat("y", yInput);
+                    myRigidBody.velocity = new Vector2((xInput / 1.0f) * 0, (yInput / 1.0f) * 0);
 
-                    myAnimator.SetBool("Walking", true);
+                    if (yInput != 0)
+                    {
+                        if (xInput != 0)
+                            myAnimator.SetFloat("y", 0);
+                        else
+                            myAnimator.SetFloat("y", yInput);
+
+                        myAnimator.SetBool("Walking", false);
+                    }
                 }
             }
-            else if (UIManager.instance.isPortaling)
+            else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling)
             {
-                myRigidBody.velocity = new Vector2((xInput / 1.0f) * 0, (yInput / 1.0f) * 0);
-
-                if (yInput != 0)
-                {
-                    if (xInput != 0)
-                        myAnimator.SetFloat("y", 0);
-                    else
-                        myAnimator.SetFloat("y", yInput);
-
-                    myAnimator.SetBool("Walking", false);
-                }
+                //캐릭터 도리도리 현상 발생. 
+                myRigidBody.velocity = Vector2.zero;
             }
-        }
-        else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling)
-        {
-            //캐릭터 도리도리 현상 발생. 
-            myRigidBody.velocity = Vector2.zero;
         }
     }
 

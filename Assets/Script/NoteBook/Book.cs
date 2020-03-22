@@ -350,6 +350,9 @@ public class Book : MonoBehaviour {
             currentPage += 1;
         else
             currentPage -= 1;
+
+        EffectManager.instance.Play("페이지 넘어가는 소리");//페이지 넘어가는 효과음
+
         LeftNext.transform.SetParent(BookPanel.transform, true);
         Left.transform.SetParent(BookPanel.transform, true);
         LeftNext.transform.SetParent(BookPanel.transform, true);

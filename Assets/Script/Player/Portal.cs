@@ -18,6 +18,9 @@ public class Portal : MonoBehaviour
     private Ray2D ray;              //마우스로 클릭한 곳에 보이지않는 광선을 쏨
     private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
 
+    private bool changeBGM;     //PlayerPos 변경에 따른 BGM 변경 필요성
+
+
     private void Awake() {
         // 포탈 스크립트를 가진 오브젝트는 오직 1개의 오브젝트만 가진다. (화살표 or 문)
         arrow = transform.GetChild(0).gameObject;
@@ -112,15 +115,19 @@ public class Portal : MonoBehaviour
 
     public void TakePortal() {
 
+        /*목적지 설정*/
         Vector3 tempPosition = PlayerManager.instance.GetPlayerPosition();
         tempPosition.x = destination.transform.position.x;
         tempPosition.y = destination.transform.position.y;
         PlayerManager.instance.SetPlayerPosition(tempPosition);
         string position = destination.transform.parent.parent.parent.name
                            + "_" + destination.transform.parent.parent.name;
-        
-        //MoveCamera에서 GetCurrentPosition사용
+
+        EffectManager.instance.Play("문 소리 1");//문 혹은 포탈 효과음 - 나중에 구분할 것
+
+        /*목적지로 이동*/
         PlayerManager.instance.SetCurrentPosition(position);
+        //MoveCamera에서 GetCurrentPosition사용
         /* 플레이어가 이동한 곳에 따라 PlayerManager의 이벤트 변수들의 값을 바꿔주는 조건문이 필요 */
 
         MiniMapManager.instance.MoveArrowPosition();
@@ -131,26 +138,37 @@ public class Portal : MonoBehaviour
 
         /*포탈을 넘을 때 카메라 제어 및 미니맵 상의 이동*/
         MiniMapManager.instance.MoveMap();
+
+       
     }
 
     private IEnumerator FadeWithTakePortal()
     {
+        changeBGM = false;
+
         UIManager.instance.isPortaling = true;
-        /*페이드 아웃*/
+
+        /*화면 페이드 아웃*/
         FadeImage.SetActive(true);
         Fadeanimator.SetBool("isfadeout", true);
         yield return new WaitForSeconds(0.5f);
 
         /*이동*/
         TakePortal();
-        //Debug.Log("포탈 타는중");
 
-        // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
-        EventManager.instance.PlayEvent();
+        /*플레이어의 위치에 따른 BGM변경*/
+        BGMManager.instance.AutoSelectBGM();
 
-        /*페이드 인*/
+        /*이벤트를 적용시킬 것이 있는지 확인 후, 적용*/
+        EventManager.instance.PlayEvent();      
+
+        /*화면 페이드 인*/
         yield return new WaitForSeconds(1f);
         Fadeanimator.SetBool("isfadeout", false);
         UIManager.instance.isPortaling = false;
     }
+
 }
+
+
+
