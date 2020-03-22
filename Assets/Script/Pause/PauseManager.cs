@@ -13,7 +13,6 @@ public class PauseManager : MonoBehaviour
    
     private bool issetting; // 환경설정중인가?
 
-
     void Start()
     {
         //theSM = SettingManager.instance;
@@ -25,7 +24,7 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         /*키입력 받아 일시정지*/
-        if (Input.GetKeyDown(KeyCode.Escape) && !MiniMapManager.instance.isMiniMapOpen())
+        if (Input.GetKeyDown(KeyCode.Escape) && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.IsBookOpened())
         {
             if (UIManager.instance.GetIsPaused() == false)
             {

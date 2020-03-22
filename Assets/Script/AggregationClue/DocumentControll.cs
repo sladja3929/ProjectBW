@@ -13,6 +13,20 @@ public class DocumentControll : MonoBehaviour
 
     public static DocumentControll instance = null;
 
+    [SerializeField]
+    private RectTransform rect_DocumentOfAndren;
+    [SerializeField]
+    private RectTransform rect_DocumentOpener;
+    [SerializeField]
+    private RectTransform rect_PaperOfDocument;
+    [SerializeField]
+    private RectTransform rect_DocumentCover;
+
+    private Vector2 initPositionDocumentOfAndren;
+    private Quaternion initRotationDocumentOpener;
+    private Vector2 initSizePaperOfDocument;
+    private Vector2 initPositionDocumentCover;
+
     // Use this for initialization
     void Start()
     {
@@ -20,12 +34,34 @@ public class DocumentControll : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+
+        Init_Document();
+    }
+
+    public void Init_Document()
+    {
+        initPositionDocumentOfAndren = rect_DocumentOfAndren.localPosition;
+        initRotationDocumentOpener = rect_DocumentOpener.localRotation;
+        initSizePaperOfDocument = rect_PaperOfDocument.sizeDelta;
+        initPositionDocumentCover = rect_DocumentCover.localPosition;
+    }
+
+    public void ResetDocumentOfAndren()
+    {
+        rect_DocumentOfAndren.localPosition = initPositionDocumentOfAndren;
+        rect_DocumentOpener.localRotation = initRotationDocumentOpener;
+        rect_PaperOfDocument.sizeDelta = initSizePaperOfDocument;
+        rect_DocumentCover.localPosition = initPositionDocumentCover;
+        ParchmentControll.instance.SetIsPlayingDocumentAnimToFalse();
+        //UIManager.instance.SetDocumentControll(false);
     }
 
     // 1초 후, 안드렌의 서류 애니메이션 플레이
     public void InvokeDocumentAnim()
     {
+        playableDirector.Stop();
         Invoke("PlayDocumentAnim", 1.0f);
+        //UIManager.instance.SetDocumentCover(true);
     }
 
     public void PlayDocumentAnim()

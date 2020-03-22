@@ -132,43 +132,32 @@ public class PlayerManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        // 유람선 이벤트에 필요한 단서들 한번에 얻는 치트키
-        //if (Input.GetKeyDown(KeyCode.U))
+        /* 안드렌의 단서 테스트 */
+        //if (Input.GetKeyDown(KeyCode.F3))
         //{
-        //    /* for test event 222 */
-        //    ItemDatabase.instance.AddClueForTest("풍선과 배");
-        //    ItemDatabase.instance.AddClueForTest("수상한 공간");
-        //    ItemDatabase.instance.AddClueForTest("꽃 거래 내역서");
-        //    ItemDatabase.instance.AddClueForTest("달력의 날짜");
-        //    ItemDatabase.instance.AddClueForTest("큰 돈과 큰 배");
-        //    ItemDatabase.instance.AddClueForTest("유람선 티켓");
-        //    ItemDatabase.instance.AddClueForTest("입양 서류");
-        //    ItemDatabase.instance.AddClueForTest("입양과 후원");
+        //    DocumentControll.instance.InvokeDocumentAnim();
         //}
 
         if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
         {
             if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
             { 
-            UIManager.instance.isFading = true;
-            //Debug.Log("단서 정리 시스템 종료");
-            UIManager.instance.ArrangeClue();
+                UIManager.instance.isFading = true;
+                DocumentControll.instance.ResetDocumentOfAndren();
 
-            //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
-            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+                //Debug.Log("단서 정리 시스템 종료");
+                UIManager.instance.ArrangeClue();
 
-            // 데이터 세이브(비동기)
-            //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-            //GameManager.instance.thread.IsBackground = true;
-            //GameManager.instance.thread.Start();
+                //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
+                StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
 
-            UIManager.instance.isReadParchment = false;
+                UIManager.instance.isReadParchment = false;
             }
 
             /* 오브젝트와의 상호작용을 위한 if */
             if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
             {
-                if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !MiniMapManager.instance.isMiniMapOpen())  )
+                if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !MiniMapManager.instance.IsMiniMapOpen())  )
                     && isNearObject)
                 {
                     pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -186,6 +175,7 @@ public class PlayerManager : MonoBehaviour {
                             if (!UIManager.instance.isReadParchment)
                             {
                                 //Debug.Log("단서 정리 시스템 활성화");
+                                UIManager.instance.SetDocumentControll(true);
 
                                 if (ParchmentControll.instance.GetParchmentPosition().y != -720)
                                     ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));

@@ -95,6 +95,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject parchmentDownButton;   // 양피지의 스크롤을 위한 아래쪽 화살표
     [SerializeField]
+    private GameObject DocumentOfAndren;    // 안드렌의 서류 전체를 담당하는 오브젝트
+    [SerializeField]
     private RectTransform paperOfDocument;     // 안드렌의 서류를 뜻하는 오브젝트
     [SerializeField]
     private GameObject documentCover;      // 안드렌의 서류봉투 열리는 부분의 게임 오브젝트
@@ -232,7 +234,7 @@ public class UIManager : MonoBehaviour {
 
             if (documentCover.activeSelf && paperOfDocument.localPosition.y > 600)
             {
-                documentCover.SetActive(false);
+                SetDocumentCover(false);
             }
 
             // 마우스 휠을 올리거나 내렸을때, 양피지가 열려있을 때, 양피지를 스크롤하는 작업
@@ -253,20 +255,19 @@ public class UIManager : MonoBehaviour {
                     */
                 }
             }
-            
+
             // esc로 수첩 닫기
             if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
             {
-                isOpened = !isOpened;
-                isOpenedNote = !isOpenedNote;
+                Background.SetActive(!isOpenedNote);
+                NoteBook.SetActive(!isOpenedNote);
+                GetClueUI.SetActive(!isOpenedNote);
+                clueScroller.SetActive(!isOpenedNote);
 
-                Background.SetActive(isOpenedNote);
-                NoteBook.SetActive(isOpenedNote);
-                GetClueUI.SetActive(isOpenedNote);
-                clueScroller.SetActive(isOpenedNote);
+                Invoke("SetNegativeIsOpenedNote", 0.05f);
             }
 
-            if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
             {
                 isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
 
@@ -948,12 +949,38 @@ public class UIManager : MonoBehaviour {
     {
         ispaused = true;
     }
+
     public void SetIsPausedFalse()
     {
         ispaused = false;
     }
+
     public void SetNameOfCase(string textOfAct4)
     {
         nameOfCase.GetComponent<Text>().text = textOfAct4;
+    }
+
+    public bool IsBookOpened()
+    {
+        if (isOpenedNote == true)
+            return true;
+        else
+            return false;
+    }
+
+    public void SetNegativeIsOpenedNote()
+    {
+        isOpened = !isOpened;
+        isOpenedNote = !isOpenedNote;
+    }
+
+    public void SetDocumentControll(bool isOpen)
+    {
+        DocumentOfAndren.SetActive(isOpen);
+    }
+
+    public void SetDocumentCover(bool isOpen)
+    {
+        documentCover.SetActive(isOpen);
     }
 }

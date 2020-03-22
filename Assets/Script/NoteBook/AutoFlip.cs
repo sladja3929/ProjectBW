@@ -85,6 +85,8 @@ public class AutoFlip : MonoBehaviour {
     {
         int num = Random.Range(0, 1 + 1);
 
+        UIManager.instance.ActivateUpDownButton(false);
+
         if (!UIManager.instance.isPaging)
         {
             UIManager.instance.isPaging = true;

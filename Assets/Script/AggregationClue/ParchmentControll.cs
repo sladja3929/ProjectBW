@@ -50,13 +50,13 @@ public class ParchmentControll : MonoBehaviour
 
             // 중복 실행을 방지
             // 2월 발표회 이후 구현할 예정 (1월 28일 메모)
-            /*
-            if (!isPlayingDocumentAnim)
-            {
-                DocumentControll.instance.InvokeDocumentAnim();
-                isPlayingDocumentAnim = !isPlayingDocumentAnim;
-            }
-            */
+            /* 안드렌의 서류(단서) 등장 이벤트 진행 코드 */
+            //if (!isPlayingDocumentAnim)
+            //{
+            //    DocumentControll.instance.InvokeDocumentAnim();
+            //    isPlayingDocumentAnim = !isPlayingDocumentAnim;
+            //}
+
         }
         else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y > -720 && rect_Parchment.localPosition.y < 720) //-720 초과 ~720 미만 일때 양쪽 화살표 나타내기
         {

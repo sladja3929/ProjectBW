@@ -38,22 +38,24 @@ public class GameManager : MonoBehaviour {
 
     void FixedUpdate()
     {
-        pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        ray = new Ray2D(pos, Vector2.zero);
-        hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-        if (hit.collider != null)
+        if (!UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment())
         {
-            if (hit.collider.tag.Equals("InteractionObject"))
+            pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            ray = new Ray2D(pos, Vector2.zero);
+            hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (hit.collider != null)
             {
-                SetCursorActivate();
+                if (hit.collider.tag.Equals("InteractionObject"))
+                {
+                    SetCursorActivate();
+                }
+            }
+            else
+            {
+                SetCursorIdle();
             }
         }
-        else
-        {
-            SetCursorIdle();
-        }
-
         //// 암호화 ON
         //if (Input.GetKeyDown(KeyCode.F6))
         //{

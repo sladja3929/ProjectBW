@@ -87,57 +87,57 @@ public class MiniMapManager : MonoBehaviour
         /*맵 이름 적용*/
         ShowMapName();
 
-            if (Input.GetKeyDown(KeyCode.Tab) && isOpen == false)
-            {
-                miniMapUI.SetActive(true);
-                isOpen = true;
+        if (Input.GetKeyDown(KeyCode.Tab) && isOpen == false && !UIManager.instance.IsBookOpened() && !UIManager.instance.isFading)
+        {
+            miniMapUI.SetActive(true);
+            isOpen = true;
 
-                if (isOpen == true && isInsideNow == true && isInsideOpen == false)
-                {
-                    PopUpInsideUI();
-                }
+            if (isOpen == true && isInsideNow == true && isInsideOpen == false)
+            {
+                PopUpInsideUI();
             }
-            //미니맵 끄기
-            else if ((Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && isOpen == true)
+        }
+        //미니맵 끄기
+        else if ((Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && isOpen == true)
+        {
+
+            if (isZoomOpen == true)
             {
-
-                if (isZoomOpen == true)
-                {
-                    StreetCamera.gameObject.SetActive(false);
-                    StreetCamera.targetTexture = TempRenderTexture;
-                    StreetUI.SetActive(false);
-                    miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
-                    isZoomOpen = false;
-                }
-
-                if (isInsideOpen == true)
-                {
-                    InsideCamera.gameObject.SetActive(false);
-                    InsideCamera.targetTexture = TempRenderTexture;
-                    InsideUI.SetActive(false);
-                    miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
-                    isInsideOpen = false;
-                }
-
-                miniMapUI.SetActive(false);
-                isOpen = false;
-            }
-
-            //스트리트 카메라 켜져있을 때
-
-            if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0)) && isZoomOpen == true)
-            {
+                StreetCamera.gameObject.SetActive(false);
                 StreetCamera.targetTexture = TempRenderTexture;
                 StreetUI.SetActive(false);
                 miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
                 isZoomOpen = false;
             }
+
+            if (isInsideOpen == true)
+            {
+                InsideCamera.gameObject.SetActive(false);
+                InsideCamera.targetTexture = TempRenderTexture;
+                InsideUI.SetActive(false);
+                miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+                isInsideOpen = false;
+            }
+
+            miniMapUI.SetActive(false);
+            isOpen = false;
+        }
+
+        //스트리트 카메라 켜져있을 때
+
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(0)) && isZoomOpen == true)
+        {
+            StreetCamera.targetTexture = TempRenderTexture;
+            StreetUI.SetActive(false);
+            miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+            isZoomOpen = false;
+        }
    
     }
 
 
     /*미니맵이 켜져있는지 반환*/
-    public bool isMiniMapOpen()
+    public bool IsMiniMapOpen()
     {
         if (isOpen == true)
             return true;
