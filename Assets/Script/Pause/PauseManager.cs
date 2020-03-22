@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class PauseManager : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         /*키입력 받아 일시정지*/
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !MiniMapManager.instance.isMiniMapOpen())
         {
             if (UIManager.instance.GetIsPaused() == false)
             {
@@ -55,7 +56,11 @@ public class PauseManager : MonoBehaviour
         EffectManager.instance.Play("버튼 클릭음");
         ClosePausePanel();
         UIManager.instance.SetIsPausedFalse();
-        //데이터저장 - 유성님 이어주세요! 
+        // 세이브
+        GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+        GameManager.instance.thread.IsBackground = true;
+        GameManager.instance.thread.Start();
+
         SceneManager.LoadScene("Title_Tmp");
     }
 

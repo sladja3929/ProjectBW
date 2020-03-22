@@ -168,7 +168,7 @@ public class PlayerManager : MonoBehaviour {
             /* 오브젝트와의 상호작용을 위한 if */
             if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
             {
-                if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
+                if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !MiniMapManager.instance.isMiniMapOpen())  )
                     && isNearObject)
                 {
                     pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

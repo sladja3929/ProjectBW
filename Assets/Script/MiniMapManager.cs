@@ -98,7 +98,7 @@ public class MiniMapManager : MonoBehaviour
                 }
             }
             //미니맵 끄기
-            else if (Input.GetKeyDown(KeyCode.Tab) && isOpen == true)
+            else if ((Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && isOpen == true)
             {
 
                 if (isZoomOpen == true)
@@ -134,6 +134,17 @@ public class MiniMapManager : MonoBehaviour
             }
    
     }
+
+
+    /*미니맵이 켜져있는지 반환*/
+    public bool isMiniMapOpen()
+    {
+        if (isOpen == true)
+            return true;
+        else
+            return false;
+    }
+
 
     /*미니맵이 켜진채로 작용 - 포탈을 넘을 때 */
     public void MoveMap()
