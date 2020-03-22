@@ -20,7 +20,7 @@ public class EventVariable
     public int num_Talk_With_1105;                      // 1105와 대화한 횟수 (관련 이벤트 209)
     public bool isInvestigated_StrangeDoor;             // 이상한 문 오브젝트가 조사됐는지의 여부 (관련 이벤트 221)
     public int num_Try_to_Enter_in_Mansion;             // 자작의 저택 방문 시도 횟수 (관련 이벤트 228,233)
-    public int num_Talk_With_1003;                      // 1003(멜리사)와 대화를 진행한 횟수 (관련 이벤트 230)
+    public int num_Talk_With_1003;                      // 1003(멜리사)와 대화를 진행한 횟수 (관련 이벤트 230, 315)
     public int num_investigation_Raina_house_object;    // 레이나의 집의 오브젝트와 상호작용한 횟수 (관련 이벤트 230)
     public int num_Play_5027_or_5030;                   // 5027 or 5030 대화가 진행된 횟수 (관련 이벤트 230)
     public int num_Talk_With_1601_in_73;                // 73 시간대에 1601과 대화한 횟수 (관련 이벤트 231)
@@ -37,6 +37,15 @@ public class EventVariable
     public int num_Talk_With_1205_in_71;                // 71 시간대에 1205와 대화한 횟수 (관련 이벤트 247)
     public bool isPossessed_3A01_3A08_Clues;            // 3A08까지 단서 획득 여부 (관련 이벤트 249, 250)
     public bool isEnter_In_Cruise;                      // 유람선에 들어간 적이 있는지 여부 (관련 이벤트 251)
+    public int num_Talk_With_1013;                      // 1013(제렐)과 대화를 한 횟수 (관련 이벤트 306)
+    public int num_Talk_With_1003_in_53;                // 사건 3에서 1003(멜리사)와 대화한 횟수 (관련 이벤트 307)
+    public int num_Talk_With_1500_in_79;                // 79 시간대에 1500(마릴린)과 대화한 횟수 (관련 이벤트 308)
+    public int num_Talk_With_1010;                      // 1010(발루아)와 대화한 횟수 (관련 이벤트 309)
+    public bool isEnter_In_Cafe;                        // 카페에 방문한 횟수 (관련 이벤트 310)
+    public int num_Talk_With_1109_in_78;                // 78 시간대에 1109와 대화한 횟수 (관련 이벤트 311)
+    public int num_Talk_With_1110_in_78;                // 78 시간대에 1110와 대화한 횟수 (관련 이벤트 312)
+    public bool isInvestigated_President_Desk_in_54;    // 사건 4에서 총장의 사무실의 책상을 조사한 적이 있는지 여부 (관련 이벤트 313)
+    public bool isActivated_4015_Conversation;          // 4015 대화묶음이 실행된적이 있는지 여부 (관련 이벤트 303, 304)
 
     public EventVariable()
     {
@@ -65,7 +74,15 @@ public class EventVariable
         num_Talk_With_1202 = 0;                 
         num_Talk_With_1205_in_71 = 0;           
         isPossessed_3A01_3A08_Clues = false;    
-        isEnter_In_Cruise = false;              
+        isEnter_In_Cruise = false;
+        num_Talk_With_1013 = 0;
+        num_Talk_With_1500_in_79 = 0;
+        num_Talk_With_1010 = 0;
+        isEnter_In_Cafe = false;
+        num_Talk_With_1109_in_78 = 0;
+        num_Talk_With_1110_in_78 = 0;
+        isInvestigated_President_Desk_in_54 = false;
+        isActivated_4015_Conversation = false;
     }
 
     /* Load한 이벤트 변수 값 적용 */
@@ -117,6 +134,30 @@ public class EventVariable
             isEnter_In_Cruise = true;
         else
             isEnter_In_Cruise = false;
+
+        num_Talk_With_1013 = int.Parse(jsonEventVariablesData[20].ToString());
+        num_Talk_With_1003_in_53 = int.Parse(jsonEventVariablesData[21].ToString());
+        num_Talk_With_1500_in_79 = int.Parse(jsonEventVariablesData[22].ToString());
+        num_Talk_With_1010 = int.Parse(jsonEventVariablesData[23].ToString());
+
+        if (jsonEventVariablesData[24].ToString().Equals("true"))
+            isEnter_In_Cafe = true;
+        else
+            isEnter_In_Cafe = false;
+
+        num_Talk_With_1109_in_78 = int.Parse(jsonEventVariablesData[25].ToString());
+        num_Talk_With_1110_in_78 = int.Parse(jsonEventVariablesData[26].ToString());
+
+        if (jsonEventVariablesData[27].ToString().Equals("true"))
+            isInvestigated_President_Desk_in_54 = true;
+        else
+            isInvestigated_President_Desk_in_54 = false;
+
+        if (jsonEventVariablesData[28].ToString().Equals("true"))
+            isActivated_4015_Conversation = true;
+        else
+            isActivated_4015_Conversation = false;
+
     }
 
     /* 이벤트 관련 변수 Save 파일 로드하고, 값 설정하기 */
@@ -124,7 +165,10 @@ public class EventVariable
     {
         string loadDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         string tempJsonString = File.ReadAllText(loadDataPath);
-        tempJsonString = GameManager.instance.DecryptData(tempJsonString);
+
+        if (GameManager.instance.isEncrypted)
+            tempJsonString = GameManager.instance.DecryptData(tempJsonString);
+
         JsonData jsonData = JsonMapper.ToObject(tempJsonString);
         SetEventvariables(jsonData);
     }
@@ -135,7 +179,16 @@ public class EventVariable
         string saveDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         // EventVariable 클래스 통째로 json화
         JsonData tempJsonData = JsonMapper.ToJson(this);
-        string tempStringData = GameManager.instance.EncryptData(tempJsonData.ToString());
-        File.WriteAllText(saveDataPath, tempStringData);
+
+        if (GameManager.instance.isEncrypted)
+        {
+            string tempStringData = GameManager.instance.EncryptData(tempJsonData.ToString());
+            File.WriteAllText(saveDataPath, tempStringData);
+        }
+        else
+        {
+            File.WriteAllText(saveDataPath, tempJsonData.ToString(), System.Text.Encoding.UTF8);
+        }
+
     }
 }

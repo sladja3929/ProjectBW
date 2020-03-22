@@ -156,6 +156,9 @@ public class MoveCamera : MonoBehaviour
     /* 주인공 사무실 */
     private Vector3 position_Of_Sector1_Of_MerteOffice = new Vector3(11800.0f, 5400.0f, -10);
 
+    /* 제렐 사무실 */
+    private Vector3 position_Of_Sector1_Of_ZaralOffice = new Vector3(11800.0f, 7600.0f, -10);
+
     /* 자작의 손님방1,2 */
     private Vector3 position_Of_Sector1_Of_GuestRoom1 = new Vector3(13400.0f, 5400.0f, -10);
     private Vector3 position_Of_Sector1_Of_GuestRoom2 = new Vector3(13400.0f, 6500.0f, -10);
@@ -367,7 +370,7 @@ public class MoveCamera : MonoBehaviour
             else if (playerPosition.x >= (position_Of_Sector2_Of_Street1_In_Harbor.x - 640.0f) && playerPosition.x < (position_Of_Sector2_Of_Street1_In_Harbor.x + 640.0f))
             {
                 // 208, 209번 이벤트에 필요한 이벤트 대화 발생용
-                if(!EventManager.instance.isPlaying8014Conversation && PlayerManager.instance.TimeSlot.Equals("72"))
+                if (!EventManager.instance.isPlaying8014Conversation && PlayerManager.instance.TimeSlot.Equals("72"))
                     EventManager.instance.PlayEvent();
                 transform.localPosition = position_Of_Sector2_Of_Street1_In_Harbor;
             }
@@ -453,7 +456,7 @@ public class MoveCamera : MonoBehaviour
                 transform.localPosition = position_Of_Sector1_Of_Chapter_First_Floor;
             }
             else if (playerPosition.x >= (position_Of_Sector2_Of_Chapter_First_Floor.x - 640.0f) && playerPosition.x < (position_Of_Sector2_Of_Chapter_First_Floor.x + 640.0f))
-            { 
+            {
                 transform.localPosition = position_Of_Sector2_Of_Chapter_First_Floor;
             }
         }
@@ -651,6 +654,13 @@ public class MoveCamera : MonoBehaviour
             if (playerPosition.x >= (position_Of_Sector1_Of_MerteOffice.x - 640.0f) && playerPosition.x < (position_Of_Sector1_Of_MerteOffice.x + 640.0f))
             {
                 transform.localPosition = position_Of_Sector1_Of_MerteOffice;
+            }
+        }
+        else if (whereIsPlayer == "Chapter_Zaral_Office")
+        {
+            if (playerPosition.x >= (position_Of_Sector1_Of_ZaralOffice.x - 640.0f) && playerPosition.x < (position_Of_Sector1_Of_ZaralOffice.x + 640.0f))
+            {
+                transform.localPosition = position_Of_Sector1_Of_ZaralOffice;
             }
         }
         else if (whereIsPlayer == "Mansion_Guest_Room1")

@@ -48,6 +48,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 3559992347
+    locked: 0
   - name: Ground
     uniqueID: 2721856177
     locked: 0
@@ -68,4 +71,7 @@ TagManager:
     locked: 0
   - name: Arrow
     uniqueID: 114859691
+    locked: 0
+  - name: Cloud
+    uniqueID: 858699101
     locked: 0

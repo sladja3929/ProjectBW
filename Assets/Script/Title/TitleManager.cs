@@ -42,10 +42,16 @@ public class TitleManager : MonoBehaviour
         GameManager.instance.SetGameState(GameManager.GameState.NewGame_Loaded);
 
         // 데이터 파일 체크
-        if(CSVParser.instance.CheckSaveData())
+        if (CSVParser.instance.CheckSaveData())
+        {
+            Debug.Log("처음하기 로딩 성공");
             StartCoroutine(LoadAsyncNewGameScene(GameManager.instance.PlayNewGame));
+        }
         else
+        {
+            Debug.Log("처음하기 로딩 실패");
             GameManager.instance.SetGameState(GameManager.GameState.Idle);
+        }
     }
 
     // 이어하기
@@ -55,9 +61,15 @@ public class TitleManager : MonoBehaviour
 
         // 데이터 파일 체크
         if (CSVParser.instance.CheckSaveData())
+        {
+            Debug.Log("이어하기 로딩 성공, " + GameManager.instance.GetGameState().ToString());
             StartCoroutine(LoadAsyncNewGameScene(GameManager.instance.PlaySaveGame));
+        }
         else
+        {
+            Debug.Log("이어하기 로딩 실패");
             GameManager.instance.SetGameState(GameManager.GameState.Idle);
+        }
     }
 
     public void GameOver()

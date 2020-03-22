@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "character")

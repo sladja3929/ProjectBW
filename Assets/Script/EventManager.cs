@@ -30,6 +30,7 @@ public class EventManager : MonoBehaviour
     private Vector3 position_Of_Sector1_Of_Street1_In_Village = new Vector3(5000f, 5300f, -10);
     public bool isPlaying8014Conversation = false;
     public bool isPlaying2032Conversation = false;
+    public bool isPlaying302Event = false;
     // 이벤트 249
     private int clueNum2 = 0;
 
@@ -56,7 +57,11 @@ public class EventManager : MonoBehaviour
         AddToEventIndexList("0209");
 
         // id 200번 이벤트부터 253번 이벤트까지 저장
-        for (int i = 200; i <= 256; i++)
+        for (int i = 200; i <= 257; i++)
+            AddToEventIndexList(i.ToString());
+
+        // id 300번 이벤트부터 315번 이벤트까지 저장
+        for (int i = 300; i <= 315; i++)
             AddToEventIndexList(i.ToString());
 
         DisableNpcForEvent();
@@ -79,10 +84,20 @@ public class EventManager : MonoBehaviour
     {
         for (int i = 0; i < npcListForEvent.Count; i++)
         {
-            if (i == 4 || i == 14 || i == 30 || i == 32 || i == 20 || i == 23 || i == 26) { }
+            if (i == 4 || i == 14 || i == 30 || i == 32 || i == 20 || i == 23 || i == 26 || i == 36) { }
             else
                 npcListForEvent[i].SetActive(false);
         }
+    }
+
+    public void AbleNpcForEvent(int index)
+    {
+        npcListForEvent[index].SetActive(true);
+    }
+
+    public void DisableNpcForEvent(int index)
+    {
+        npcListForEvent[index].SetActive(false);
     }
 
     //NPC의 발생 뿐만 아니라, 특정한 이벤트들도 다룰 수 있도록 함수 명 변경 필요(11/12)
@@ -359,6 +374,7 @@ public class EventManager : MonoBehaviour
         {
             if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("233"))
             {
+                PlayerManager.instance.DeleteEventCodeFromList("257");
                 PlayerManager.instance.AddEventCodeToList("233");
                 /*
                 if (npcListForEvent[23].activeSelf)
@@ -369,6 +385,13 @@ public class EventManager : MonoBehaviour
                     */
                 if (!npcListForEvent[25].activeSelf)
                     npcListForEvent[25].SetActive(true);
+            }
+        }
+        else if (eventVariable.num_Try_to_Enter_in_Mansion < 3)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("257"))
+            {
+                PlayerManager.instance.AddEventCodeToList("257");
             }
         }
 
@@ -404,17 +427,29 @@ public class EventManager : MonoBehaviour
                 npcListForEvent[29].SetActive(false);
         }
 
-        // 사건 3에서 사체(35)를 활성화, 이외의 사건에서는 비활성화
-        if (!npcListForEvent[35].activeSelf)
+        // 사건3 첫쨋날에만 사체(35)를 활성화, 이외의 시간에서는 비활성화
+        if (PlayerManager.instance.TimeSlot.Equals("71"))
         {
-            if(PlayerManager.instance.NumOfAct.Equals("53"))
-                npcListForEvent[35].SetActive(true);
+            npcListForEvent[35].SetActive(true);
+        }
+        else if(!PlayerManager.instance.TimeSlot.Equals("71"))
+        {
+            npcListForEvent[35].SetActive(false);
         }
 
-        if (!PlayerManager.instance.NumOfAct.Equals("53"))
-            npcListForEvent[35].SetActive(false);
-
         // 특정 인물 등장 이벤트 처리 끝
+
+        // 201번 이벤트가 발생했을때, 레이나 집으로가는 포탈(37) 활성화
+        if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("201"))
+        {
+            if (!npcListForEvent[37].activeSelf)
+                npcListForEvent[37].SetActive(true);
+        }
+        else if(!PlayerManager.instance.CheckEventCodeFromPlayedEventList("201"))
+        {
+            if (npcListForEvent[37].activeSelf)
+                npcListForEvent[37].SetActive(false);
+        }
 
 
         // 특정 변수가 조건에 만족할 경우, 특정 이벤트 추가하는 식으로 일단 하기(1월 23일 작업)
@@ -462,7 +497,7 @@ public class EventManager : MonoBehaviour
             {
                 PlayerManager.instance.AddEventCodeToList("208");
                 eventVariable.isCheckedSecretCode = true;
-                
+
             }
         }
 
@@ -792,6 +827,112 @@ public class EventManager : MonoBehaviour
         // 251번 이벤트를 위한 처리
         if (PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Cruise"))
             eventVariable.isEnter_In_Cruise = true;
+
+        // 300번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("300"))
+        {
+            PlayerManager.instance.AddEventCodeToList("300");
+        }
+
+        // 303번 이벤트를 위한 처리
+        if (eventVariable.isActivated_4015_Conversation && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("304"))
+        {
+            PlayerManager.instance.DeleteEventCodeFromList("303");
+            PlayerManager.instance.AddEventCodeToList("304");
+        }
+        else if (!eventVariable.isActivated_4015_Conversation && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("303"))
+        {
+            PlayerManager.instance.AddEventCodeToList("303");
+        }
+
+        // 306번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("306"))
+        {
+            PlayerManager.instance.AddEventCodeToList("306");
+        }
+
+        if (eventVariable.num_Talk_With_1013 >= 1 && PlayerManager.instance.CheckEventCodeFromPlayedEventList("306"))
+        {
+            PlayerManager.instance.DeleteEventCodeFromList("306");
+        }
+
+        // 307번 이벤트를 위한 처리
+        if (eventVariable.num_Talk_With_1003_in_53 >= 3 && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("307"))
+        {
+            PlayerManager.instance.AddEventCodeToList("307");
+        }
+
+        // 308번 이벤트를 위한 처리
+        if (eventVariable.num_Talk_With_1500_in_79 == 0)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("308"))
+                PlayerManager.instance.AddEventCodeToList("308");
+        }
+        else if (eventVariable.num_Talk_With_1500_in_79 != 0)
+        {
+            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("308"))
+                PlayerManager.instance.DeleteEventCodeFromList("308");
+        }
+
+        // 309번 이벤트를 위한 처리
+        if (eventVariable.num_Talk_With_1010 >= 1)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("309"))
+                PlayerManager.instance.AddEventCodeToList("309");
+        }
+
+        // 310번 이벤트를 위한 처리
+        if (PlayerManager.instance.GetCurrentPosition().Equals("Downtown_Cafe") && !eventVariable.isEnter_In_Cafe)
+        {
+            eventVariable.isEnter_In_Cafe = true;
+
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("310"))
+                PlayerManager.instance.AddEventCodeToList("310");
+        }
+
+        // 311번 이벤트를 위한 처리
+        if (eventVariable.num_Talk_With_1109_in_78 == 0)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("311"))
+                PlayerManager.instance.AddEventCodeToList("311");
+        }
+        else
+        {
+            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("311"))
+                PlayerManager.instance.DeleteEventCodeFromList("311");
+        }
+
+        // 312번 이벤트를 위한 처리
+        if (eventVariable.num_Talk_With_1110_in_78 == 0)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("312"))
+                PlayerManager.instance.AddEventCodeToList("312");
+        }
+        else
+        {
+            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("312"))
+                PlayerManager.instance.DeleteEventCodeFromList("312");
+        }
+
+        // 313번 이벤트를 위한 처리
+        if (!eventVariable.isInvestigated_President_Desk_in_54)
+        {
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("313"))
+                PlayerManager.instance.AddEventCodeToList("313");
+        }
+        else
+        {
+            eventVariable.isInvestigated_President_Desk_in_54 = true;
+
+            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("313"))
+                PlayerManager.instance.DeleteEventCodeFromList("313");
+        }
+
+        // 315번 이벤트를 위한 처리
+        if (eventVariable.num_Talk_With_1003 >= 3 && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("315"))
+        {
+            PlayerManager.instance.AddEventCodeToList("315");
+        }
     }
 
     public void PlayScriptForEvent251()

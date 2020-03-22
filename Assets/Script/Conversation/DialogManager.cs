@@ -50,6 +50,8 @@ public class DialogManager : MonoBehaviour
 
     private EventVariable eventVariable;
 
+    private string tempObjectPortrait;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -119,15 +121,12 @@ public class DialogManager : MonoBehaviour
         //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
 
         //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
-        
+
         string targetObject = objectName;   //StartObject에 해당하는 값
 
-        // 236번 이벤트를 위한 처리
-        if (targetObject.Equals("1003"))
-        {
-            eventVariable.num_Interrogate_about_case++;
-        }
-
+        tempSentenceOfCondition = targetObject;
+        tempObjectPortrait = targetObject;
+        
         // 209번 이벤트를 위한 처리
         if (targetObject.Equals("1105"))
         {
@@ -162,19 +161,74 @@ public class DialogManager : MonoBehaviour
             UIManager.instance.ActivateDeadBodyImage();
         }
 
+        // 300번 이벤트를 위한 처리
+        if (targetObject.Equals("사건4 시작"))
+        {
+            EventManager.instance.isPlaying302Event = true;
+            tempSentenceOfCondition = targetObject;
+        }
+
+        // 301 ~ 302번 이벤트를 위한 처리
+        if (targetObject.Equals("302"))
+        {
+            tempSentenceOfCondition = targetObject;
+        }
+
+        // 303, 304번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("72") && targetObject.Equals("1001") && !eventVariable.isActivated_4015_Conversation)
+        {
+            eventVariable.isActivated_4015_Conversation = true;
+        }
+
+        // 306번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("75") && targetObject.Equals("1013"))
+        {
+            eventVariable.num_Talk_With_1013++;
+        }
+
+        // 308번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("79") && targetObject.Equals("1500"))
+        {
+            eventVariable.num_Talk_With_1500_in_79++;
+        }
+
+        // 309번 이벤트를 위한 처리
+        if (targetObject.Equals("1010"))
+        {
+            eventVariable.num_Talk_With_1010++;
+        }
+
+        // 311번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("78") && targetObject.Equals("1109"))
+        {
+            eventVariable.num_Talk_With_1109_in_78++;
+        }
+
+        // 312번 이벤트를 위한 처리
+        if (PlayerManager.instance.TimeSlot.Equals("78") && targetObject.Equals("1110"))
+        {
+            eventVariable.num_Talk_With_1110_in_78++;
+        }
+
         if (PlayerManager.instance.TimeSlot.Equals("71") && (targetObject.Equals("1803") || targetObject.Equals("1804")))
         {
             eventVariable.num_Talk_With_1803_1804_in_71++;
         }
 
-        if (PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("1003"))
+        if (targetObject.Equals("1003"))
         {
-            eventVariable.num_Talk_With_1003_in_73++;
+            eventVariable.num_Interrogate_about_case++;     // 236번 이벤트를 위한 처리
             eventVariable.num_Talk_With_1003++;
-        }
-        else if (!PlayerManager.instance.TimeSlot.Equals("73") && targetObject.Equals("1003"))
-        {
-            eventVariable.num_Talk_With_1003++;
+
+            if (PlayerManager.instance.TimeSlot.Equals("73"))
+            {
+                eventVariable.num_Talk_With_1003_in_73++;
+            }
+
+            if (PlayerManager.instance.NumOfAct.Equals("53"))
+            {
+                eventVariable.num_Talk_With_1003_in_53++;
+            }
         }
 
         if (targetObject.Equals("9707") || targetObject.Equals("9708") || targetObject.Equals("9710") || targetObject.Equals("9709"))
@@ -389,8 +443,17 @@ public class DialogManager : MonoBehaviour
         if (tempNpcName != null)
         {
             npcNameText.text = tempNpcName;
+            string objectName = npcParser.GetObjectNameFromCode(tempObjectPortrait);
+            //Debug.Log("objectName = " + objectName);
             //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
-            npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
+            if (tempNpcName.Equals("서술자"))
+            {
+                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfObject/" + objectName);
+            }
+            else
+            {
+                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
+            }
         }
         else
             npcNameText.text = "???";
@@ -419,11 +482,14 @@ public class DialogManager : MonoBehaviour
                 if (letter.Equals('\n'))
                 {
                     tempEnterCount++;
+                    numOfTextLimit = 0;
                 }
 
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                {
                     isTextFull = true;
+                }
 
                 // 플레이어가 대화를 스킵하고자 할 경우, for문 탈출
                 if (UIManager.instance.playerWantToSkip)
@@ -445,9 +511,15 @@ public class DialogManager : MonoBehaviour
                 if (numOfTextLimit >= tempLimitInOneLine)
                 {
                     conversationText.text += '\n';
+
                     tempEnterCount++;
                     numOfTextLimit = 0;
-                    Debug.Log("정상 로직");
+
+                    // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                    if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                    {
+                        isTextFull = true;
+                    }
                 }
 
                 // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
@@ -485,6 +557,7 @@ public class DialogManager : MonoBehaviour
                 if (letter.Equals('\n'))
                 {
                     tempEnterCount++;
+                    numOfTextLimit = 0;
                 }
 
                 tempString += letter;
@@ -668,6 +741,94 @@ public class DialogManager : MonoBehaviour
         conversationText.text = sentences[index];
     }
 
+    // 테스트를 위한 치트키(추후 합치면 UI로 NumSetOfDesc 값만 받아서 사용하기)
+    public void CheatConversation(string numSetOfDesc)
+    {
+        int tempSetOfDesc_Index = int.Parse(numSetOfDesc);
+        int indexOfInteraction = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index);
+        int tempId = int.Parse((dataList[indexOfInteraction])["id"]);
+
+        //tempIdLists = indexList;    // 진행된 대화들의 status를 올리기위해 tempIdLists에 indexList 저장 (삭제 예정)
+
+        //대화가 이어질 수 있도록 parent값을 이용
+        int tempParentIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index && x.GetId() == tempId);
+        int tempParent = interactionLists[tempParentIndex].GetParent();
+        //Debug.Log("대화묶음 " + tempSetOfDesc_Index + "의 초기의 tempParent : " + tempParent);
+
+        CheckAndAddSentence(tempParentIndex);    //해당 tempId에 맞는 대화로 인해 얻을 수 있는 정보를 얻는 함수
+
+        /* 현재의 tempId와 tempParent가 다르다면(연결된 대화가 있다면) 진행 */
+        while (tempId != tempParent)
+        {
+            tempId = tempParent; //다음 대화를 위해 index에 tempParent(다음 연관된 대화와 관련된 id값)값을 넣음
+                                 //대화가 이어질 수 있도록 parent값을 이용
+            tempParentIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index && x.GetId() == tempId);
+            tempParent = interactionLists[tempParentIndex].GetParent();
+
+            CheckAndAddSentence(tempParentIndex);
+        }
+
+        sentences = sentenceLists.ToArray();
+        numNpcNameLists = tempNpcNameLists.Count;
+
+        for (int i = 0; i < tempCertainDescIndexLists.Count; i++)
+        {   //지금 까지 한 모든 대화 읽음 처리
+            //(dataLists[tempIdLists[i]])["status"] = "1";
+            int tempIndex = tempCertainDescIndexLists[i]; //interactionLists.FindIndex(x => x.GetId() == tempIdLists[i]);
+            interactionLists[tempIndex].SetStatus(interactionLists[tempIndex].GetStatus() + 1); //진행된 대화는 status 1 증가
+        }
+        //대화로 인해 얻은 보상이 있으면 단서창에 추가
+        if (rewardsLists.Count > 1)
+        {
+            for (int i = 0; i < rewardsLists.Count; i++)
+            {
+                GameManager.instance.GetClue(rewardsLists[i]);
+            }
+        }
+        else if (rewardsLists.Count == 1)
+        {
+            GameManager.instance.GetClue(rewardsLists[0]);
+        }
+
+        /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
+        for (int i = 0; i < rewardsLists.Count; i++)
+        {
+            string tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
+            for (int j = 0; j < tempNpcNameLists.Count; j++)
+            {   //이름 : "대화"
+                /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+                tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
+
+                if (tempNpcName == null)
+                    tempNpcName = "stranger";
+
+                tempText += (tempNpcName + " : " + sentenceLists[j]);
+                tempText += "\n";
+            }
+            tempText += "</i>";
+
+            for (int j = 0; j < PlayerManager.instance.playerClueLists.Count; j++)
+            {
+                if (rewardsLists[i].Equals(PlayerManager.instance.playerClueLists[j].GetClueName()))
+                    PlayerManager.instance.playerClueLists[j].SetFirstInfoOfClue(tempText);
+            }
+        }
+
+        //하나의 대화가 끝났으므로, 리셋
+        index = 0;
+        numOfText = 0;
+        sentences = null;
+        sentenceLists.Clear();
+        imagePathLists.Clear();
+        tempCertainDescIndexLists.Clear();
+        tempNpcNameLists.Clear();
+        curNumOfNpcNameLists = 0;
+        rewardsLists.Clear();
+        isFirstConversation = false;
+        UIManager.instance.isTypingText = false;
+        EventManager.instance.isFinishedConversationFor222 = true;
+    }
+
     public void NextSentence()
     {
         UIManager.instance.canSkipConversation = false;
@@ -680,6 +841,25 @@ public class DialogManager : MonoBehaviour
                 index++;
 
                 conversationText.text = "";
+
+                // 302번 이벤트 대화묶음의 index가 4일때 검은화면
+                if (index == 4 && tempSentenceOfCondition != null)
+                {
+                    if (tempSentenceOfCondition.Equals("302"))
+                    {
+                        StartCoroutine(UIManager.instance.FadeInForEvent302());
+                    }
+                }
+
+                // 302번 이벤트 대화묶음의 index가 5일때 시체묘사 사진 활성화
+                if (index == 5 && tempSentenceOfCondition != null)
+                {
+                    if (tempSentenceOfCondition.Equals("302"))
+                    {
+                        UIManager.instance.ActivateDeadBodyImage();
+                    }
+                }
+
                 StartCoroutine(Type());
             }
             else
@@ -716,7 +896,7 @@ public class DialogManager : MonoBehaviour
                 {
                     GameManager.instance.GetClue(rewardsLists[0]);
                 }
-                
+
                 /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
                 for (int i = 0; i < rewardsLists.Count; i++)
                 {
@@ -781,15 +961,49 @@ public class DialogManager : MonoBehaviour
                     {
                         UIManager.instance.RemoveDeadBodyImage();
                     }
+
+                    if (tempSentenceOfCondition.Equals("사건4 시작"))
+                    {
+                        //PlayerManager.instance.DeleteEventCodeFromList("300");
+                        //PlayerManager.instance.dontmove = true;
+                        StartCoroutine(UIManager.instance.FadeEffectForEvent301());
+                    }
+
+                    // 302번 이벤트 마지막 대사가 끝나고 발생하는 이벤트
+                    // 시체 묘사 사진 비활성화, 검은 화면이 사라지고 캐릭터를 주인공 사무실의 위치로 이동
+                    if (tempSentenceOfCondition.Equals("302"))
+                    {
+                        UIManager.instance.RemoveDeadBodyImage();
+                        StartCoroutine(UIManager.instance.FadeOutForEvent302());
+                        EventManager.instance.DisableNpcForEvent(36);   // 301 이벤트 트리거 오브젝트 비활성화
+                    }
                 }
 
                 //Debug.Log("대화가 모두 끝나서, 초기화");
-
+                //UIManager.instance.RemoveDeadBodyImage();
                 EventManager.instance.PlayEvent();
             }
         }
         catch
         {
+            Debug.Log("대화중 오류 발생");
+            //하나의 대화가 끝났으므로, 리셋
+            index = 0;
+            numOfText = 0;
+            sentences = null;
+            sentenceLists.Clear();
+            imagePathLists.Clear();
+            tempCertainDescIndexLists.Clear();
+            tempNpcNameLists.Clear();
+            curNumOfNpcNameLists = 0;
+            rewardsLists.Clear();
+            //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+            isFirstConversation = false;
+            UIManager.instance.isTypingText = false;
+            EventManager.instance.isFinishedConversationFor222 = true;
+
+            UIManager.instance.RemoveDeadBodyImage();
+
             return;
         }
     }

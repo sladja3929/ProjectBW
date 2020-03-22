@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,6 +63,13 @@ public class UIManager : MonoBehaviour {
     public bool isMovingSlot;          // 단서 슬롯이 이동해야하는지 여부를 저장하기 위한 변수
     public float tempYPosition;
 
+    [SerializeField]
+    public GameObject act3Button;
+    [SerializeField]
+    public GameObject act4Button;
+    [SerializeField]
+    public GameObject act5Button;
+
     /* 단서 정리 UI */
     [SerializeField]
     private GameObject canvasForParchment;  // 양피지에 나오는 단서 리스트의 부모를 캔버스로 바꾸기 위한 변수
@@ -99,6 +107,8 @@ public class UIManager : MonoBehaviour {
     private GameObject timeSlotText;        // 시간대 변경 텍스트
     [SerializeField]
     private GameObject wordOfMerte;         // 메르테의 말
+    [SerializeField]
+    private GameObject nameOfCase;          // 양피지 맨 윗쪽에 있는 텍스트
 
     /* W,S로 버튼 이동 Test */
     public Button testButton;
@@ -244,9 +254,27 @@ public class UIManager : MonoBehaviour {
                 }
             }
 
+<<<<<<< HEAD
             if (Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
             {
                 isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+=======
+        // esc로 수첩 닫기
+        if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+        {
+            isOpened = !isOpened;
+            isOpenedNote = !isOpenedNote;
+
+            Background.SetActive(isOpenedNote);
+            NoteBook.SetActive(isOpenedNote);
+            GetClueUI.SetActive(isOpenedNote);
+            clueScroller.SetActive(isOpenedNote);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+        {
+            isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+>>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
 
                 // 수첩 열고닫을때마다 초기화
                 ResetWrittenClueData();
@@ -580,7 +608,9 @@ public class UIManager : MonoBehaviour {
         if (PlayerManager.instance.NumOfAct.Equals("53"))
             timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "주가 지나갔다";
         else if (PlayerManager.instance.NumOfAct.Equals("54"))
-            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "일이 지나갔다";
+        {
+            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + (int.Parse(timeslot) - 74) + "일이 지나갔다";
+        }
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         EventManager.instance.PlayEvent();
@@ -601,12 +631,19 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("74"))
             {
                 PlayerManager.instance.NumOfAct = "54";
-                PlayerManager.instance.TimeSlot = "75";
+                SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
+                EventManager.instance.AbleNpcForEvent(36);
             }
         }
-        else if (PlayerManager.instance.NumOfAct.Equals("54"))
+
+        if (PlayerManager.instance.NumOfAct.Equals("54"))
         {
-            if (PlayerManager.instance.TimeSlot.Equals("75"))
+            if(!act4Button.activeSelf)
+                act4Button.SetActive(true);
+
+            if (PlayerManager.instance.TimeSlot.Equals("74"))
+                PlayerManager.instance.TimeSlot = "75";
+            else if (PlayerManager.instance.TimeSlot.Equals("75"))
                 PlayerManager.instance.TimeSlot = "76";
             else if (PlayerManager.instance.TimeSlot.Equals("76"))
                 PlayerManager.instance.TimeSlot = "77";
@@ -615,8 +652,19 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.TimeSlot.Equals("78"))
                 PlayerManager.instance.TimeSlot = "79";
             else if (PlayerManager.instance.TimeSlot.Equals("79"))
+            {
+                PlayerManager.instance.NumOfAct = "55";
                 PlayerManager.instance.TimeSlot = "79";
+
+                if (!act5Button.activeSelf)
+                    act5Button.SetActive(true);
+            }
         }
+
+        // 세이브
+        GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+        GameManager.instance.thread.IsBackground = true;
+        GameManager.instance.thread.Start();
 
         // 디버깅용
         PlayerManager.instance.checkNumOfAct = PlayerManager.instance.NumOfAct;
@@ -653,6 +701,62 @@ public class UIManager : MonoBehaviour {
 
         isFading = false;
 
+    }
+
+    // 301번 이벤트를 위한 Fade In & Out
+    public IEnumerator FadeEffectForEvent301()
+    {
+        // 1. FadeIn 된다.
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout", true);
+
+        isFading = true;
+        isConversationing = true;
+        yield return new WaitForSeconds(1.7f);
+
+        yield return new WaitForSeconds(0.7f);
+
+        // 2. Fade Out 된다.
+        fadeInOutAnimator.SetBool("isfadeout", false);
+
+        PlayerManager.instance.SetPlayerPosition(new Vector3(15850.0f, 4100.0f, 0));
+        PlayerManager.instance.SetCurrentPosition("Mansion_Viscount_Mansion_Second_Floor");
+        PlayerManager.instance.AddEventCodeToList("301");
+
+        yield return new WaitForSeconds(2.5f);
+
+        isFading = false;
+
+        // 302번 이벤트에 해당하는 대사묶음이 작성될 경우 수정 (0313)
+        DialogManager.instance.InteractionWithObject("302");
+    }
+
+    // 302번 이벤트를 위한 Fade In 코루틴
+    public IEnumerator FadeInForEvent302()
+    {
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout2", true);
+        yield return new WaitForSeconds(2.4f);
+
+        PlayerManager.instance.SetPlayerPosition(new Vector3(11419.0f, 5220.0f, 0));
+        PlayerManager.instance.SetCurrentPosition("Chapter_Merte_Office");
+        PlayerManager.instance.AddEventCodeToList("302");
+        
+        yield return null;
+    }
+
+    // 302번 이벤트를 위한 Fade Out 코루틴
+    public IEnumerator FadeOutForEvent302()
+    {
+        fadeInOutAnimator.SetBool("isfadeout2", false);
+
+        yield return new WaitForSeconds(2.5f);
+
+        //CloseConversationUI();
+        isConversationing = false;
+        isFading = false;
+        EventManager.instance.isPlaying302Event = false;
+        yield return null;
     }
 
     // 1. 대화창 & 캐릭터명 창 fade in
@@ -840,6 +944,7 @@ public class UIManager : MonoBehaviour {
         nextButton.GetComponent<Button>().colors = colorBlock;
     }
 
+<<<<<<< HEAD
     /*일시정지 관련*/
     public bool GetIsPaused()
     {
@@ -853,5 +958,10 @@ public class UIManager : MonoBehaviour {
     public void SetIsPausedFalse()
     {
             ispaused = false;
+=======
+    public void SetNameOfCase(string textOfAct4)
+    {
+        nameOfCase.GetComponent<Text>().text = textOfAct4;
+>>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
     }
 }

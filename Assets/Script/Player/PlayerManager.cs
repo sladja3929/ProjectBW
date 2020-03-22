@@ -42,6 +42,7 @@ public class PlayerManager : MonoBehaviour {
     private EventVariable eventVariable;
 
     public bool skipText;   // 대화 출력을 스킵할 때 사용
+    
 
     // Use this for initialization
     void Awake() {
@@ -63,8 +64,8 @@ public class PlayerManager : MonoBehaviour {
         for (int i = 0; i < ClueLists.Length; i++)
             ClueLists[i] = new List<Clue>();
 
-        NumOfAct = "53";   //사건3 시작
-        TimeSlot = "71";   //첫째주 시작
+        //NumOfAct = "54";   //사건4 시작
+        //TimeSlot = "75";   //첫날 시작
 
         checkNumOfAct = NumOfAct;
         checkTimeSlot = TimeSlot;
@@ -82,23 +83,47 @@ public class PlayerManager : MonoBehaviour {
         SetIsNearObject(true);
 
         skipText = false;
-
     }
 
     void Start()
     {
-        if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+        if (GameManager.instance.GetGameState().Equals(GameManager.GameState.NewGame_Loaded))
+        {
+            NumOfAct = "53";   //사건3 시작
+            TimeSlot = "71";   //첫째주 시작
+
+            UIManager.instance.act4Button.SetActive(false);
+            UIManager.instance.act5Button.SetActive(false);
+
+            checkNumOfAct = NumOfAct;
+            checkTimeSlot = TimeSlot;
+
+            DialogManager.instance.SetLists();
+            ItemDatabase.instance.SetLists();
+        }
+        else if (GameManager.instance.GetGameState().Equals(GameManager.GameState.PastGame_Loaded))
         {
             DialogManager.instance.SetLists();
             ItemDatabase.instance.SetLists();
             GameManager.instance.LoadPlayerData();
             GameManager.instance.SetEventVariable(ref GetEventVariableClass());
+
+            if (NumOfAct.Equals("53"))
+            {
+                UIManager.instance.act4Button.SetActive(false);
+                UIManager.instance.act5Button.SetActive(false);
+            }
+            else if (NumOfAct.Equals("54"))
+            {
+                UIManager.instance.SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
+                UIManager.instance.act4Button.SetActive(true);
+                UIManager.instance.act5Button.SetActive(false);
+            }
+
+            checkNumOfAct = NumOfAct;
+            checkTimeSlot = TimeSlot;
+
             ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame
-        }
-        else if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
-        {
-            DialogManager.instance.SetLists();
-            ItemDatabase.instance.SetLists();
         }
     }
 
@@ -121,7 +146,30 @@ public class PlayerManager : MonoBehaviour {
 
         if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
         {
+<<<<<<< HEAD
             if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
+=======
+            UIManager.instance.isFading = true;
+            //Debug.Log("단서 정리 시스템 종료");
+            UIManager.instance.ArrangeClue();
+
+            //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
+            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+
+            // 데이터 세이브(비동기)
+            //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+            //GameManager.instance.thread.IsBackground = true;
+            //GameManager.instance.thread.Start();
+
+            UIManager.instance.isReadParchment = false;
+        }
+
+        /* 오브젝트와의 상호작용을 위한 if */
+        if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
+        {
+            if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
+                && isNearObject)
+>>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
             {
                 UIManager.instance.isFading = true;
                 //Debug.Log("단서 정리 시스템 종료");
@@ -344,6 +392,7 @@ public class PlayerManager : MonoBehaviour {
 
     public void SetCurrentPosition(string currentPosition)
     {
+        //Debug.Log(currentPosition + "으로 워프!");
         this.currentPosition = currentPosition;
     }
 

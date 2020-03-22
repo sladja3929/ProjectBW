@@ -232,7 +232,7 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.OpenClueUI();
         UIManager.instance.ResetWrittenClueData();
         ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
-        PlayerManager.instance.NumOfAct = pressedAct.ToString();
+        //PlayerManager.instance.NumOfAct = pressedAct.ToString();
 
         UIManager.instance.SetTempIndex(0); // 사건단위로 수첩을 넘기면, 처음 단서를 보여줘야 하므로 tempIndex를 0으로 설정
         UIManager.instance.buttonIndex = 0;
@@ -313,7 +313,7 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.OpenClueUI();
         UIManager.instance.ResetWrittenClueData();
         ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
-        PlayerManager.instance.NumOfAct = pressedAct.ToString();
+        //PlayerManager.instance.NumOfAct = pressedAct.ToString();
 
         UIManager.instance.SetTempIndex(0); // 사건단위로 수첩을 넘기면, 처음 단서를 보여줘야 하므로 tempIndex를 0으로 설정
         UIManager.instance.buttonIndex = 0;
