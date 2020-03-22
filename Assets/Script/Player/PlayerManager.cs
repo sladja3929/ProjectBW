@@ -146,9 +146,8 @@ public class PlayerManager : MonoBehaviour {
 
         if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
         {
-<<<<<<< HEAD
             if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
-=======
+            { 
             UIManager.instance.isFading = true;
             //Debug.Log("단서 정리 시스템 종료");
             UIManager.instance.ArrangeClue();
@@ -162,33 +161,12 @@ public class PlayerManager : MonoBehaviour {
             //GameManager.instance.thread.Start();
 
             UIManager.instance.isReadParchment = false;
-        }
-
-        /* 오브젝트와의 상호작용을 위한 if */
-        if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
-        {
-            if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
-                && isNearObject)
->>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
-            {
-                UIManager.instance.isFading = true;
-                //Debug.Log("단서 정리 시스템 종료");
-                UIManager.instance.ArrangeClue();
-
-                // 데이터 세이브(비동기)
-                GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-                GameManager.instance.thread.IsBackground = true;
-                GameManager.instance.thread.Start(GameManager.instance.thread);
-
-                //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
-                StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
-                UIManager.instance.isReadParchment = false;
             }
 
             /* 오브젝트와의 상호작용을 위한 if */
-            if (!UIManager.instance.isConversationing)
+            if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
             {
-                if ((( ( Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
+                if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling))
                     && isNearObject)
                 {
                     pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);

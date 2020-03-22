@@ -22,13 +22,9 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
         if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐 때
-=======
-        if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !EventManager.instance.isPlaying302Event)
->>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
         {
-            if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading)
+            if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !EventManager.instance.isPlaying302Event)
             {
                 float xInput = Input.GetAxisRaw("Horizontal");
                 float yInput = Input.GetAxisRaw("Vertical");
@@ -74,21 +70,13 @@ public class Move : MonoBehaviour
                     }
                 }
             }
-<<<<<<< HEAD
-            else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling)
+            else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling
+                || EventManager.instance.isPlaying302Event)
             {
                 //캐릭터 도리도리 현상 발생. 
                 myRigidBody.velocity = Vector2.zero;
+                myAnimator.SetBool("Walking", false);
             }
-=======
-        }
-        else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling
-            || EventManager.instance.isPlaying302Event)
-        {
-            //캐릭터 도리도리 현상 발생. 
-            myRigidBody.velocity = Vector2.zero;
-            myAnimator.SetBool("Walking", false);
->>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
         }
     }
 

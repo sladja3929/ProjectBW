@@ -253,28 +253,22 @@ public class UIManager : MonoBehaviour {
                     */
                 }
             }
+            
+            // esc로 수첩 닫기
+            if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+            {
+                isOpened = !isOpened;
+                isOpenedNote = !isOpenedNote;
 
-<<<<<<< HEAD
-            if (Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+                Background.SetActive(isOpenedNote);
+                NoteBook.SetActive(isOpenedNote);
+                GetClueUI.SetActive(isOpenedNote);
+                clueScroller.SetActive(isOpenedNote);
+            }
+
+            if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
             {
                 isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
-=======
-        // esc로 수첩 닫기
-        if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
-        {
-            isOpened = !isOpened;
-            isOpenedNote = !isOpenedNote;
-
-            Background.SetActive(isOpenedNote);
-            NoteBook.SetActive(isOpenedNote);
-            GetClueUI.SetActive(isOpenedNote);
-            clueScroller.SetActive(isOpenedNote);
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space) && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
-        {
-            isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
->>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
 
                 // 수첩 열고닫을때마다 초기화
                 ResetWrittenClueData();
@@ -943,8 +937,7 @@ public class UIManager : MonoBehaviour {
         colorBlock.pressedColor = Color.gray;
         nextButton.GetComponent<Button>().colors = colorBlock;
     }
-
-<<<<<<< HEAD
+    
     /*일시정지 관련*/
     public bool GetIsPaused()
     {
@@ -953,15 +946,14 @@ public class UIManager : MonoBehaviour {
 
     public void SetIsPausedTrue()
     {
-            ispaused = true;
+        ispaused = true;
     }
     public void SetIsPausedFalse()
     {
-            ispaused = false;
-=======
+        ispaused = false;
+    }
     public void SetNameOfCase(string textOfAct4)
     {
         nameOfCase.GetComponent<Text>().text = textOfAct4;
->>>>>>> 87389f698b5a358ae5b0a509909c5c9b465beb60
     }
 }
