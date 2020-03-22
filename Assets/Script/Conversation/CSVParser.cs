@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Threading.Tasks;
 
 public class CSVParser : MonoBehaviour
 {
+    public static CSVParser instance = null;
+
     /* UTF-8로 인코딩 된 csv 파일로부터 대화 데이터들을 모두 가져와서 저장해줄 클래스
     * csv 파일을 수정하고 나서는 꼭! 다른이름으로 저장을 한다(UTF-8 csv형식)
     * 규칙! csv 파일 안에 쉼표(,)를 사용할경우에는 , 대신 $ 로써 표현을 한다
@@ -26,23 +29,59 @@ public class CSVParser : MonoBehaviour
 
     private List<ClueStructure> clueStructureLists;
 
+    private string initConversationDataPath;
+    private string initClueDataPath;
+    private string playerConversationDataPath;
 
     /* csv 파일 불러오면서 적용시키기 */
     void Awake()
     {
-        ParsingConversationCSV();   // 대화 테이블 파싱
-        ParsingClueDataCSV();       // 단서 테이블 파싱
+        DontDestroyOnLoad(this);
+
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
+        initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
+        initClueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+        playerConversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+
+        // 파일 컨트롤은 GameManager에서 수행
+        //InitDataFromCSV();
     }//Awake()
 
+    // 초기 데이터 파일 암호화 용도
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F1))
+    //    {
+    //        string temp = File.ReadAllText(initConversationDataPath);
+    //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp));
+
+    //        temp = File.ReadAllText(initClueDataPath);
+    //        File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp));
+    //    }
+    //}
+
+    /* 타이틀에서 새로하기를 눌렀을 때, 실행 */
+    public void InitDataFromCSV()
+    {
+        ParsingConversationCSV(initConversationDataPath);   // 대화 테이블 파싱
+        ParsingClueDataCSV(initClueDataPath);       // 단서 테이블 파싱
+    }
+
     /* 대화 테이블을 파싱하는 함수 */
-    public void ParsingConversationCSV()
+    public void ParsingConversationCSV(string dataPath)
     {
         dataList = new Dictionary<int, Dictionary<string, string>>();
         interactionLists = new List<Interaction>();
 
         //TextAsset textAsset = Resources.Load<TextAsset>("Data/Interaction");
         //string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/Interaction_ver1_5.csv");
-        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv");
+        string textAsset = File.ReadAllText(dataPath);
+        
+        textAsset = GameManager.instance.DecryptData(textAsset);
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -50,6 +89,7 @@ public class CSVParser : MonoBehaviour
         string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
 
         int index = 0;
+
         //맨 마지막 줄은 한 줄 띄워져있으니 생략하기위해 길이 - 1 해줌
         //첫번째줄 속성줄을 무시하기위해 i = 1 부터 시작
         for (int i = 1; i < stringArr.Length - 1; i++)
@@ -71,13 +111,16 @@ public class CSVParser : MonoBehaviour
             for (int j = 0; j < dataArr.Length; j++)
             {
                 /* """ -> " , $ -> , 변환해서 데이터 넣기 */
-                dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
-                dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
+                //dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
+                //dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
                 dataArr[j] = ReplaceComma(dataArr[j]);
                 dataArr[j] = ReplaceEnter(dataArr[j]);
-                //Debug.Log("index = " + index);
-                //Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
-                //Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
+                //if (index >= 1340)
+                //{
+                //    Debug.Log("index = " + index);
+                //    Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
+                //    Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
+                //}
                 dataList[index].Add(subjectArr[j], dataArr[j]);
 
             }//for j
@@ -406,12 +449,14 @@ public class CSVParser : MonoBehaviour
     } //ParsingConversationCSV()
 
     /* 단서 테이블을 파싱하는 함수 */
-    public void ParsingClueDataCSV()
+    public void ParsingClueDataCSV(string dataPath)
     {
         clueList = new Dictionary<int, Dictionary<string, string>>();
         clueStructureLists = new List<ClueStructure>();
         
-        string textAsset = File.ReadAllText(Application.streamingAssetsPath + "/Data/단서.csv");
+        string textAsset = File.ReadAllText(dataPath);
+
+        textAsset = GameManager.instance.DecryptData(textAsset);
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -529,6 +574,79 @@ public class CSVParser : MonoBehaviour
         }//for i
     }//ParsingClueDataCSV()
 
+    /* 단서 관련 테이블은 저장할 필요가 없다. 변하는게 없기 때문 */
+    /* 현재까지 진행된 csv 파일 저장하기 */
+    public void SaveCSVData()
+    {
+        string attributeString = "사건,시간대,위치,대화 묶음,id,startObject,npcFrom,desc,반복성,대사 조건,status,parent,rewards,단서 루트 해금,발생 여부,새로운 이벤트 발생,줄바꿈\r\n";
+        string conversationData = "";
+
+        for (int i = 0; i < interactionLists.Count; i++)
+        {
+            conversationData += (interactionLists[i].GetAct() + ",");
+            conversationData += (RecoverComma(interactionLists[i].GetTime()) + ",");
+            conversationData += (RecoverComma(interactionLists[i].GetPosition()) + ",");
+            conversationData += (interactionLists[i].GetSetOfDesc() + ",");
+            conversationData += (interactionLists[i].GetId() + ",");
+            conversationData += (RecoverComma(interactionLists[i].GetStartObject()) + ",");
+            conversationData += (interactionLists[i].GetNpcFrom() + ",");
+            conversationData += (RecoverEnter(RecoverComma(interactionLists[i].GetDesc())) + ",");
+            conversationData += (interactionLists[i].GetRepeatability() + ",");
+            conversationData += (RecoverComma(interactionLists[i].GetConditionOfDesc()) + ",");
+            conversationData += (interactionLists[i].GetStatus() + ",");
+            conversationData += (interactionLists[i].GetParent() + ",");
+            conversationData += (interactionLists[i].GetRewards() + ",");
+            conversationData += (RecoverComma(interactionLists[i].GetRevealList()) + ",");
+            conversationData += (interactionLists[i].GetOccurrence() + ",");
+            conversationData += (RecoverComma(interactionLists[i].GetEventIndexToOccur()) + ",");
+            conversationData += "줄바꿈\r\n";
+        }
+
+        // 생성된 세이브 파일 암호화
+        string resultString = GameManager.instance.EncryptData(attributeString + conversationData);
+        // 세이브 파일 생성
+        File.WriteAllText(playerConversationDataPath, resultString);
+    }
+
+    /* 저장된 csv 파일 불러오기 */
+    public void LoadCSVData()
+    {
+        string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+        string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+        ParsingConversationCSV(conversationDataPath);
+        ParsingClueDataCSV(clueDataPath);
+    }
+
+    // 세이브 파일이 있는지 체크
+    public bool CheckSaveData()
+    {
+        string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+        string eventVariableDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
+        string playerInfoDataPath = Application.streamingAssetsPath + "/Data/PlayerInfo.json";
+        string initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
+        string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+        
+        if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+        {
+            if (File.Exists(initConversationDataPath) == false || File.Exists(clueDataPath) == false || File.Exists(conversationDataPath) == false
+                || File.Exists(eventVariableDataPath) == false || File.Exists(playerInfoDataPath) == false)
+                return false;
+            else
+                return true;
+        }
+        else if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
+        {
+            if (File.Exists(initConversationDataPath) == false || File.Exists(clueDataPath) == false)
+                return false;
+            else
+                return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     /* """ -> " */
     public string ReplaceDoubleQuotationMark(string text)
     {
@@ -538,6 +656,18 @@ public class CSVParser : MonoBehaviour
             //"가 3개가 붙기 때문에, 텍스트 출력할때 보기좋게 1개로 줄인다.
             text = text.Replace("\"\"\"", "\"");
             
+            return text;
+        }
+        else
+            return text;
+    }
+
+    public string RecoverDoubleQuotationMark(string text)
+    {
+        if (text.Contains("\""))
+        {
+            text = text.Replace("\"", "\"\"\"");
+
             return text;
         }
         else
@@ -555,6 +685,7 @@ public class CSVParser : MonoBehaviour
         else
             return text;
     }
+    
 
     /* $ -> , */
     public string ReplaceComma(string text)
@@ -570,6 +701,37 @@ public class CSVParser : MonoBehaviour
             return text;
     }
 
+    public string RecoverComma(string text)
+    {
+        if (text.Contains(","))
+        {
+            //현재 csv 파일에서 쉼표를 표현하기위해서는 대체제로 $를 사용했으니, 바꿔줘야한다.
+            text = text.Replace(",", "$");
+
+            return text;
+        }
+        else
+            return text;
+    }
+
+    public string RecoverComma(string[] text)
+    {
+        string tempText = "";
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            tempText += text[i];
+
+            // 끝이 아닐 경우 $를 붙여서 쉼표가 있음을 나타냄.
+            if (i != (text.Length - 1))
+            {
+                tempText += "$";
+            }
+        }
+
+        return tempText;
+    }
+
     /* # -> '\n' */
     public string ReplaceEnter(string text)
     {
@@ -583,15 +745,27 @@ public class CSVParser : MonoBehaviour
             return text;
     }
 
-
-    public Dictionary<int, Dictionary<string, string>> GetDataList()
+    public string RecoverEnter(string text)
     {
-        return dataList;
+        if (text.Contains("\n"))
+        {
+            text = text.Replace("\n", "#");
+
+            return text;
+        }
+        else
+            return text;
     }
 
-    public List<Interaction> GetInteractionLists()
+
+    public ref Dictionary<int, Dictionary<string, string>> GetDataList()
     {
-        return interactionLists;
+        return ref dataList;
+    }
+
+    public ref List<Interaction> GetInteractionLists()
+    {
+        return ref interactionLists;
     }
 
     public Dictionary<int, Dictionary<string, string>> GetClueList()

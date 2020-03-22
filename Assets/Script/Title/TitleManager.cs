@@ -6,6 +6,9 @@ using System;
 
 public class TitleManager : MonoBehaviour
 {
+    // Scene을 Load하는 함수를 담을 Delegate
+    public delegate void CorrectLoadSceneFunc();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +20,46 @@ public class TitleManager : MonoBehaviour
     {
         
     }
+
+    // LoadDataForScene 에는 CSV 데이터 등을 로드하는 함수를 넣으면 됨
+    IEnumerator LoadAsyncNewGameScene(CorrectLoadSceneFunc LoadDataForScene)
+    {
+        //GameManager.instance.PlayNewGame();
+        LoadDataForScene();
+        
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+
+    // 처음부터
     public void NewGame()
     {
-        SceneManager.LoadScene("BW_H");
+        //SceneManager.LoadScene("BW_H");
+        GameManager.instance.SetGameState(GameManager.GameState.NewGame_Loaded);
+
+        // 데이터 파일 체크
+        if(CSVParser.instance.CheckSaveData())
+            StartCoroutine(LoadAsyncNewGameScene(GameManager.instance.PlayNewGame));
+        else
+            GameManager.instance.SetGameState(GameManager.GameState.Idle);
     }
+
+    // 이어하기
+    public void PlayPastGame()
+    {
+        GameManager.instance.SetGameState(GameManager.GameState.PastGame_Loaded);
+
+        // 데이터 파일 체크
+        if (CSVParser.instance.CheckSaveData())
+            StartCoroutine(LoadAsyncNewGameScene(GameManager.instance.PlaySaveGame));
+        else
+            GameManager.instance.SetGameState(GameManager.GameState.Idle);
+    }
+
     public void GameOver()
     {
         #if UNITY_EDITOR

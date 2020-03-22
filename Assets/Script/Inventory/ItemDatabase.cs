@@ -17,14 +17,22 @@ public class ItemDatabase : MonoBehaviour {
     private Dictionary<int, Dictionary<string, string>> clueList;
     private List<ClueStructure> clueStructureLists;
 
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
+
     void Start()
     {
         if (instance == null)
             instance = this;
+    }
 
+    // 단서 정보 최신화
+    public void SetLists()
+    {
         clueList = GameObject.Find("DataManager").GetComponent<CSVParser>().GetClueList();
         clueStructureLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetClueStructureLists();
-
     }
 
     /* 게임에서 필요한 모든 단서데이터를 불러옴 */
