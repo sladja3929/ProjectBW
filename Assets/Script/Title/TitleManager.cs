@@ -26,14 +26,32 @@ public class TitleManager : MonoBehaviour
     {
         //GameManager.instance.PlayNewGame();
         LoadDataForScene();
-        
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");    
 
-        while (!asyncLoad.isDone)
+        while (!CSVParser.instance.CompleteLoadFile())
         {
             yield return null;
         }
-        
+
+        AsyncOperation asyncLoad;
+
+        if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
+        {
+            asyncLoad = SceneManager.LoadSceneAsync("Prologue");
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+        }
+        else if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+        {
+            asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+        }
     }
 
     // 처음부터

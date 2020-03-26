@@ -138,10 +138,13 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject deadBodyImage;   // 사체 묘사 이미지
 
-    //private List<Interaction> interactionLists;
-
-    //public Navigation customNav;
-    //public Navigation customNav2;
+    // 대화창 초상화
+    [SerializeField]
+    private GameObject characterFrame;
+    [SerializeField]
+    private GameObject characterBackfroundImage;
+    [SerializeField]
+    private GameObject characterImage;
 
     // Use this for initialization
     void Awake () {
@@ -201,7 +204,8 @@ public class UIManager : MonoBehaviour {
 
     void Update()
     {
-        if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐 때
+        //일시정지 상태가 아닐 때 && Act를 플레이하고 있을 때
+        if (!UIManager.instance.GetIsPaused() && GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
         {
             /* 단서 정리 테스트용 0115 */
             /*
@@ -982,5 +986,12 @@ public class UIManager : MonoBehaviour {
     public void SetDocumentCover(bool isOpen)
     {
         documentCover.SetActive(isOpen);
+    }
+
+    public void SetActivePortrait(bool boolValue)
+    {
+        characterFrame.SetActive(boolValue);
+        characterBackfroundImage.SetActive(boolValue);
+        characterImage.SetActive(boolValue);
     }
 }

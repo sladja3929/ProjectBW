@@ -54,7 +54,7 @@ public class CSVParser : MonoBehaviour
         //InitDataFromCSV();
     }//Awake()
 
-    // 초기 데이터 파일 암호화 용도
+    //// 초기 데이터 파일 암호화 용도
     //void Update()
     //{
     //    if (Input.GetKeyDown(KeyCode.F1))
@@ -236,7 +236,8 @@ public class CSVParser : MonoBehaviour
                             tempStartObjectList[0] = tempStartObject;
                             tempInteraction.SetStartObject(tempStartObjectList);
                         }
-                        //if (tempStartObject.Equals("1001")) {
+                        //if (tempStartObject.Equals("800"))
+                        //{
                         //    Debug.Log(tempStartObject + "의 대화 적용 완료");
                         //}
                         break;
@@ -523,7 +524,7 @@ public class CSVParser : MonoBehaviour
                         break;
 
                     case "id":
-                        
+
                         tempClueStructure.SetId(int.Parse((clueList[i])[subjectArr[j]]));
                         break;
 
@@ -794,4 +795,14 @@ public class CSVParser : MonoBehaviour
         return clueStructureLists;
     }
 
+    public bool CompleteLoadFile()
+    {
+        if (interactionLists == null)
+            return false;
+
+        if (interactionLists.Count == 3509)
+            return true;
+        else
+            return false;
+    }
 }

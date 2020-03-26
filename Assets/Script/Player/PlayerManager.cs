@@ -87,6 +87,8 @@ public class PlayerManager : MonoBehaviour {
 
     void Start()
     {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Act);
+
         if (GameManager.instance.GetGameState().Equals(GameManager.GameState.NewGame_Loaded))
         {
             NumOfAct = "53";   //사건3 시작
@@ -168,7 +170,7 @@ public class PlayerManager : MonoBehaviour {
                     {
                         //Debug.Log("아무것도 안맞죠?");
                     }
-                    else if (hit.collider.tag == "InteractionObject")
+                    else if ((hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject"))
                     {
                         if (hit.collider.name.Equals("책상_메르테 사무실"))
                         {
@@ -193,7 +195,7 @@ public class PlayerManager : MonoBehaviour {
                                 //Debug.Log("단서 정리 시스템 활성화 실패");
                             }
                         }
-                        else
+                        else if (DialogManager.instance.CheckInteraction(hit.collider.name))
                         {
                             //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
                             try

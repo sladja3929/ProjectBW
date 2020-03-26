@@ -10,12 +10,15 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
     private EventVariable eventVariable;
-    public enum GameState {Idle, NewGame_Loaded, PastGame_Loaded };
+    public enum GameState { Idle, NewGame_Loaded, PastGame_Loaded };
     private GameState gameState;
+
+    public enum PlayState { Title, Prologue, Tutorial, Act, Ending };
+    private PlayState playState;
 
     public Thread thread;
     public Thread thread2;
-    
+
     public List<string> playerEventIndexLists;
     public List<string> playerClueNameLists;
     public List<string> playerFirstInfoOfClueLists;
@@ -38,23 +41,37 @@ public class GameManager : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (!UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment())
+        try
         {
-            pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            ray = new Ray2D(pos, Vector2.zero);
-            hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-            if (hit.collider != null)
+            if (GetPlayState() == PlayState.Act && !UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment())
             {
-                if (hit.collider.tag.Equals("InteractionObject"))
+                pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                ray = new Ray2D(pos, Vector2.zero);
+                hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                if (hit.collider != null)
                 {
-                    SetCursorActivate();
+                    if (hit.collider.tag.Equals("InteractionObject"))
+                    {
+                        if (DialogManager.instance.CheckInteraction(hit.collider.name))
+                            SetCursorActivate();
+                        else
+                            SetCursorIdle();
+                    }
+                    else if (hit.collider.tag.Equals("MerteDesk"))
+                    {
+                        SetCursorActivate();
+                    }
+                }
+                else
+                {
+                    SetCursorIdle();
                 }
             }
-            else
-            {
-                SetCursorIdle();
-            }
+        }
+        catch
+        {
+
         }
         //// 암호화 ON
         //if (Input.GetKeyDown(KeyCode.F6))
@@ -70,13 +87,14 @@ public class GameManager : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         if (instance == null)
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
 
         gameState = GameState.Idle;
+        playState = PlayState.Title;
         eventVariable = new EventVariable();
         dataAES = new DataEncryption();
 
@@ -106,7 +124,7 @@ public class GameManager : MonoBehaviour {
             //Debug.Log("clueName = " + clueName + " , numOfAct = " + numOfAct);
             //Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
             Inventory.instance.MakeClueSlot(clueName, numOfAct); // 수첩에 Clue slot 추가
-            
+
         } else
         {
             //Debug.Log("이미 획득한 단서입니다.");
@@ -131,6 +149,16 @@ public class GameManager : MonoBehaviour {
     public void SetGameState(GameState gameState)
     {
         this.gameState = gameState;
+    }
+
+    public PlayState GetPlayState()
+    {
+        return playState;
+    }
+
+    public void SetPlayState(PlayState playState)
+    {
+        this.playState = playState;
     }
 
     // 처음 부터

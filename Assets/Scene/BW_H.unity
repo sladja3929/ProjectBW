@@ -342,6 +342,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 591736739, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7609917728015426678, guid: 4359ff62fd6425b43bacde06aa957093,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -464,35 +468,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 519360255, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 948
+      value: 946.84735
       objectReference: {fileID: 0}
     - target: {fileID: 519360255, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1578
+      value: 1576.8474
       objectReference: {fileID: 0}
     - target: {fileID: 972024986, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 474
+      value: 473.42368
       objectReference: {fileID: 0}
     - target: {fileID: 972024986, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.4
+      value: 914.0542
       objectReference: {fileID: 0}
     - target: {fileID: 276119060, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 474
+      value: 473.42368
       objectReference: {fileID: 0}
     - target: {fileID: 276119060, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.4
+      value: 914.0542
       objectReference: {fileID: 0}
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 474
+      value: 473.42368
       objectReference: {fileID: 0}
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.4
+      value: 914.0542
       objectReference: {fileID: 0}
     - target: {fileID: 7675143166268469690, guid: 4359ff62fd6425b43bacde06aa957093,
         type: 3}
@@ -649,6 +653,56 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 988496496}
+    - target: {fileID: 8611765385615106683, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611765385615106683, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8611765385615106683, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7938384810744688641, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6119604418184280566, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5280371918046169236, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7476923544455943536, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615842455636062865, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161280268140342381, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8161280268140342381, guid: 4359ff62fd6425b43bacde06aa957093,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
 --- !u!1 &664818264 stripped
@@ -678,6 +732,24 @@ GameObject:
 --- !u!1 &664818268 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3959829269715832466, guid: 4359ff62fd6425b43bacde06aa957093,
+    type: 3}
+  m_PrefabInstance: {fileID: 664818263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &664818269 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8615842455636062865, guid: 4359ff62fd6425b43bacde06aa957093,
+    type: 3}
+  m_PrefabInstance: {fileID: 664818263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &664818270 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5280371918046169236, guid: 4359ff62fd6425b43bacde06aa957093,
+    type: 3}
+  m_PrefabInstance: {fileID: 664818263}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &664818271 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7476923544455943536, guid: 4359ff62fd6425b43bacde06aa957093,
     type: 3}
   m_PrefabInstance: {fileID: 664818263}
   m_PrefabAsset: {fileID: 0}
@@ -831,7 +903,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 664818263}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 664818269}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -1012,6 +1084,21 @@ PrefabInstance:
       objectReference: {fileID: 1139283408}
     - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
         type: 3}
+      propertyPath: act3Button
+      value: 
+      objectReference: {fileID: 664818266}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: act4Button
+      value: 
+      objectReference: {fileID: 664818265}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: act5Button
+      value: 
+      objectReference: {fileID: 664818264}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
       propertyPath: canvasForParchment
       value: 
       objectReference: {fileID: 1663221282}
@@ -1057,6 +1144,11 @@ PrefabInstance:
       objectReference: {fileID: 1916028632}
     - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
         type: 3}
+      propertyPath: DocumentOfAndren
+      value: 
+      objectReference: {fileID: 664818268}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
       propertyPath: paperOfDocument
       value: 
       objectReference: {fileID: 1704820903}
@@ -1087,34 +1179,29 @@ PrefabInstance:
       objectReference: {fileID: 712594175}
     - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
         type: 3}
-      propertyPath: deadBodyImage
-      value: 
-      objectReference: {fileID: 229727868}
-    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
-        type: 3}
-      propertyPath: act3Button
-      value: 
-      objectReference: {fileID: 664818266}
-    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
-        type: 3}
-      propertyPath: act4Button
-      value: 
-      objectReference: {fileID: 664818265}
-    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
-        type: 3}
-      propertyPath: act5Button
-      value: 
-      objectReference: {fileID: 664818264}
-    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
-        type: 3}
       propertyPath: nameOfCase
       value: 
       objectReference: {fileID: 664818267}
     - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
         type: 3}
-      propertyPath: DocumentOfAndren
+      propertyPath: deadBodyImage
       value: 
-      objectReference: {fileID: 664818268}
+      objectReference: {fileID: 229727868}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: characterFrame
+      value: 
+      objectReference: {fileID: 664818271}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: characterBackfroundImage
+      value: 
+      objectReference: {fileID: 664818270}
+    - target: {fileID: 8916261718443055685, guid: 1ca91e1e1f62cca46b9920445c42e06c,
+        type: 3}
+      propertyPath: characterImage
+      value: 
+      objectReference: {fileID: 664818269}
     - target: {fileID: 3814327114598580311, guid: 1ca91e1e1f62cca46b9920445c42e06c,
         type: 3}
       propertyPath: conversationText

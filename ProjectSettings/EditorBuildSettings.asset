@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scene/Title_Tmp.unity
     guid: e1fe03d5ee86a2e478cc17f7fced7b0b
   - enabled: 1
+    path: Assets/Scene/Prologue.unity
+    guid: 3399f1d135e800e42bcc0810bf26eac7
+  - enabled: 1
     path: Assets/Scene/BW_H.unity
     guid: ca81dd5728c91604ebc7966b1dfbbc78
   m_configObjects: {}

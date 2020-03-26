@@ -37,33 +37,35 @@ public class ParchmentControll : MonoBehaviour
 
     void Update()
     {
-        if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y == -720) // -720 일때 위 화살표 없애기
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial || GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
         {
-            parchmentUpButton.SetActive(false);
-            parchmentDownButton.SetActive(true);
-        }
-        else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y == 720) // 720 일때 아래 화살표 없애기
-        {
-            parchmentUpButton.SetActive(true);
-            parchmentDownButton.SetActive(false);
-            UIManager.instance.isReadParchment = true;
+            if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y == -720) // -720 일때 위 화살표 없애기
+            {
+                parchmentUpButton.SetActive(false);
+                parchmentDownButton.SetActive(true);
+            }
+            else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y == 720) // 720 일때 아래 화살표 없애기
+            {
+                parchmentUpButton.SetActive(true);
+                parchmentDownButton.SetActive(false);
+                UIManager.instance.isReadParchment = true;
 
-            // 중복 실행을 방지
-            // 2월 발표회 이후 구현할 예정 (1월 28일 메모)
-            /* 안드렌의 서류(단서) 등장 이벤트 진행 코드 */
-            //if (!isPlayingDocumentAnim)
-            //{
-            //    DocumentControll.instance.InvokeDocumentAnim();
-            //    isPlayingDocumentAnim = !isPlayingDocumentAnim;
-            //}
+                // 중복 실행을 방지
+                // 2월 발표회 이후 구현할 예정 (1월 28일 메모)
+                /* 안드렌의 서류(단서) 등장 이벤트 진행 코드 */
+                //if (!isPlayingDocumentAnim)
+                //{
+                //    DocumentControll.instance.InvokeDocumentAnim();
+                //    isPlayingDocumentAnim = !isPlayingDocumentAnim;
+                //}
 
+            }
+            else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y > -720 && rect_Parchment.localPosition.y < 720) //-720 초과 ~720 미만 일때 양쪽 화살표 나타내기
+            {
+                parchmentUpButton.SetActive(true);
+                parchmentDownButton.SetActive(true);
+            }
         }
-        else if (UIManager.instance.GetIsOpenParchment() && rect_Parchment.localPosition.y > -720 && rect_Parchment.localPosition.y < 720) //-720 초과 ~720 미만 일때 양쪽 화살표 나타내기
-        {
-            parchmentUpButton.SetActive(true);
-            parchmentDownButton.SetActive(true);
-        }
-
     }
 
     public Vector2 GetHelperContentPosition()

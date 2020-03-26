@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a6263e19ff94a40900056183558a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ispaused: 0
   GetClueUI: {fileID: 0}
   GetClueButton: {fileID: 0}
   Background: {fileID: 0}
@@ -68,6 +69,9 @@ MonoBehaviour:
   shownSlotIndex: 0
   isMovingSlot: 0
   tempYPosition: 0
+  act3Button: {fileID: 0}
+  act4Button: {fileID: 0}
+  act5Button: {fileID: 0}
   canvasForParchment: {fileID: 0}
   parchment: {fileID: 0}
   parchmentHelper: {fileID: 0}
@@ -77,6 +81,7 @@ MonoBehaviour:
   rectOfParchmentClueScrollList: {fileID: 0}
   parchmentUpButton: {fileID: 0}
   parchmentDownButton: {fileID: 0}
+  DocumentOfAndren: {fileID: 0}
   paperOfDocument: {fileID: 0}
   documentCover: {fileID: 0}
   isReadParchment: 0
@@ -84,6 +89,7 @@ MonoBehaviour:
   fadeInOutAnimator: {fileID: 0}
   timeSlotText: {fileID: 0}
   wordOfMerte: {fileID: 0}
+  nameOfCase: {fileID: 0}
   testButton: {fileID: 0}
   buttonIndex: 0
   buttonNumOfAct: 
@@ -106,6 +112,9 @@ MonoBehaviour:
   howManyOpenNote: 0
   isPortaling: 0
   deadBodyImage: {fileID: 0}
+  characterFrame: {fileID: 0}
+  characterBackfroundImage: {fileID: 0}
+  characterImage: {fileID: 0}
 --- !u!114 &3814327114598580311
 MonoBehaviour:
   m_ObjectHideFlags: 0

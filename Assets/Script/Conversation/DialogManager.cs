@@ -24,7 +24,7 @@ public class DialogManager : MonoBehaviour
     public bool isTextFull; //한 대화창에 출력할 최대 텍스트에 도달했는지의 여부
     public bool isSentenceDone; //출력할 문장이 다 출력 됐는지 여부
     public bool atOnce;     // 한번에 한 단어만 출력
-
+    
     private Dictionary<int, Dictionary<string, string>> dataList;
     private List<Interaction> interactionLists;
     private List<string> imagePathLists;    //npcFrom에 해당하는 npc들의 이미지의 경로 리스트
@@ -93,11 +93,14 @@ public class DialogManager : MonoBehaviour
 
     void Update()
     {
-        // 대화가 텍스트창에 한계치만큼 가득 찼거나, 한 대화가 모두 출력됐을때, 다음 대화로 넘어갈 수 있게 해줌
-        if( (numOfText > textLimit) || (UIManager.instance.isConversationing && isSentenceDone) )
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
         {
-            UIManager.instance.canSkipConversation = true;
-            isSentenceDone = false;
+            // 대화가 텍스트창에 한계치만큼 가득 찼거나, 한 대화가 모두 출력됐을때, 다음 대화로 넘어갈 수 있게 해줌
+            if ((numOfText > textLimit) || (UIManager.instance.isConversationing && isSentenceDone))
+            {
+                UIManager.instance.canSkipConversation = true;
+                isSentenceDone = false;
+            }
         }
     }
 
@@ -444,14 +447,26 @@ public class DialogManager : MonoBehaviour
         {
             npcNameText.text = tempNpcName;
             string objectName = npcParser.GetObjectNameFromCode(tempObjectPortrait);
-            //Debug.Log("objectName = " + objectName);
-            //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
-            if (tempNpcName.Equals("서술자"))
+            bool checkObject = false;
+            try
             {
-                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfObject/" + objectName);
+                checkObject = npcParser.GetNpcCodeFromName(objectName).Equals(objectName);
+            }
+            catch { };
+            //Debug.Log("objectName = " + objectName);
+            //Debug.Log("tempNpcName = " + tempNpcName);
+            //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
+            if (checkObject)
+            {
+                // 상호작용하는 오브젝트가 사물이라면, 초상화 비활성화
+                UIManager.instance.SetActivePortrait(false);
+                npcNameText.text = objectName;
             }
             else
             {
+                // 상호작용하는 오브젝트가 사물이 아니라면, 초상화 활성화
+                UIManager.instance.SetActivePortrait(true);
+
                 npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
             }
         }
@@ -1011,5 +1026,24 @@ public class DialogManager : MonoBehaviour
     public List<Interaction> GetInteractionList()
     {
         return interactionLists;
+    }
+
+    // 오브젝트와 진행할 대화가 있는지 여부를 반환
+    public bool CheckInteraction(string objectName)
+    {
+        string targetObject = npcParser.GetNpcCodeFromName(objectName);   //StartObject에 해당하는 값
+        
+        List<Interaction> targetOfInteractionList = new List<Interaction>();
+
+        // 진행시킬 대화가 있는지 확인
+        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
+
+        // 해당 NPC와의 대화가 없을 경우
+        if (targetOfInteractionList.Count == 0)
+            return false;
+        if (targetOfInteractionList.Count > 0)
+            return true;
+
+        return false;
     }
 }

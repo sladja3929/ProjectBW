@@ -37,88 +37,103 @@ public class ObtainPosParser
     {
         string obtainPos1 = "";
         char[] tempArray;
-        for (int i = 0; i < posCode.Length; i++)
+
+        try
         {
-            tempArray = posCode[i].ToCharArray();
-
-            //첫번째 자리
-            obtainPos1 += GetMainPos(tempArray[0]);
-            obtainPos1 += "_";
-            //두번째 자리
-            obtainPos1 += GetSidePos(tempArray[1]);
-            obtainPos1 += "_";
-            //세번째 자리
-            obtainPos1 += GetCutPos(tempArray[2]);
-
-            if (tempArray.Length >= 4)
+            for (int i = 0; i < posCode.Length; i++)
             {
+                tempArray = posCode[i].ToCharArray();
+
+                //첫번째 자리
+                obtainPos1 += GetMainPos(tempArray[0]);
                 obtainPos1 += "_";
-                //네번째 자리
-                obtainPos1 += GetBuildingPos(tempArray[3]);
-               
-                if (!tempArray[3].Equals('e'))
+                //두번째 자리
+                obtainPos1 += GetSidePos(tempArray[1]);
+                obtainPos1 += "_";
+                //세번째 자리
+                obtainPos1 += GetCutPos(tempArray[2]);
+
+                if (tempArray.Length >= 4)
                 {
-                    //다섯번째 자리
                     obtainPos1 += "_";
-                    obtainPos1 += GetSidePos(tempArray[4]);
+                    //네번째 자리
+                    obtainPos1 += GetBuildingPos(tempArray[3]);
 
-                    //여섯번째 자리
-                    obtainPos1 += "_";
-                    obtainPos1 += GetRoomPos(tempArray[5]);
+                    if (!tempArray[3].Equals('e'))
+                    {
+                        //다섯번째 자리
+                        obtainPos1 += "_";
+                        obtainPos1 += GetSidePos(tempArray[4]);
+
+                        //여섯번째 자리
+                        obtainPos1 += "_";
+                        obtainPos1 += GetRoomPos(tempArray[5]);
+                    }
+                    else
+                    {
+                        //tempArray[3]이 e였을 경우, 그 다음 칸은 공백이므로, 다섯번째 자리는 tempArray[5]를 이용해야함.
+                        //다섯번째 자리
+                        obtainPos1 += "_";
+                        obtainPos1 += GetSidePos(tempArray[5]);
+
+                        //여섯번째 자리
+                        obtainPos1 += "_";
+                        obtainPos1 += GetRoomPos(tempArray[6]);
+                    }
                 }
-                else
+
+                if (i != posCode.Length - 1)
                 {
-                    //tempArray[3]이 e였을 경우, 그 다음 칸은 공백이므로, 다섯번째 자리는 tempArray[5]를 이용해야함.
-                    //다섯번째 자리
-                    obtainPos1 += "_";
-                    obtainPos1 += GetSidePos(tempArray[5]);
-
-                    //여섯번째 자리
-                    obtainPos1 += "_";
-                    obtainPos1 += GetRoomPos(tempArray[6]);
+                    obtainPos1 += "&";
                 }
-            }
+            }//for
 
-            if (i != posCode.Length - 1)
-            {
-                obtainPos1 += "&";
-            }
+            return obtainPos1;
         }
-
+        catch
+        {
+            return obtainPos1;
+        }
         /* 건물 안이라면? */
 
-        return obtainPos1;
     }
 
     // 획득 경로 2 파싱 (오브젝트 or 캐릭터명)
     public string ParsingObtainPos2(string posCode)
     {
-        npcParser = new NpcParser();
         string obtainPos2 = "";
-
-        // , 가 있다면 여러개 존재.
-        if (posCode.Contains(","))
+        try
         {
-            string[] nameArr = posCode.Split(',');
-            for (int i = 0; i < nameArr.Length; i++)
+            npcParser = new NpcParser();
+
+            // , 가 있다면 여러개 존재.
+            if (posCode.Contains(","))
             {
-                obtainPos2 += npcParser.GetNpcNameFromCode(nameArr[i]);
+                string[] nameArr = posCode.Split(',');
+                for (int i = 0; i < nameArr.Length; i++)
+                {
+                    obtainPos2 += npcParser.GetNpcNameFromCode(nameArr[i]);
 
-                if (i != nameArr.Length - 1)
-                    obtainPos2 += "&";
+                    if (i != nameArr.Length - 1)
+                        obtainPos2 += "&";
+                }
             }
+            else
+            {
+                // 스토리상 획득 위치 2가 없을 때
+                if (posCode.Equals(""))
+                    return "";
+
+                // , 가 없으면 1개
+                obtainPos2 += npcParser.GetNpcNameFromCode(posCode);
+            }
+
+            return obtainPos2;
         }
-        else
+        catch
         {
-            // 스토리상 획득 위치 2가 없을 때
-            if (posCode.Equals(""))
-                return "";
-
-            // , 가 없으면 1개
-            obtainPos2 += npcParser.GetNpcNameFromCode(posCode);
+            return obtainPos2;
         }
-
-        return obtainPos2;
     }
 
     private string GetBuildingPos(char buildingPosCode)
