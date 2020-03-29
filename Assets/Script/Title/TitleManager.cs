@@ -6,6 +6,11 @@ using System;
 
 public class TitleManager : MonoBehaviour
 {
+
+    public GameObject SettingPanel;
+
+    private bool issetting; // 환경설정중인가?
+
     // Scene을 Load하는 함수를 담을 Delegate
     public delegate void CorrectLoadSceneFunc();
 
@@ -18,7 +23,14 @@ public class TitleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (issetting == true)
+            {
+                SettingManager.instance.SaveCurSetting();
+                CloseSettingPanel();
+            }
+        }
     }
 
     // LoadDataForScene 에는 CSV 데이터 등을 로드하는 함수를 넣으면 됨
@@ -45,7 +57,7 @@ public class TitleManager : MonoBehaviour
         }
         else if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
         {
-            asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+            asyncLoad = SceneManager.LoadSceneAsync("BW_K");
 
             while (!asyncLoad.isDone)
             {
@@ -90,6 +102,21 @@ public class TitleManager : MonoBehaviour
             GameManager.instance.SetGameState(GameManager.GameState.Idle);
         }
     }
+
+    public void OpenSettingPanel()
+    {
+        EffectManager.instance.Play("버튼 클릭음");
+        issetting = true;
+        SettingPanel.SetActive(true);
+        SettingManager.instance.GetPrevSetting();//패널 열면서 이전설정 불러오기
+    }
+
+    void CloseSettingPanel()
+    {
+        issetting = false;
+        SettingPanel.SetActive(false);
+    }
+
 
     public void GameOver()
     {

@@ -17,7 +17,8 @@ public class BGMManager : MonoBehaviour
 
     /*씬 이름들*/
     public const string titlescene = "Title_Tmp";
-    public const string gamescene = "BW_H";
+    public const string gamescene = "BW_K";
+    public const string prologuescene = "Prologue";
 
 
     private void Awake()
@@ -65,7 +66,11 @@ public class BGMManager : MonoBehaviour
             string curhighpos = PlayerManager.instance.GetHigherCurrentPosition();
             nextBGMnowPlaying = GetAreaBGM(curpos, curhighpos);
         }
-        //이후 프롤로그 + 엔딩 추가
+        else if (curscene == prologuescene)
+        {
+            nextBGMnowPlaying = 1;
+        }
+        //이후 엔딩 추가
 
 
         /*BGM 변경 시*/
@@ -94,7 +99,7 @@ public class BGMManager : MonoBehaviour
             case "Market":
                 area_num = 3;
                 break;
-            case "Viallage":
+            case "Village":
             case "Harbor":
                 area_num = 4;
                 break;

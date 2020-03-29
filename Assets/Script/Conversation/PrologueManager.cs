@@ -37,6 +37,8 @@ public class PrologueManager : MonoBehaviour
         targetOfInteractionList = new List<Interaction>();
 
         InitPrologueSetting();
+
+        BGMManager.instance.AutoSelectBGM();
     }
     
     void Update()
@@ -175,7 +177,7 @@ public class PrologueManager : MonoBehaviour
 
     IEnumerator LoadAsyncAct3Scene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_K");
 
         while (!asyncLoad.isDone)
         {
