@@ -36,23 +36,23 @@ public class MiniMapManager : MonoBehaviour
     private bool isInsideNow;//현재 건물 안인가?
 
     /*마커용 좌표*/
-    private Vector3 miniMap_Position_Slum_Street1 = new Vector3(-10.4f, -4.5f, -1f);
-    private Vector3 miniMap_Position_Slum_Street2 = new Vector3(-10f, -6.5f, -1f);
-    private Vector3 miniMap_Position_Market_Street1 = new Vector3(-10.5f, 2f, -1f);
-    private Vector3 miniMap_Position_Market_Street2 = new Vector3(-10.5f, 2f, -1f);
-    private Vector3 miniMap_Position_Market_Street3 = new Vector3(-10.5f, 2f, -1f);
-    private Vector3 miniMap_Position_Village_Street1 = new Vector3(2.5f, 13.6f, -1f);
-    private Vector3 miniMap_Position_Village_Street2 = new Vector3(2.5f, 11.4f, -1f);
-    private Vector3 miniMap_Position_Village_Street3 = new Vector3(2.5f, 8.8f, -1f);
-    private Vector3 miniMap_Position_Mansion_Street1 = new Vector3(10f, 3.6f, -1f);
-    private Vector3 miniMap_Position_Mansion_Street2 = new Vector3(10.5f, 1f, -1f);
-    private Vector3 miniMap_Position_Mansion_Street3 = new Vector3(10f, -1f, -1f);
-    private Vector3 miniMap_Position_Downtown_Street1 = new Vector3(-0.2f, -0.5f, -1f);
-    private Vector3 miniMap_Position_Forest_Street1 = new Vector3(0.75f, -7.5f, -1f);
-    private Vector3 miniMap_Position_Forest_Street2 = new Vector3(0.75f, -9.3f, -1f);
-    private Vector3 miniMap_Position_Forest_Street3 = new Vector3(0.75f, -11f, -1f);
-    private Vector3 miniMap_Position_Harbor_Street1 = new Vector3(-10f, 11f, -1f);
-    private Vector3 miniMap_Position_Chapter_Street1 = new Vector3(0.2f, 3.5f, -1f);
+    private Vector3 miniMap_Position_Slum_Street1 = new Vector3(-3.48f, -1.29f, -1f);//0
+    private Vector3 miniMap_Position_Slum_Street2 = new Vector3(-2.961f, -2.064f, -1f);//0
+    private Vector3 miniMap_Position_Market_Street1 = new Vector3(-3.53f, 1.35f, -1f);//0
+    private Vector3 miniMap_Position_Market_Street2 = new Vector3(-1.51f, 1.35f, -1f);//0/
+    //private Vector3 miniMap_Position_Market_Street3 = new Vector3(-0.96f, 1.35f, -1f);//0
+    private Vector3 miniMap_Position_Village_Street1 = new Vector3(1.34f, 3.17f, -1f);//0
+    private Vector3 miniMap_Position_Village_Street2 = new Vector3(1.34f, 2.51f, -1f);//0
+    private Vector3 miniMap_Position_Village_Street3 = new Vector3(1.34f, 1.83f, -1f);//0
+    private Vector3 miniMap_Position_Mansion_Street1 = new Vector3(3.52f, 0.56f, -1f);//0
+    private Vector3 miniMap_Position_Mansion_Street2 = new Vector3(3.52f, -0.28f, -1f);//0
+    private Vector3 miniMap_Position_Mansion_Street3 = new Vector3(3.52f, -1.12f, -1f);//0
+    private Vector3 miniMap_Position_Downtown_Street1 = new Vector3(0.78f, -0.32f, -1f);//0
+    private Vector3 miniMap_Position_Forest_Street1 = new Vector3(-0.09f, -1.86f, -1f);//0
+    private Vector3 miniMap_Position_Forest_Street2 = new Vector3(0.36f, -2.64f, -1f);//0
+    private Vector3 miniMap_Position_Forest_Street3 = new Vector3(2.75f, -2.64f, -1f);//0
+    private Vector3 miniMap_Position_Harbor_Street1 = new Vector3(-2.5f, 3.28f, -1f);//0
+    private Vector3 miniMap_Position_Chapter_Street1 = new Vector3(0.39f, 0.77f, -1f);//0
     
 
     void Start()
@@ -389,9 +389,9 @@ public class MiniMapManager : MonoBehaviour
             case "Market_Street2":
                 arrow.transform.localPosition = miniMap_Position_Market_Street2;
                 break;
-            case "Market_Street3":
-                arrow.transform.localPosition = miniMap_Position_Market_Street3;
-                break;
+            //case "Market_Street3":
+            //    arrow.transform.localPosition = miniMap_Position_Market_Street3;
+            //    break;
             case "Village_Street1":
                 arrow.transform.localPosition = miniMap_Position_Village_Street1;
                 break;
