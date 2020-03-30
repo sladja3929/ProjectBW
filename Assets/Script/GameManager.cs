@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour {
     {
         try
         {
-            if (GetPlayState() == PlayState.Act && !UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment())
+            if (!UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment())
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 ray = new Ray2D(pos, Vector2.zero);

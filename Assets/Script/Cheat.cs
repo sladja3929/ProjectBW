@@ -39,7 +39,7 @@ public class Cheat : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F12))
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && Input.GetKeyDown(KeyCode.F12))
         {
             if (ischeatopen == true)
                 HideCheatPanel();

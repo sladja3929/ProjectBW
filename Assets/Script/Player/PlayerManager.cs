@@ -142,7 +142,7 @@ public class PlayerManager : MonoBehaviour {
 
         if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
         {
-            if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
             { 
                 UIManager.instance.isFading = true;
                 DocumentControll.instance.ResetDocumentOfAndren();
@@ -157,7 +157,7 @@ public class PlayerManager : MonoBehaviour {
             }
 
             /* 오브젝트와의 상호작용을 위한 if */
-            if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && !UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
             {
                 if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !MiniMapManager.instance.IsMiniMapOpen())  )
                     && isNearObject)
@@ -218,27 +218,6 @@ public class PlayerManager : MonoBehaviour {
                     }
                 }
             }
-
-                //if (UIManager.instance.isTypingText)
-                //{
-                //    if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
-                //    {
-                //        skipText = true;
-                //        UIManager.instance.isTypingText = false;
-                //    }
-                //}
-
-                /* for test 1226 */
-                /*
-                if (Input.GetKey(KeyCode.Alpha1))
-                {
-                    TimeSlot = "71";
-                }
-                if (Input.GetKey(KeyCode.Alpha3))
-                {
-                    TimeSlot = "83";
-                }
-                */
         }
     }
 

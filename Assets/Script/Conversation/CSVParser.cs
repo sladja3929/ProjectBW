@@ -54,7 +54,7 @@ public class CSVParser : MonoBehaviour
         //InitDataFromCSV();
     }//Awake()
 
-    //// 초기 데이터 파일 암호화 용도
+    // 초기 데이터 파일 암호화 용도
     //void Update()
     //{
     //    if (Input.GetKeyDown(KeyCode.F1))

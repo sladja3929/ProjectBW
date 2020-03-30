@@ -9,18 +9,6 @@ public class TitleManager : MonoBehaviour
     // Scene을 Load하는 함수를 담을 Delegate
     public delegate void CorrectLoadSceneFunc();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // LoadDataForScene 에는 CSV 데이터 등을 로드하는 함수를 넣으면 됨
     IEnumerator LoadAsyncNewGameScene(CorrectLoadSceneFunc LoadDataForScene)
     {

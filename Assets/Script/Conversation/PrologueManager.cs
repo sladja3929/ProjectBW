@@ -175,6 +175,8 @@ public class PrologueManager : MonoBehaviour
 
     IEnumerator LoadAsyncAct3Scene()
     {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Tutorial);
+
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");
 
         while (!asyncLoad.isDone)

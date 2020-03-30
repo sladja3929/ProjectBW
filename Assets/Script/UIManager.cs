@@ -205,7 +205,7 @@ public class UIManager : MonoBehaviour {
     void Update()
     {
         //일시정지 상태가 아닐 때 && Act를 플레이하고 있을 때
-        if (!UIManager.instance.GetIsPaused() && GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+        if (!UIManager.instance.GetIsPaused())
         {
             /* 단서 정리 테스트용 0115 */
             /*
@@ -268,7 +268,7 @@ public class UIManager : MonoBehaviour {
                 GetClueUI.SetActive(!isOpenedNote);
                 clueScroller.SetActive(!isOpenedNote);
 
-                Invoke("SetNegativeIsOpenedNote", 0.05f);
+                Invoke("SetNegativeIsOpenedNote", 0.05f); // 해당 작업 안해주면, 수첩 닫히면서 pause 화면 나옴
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
