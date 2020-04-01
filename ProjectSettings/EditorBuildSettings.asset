@@ -13,7 +13,7 @@ EditorBuildSettings:
     guid: 3399f1d135e800e42bcc0810bf26eac7
   - enabled: 1
     path: Assets/Scene/BW_H.unity
-    guid: ca81dd5728c91604ebc7966b1dfbbc78
+    guid: 768e8439c10553349b4e126c46983cbb
   - enabled: 1
     path: Assets/Scene/BW_K.unity
     guid: 4a88535ac74b14a42bcda68e81bab93b

@@ -312,16 +312,19 @@ public class UIManager : MonoBehaviour {
             {
                 if (canSkipConversation)
                 {
-                    //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
-                    if (DialogManager.instance.isTextFull)
+                    if (!TutorialManager.instance.isMinimapTutorial)
                     {
-                        DialogManager.instance.isTextFull = false;
-                        //Debug.Log("isTextFull => false");
-                    }
-                    else
-                    {
-                        DialogManager.instance.NextSentence();
-                        //Debug.Log("NextSentence() 실행중");
+                        //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
+                        if (DialogManager.instance.isTextFull)
+                        {
+                            DialogManager.instance.isTextFull = false;
+                            //Debug.Log("isTextFull => false");
+                        }
+                        else
+                        {
+                            DialogManager.instance.NextSentence();
+                            //Debug.Log("NextSentence() 실행중");
+                        }
                     }
                 }
                 else
@@ -587,6 +590,49 @@ public class UIManager : MonoBehaviour {
         isConversationing = false;
     }
 
+
+    public IEnumerator FadeEffectForTutorial(string position, Vector3 mainPosition, Vector3 subPosition)
+    {
+        isFading = true;
+        TutorialManager.instance.isPlayingTutorial = true;
+
+        /*페이드 아웃*/
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout", true);
+        yield return new WaitForSeconds(1.7f);
+
+        /*이동*/
+        PlayerManager.instance.SetCurrentPosition(position);
+        PlayerManager.instance.SetPlayerPosition(mainPosition);
+
+        if (TutorialManager.instance.tutorial_Index == 901)
+            TutorialManager.instance.SetAssistantPosition(subPosition);
+        else if (TutorialManager.instance.tutorial_Index == 918)
+        {
+            TutorialManager.instance.SetZaralPosition(subPosition);
+            TutorialManager.instance.SetSpriteCharacterFor918();
+        }
+        else if (TutorialManager.instance.tutorial_Index == 919)
+        {
+            TutorialManager.instance.SetZaralPosition(subPosition);
+            TutorialManager.instance.SetSpriteCharacterFor919();
+        }
+        else if (TutorialManager.instance.tutorial_Index == 920)
+        {
+            TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+        }
+
+        /*플레이어의 위치에 따른 BGM변경*/
+        BGMManager.instance.AutoSelectBGM();
+
+        /* 패널 페이드 인*/
+        fadeInOutAnimator.SetBool("isfadeout", false);
+        yield return new WaitForSeconds(2.5f);
+        isFading = false;
+
+        TutorialManager.instance.isFading = false;
+    }
+
     // 시간대 변경을 위한 Fade In & Out
     public IEnumerator FadeEffectForChangeTimeSlot()
     {
@@ -700,6 +746,39 @@ public class UIManager : MonoBehaviour {
 
         isFading = false;
 
+    }
+
+    // 301번 이벤트를 위한 Fade In & Out
+    public IEnumerator FadeInForPlaying915()
+    {
+        // 1. FadeIn 된다.
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("isfadeout3", true);
+
+        isFading = true;
+        isConversationing = true;
+
+        yield return new WaitForSeconds(1.7f);
+
+        yield return new WaitForSeconds(0.7f);
+
+        StartCoroutine(TutorialManager.instance.TypingFor915());
+    }
+
+    public IEnumerator FadeOutForPlaying915()
+    {
+
+        // 2. Fade Out 된다.
+        fadeInOutAnimator.SetBool("isfadeout3", false);
+
+        yield return new WaitForSeconds(2.0f);
+
+        isConversationing = false;
+        isFading = false;
+
+        TutorialManager.instance.IncreaseTutorial_Index();
+        Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+        TutorialManager.instance.InvokeTutorial();
     }
 
     // 301번 이벤트를 위한 Fade In & Out

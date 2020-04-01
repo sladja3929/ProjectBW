@@ -165,18 +165,29 @@ public class Portal : MonoBehaviour
         /*이동*/
         TakePortal();
 
+        if (TutorialManager.instance.isCompletedTutorial[10])
+        {
+            TutorialManager.instance.isCompletedTutorial[10] = false;
+            PlayerManager.instance.SetPlayerPosition(new Vector3(5104.0f, 4007.0f, 0));
+            TutorialManager.instance.SetAssistantPosition(new Vector3(4979.0f, 4005.0f, 0));
+            TutorialManager.instance.SetActive_HighlightObject(0, false);
+            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+            TutorialManager.instance.InvokeTutorial();
+        }
+
+
         /*플레이어의 위치에 따른 BGM변경*/
         BGMManager.instance.AutoSelectBGM();
 
         /*이벤트를 적용시킬 것이 있는지 확인 후, 적용*/
-        EventManager.instance.PlayEvent();      
+        if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            EventManager.instance.PlayEvent();      
 
         /*화면 페이드 인*/
         yield return new WaitForSeconds(1f);
         Fadeanimator.SetBool("isfadeout", false);
         UIManager.instance.isPortaling = false;
     }
-
 }
 
 

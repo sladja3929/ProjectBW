@@ -800,7 +800,7 @@ public class CSVParser : MonoBehaviour
         if (interactionLists == null)
             return false;
 
-        if (interactionLists.Count == 3509)
+        if (interactionLists.Count == 3604)
             return true;
         else
             return false;

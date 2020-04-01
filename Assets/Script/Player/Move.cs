@@ -24,12 +24,8 @@ public class Move : MonoBehaviour
     {
         if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐 때
         {
-            
-
-            if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !EventManager.instance.isPlaying302Event)
-            {
-
-                
+            if (!TutorialManager.instance.isPlayingTutorial && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !EventManager.instance.isPlaying302Event)
+            {       
                 float xInput = Input.GetAxisRaw("Horizontal");
                 float yInput = Input.GetAxisRaw("Vertical");
 
@@ -74,7 +70,7 @@ public class Move : MonoBehaviour
                     }
                 }
             }
-            else if (UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling
+            else if (TutorialManager.instance.isPlayingTutorial || UIManager.instance.GetIsOpenNote() || UIManager.instance.isConversationing || UIManager.instance.GetIsOpenedParchment() || UIManager.instance.isFading || UIManager.instance.isPortaling
                 || EventManager.instance.isPlaying302Event)
             {
                 //캐릭터 도리도리 현상 발생. 
@@ -86,7 +82,7 @@ public class Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment()
+        if (!TutorialManager.instance.isPlayingTutorial && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment()
             && !EventManager.instance.isPlaying302Event && !UIManager.instance.isFading && !UIManager.instance.isPortaling)
         {
             float horizontal = Input.GetAxisRaw("Horizontal");
@@ -100,7 +96,7 @@ public class Move : MonoBehaviour
                 myAnimator.SetBool("Walking", false);
             }
         }
-        else if (UIManager.instance.isConversationing || EventManager.instance.isPlaying302Event || UIManager.instance.isFading)
+        else if (UIManager.instance.isConversationing || EventManager.instance.isPlaying302Event || UIManager.instance.isFading || TutorialManager.instance.isPlayingTutorial)
         {
             myAnimator.SetBool("Walking", false);
         }

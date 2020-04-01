@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
 {
+    public static MoveCamera instance = null;
+
     [SerializeField] private GameObject player;
+    [SerializeField] private GameObject tutorialPlayer;
+    [SerializeField] private GameObject actPlayer;
     private string whereIsPlayer;
     private Vector3 playerPosition;
     
@@ -175,12 +179,30 @@ public class MoveCamera : MonoBehaviour
 
     void Start()
     {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+        {
+            actPlayer.SetActive(false);
+            tutorialPlayer.SetActive(true);
+            SetPlayer(tutorialPlayer);
+        }
+
         whereIsPlayer = PlayerManager.instance.GetCurrentPosition();
     }
 
     void FixedUpdate()
     {
         SetCameraPosition();
+    }
+
+    public void SetPlayer(GameObject player)
+    {
+        this.player = player;
+        Debug.Log("MoveCamera의 player가 " + player + "로 바뀜");
     }
 
     public void SetCameraPosition()

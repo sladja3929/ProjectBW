@@ -91,6 +91,11 @@ public class MiniMapManager : MonoBehaviour
         {
             miniMapUI.SetActive(true);
             isOpen = true;
+            
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[12])
+            {
+                TutorialManager.instance.isMinimapTutorial = false;
+            }
 
             if (isOpen == true && isInsideNow == true && isInsideOpen == false)
             {
@@ -100,7 +105,6 @@ public class MiniMapManager : MonoBehaviour
         //미니맵 끄기
         else if ((Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape)) && isOpen == true)
         {
-
             if (isZoomOpen == true)
             {
                 StreetCamera.gameObject.SetActive(false);
@@ -727,5 +731,29 @@ public class MiniMapManager : MonoBehaviour
     public void Harbor_Street1_Button() {
         StreetCamera = StreetCameraWhole.transform.Find("Harbor_Street1 Camera").GetComponent<Camera>();
         PopUpStreetUI();
+    }
+
+    public void CloseMinimap()
+    {
+        if (isZoomOpen == true)
+        {
+            StreetCamera.gameObject.SetActive(false);
+            StreetCamera.targetTexture = TempRenderTexture;
+            StreetUI.SetActive(false);
+            miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+            isZoomOpen = false;
+        }
+
+        if (isInsideOpen == true)
+        {
+            InsideCamera.gameObject.SetActive(false);
+            InsideCamera.targetTexture = TempRenderTexture;
+            InsideUI.SetActive(false);
+            miniMapUI.transform.Find("MiniMapRenderer").gameObject.SetActive(true);
+            isInsideOpen = false;
+        }
+
+        miniMapUI.SetActive(false);
+        isOpen = false;
     }
 }

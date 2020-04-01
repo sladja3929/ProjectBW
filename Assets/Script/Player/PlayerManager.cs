@@ -87,13 +87,13 @@ public class PlayerManager : MonoBehaviour {
 
     void Start()
     {
-        GameManager.instance.SetPlayState(GameManager.PlayState.Act);
-
         if (GameManager.instance.GetGameState().Equals(GameManager.GameState.NewGame_Loaded))
         {
             NumOfAct = "53";   //사건3 시작
             TimeSlot = "71";   //첫째주 시작
 
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                UIManager.instance.act3Button.SetActive(false);
             UIManager.instance.act4Button.SetActive(false);
             UIManager.instance.act5Button.SetActive(false);
 
@@ -142,7 +142,7 @@ public class PlayerManager : MonoBehaviour {
 
         if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
         {
-            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
+            if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
             { 
                 UIManager.instance.isFading = true;
                 DocumentControll.instance.ResetDocumentOfAndren();
@@ -157,7 +157,7 @@ public class PlayerManager : MonoBehaviour {
             }
 
             /* 오브젝트와의 상호작용을 위한 if */
-            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && !UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
+            if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
             {
                 if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !MiniMapManager.instance.IsMiniMapOpen())  )
                     && isNearObject)
@@ -195,6 +195,53 @@ public class PlayerManager : MonoBehaviour {
                                 //Debug.Log("단서 정리 시스템 활성화 실패");
                             }
                         }
+                        else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                        {
+                            if (hit.collider.name.Equals("시체_튜토리얼") && !TutorialManager.instance.isCompletedTutorial[4])
+                            {
+                                TutorialManager.instance.isCompletedTutorial[4] = true;
+                                //DialogManager.instance.InteractionWithObject("905");
+                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                                TutorialManager.instance.InvokeTutorial();
+                                //TutorialManager.instance.IncreaseTutorial_Index();
+
+                                TutorialManager.instance.TagChange(0, "Untagged");
+                            }
+
+                            if (hit.collider.name.Equals("식탁_레이나 집") && !TutorialManager.instance.isCompletedTutorial[6])
+                            {
+                                TutorialManager.instance.isCompletedTutorial[6] = true;
+                                //DialogManager.instance.InteractionWithObject("907");
+                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                                TutorialManager.instance.InvokeTutorial();
+                                //TutorialManager.instance.IncreaseTutorial_Index();
+
+                                TutorialManager.instance.TagChange(1, "Untagged");
+                            }
+
+                            if (hit.collider.name.Equals("싱크대_레이나 집") && !TutorialManager.instance.isCompletedTutorial[8])
+                            {
+                                TutorialManager.instance.isCompletedTutorial[8] = true;
+                                //DialogManager.instance.InteractionWithObject("909");
+                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                                TutorialManager.instance.InvokeTutorial();
+                                //TutorialManager.instance.IncreaseTutorial_Index();
+
+                                TutorialManager.instance.TagChange(2, "Untagged");
+                            }
+
+                            if (hit.collider.name.Equals("바륀") && TutorialManager.instance.isCompletedTutorial[11])
+                            {
+                                //TutorialManager.instance.IncreaseTutorial_Index();
+                                //TutorialManager.instance.isCompletedTutorial[11] = true;
+                                //DialogManager.instance.InteractionWithObject("912");
+                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                                TutorialManager.instance.InvokeTutorial();
+                                //TutorialManager.instance.IncreaseTutorial_Index();
+
+                                TutorialManager.instance.TagChange(3, "Untagged");
+                            }
+                        }
                         else if (DialogManager.instance.CheckInteraction(hit.collider.name))
                         {
                             //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
@@ -202,13 +249,12 @@ public class PlayerManager : MonoBehaviour {
                             {
                                 if (!UIManager.instance.isConversationing && !UIManager.instance.isFading)
                                 {
-                                    DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
-                                }
-                                //if(hit.collider.name.Equals("ER"))
-                                //    DialogManager.instance.InteractionWithObject(er);
+                                    if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                                    {
+                                        DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                                    }
 
-                                //if (hit.collider.name.Equals("GarbageBag"))
-                                //    DialogManager.instance.InteractionWithObject(garbageBag);
+                                }//if-elseif
                             }
                             catch
                             {
@@ -219,6 +265,13 @@ public class PlayerManager : MonoBehaviour {
                 }
             }
         }
+    }
+    
+    // for tutorial
+    public void SetPlayer(GameObject character)
+    {
+        player = character;
+        Debug.Log("PlayManager의 player가 " + player + "로 바뀜");
     }
 
     // 플레이어(메르테)의 x포지션 값 반환
@@ -373,6 +426,7 @@ public class PlayerManager : MonoBehaviour {
 
     public void SetPlayerPosition(Vector3 tempPosition) {
         player.transform.localPosition = tempPosition;
+        Debug.Log("PlayManager의 " + player + " 위치가 바뀜");
     }
 
     // 이벤트 변수 초기화 (처음하기 시에 사용)

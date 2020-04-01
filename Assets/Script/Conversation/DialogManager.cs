@@ -102,6 +102,12 @@ public class DialogManager : MonoBehaviour
                 isSentenceDone = false;
             }
         }
+
+        //if (Input.GetKeyDown(KeyCode.F4))
+        //{
+        //    List<Interaction> temp = interactionLists.FindAll(x => x.CheckStartObject("916"));
+        //    Debug.Log(temp.Count);
+        //}
     }
 
     // 대화 테이블 관련 정보 최신화
@@ -111,25 +117,217 @@ public class DialogManager : MonoBehaviour
         interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetInteractionLists();
     }
 
+    public void PlayTutorialInteraction(string interactionCode)
+    {
+        List<Interaction> targetOfinteractionLists = new List<Interaction>();
+
+        targetOfinteractionLists = interactionLists.FindAll(x => x.CheckStartObject(interactionCode));
+        
+    }
+
+
+    // 알맞은 대화를 출력해주는 코루틴
+    IEnumerator TutorialType()
+    {
+        UIManager.instance.isTypingText = true;
+        //대화 할 때 마다 대화중인 캐릭터 이름 변경
+        /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+        //Debug.Log("curNumOfNpcNameLists = " + curNumOfNpcNameLists);
+
+        tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
+
+        UIManager.instance.isConversationing = true;
+
+        if (tempNpcName != null)
+        {
+            npcNameText.text = tempNpcName;
+            string objectName = npcParser.GetObjectNameFromCode(tempObjectPortrait);
+            bool checkObject = false;
+            try
+            {
+                checkObject = npcParser.GetNpcCodeFromName(objectName).Equals(objectName);
+            }
+            catch { };
+            //Debug.Log("objectName = " + objectName);
+            //Debug.Log("tempNpcName = " + tempNpcName);
+            //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
+            if (checkObject)
+            {
+                // 상호작용하는 오브젝트가 사물이라면, 초상화 비활성화
+                UIManager.instance.SetActivePortrait(false);
+                npcNameText.text = objectName;
+            }
+            else
+            {
+                // 상호작용하는 오브젝트가 사물이 아니라면, 초상화 활성화
+                UIManager.instance.SetActivePortrait(true);
+
+                npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
+            }
+        }
+        else
+            npcNameText.text = "???";
+
+        if (tempNpcNameLists.Count > 1) curNumOfNpcNameLists++;
+
+        conversationText.text = "";
+        numOfText = 0;
+        numOfTextLimit = 0;
+        isSentenceDone = false;
+
+        if (!isFirstConversation)
+        {
+            yield return new WaitForSeconds(1.0f);  // 대화창 Fade in이 다 될때 까지 대기
+            isFirstConversation = true;
+        }
+
+        int tempEnterCount = 0;     // \n의 수를 체크할 변수 선언
+
+        // 한 문장의 한 단어씩 출력하는 반복문
+        foreach (char letter in sentences[index].ToCharArray())
+        {
+            //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
+            if (numOfText <= textLimit && !atOnce)
+            {
+                if (letter.Equals('\n'))
+                {
+                    tempEnterCount++;
+                    numOfTextLimit = 0;
+                }
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                {
+                    isTextFull = true;
+                }
+
+                // 플레이어가 대화를 스킵하고자 할 경우, for문 탈출
+                if (UIManager.instance.playerWantToSkip)
+                {
+                    break;
+                }
+
+
+
+                conversationText.text += letter;
+                atOnce = true;
+                numOfText++;
+                numOfTextLimit++;
+                UIManager.instance.canSkipConversation = false;
+
+                //글자 타이핑 소리?
+
+                // 자동으로 한줄 띄우기
+                if (numOfTextLimit >= tempLimitInOneLine)
+                {
+                    conversationText.text += '\n';
+
+                    tempEnterCount++;
+                    numOfTextLimit = 0;
+
+                    // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                    if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                    {
+                        isTextFull = true;
+                    }
+                }
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText > textLimit || tempEnterCount == enterLimitCount)
+                {
+                    UIManager.instance.canSkipConversation = true;
+                    yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+
+                    conversationText.text = "";
+                    numOfText = 0;
+                    tempEnterCount = 0;
+                    numOfTextLimit = 0;
+
+                    atOnce = false;
+                    UIManager.instance.playerWantToSkip = false;
+                }
+                else
+                {
+                    yield return new WaitForSeconds(typingSpeed);
+                    atOnce = false;
+                }
+            }
+        }
+
+        // 대화가 스킵됐을 때의 로직
+        if (UIManager.instance.playerWantToSkip)
+        {
+            string tempString = "";
+            tempEnterCount = 0;
+            numOfText = 0;
+            numOfTextLimit = 0;
+
+            foreach (char letter in sentences[index].ToCharArray())
+            {
+                if (letter.Equals('\n'))
+                {
+                    tempEnterCount++;
+                    numOfTextLimit = 0;
+                }
+
+                tempString += letter;
+
+                numOfText++;
+                numOfTextLimit++;
+
+                // 자동으로 한줄 띄우기
+                if (numOfTextLimit >= tempLimitInOneLine)
+                {
+                    tempString += '\n';
+                    tempEnterCount++;
+                    numOfTextLimit = 0;
+                }
+
+                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                if (numOfText > textLimit || tempEnterCount == enterLimitCount)
+                {
+                    conversationText.text = tempString;
+
+                    UIManager.instance.canSkipConversation = true;
+                    yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+
+                    conversationText.text = "";
+                    tempString = "";
+                    numOfText = 0;
+                    tempEnterCount = 0;
+                    numOfTextLimit = 0;
+                    UIManager.instance.playerWantToSkip = false;
+                }
+
+                conversationText.text = tempString;
+            }
+
+
+            UIManager.instance.playerWantToSkip = false;
+        }
+
+        UIManager.instance.canSkipConversation = true;
+
+        isSentenceDone = true;
+
+        UIManager.instance.isTypingText = false;
+
+    }
+
     public void InteractionWithObject(string objectName)
     {
         /* 확장성을 위해 objectName을 파라미터로 받아서, 해당 물체를 조사하는 상호작용 구현하기 */
-        /* 시연을 위해서는 "ER의 증언"과 "터진 쓰레기 봉지" 를 파라미터로 받아올 것임. */
-        /* 대화가 여러개 있을 수도 있다.. */
-        /* npcFrom : 대화를 하는 주체 */
-        //UIManager.instance.isConversationing = true;    // 대화중
-        //UIManager.instance.OpenConversationUI();        // 대화창 오픈
-        //UIManager.instance.isFading = true;
-        //StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
-        //UIManager.instance.CloseGetClueButton();               // 단서 선택창 비활성화(임시)
-
-        //EventConversationManager eventManager = new EventConversationManager(); //CheckEvent 함수를 위한 클래스 변수
-
         string targetObject = objectName;   //StartObject에 해당하는 값
 
         tempSentenceOfCondition = targetObject;
         tempObjectPortrait = targetObject;
-        
+
+        // 911 대화묶음(튜토리얼)
+        if (tempSentenceOfCondition.Equals("911"))
+        {
+            StartCoroutine(TutorialManager.instance.Highlight_Object(3, TutorialManager.instance.isCompletedTutorial[11]));
+        }
+
         // 209번 이벤트를 위한 처리
         if (targetObject.Equals("1105"))
         {
@@ -256,9 +454,18 @@ public class DialogManager : MonoBehaviour
         /* 해당 오브젝트에 관한 이벤트가 있는지 먼저 확인해야함. */
         /* 이름(startObject)이 같은 것이 여러개일 수 있으니, int형 리스트의 형태로 저장하고, 그 중에서 골라내는 것은 어떨까???? */
         List<Interaction> targetOfInteractionList = new List<Interaction>();
-        
+
         // 대화의 시간대에, 게임의 시간대가 포함되어 있어야 하고, 말을 건 캐릭터의 이름이 StartObject인 대화만 고르기. (1210에 update 함) -> startObject가 여러개 일 경우도 고려하게끔 수정
-        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
+        else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+        {
+            Debug.Log("interactionLists = " + "-" + interactionLists.Count + "-");
+            Debug.Log("targetObject = " + "-" + targetObject + "-");
+            targetOfInteractionList = interactionLists.FindAll(x => (x.CheckStartObject(targetObject) == true));
+        }
+
+        //Debug.Log("시작오브젝트 = " + targetOfInteractionList[0].GetStartObject() + ", npcFrom = " + targetOfInteractionList[0].GetNpcFrom() + ", desc = " + targetOfInteractionList[0].GetDesc());
 
         // 해당 NPC와의 대화가 없을 경우, 함수 종료
         // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함) -> 반영완료 (1223)
@@ -319,7 +526,10 @@ public class DialogManager : MonoBehaviour
             List<Interaction> setOfDescList = new List<Interaction>();
             // 조건에 해당하는 모든 대사가 불려진다. 여기서 해당하는 모든 대사의 대화묶음 번호를 빼내야 한다. (1210에 update 함 -> CheckTime 추가)
             // startObject가 여러개 일 때 처리를 추가함에 따라, startObject를 사용하던 부분 변경 (1223)
-            setOfDescList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && x.GetRepeatability() == "3");
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                setOfDescList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && x.GetRepeatability() == "3");
+            else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                setOfDescList = targetOfInteractionList;
 
             // 해당 NPC와의 대화가 없을 경우, 함수 종료 (1210에 update 함) -> 이부분은 앞에서 실행하는 부분이라 필요없다고 판단함 (1223)
             if (setOfDescList.Count == 0)
@@ -435,7 +645,7 @@ public class DialogManager : MonoBehaviour
         tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
 
         UIManager.instance.isConversationing = true;
-        
+
         // 231번 이벤트를 위한 코드
         if (!controlEventNum231 && tempNpcNameLists[curNumOfNpcNameLists].Equals("1601") && PlayerManager.instance.TimeSlot.Equals("73"))
         {
@@ -511,8 +721,6 @@ public class DialogManager : MonoBehaviour
                 {
                     break;
                 }
-                
-                
 
                 conversationText.text += letter;
                 atOnce = true;
@@ -541,7 +749,17 @@ public class DialogManager : MonoBehaviour
                 if (numOfText > textLimit || tempEnterCount == enterLimitCount)
                 {
                     UIManager.instance.canSkipConversation = true;
-                    yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+
+                    if (tempSentenceOfCondition.Equals("913") && index == 1)
+                    {
+                        yield return new WaitUntil(() => TutorialManager.instance.isCompletedTutorial[13]);
+
+                        yield return new WaitUntil(() => !isTextFull);
+                    }
+                    else
+                    {
+                        yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+                    }
 
                     conversationText.text = "";
                     numOfText = 0;
@@ -607,7 +825,6 @@ public class DialogManager : MonoBehaviour
                 conversationText.text = tempString;
             }
 
-
             UIManager.instance.playerWantToSkip = false;
         }
 
@@ -618,7 +835,14 @@ public class DialogManager : MonoBehaviour
         UIManager.instance.isTypingText = false;
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
-        EventManager.instance.PlayEvent();
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            EventManager.instance.PlayEvent();
+
+
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[12] && TutorialManager.instance.isMinimapTutorial)
+        {
+            yield return new WaitUntil(() => !TutorialManager.instance.isMinimapTutorial);
+        }
     }
 
     // 해당 NPC와 대화할 것이 없을 때 시작되는 코루틴
@@ -709,7 +933,8 @@ public class DialogManager : MonoBehaviour
         isSentenceDone = true;
 
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
-        EventManager.instance.PlayEvent();
+        if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            EventManager.instance.PlayEvent();
     }
 
     /* 해당 tempId에 맞는 대화로 인해 얻을 수 있는 정보를 얻는 함수 *
@@ -857,21 +1082,63 @@ public class DialogManager : MonoBehaviour
 
                 conversationText.text = "";
 
-                // 302번 이벤트 대화묶음의 index가 4일때 검은화면
-                if (index == 4 && tempSentenceOfCondition != null)
+                if (tempSentenceOfCondition != null)
                 {
-                    if (tempSentenceOfCondition.Equals("302"))
+                    if (index == 1)
                     {
-                        StartCoroutine(UIManager.instance.FadeInForEvent302());
-                    }
-                }
+                        if (tempSentenceOfCondition.Equals("913"))
+                        {
+                            StartCoroutine(TutorialManager.instance.Highlight_Object(5, TutorialManager.instance.isCompletedTutorial[13]));
+                        }
 
-                // 302번 이벤트 대화묶음의 index가 5일때 시체묘사 사진 활성화
-                if (index == 5 && tempSentenceOfCondition != null)
-                {
-                    if (tempSentenceOfCondition.Equals("302"))
+                        if (tempSentenceOfCondition.Equals("916"))
+                        {
+                            // 뛰어오는 발 소리 재생
+                            Debug.Log("뛰어오는 발 소리 재생");
+                        }
+                    }
+
+                    if (index == 2)
                     {
-                        UIManager.instance.ActivateDeadBodyImage();
+                        if (tempSentenceOfCondition.Equals("906"))
+                        {
+                            StartCoroutine(TutorialManager.instance.Highlight_Object(1, TutorialManager.instance.isCompletedTutorial[5]));
+                        }
+
+                        if (tempSentenceOfCondition.Equals("910"))
+                        {
+                            StartCoroutine(TutorialManager.instance.FlashTutorialExitArrow());
+                        }
+
+                        if (tempSentenceOfCondition.Equals("913"))
+                        {
+                            MiniMapManager.instance.CloseMinimap();
+                            TutorialManager.instance.isCompletedTutorial[13] = true;
+                            StartCoroutine(TutorialManager.instance.FlashGuideArrow());
+                        }
+
+                        if (tempSentenceOfCondition.Equals("916"))
+                        {
+                            TutorialManager.instance.SetAssistantPosition(new Vector3(11330.0f, 5220.0f, 0)); // 3번 인덱스의 대화와 함께 조수 등장
+                        }
+                    }
+
+                    // 302번 이벤트 대화묶음의 index가 4일때 검은화면
+                    if (index == 4)
+                    {
+                        if (tempSentenceOfCondition.Equals("302"))
+                        {
+                            StartCoroutine(UIManager.instance.FadeInForEvent302());
+                        }
+                    }
+
+                    // 302번 이벤트 대화묶음의 index가 5일때 시체묘사 사진 활성화
+                    if (index == 5)
+                    {
+                        if (tempSentenceOfCondition.Equals("302"))
+                        {
+                            UIManager.instance.ActivateDeadBodyImage();
+                        }
                     }
                 }
 
@@ -958,45 +1225,182 @@ public class DialogManager : MonoBehaviour
 
                 if (tempSentenceOfCondition != null)
                 {
-                    if (tempSentenceOfCondition.Equals("대화3개 다하면 자동"))
+                    if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
                     {
-                        //Debug.Log("안에 들어 왔냐");
-                        EventManager.instance.triggerKickMerte = true;
-                        EventManager.instance.PlayEvent();
+                        if (tempSentenceOfCondition.Equals("900"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            StartCoroutine(UIManager.instance.FadeEffectForTutorial("Village_Street2", new Vector3(5104.0f, 4007.0f, 0), new Vector3(4979.0f, 4005.0f, 0)));
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("901"))
+                        {
+                            TutorialManager.instance.isCompletedTutorial[0] = false;
+                        }
+
+                        if (tempSentenceOfCondition.Equals("902"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            TutorialManager.instance.isCompletedTutorial[1] = true;
+                        }
+
+                        if (tempSentenceOfCondition.Equals("903"))
+                        {
+                            TutorialManager.instance.entrance_RainaHouse.SetActive(false);
+                            TutorialManager.instance.TagChange(0, "InteractionObject");
+                        }
+
+                        if (tempSentenceOfCondition.Equals("904"))
+                        {
+                            TutorialManager.instance.isCompletedTutorial[3] = true;
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("905"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("906"))
+                        {
+                            TutorialManager.instance.isCompletedTutorial[5] = true;
+                            TutorialManager.instance.TagChange(1, "InteractionObject");
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("907"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("908"))
+                        {
+                            TutorialManager.instance.isCompletedTutorial[7] = true;
+                            TutorialManager.instance.TagChange(2, "InteractionObject");
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("909"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("910"))
+                        {
+                            TutorialManager.instance.isCompletedTutorial[9] = true;
+                            TutorialManager.instance.isCompletedTutorial[10] = true;
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("911"))
+                        {
+                            TutorialManager.instance.TagChange(3, "InteractionObject");
+                            TutorialManager.instance.isCompletedTutorial[11] = true;
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("912"))
+                        {
+                            TutorialManager.instance.TagChange(3, "Untagged");
+                            TutorialManager.instance.isCompletedTutorial[12] = true;
+                            TutorialManager.instance.IncreaseTutorial_Index();
+
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+
+                            TutorialManager.instance.isMinimapTutorial = true;
+                        }
+
+                        if (tempSentenceOfCondition.Equals("914"))
+                        {
+                            TutorialManager.instance.isCompletedTutorial[14] = true;
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            StartCoroutine(UIManager.instance.FadeInForPlaying915());
+                        }
+
+                        if (tempSentenceOfCondition.Equals("916"))
+                        {
+                            // 대화 테이블에 916 다음에 918로 되어있어서;; 두번 증가
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_President_Office", new Vector3(11180.0f, 6306.0f, 0), new Vector3(11760.0f, 6306.0f, 0)));
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+
+                            EventManager.instance.SetActive_DeadBody_For_Tutorial(true);
+                        }
+
+                        if (tempSentenceOfCondition.Equals("918"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_Zaral_Office", new Vector3(12110.0f, 7394.0f, 0), new Vector3(11503.0f, 7394.0f, 0)));
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.InvokeTutorial();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("919"))
+                        {
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_Merte_Office", new Vector3(11422.0f, 5220.0f, 0), new Vector3(11422.0f, 5220.0f, 0)));
+                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+                            TutorialManager.instance.InvokeTutorial();
+
+                            EventManager.instance.SetActive_DeadBody_For_Tutorial(false);
+                        }
                     }
 
-                    if (tempSentenceOfCondition.Equals("이벤트 자동발생"))
+                    if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
                     {
-                        PlayerManager.instance.AddEventCodeToList("0209");
-                        EventManager.instance.PlayEvent();
-                    }
+                        if (tempSentenceOfCondition.Equals("대화3개 다하면 자동"))
+                        {
+                            //Debug.Log("안에 들어 왔냐");
+                            EventManager.instance.triggerKickMerte = true;
+                            EventManager.instance.PlayEvent();
+                        }
 
-                    // 사체 묘사 이미지 비활성화
-                    if (tempSentenceOfCondition.Equals("9404"))
-                    {
-                        UIManager.instance.RemoveDeadBodyImage();
-                    }
+                        if (tempSentenceOfCondition.Equals("이벤트 자동발생"))
+                        {
+                            PlayerManager.instance.AddEventCodeToList("0209");
+                            EventManager.instance.PlayEvent();
+                        }
 
-                    if (tempSentenceOfCondition.Equals("사건4 시작"))
-                    {
-                        //PlayerManager.instance.DeleteEventCodeFromList("300");
-                        //PlayerManager.instance.dontmove = true;
-                        StartCoroutine(UIManager.instance.FadeEffectForEvent301());
-                    }
+                        // 사체 묘사 이미지 비활성화
+                        if (tempSentenceOfCondition.Equals("9404"))
+                        {
+                            UIManager.instance.RemoveDeadBodyImage();
+                        }
 
-                    // 302번 이벤트 마지막 대사가 끝나고 발생하는 이벤트
-                    // 시체 묘사 사진 비활성화, 검은 화면이 사라지고 캐릭터를 주인공 사무실의 위치로 이동
-                    if (tempSentenceOfCondition.Equals("302"))
-                    {
-                        UIManager.instance.RemoveDeadBodyImage();
-                        StartCoroutine(UIManager.instance.FadeOutForEvent302());
-                        EventManager.instance.DisableNpcForEvent(36);   // 301 이벤트 트리거 오브젝트 비활성화
+                        if (tempSentenceOfCondition.Equals("사건4 시작"))
+                        {
+                            //PlayerManager.instance.DeleteEventCodeFromList("300");
+                            //PlayerManager.instance.dontmove = true;
+                            StartCoroutine(UIManager.instance.FadeEffectForEvent301());
+                        }
+
+                        // 302번 이벤트 마지막 대사가 끝나고 발생하는 이벤트
+                        // 시체 묘사 사진 비활성화, 검은 화면이 사라지고 캐릭터를 주인공 사무실의 위치로 이동
+                        if (tempSentenceOfCondition.Equals("302"))
+                        {
+                            UIManager.instance.RemoveDeadBodyImage();
+                            StartCoroutine(UIManager.instance.FadeOutForEvent302());
+                            EventManager.instance.DisableNpcForEvent(36);   // 301 이벤트 트리거 오브젝트 비활성화
+                        }
                     }
                 }
 
                 //Debug.Log("대화가 모두 끝나서, 초기화");
                 //UIManager.instance.RemoveDeadBodyImage();
-                EventManager.instance.PlayEvent();
+                if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                    EventManager.instance.PlayEvent();
             }
         }
         catch

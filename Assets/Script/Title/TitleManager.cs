@@ -45,7 +45,7 @@ public class TitleManager : MonoBehaviour
         }
 
         AsyncOperation asyncLoad;
-
+        
         if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
         {
             asyncLoad = SceneManager.LoadSceneAsync("Prologue");
@@ -71,7 +71,7 @@ public class TitleManager : MonoBehaviour
     {
         //SceneManager.LoadScene("BW_H");
         GameManager.instance.SetGameState(GameManager.GameState.NewGame_Loaded);
-
+        
         // 데이터 파일 체크
         if (CSVParser.instance.CheckSaveData())
         {

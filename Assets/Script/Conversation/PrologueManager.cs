@@ -46,9 +46,13 @@ public class PrologueManager : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && !isConversationing)
         {
             if (isTextFull)
+            {
                 isTextFull = false;
+            }
             else
+            {
                 PrologueNextSentence();
+            }
         }
     }
 
@@ -95,39 +99,60 @@ public class PrologueManager : MonoBehaviour
         isConversationing = true;
         string text = targetOfInteractionList[index].GetDesc();
 
-        // 한 문장의 한 단어씩 출력하는 반복문
-        foreach (char letter in text.ToCharArray())
+        float tempAlpha = prologueText.color.a;
+        Color tempColor = prologueText.color;
+        tempColor.a = 0f;
+        prologueText.color = tempColor;
+
+        prologueText.text = text;
+
+        while (prologueText.color.a < 1f)
         {
-            //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
-            if (numOfText <= text.Length - 1)
-            {
-                // 대사 한줄이 모두 출력됐을때
-                if (numOfText == text.Length - 1)
-                {
-                    isTextFull = true;
-                }
+            //tempColor.a += 0.02f;
+            tempColor.a += 1f;
+            prologueText.color = tempColor;
 
-                prologueText.text += letter;
-                numOfText++;
-
-                //글자 타이핑 소리?
-
-                // 대사 한줄이 모두 출력됐을 때
-                if (numOfText > text.Length - 1)
-                {
-                    isTextFull = false;
-                    yield return new WaitUntil(() => !isTextFull);
-                    
-                    //prologueText.text = "";
-                    numOfText = 0;
-                    isConversationing = false;
-                }
-                else
-                {
-                    yield return new WaitForSeconds(0.02f);
-                }
-            }
+            yield return new WaitForSeconds(0.02f);
         }
+        
+        isConversationing = false;
+        isTextFull = false;
+        yield return new WaitUntil(() => !isTextFull);
+        
+
+        //// 한 문장의 한 단어씩 출력하는 반복문
+        //foreach (char letter in text.ToCharArray())
+        //{
+        //    //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
+        //    if (numOfText <= text.Length - 1)
+        //    {
+        //        // 대사 한줄이 모두 출력됐을때
+        //        if (numOfText == text.Length - 1)
+        //        {
+        //            isTextFull = true;
+        //        }
+
+        //        prologueText.text += letter;
+        //        numOfText++;
+
+        //        //글자 타이핑 소리?
+
+        //        // 대사 한줄이 모두 출력됐을 때
+        //        if (numOfText > text.Length - 1)
+        //        {
+        //            isTextFull = false;
+        //            yield return new WaitUntil(() => !isTextFull);
+                    
+        //            //prologueText.text = "";
+        //            numOfText = 0;
+        //            isConversationing = false;
+        //        }
+        //        else
+        //        {
+        //            yield return new WaitForSeconds(0.02f);
+        //        }
+        //    }
+        //}
     }
 
     public void PrologueNextSentence()
@@ -177,7 +202,9 @@ public class PrologueManager : MonoBehaviour
 
     IEnumerator LoadAsyncAct3Scene()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_K");
+        GameManager.instance.SetPlayState(GameManager.PlayState.Tutorial);
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");
 
         while (!asyncLoad.isDone)
         {
