@@ -27,7 +27,6 @@ public class TitleManager : MonoBehaviour
         {
             if (issetting == true)
             {
-                SettingManager.instance.SaveCurSetting();
                 CloseSettingPanel();
             }
         }
@@ -57,7 +56,7 @@ public class TitleManager : MonoBehaviour
         }
         else if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
         {
-            asyncLoad = SceneManager.LoadSceneAsync("BW_K");
+            asyncLoad = SceneManager.LoadSceneAsync("BW_H");
 
             while (!asyncLoad.isDone)
             {
@@ -109,11 +108,13 @@ public class TitleManager : MonoBehaviour
         issetting = true;
         SettingPanel.SetActive(true);
         SettingManager.instance.GetPrevSetting();//패널 열면서 이전설정 불러오기
+        //SettingManager.instance.SetCurSetting();//불러온 이전 설정 적용하기
     }
 
     void CloseSettingPanel()
     {
         issetting = false;
+        SettingManager.instance.SaveCurSetting();//저장하기
         SettingPanel.SetActive(false);
     }
 

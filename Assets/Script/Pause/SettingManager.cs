@@ -57,7 +57,8 @@ public class SettingManager : MonoBehaviour
 
     /*게임씬 구분용 - 게임 씬 내에서만 설정 가능한 것들 구분*/
     public const string titlescene = "Title_Tmp";
-    public const string gamescene = "BW_K";
+    public const string gamescene = "BW_H";
+    public const string gamescene_debug = "BW_K";
 
     void Start()
     {
@@ -74,13 +75,16 @@ public class SettingManager : MonoBehaviour
     /*화면 밝기 조정*/
     public void UpdateBrightness()
     {
+
+        Debug.Log("현재 가동중인 씬 이름 : " + SceneManager.GetActiveScene().name);
+
         if (SceneManager.GetActiveScene().name == titlescene)
         {
             brightness = Mathf.RoundToInt(brightness_S.value);
             Debug.Log("brightness : " + brightness);
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name ==  gamescene_debug)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -102,7 +106,7 @@ public class SettingManager : MonoBehaviour
             Debug.Log("bgmvolume : " + bgmvolume);
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -122,7 +126,7 @@ public class SettingManager : MonoBehaviour
             Debug.Log("effectvolume : " + effectvolume);
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -150,7 +154,7 @@ public class SettingManager : MonoBehaviour
 
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -184,7 +188,7 @@ public class SettingManager : MonoBehaviour
 
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
         {
 
             if (UIManager.instance.GetIsPaused())
@@ -220,7 +224,7 @@ public class SettingManager : MonoBehaviour
 
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -275,7 +279,7 @@ public class SettingManager : MonoBehaviour
         EffectManager.instance.SetEffectVolume(effectvolume * 0.01f);
 
 
-        if (SceneManager.GetActiveScene().name == gamescene)
+        if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
         {
             /*자막재생속도*/
             if (playvelocity == 0f)

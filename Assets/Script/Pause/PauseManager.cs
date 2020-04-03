@@ -37,6 +37,7 @@ public class PauseManager : MonoBehaviour
             }
             else if (UIManager.instance.GetIsPaused() == true && GetIsSetting() == true)
             {
+                Debug.Log("환경설정 저장됨");
                 theSM.SaveCurSetting();//환경설정 저장
                 CloseSettingPanel();
             }
