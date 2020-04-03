@@ -165,13 +165,13 @@ public class Portal : MonoBehaviour
         /*이동*/
         TakePortal();
 
-        if (TutorialManager.instance.isCompletedTutorial[10])
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[10])
         {
             TutorialManager.instance.isCompletedTutorial[10] = false;
             PlayerManager.instance.SetPlayerPosition(new Vector3(5104.0f, 4007.0f, 0));
             TutorialManager.instance.SetAssistantPosition(new Vector3(4979.0f, 4005.0f, 0));
             TutorialManager.instance.SetActive_HighlightObject(0, false);
-            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
             TutorialManager.instance.InvokeTutorial();
         }
 

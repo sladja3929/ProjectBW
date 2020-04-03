@@ -22,20 +22,17 @@ public class ProhibitionEntry : MonoBehaviour
         {
             if (!TutorialManager.instance.isCompletedTutorial[2] && !atonce[0])
             {
-                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                 TutorialManager.instance.isCompletedTutorial[2] = true;
                 atonce[0] = true;
                 TutorialManager.instance.InvokeTutorial();
             }
             else if (!TutorialManager.instance.isCompletedTutorial[3] && !atonce[1])
             {
-                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                 atonce[1] = true;
                 TutorialManager.instance.InvokeTutorial();
             }
             else if (!TutorialManager.instance.isCompletedTutorial[14] && !atonce[2])
             {
-                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                 atonce[2] = true;
                 TutorialManager.instance.IncreaseTutorial_Index();
                 TutorialManager.instance.InvokeTutorial();

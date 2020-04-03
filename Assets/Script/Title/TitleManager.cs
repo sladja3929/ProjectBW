@@ -88,6 +88,7 @@ public class TitleManager : MonoBehaviour
     public void PlayPastGame()
     {
         GameManager.instance.SetGameState(GameManager.GameState.PastGame_Loaded);
+        GameManager.instance.SetPlayState(GameManager.PlayState.Act);
 
         // 데이터 파일 체크
         if (CSVParser.instance.CheckSaveData())
