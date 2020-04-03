@@ -55,6 +55,7 @@ public class TutorialManager : MonoBehaviour
     public bool isPlaying915;
     public bool isMinimapTutorial;
     public bool isPushedTab;
+    public bool isNoteTutorial;    // 920 튜토리얼 제어
 
     [SerializeField] private Sprite merte_Idle;
     [SerializeField] private Sprite merte_Right;
@@ -142,6 +143,7 @@ public class TutorialManager : MonoBehaviour
         isPlaying915 = false;
         isMinimapTutorial = false;
         isPushedTab = false;
+        isNoteTutorial = false;
 
         for (int i = 0; i < GuideArrowToDowntown.Length; i++)
         {
@@ -204,6 +206,7 @@ public class TutorialManager : MonoBehaviour
         Debug.Log(tutorial_Index + "로 증가");
     }
 
+    // 튜토리얼을 진행하는 메인 캐릭터 설정 함수
     public void TutorialCharacterSetPosition(Vector2 position)
     {
         zaral.GetComponent<Transform>().localPosition = position;
@@ -230,6 +233,7 @@ public class TutorialManager : MonoBehaviour
         zaral.GetComponent<Transform>().localPosition = position;
     }
 
+    // wasd가 다 눌렸는지 확인
     public bool CheckComplete901()
     {
         for (int i = 0; i < 4; i++)
@@ -241,6 +245,7 @@ public class TutorialManager : MonoBehaviour
         return true;
     }
 
+    // 레이나 집으로 가기 위한 가이드 화살표 점멸
     public IEnumerator FlashTutorialEntranceArrow()
     {
         yield return new WaitForSeconds(0.3f);
@@ -260,6 +265,7 @@ public class TutorialManager : MonoBehaviour
             tutorial_Arrow.SetActive(false);
     }
 
+    // 레이나 집에서 나가기 위한 화살표 점멸
     public IEnumerator FlashTutorialExitArrow()
     {
         yield return new WaitForSeconds(0.3f);
@@ -279,6 +285,7 @@ public class TutorialManager : MonoBehaviour
             tutorial_Exit_Arrow.SetActive(false);
     }
 
+    // 도심으로 유도하기 위한 가이드 화살표 점멸
     public IEnumerator FlashGuideArrow()
     {
         while (!isCompletedTutorial[14])
@@ -298,6 +305,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // 각 튜토리얼에서 상호작용해야할 오브젝트들을 강조
     public IEnumerator Highlight_Object(int indexOfObject, bool isCompleted)
     {
         yield return new WaitForSeconds(0.3f);
@@ -319,6 +327,7 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // 그때그때 튜토리얼 오브젝트의 태그명 변경
     public void TagChange(int indexOfObject, string tag)
     {
         // ob = 튜토리얼 오브젝트 , tag = InteractionObject or Untagged
@@ -437,11 +446,6 @@ public class TutorialManager : MonoBehaviour
         highlightObject[index].SetActive(boolValue);
     }
 
-    public void Erase_904_Trigger()
-    {
-
-    }
-
     public void SetSpriteCharacterFor918()
     {
         inGameCharacter.GetComponent<Animator>().SetFloat("x", 1);
@@ -484,5 +488,15 @@ public class TutorialManager : MonoBehaviour
         }
 
         zaral.GetComponent<SpriteRenderer>().sprite = zaral_Left;
+    }
+
+    public void SetSpriteCharacterFor920()
+    {
+        inGameCharacter.GetComponent<Animator>().SetFloat("y", -1);
+    }
+
+    public void Invoke_SetSpriteCharacterFor920()
+    {
+        Invoke("SetSpriteCharacterFor920", 1.0f);
     }
 }

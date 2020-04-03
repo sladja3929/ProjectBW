@@ -752,14 +752,18 @@ public class DialogManager : MonoBehaviour
 
                     if (tempSentenceOfCondition.Equals("913") && index == 1)
                     {
+                        // 미니맵의 도심을 강조하는 기능을 제어
                         yield return new WaitUntil(() => TutorialManager.instance.isCompletedTutorial[13]);
+                    }
 
-                        yield return new WaitUntil(() => !isTextFull);
-                    }
-                    else
+                    if (tempSentenceOfCondition.Equals("920"))
                     {
-                        yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
+                        // 수첩 튜토리얼 제어
+                        if (index == 0 || index == 2)
+                            TutorialManager.instance.isNoteTutorial = true;
                     }
+
+                    yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
 
                     conversationText.text = "";
                     numOfText = 0;
@@ -839,9 +843,16 @@ public class DialogManager : MonoBehaviour
             EventManager.instance.PlayEvent();
 
 
+        // 미니맵 튜토리얼 제어
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[12] && TutorialManager.instance.isMinimapTutorial)
         {
             yield return new WaitUntil(() => !TutorialManager.instance.isMinimapTutorial);
+        }
+
+        // 수첩 튜토리얼 제어
+        if (TutorialManager.instance.isNoteTutorial)
+        {
+            yield return new WaitUntil(() => !TutorialManager.instance.isNoteTutorial);
         }
     }
 
@@ -1351,11 +1362,18 @@ public class DialogManager : MonoBehaviour
                             TutorialManager.instance.IncreaseTutorial_Index();
                             StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_Merte_Office", new Vector3(11422.0f, 5220.0f, 0), new Vector3(11422.0f, 5220.0f, 0)));
                             Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
-                            TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+                            
                             TutorialManager.instance.InvokeTutorial();
 
                             EventManager.instance.SetActive_DeadBody_For_Tutorial(false);
+                            TutorialManager.instance.Invoke_SetSpriteCharacterFor920();
                         }
+
+                        if (tempSentenceOfCondition.EndsWith("920"))
+                        {
+                            TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+                        }
+
                     }
 
                     if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)

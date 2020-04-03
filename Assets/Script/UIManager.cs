@@ -263,6 +263,8 @@ public class UIManager : MonoBehaviour {
             // esc로 수첩 닫기
             if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
             {
+                TutorialManager.instance.isNoteTutorial = false;
+
                 Background.SetActive(!isOpenedNote);
                 NoteBook.SetActive(!isOpenedNote);
                 GetClueUI.SetActive(!isOpenedNote);
@@ -274,6 +276,8 @@ public class UIManager : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
             {
                 isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+
+                TutorialManager.instance.isNoteTutorial = false;
 
                 // 수첩 열고닫을때마다 초기화
                 ResetWrittenClueData();
@@ -312,7 +316,8 @@ public class UIManager : MonoBehaviour {
             {
                 if (canSkipConversation)
                 {
-                    if (!TutorialManager.instance.isMinimapTutorial)
+                    // 미니맵 튜토리얼 중이 아닐 경우
+                    if (!TutorialManager.instance.isMinimapTutorial && !TutorialManager.instance.isNoteTutorial)
                     {
                         //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
                         if (DialogManager.instance.isTextFull)
