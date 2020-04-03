@@ -460,8 +460,6 @@ public class DialogManager : MonoBehaviour
             targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
         else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
         {
-            Debug.Log("interactionLists = " + "-" + interactionLists.Count + "-");
-            Debug.Log("targetObject = " + "-" + targetObject + "-");
             targetOfInteractionList = interactionLists.FindAll(x => (x.CheckStartObject(targetObject) == true));
         }
 
@@ -666,11 +664,15 @@ public class DialogManager : MonoBehaviour
             //Debug.Log("objectName = " + objectName);
             //Debug.Log("tempNpcName = " + tempNpcName);
             //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
-            if (checkObject)
+            if (checkObject || tempNpcName.Equals("서술자") || tempNpcName.Equals("시스템"))
             {
                 // 상호작용하는 오브젝트가 사물이라면, 초상화 비활성화
                 UIManager.instance.SetActivePortrait(false);
-                npcNameText.text = objectName;
+
+                if (tempNpcName.Equals("서술자") || tempNpcName.Equals("시스템"))
+                    npcNameText.text = tempNpcName;
+                else
+                    npcNameText.text = objectName;
             }
             else
             {
@@ -749,20 +751,7 @@ public class DialogManager : MonoBehaviour
                 if (numOfText > textLimit || tempEnterCount == enterLimitCount)
                 {
                     UIManager.instance.canSkipConversation = true;
-
-                    if (tempSentenceOfCondition.Equals("913") && index == 1)
-                    {
-                        // 미니맵의 도심을 강조하는 기능을 제어
-                        yield return new WaitUntil(() => TutorialManager.instance.isCompletedTutorial[13]);
-                    }
-
-                    if (tempSentenceOfCondition.Equals("920"))
-                    {
-                        // 수첩 튜토리얼 제어
-                        if (index == 0 || index == 2)
-                            TutorialManager.instance.isNoteTutorial = true;
-                    }
-
+                    
                     yield return new WaitUntil(() => !isTextFull);  //isTextFull이 false가 될때까지 기다린다. (마우스 왼쪽 클릭 -> isTextFull = false)
 
                     conversationText.text = "";
@@ -841,19 +830,49 @@ public class DialogManager : MonoBehaviour
         // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
             EventManager.instance.PlayEvent();
-
-
-        // 미니맵 튜토리얼 제어
-        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[12] && TutorialManager.instance.isMinimapTutorial)
+        else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
         {
-            yield return new WaitUntil(() => !TutorialManager.instance.isMinimapTutorial);
-        }
+            // 미니맵의 도심을 강조하는 기능을 제어
+            if (tempSentenceOfCondition.Equals("913") && index == 1)
+            {
+                yield return new WaitUntil(() => TutorialManager.instance.isCompletedTutorial[13]);
+            }
 
-        // 수첩 튜토리얼 제어
-        if (TutorialManager.instance.isNoteTutorial)
-        {
-            yield return new WaitUntil(() => !TutorialManager.instance.isNoteTutorial);
-        }
+            // 미니맵 튜토리얼 제어
+            if (TutorialManager.instance.isCompletedTutorial[12] && TutorialManager.instance.isMinimapTutorial)
+            {
+                yield return new WaitUntil(() => !TutorialManager.instance.isMinimapTutorial);
+            }
+
+            // 수첩 튜토리얼 대화 제어
+            if (tempSentenceOfCondition.Equals("920"))
+            {
+                if (index == 0 || index == 2)
+                {
+                    Debug.Log("920 index = " + index + " , isNoteTutorial = " + TutorialManager.instance.isNoteTutorial);
+                    TutorialManager.instance.isNoteTutorial = true;
+                }
+            }
+
+            // 수첩 튜토리얼 제어
+            if (TutorialManager.instance.isNoteTutorial)
+            {
+                yield return new WaitUntil(() => !TutorialManager.instance.isNoteTutorial);
+            }
+
+            // 단서 정리 튜토리얼 대화 제어
+            if (tempSentenceOfCondition.Equals("921"))
+            {
+                if (index == 2 || index == 4)
+                {
+                    if(index == 2)
+                        TutorialManager.instance.TagChange(4, "MerteDesk");
+
+                    TutorialManager.instance.isParchmentTutorial = true;
+                }
+            }
+
+        }// if-else
     }
 
     // 해당 NPC와 대화할 것이 없을 때 시작되는 코루틴
@@ -1132,6 +1151,18 @@ public class DialogManager : MonoBehaviour
                         {
                             TutorialManager.instance.SetAssistantPosition(new Vector3(11330.0f, 5220.0f, 0)); // 3번 인덱스의 대화와 함께 조수 등장
                         }
+
+                        if (tempSentenceOfCondition.Equals("921"))
+                        {
+                            StartCoroutine(TutorialManager.instance.Highlight_Object(4, TutorialManager.instance.isCompletedTutorial[21]));
+                        }
+                    }
+
+                    if (index == 3)
+                    {
+                        if (tempSentenceOfCondition.Equals("921"))
+                        {
+                        }
                     }
 
                     // 302번 이벤트 대화묶음의 index가 4일때 검은화면
@@ -1242,7 +1273,6 @@ public class DialogManager : MonoBehaviour
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
                             StartCoroutine(UIManager.instance.FadeEffectForTutorial("Village_Street2", new Vector3(5104.0f, 4007.0f, 0), new Vector3(4979.0f, 4005.0f, 0)));
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             TutorialManager.instance.InvokeTutorial();
                         }
 
@@ -1260,19 +1290,18 @@ public class DialogManager : MonoBehaviour
                         if (tempSentenceOfCondition.Equals("903"))
                         {
                             TutorialManager.instance.entrance_RainaHouse.SetActive(false);
-                            TutorialManager.instance.TagChange(0, "InteractionObject");
                         }
 
                         if (tempSentenceOfCondition.Equals("904"))
                         {
                             TutorialManager.instance.isCompletedTutorial[3] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
+                            TutorialManager.instance.TagChange(0, "InteractionObject");
                         }
 
                         if (tempSentenceOfCondition.Equals("905"))
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             TutorialManager.instance.InvokeTutorial();
                         }
 
@@ -1286,7 +1315,6 @@ public class DialogManager : MonoBehaviour
                         if (tempSentenceOfCondition.Equals("907"))
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             TutorialManager.instance.InvokeTutorial();
                         }
 
@@ -1300,7 +1328,6 @@ public class DialogManager : MonoBehaviour
                         if (tempSentenceOfCondition.Equals("909"))
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             TutorialManager.instance.InvokeTutorial();
                         }
 
@@ -1323,8 +1350,7 @@ public class DialogManager : MonoBehaviour
                             TutorialManager.instance.TagChange(3, "Untagged");
                             TutorialManager.instance.isCompletedTutorial[12] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
-
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+                            
                             TutorialManager.instance.InvokeTutorial();
 
                             TutorialManager.instance.isMinimapTutorial = true;
@@ -1343,7 +1369,6 @@ public class DialogManager : MonoBehaviour
                             TutorialManager.instance.IncreaseTutorial_Index();
                             TutorialManager.instance.IncreaseTutorial_Index();
                             StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_President_Office", new Vector3(11180.0f, 6306.0f, 0), new Vector3(11760.0f, 6306.0f, 0)));
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             TutorialManager.instance.InvokeTutorial();
 
                             EventManager.instance.SetActive_DeadBody_For_Tutorial(true);
@@ -1353,7 +1378,6 @@ public class DialogManager : MonoBehaviour
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
                             StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_Zaral_Office", new Vector3(12110.0f, 7394.0f, 0), new Vector3(11503.0f, 7394.0f, 0)));
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             TutorialManager.instance.InvokeTutorial();
                         }
 
@@ -1361,19 +1385,27 @@ public class DialogManager : MonoBehaviour
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
                             StartCoroutine(UIManager.instance.FadeEffectForTutorial("Chapter_Merte_Office", new Vector3(11422.0f, 5220.0f, 0), new Vector3(11422.0f, 5220.0f, 0)));
-                            Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
                             
                             TutorialManager.instance.InvokeTutorial();
 
                             EventManager.instance.SetActive_DeadBody_For_Tutorial(false);
                             TutorialManager.instance.Invoke_SetSpriteCharacterFor920();
+
+                            TutorialManager.instance.isNoteTutorial = true;
+                            TutorialManager.instance.isCompletedTutorial[19] = true;
                         }
 
                         if (tempSentenceOfCondition.EndsWith("920"))
                         {
                             TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+                            TutorialManager.instance.IncreaseTutorial_Index();
+                            TutorialManager.instance.InvokeTutorial();
                         }
 
+                        if (tempSentenceOfCondition.Equals("921"))
+                        {
+                            StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+                        }
                     }
 
                     if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)

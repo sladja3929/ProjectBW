@@ -261,55 +261,94 @@ public class UIManager : MonoBehaviour {
             }
 
             // esc로 수첩 닫기
-            if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+            if (Input.GetKeyDown(KeyCode.Escape) && isOpenedNote && !isPaging && !isFading && !isOpenedParchment)
             {
-                TutorialManager.instance.isNoteTutorial = false;
+                if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && !isConversationing)
+                {
+                    Background.SetActive(!isOpenedNote);
+                    NoteBook.SetActive(!isOpenedNote);
+                    GetClueUI.SetActive(!isOpenedNote);
+                    clueScroller.SetActive(!isOpenedNote);
 
-                Background.SetActive(!isOpenedNote);
-                NoteBook.SetActive(!isOpenedNote);
-                GetClueUI.SetActive(!isOpenedNote);
-                clueScroller.SetActive(!isOpenedNote);
+                    Invoke("SetNegativeIsOpenedNote", 0.05f); // 해당 작업 안해주면, 수첩 닫히면서 pause 화면 나옴
+                }
+                else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                {
+                    TutorialManager.instance.isNoteTutorial = false;
 
-                Invoke("SetNegativeIsOpenedNote", 0.05f); // 해당 작업 안해주면, 수첩 닫히면서 pause 화면 나옴
+                    Background.SetActive(!isOpenedNote);
+                    NoteBook.SetActive(!isOpenedNote);
+                    GetClueUI.SetActive(!isOpenedNote);
+                    clueScroller.SetActive(!isOpenedNote);
+
+                    Invoke("SetNegativeIsOpenedNote", 0.05f); // 해당 작업 안해주면, 수첩 닫히면서 pause 화면 나옴
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isConversationing && !isFading && !isOpenedParchment)
+            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isFading && !isOpenedParchment)
             {
-                isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+                if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && !isConversationing)
+                {
+                    isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+                    
+                    // 수첩 열고닫을때마다 초기화
+                    ResetWrittenClueData();
 
-                TutorialManager.instance.isNoteTutorial = false;
+                    Inventory.instance.ResetSlotForTest();
 
-                // 수첩 열고닫을때마다 초기화
-                ResetWrittenClueData();
+                    isOpenedNote = !isOpenedNote;
+                    //GetClueButton.SetActive(!isOpenedNote);
+                    Background.SetActive(isOpenedNote);
+                    NoteBook.SetActive(isOpenedNote);
+                    GetClueUI.SetActive(isOpenedNote);
+                    clueScroller.SetActive(isOpenedNote);
 
-                Inventory.instance.ResetSlotForTest();
+                    tempIndex = 0;
 
-                isOpenedNote = !isOpenedNote;
-                //GetClueButton.SetActive(!isOpenedNote);
-                Background.SetActive(isOpenedNote);
-                NoteBook.SetActive(isOpenedNote);
-                GetClueUI.SetActive(isOpenedNote);
-                clueScroller.SetActive(isOpenedNote);
+                    buttonIndex = 0;    /* for Button test */
 
-                tempIndex = 0;
-
-                buttonIndex = 0;    /* for Button test */
-
-                ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
+                    ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
 
 
-                /* 아래의 코드는 전에 봤던 사건의 단서를 계속 봐야하는 것으로 기획이 변경되면 쓰면 됨 */
-                /* 쓸 때는 AutoFlip 스크립트의 FlipPage(int PressAct)의 howManyOpenNote 주석처리 풀어야 함 */
-                //if (howManyOpenNote == 0)   // 사건 버튼을 누를때 howManyOpenNote 변수 값 증가
-                //{
-                //    ShowClueData(0, 0);     // 수첩을 처음 열면, 사건 1의 첫번째 단서가 보여져야 함
-                //}
-                //else
-                //{
-                //    ShowClueData(0, PlayerManager.instance.NumOfAct); // 수첩을 열때마다 전에 봤었던 사건의 첫번째 단서가 보여져야함
-                //}
+                    /* 아래의 코드는 전에 봤던 사건의 단서를 계속 봐야하는 것으로 기획이 변경되면 쓰면 됨 */
+                    /* 쓸 때는 AutoFlip 스크립트의 FlipPage(int PressAct)의 howManyOpenNote 주석처리 풀어야 함 */
+                    //if (howManyOpenNote == 0)   // 사건 버튼을 누를때 howManyOpenNote 변수 값 증가
+                    //{
+                    //    ShowClueData(0, 0);     // 수첩을 처음 열면, 사건 1의 첫번째 단서가 보여져야 함
+                    //}
+                    //else
+                    //{
+                    //    ShowClueData(0, PlayerManager.instance.NumOfAct); // 수첩을 열때마다 전에 봤었던 사건의 첫번째 단서가 보여져야함
+                    //}
 
-                ActivateUpDownButton(!isOpenedNote);
+                    ActivateUpDownButton(!isOpenedNote);
+                }
+                else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[19])
+                {   // 수첩 튜토리얼을 진행하고 있거나, 진행한 적이 있는 경우에만 수첩 활성화
+                    isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+
+                    TutorialManager.instance.isNoteTutorial = false;
+
+                    // 수첩 열고닫을때마다 초기화
+                    ResetWrittenClueData();
+
+                    Inventory.instance.ResetSlotForTest();
+
+                    isOpenedNote = !isOpenedNote;
+                    //GetClueButton.SetActive(!isOpenedNote);
+                    Background.SetActive(isOpenedNote);
+                    NoteBook.SetActive(isOpenedNote);
+                    GetClueUI.SetActive(isOpenedNote);
+                    clueScroller.SetActive(isOpenedNote);
+
+                    tempIndex = 0;
+
+                    buttonIndex = 0;    /* for Button test */
+
+                    ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
+                    
+                    ActivateUpDownButton(!isOpenedNote);
+                }
             }
 
             if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && isConversationing && !isFading)
@@ -317,7 +356,7 @@ public class UIManager : MonoBehaviour {
                 if (canSkipConversation)
                 {
                     // 미니맵 튜토리얼 중이 아닐 경우
-                    if (!TutorialManager.instance.isMinimapTutorial && !TutorialManager.instance.isNoteTutorial)
+                    if (!TutorialManager.instance.isMinimapTutorial && !TutorialManager.instance.isNoteTutorial && !TutorialManager.instance.isParchmentTutorial)
                     {
                         //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
                         if (DialogManager.instance.isTextFull)
@@ -649,67 +688,82 @@ public class UIManager : MonoBehaviour {
         fadeInOutPanel.SetActive(true);
         fadeInOutAnimator.SetBool("isfadeout", true);
         yield return new WaitForSeconds(1.7f);
-        
+
         /* 시간대가 지났다는 텍스트 띄우기 */
-        // 2. "~시간대가 지났다" 문구 출력한다
-        string timeslot = PlayerManager.instance.TimeSlot;
+        // PlayState가 Tutorial 일 경우 "세 번째 연쇄 살인" 문구를 출력한다.
+        // PlayState가 Act일 경우 "~시간대가 지났다" 문구 출력한다
         timeSlotText.SetActive(true);
 
-        if (PlayerManager.instance.NumOfAct.Equals("53"))
-            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "주가 지나갔다";
-        else if (PlayerManager.instance.NumOfAct.Equals("54"))
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
         {
-            timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + (int.Parse(timeslot) - 74) + "일이 지나갔다";
+            timeSlotText.GetComponent<Text>().text = "세 번째 연쇄 살인";
+
+            yield return new WaitForSeconds(0.7f);
+
+            act3Button.SetActive(true);
+            TutorialManager.instance.EndTutorial();
+
         }
-
-        // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
-        EventManager.instance.PlayEvent();
-        //Debug.Log("시간대 넘기는중");
-
-        yield return new WaitForSeconds(0.7f);
-
-        // 시간대 바꾸기
-
-        if (PlayerManager.instance.NumOfAct.Equals("53"))
+        else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
         {
-            if (PlayerManager.instance.TimeSlot.Equals("71"))
-                PlayerManager.instance.TimeSlot = "72";
-            else if (PlayerManager.instance.TimeSlot.Equals("72"))
-                PlayerManager.instance.TimeSlot = "73";
-            else if (PlayerManager.instance.TimeSlot.Equals("73"))
-                PlayerManager.instance.TimeSlot = "74";
-            else if (PlayerManager.instance.TimeSlot.Equals("74"))
+            string timeslot = PlayerManager.instance.TimeSlot;
+
+            if (PlayerManager.instance.NumOfAct.Equals("53"))
+                timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + timeslot[1] + "주가 지나갔다";
+            else if (PlayerManager.instance.NumOfAct.Equals("54"))
             {
-                PlayerManager.instance.NumOfAct = "54";
-                SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
-                EventManager.instance.AbleNpcForEvent(36);
-            }
-        }
+                timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + (int.Parse(timeslot) - 74) + "일이 지나갔다";
+            }// if-else
 
-        if (PlayerManager.instance.NumOfAct.Equals("54"))
-        {
-            if(!act4Button.activeSelf)
-                act4Button.SetActive(true);
+            // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
+            EventManager.instance.PlayEvent();
 
-            if (PlayerManager.instance.TimeSlot.Equals("74"))
-                PlayerManager.instance.TimeSlot = "75";
-            else if (PlayerManager.instance.TimeSlot.Equals("75"))
-                PlayerManager.instance.TimeSlot = "76";
-            else if (PlayerManager.instance.TimeSlot.Equals("76"))
-                PlayerManager.instance.TimeSlot = "77";
-            else if (PlayerManager.instance.TimeSlot.Equals("77"))
-                PlayerManager.instance.TimeSlot = "78";
-            else if (PlayerManager.instance.TimeSlot.Equals("78"))
-                PlayerManager.instance.TimeSlot = "79";
-            else if (PlayerManager.instance.TimeSlot.Equals("79"))
+            //Debug.Log("시간대 넘기는중");
+
+            yield return new WaitForSeconds(0.7f);
+
+            // 시간대 바꾸기
+            if (PlayerManager.instance.NumOfAct.Equals("53"))
             {
-                PlayerManager.instance.NumOfAct = "55";
-                PlayerManager.instance.TimeSlot = "79";
+                if (PlayerManager.instance.TimeSlot.Equals("71"))
+                    PlayerManager.instance.TimeSlot = "72";
+                else if (PlayerManager.instance.TimeSlot.Equals("72"))
+                    PlayerManager.instance.TimeSlot = "73";
+                else if (PlayerManager.instance.TimeSlot.Equals("73"))
+                    PlayerManager.instance.TimeSlot = "74";
+                else if (PlayerManager.instance.TimeSlot.Equals("74"))
+                {
+                    PlayerManager.instance.NumOfAct = "54";
+                    SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
+                    EventManager.instance.AbleNpcForEvent(36);
+                }
+            }// if
 
-                if (!act5Button.activeSelf)
-                    act5Button.SetActive(true);
-            }
-        }
+            if (PlayerManager.instance.NumOfAct.Equals("54"))
+            {
+                if (!act4Button.activeSelf)
+                    act4Button.SetActive(true);
+
+                if (PlayerManager.instance.TimeSlot.Equals("74"))
+                    PlayerManager.instance.TimeSlot = "75";
+                else if (PlayerManager.instance.TimeSlot.Equals("75"))
+                    PlayerManager.instance.TimeSlot = "76";
+                else if (PlayerManager.instance.TimeSlot.Equals("76"))
+                    PlayerManager.instance.TimeSlot = "77";
+                else if (PlayerManager.instance.TimeSlot.Equals("77"))
+                    PlayerManager.instance.TimeSlot = "78";
+                else if (PlayerManager.instance.TimeSlot.Equals("78"))
+                    PlayerManager.instance.TimeSlot = "79";
+                else if (PlayerManager.instance.TimeSlot.Equals("79"))
+                {
+                    PlayerManager.instance.NumOfAct = "55";
+                    PlayerManager.instance.TimeSlot = "79";
+
+                    if (!act5Button.activeSelf)
+                        act5Button.SetActive(true);
+                }// if-else
+            }// if
+        }// if-else
 
         // 세이브
         GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
@@ -724,7 +778,7 @@ public class UIManager : MonoBehaviour {
         /* 문구 페이드 인 */
         Color tempColor1;
         tempColor1 = timeSlotText.GetComponent<Text>().color;
-        
+
         while (tempColor1.a > 0f)
         {
             tempColor1.a -= Time.deltaTime / 2.1f;
@@ -748,9 +802,6 @@ public class UIManager : MonoBehaviour {
         tempColor1 = timeSlotText.GetComponent<Text>().color;
         tempColor1.a = 1f;
         timeSlotText.GetComponent<Text>().color = tempColor1;
-
-        isFading = false;
-
     }
 
     // 301번 이벤트를 위한 Fade In & Out
@@ -781,8 +832,9 @@ public class UIManager : MonoBehaviour {
         isConversationing = false;
         isFading = false;
 
+        MiniMapManager.instance.SetIsInsideNow(true);       // 메르테의 사무실에 있으므로, isInsideNow 값을 true로 변경
         TutorialManager.instance.IncreaseTutorial_Index();
-        Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
         TutorialManager.instance.InvokeTutorial();
     }
 
@@ -817,6 +869,8 @@ public class UIManager : MonoBehaviour {
     // 302번 이벤트를 위한 Fade In 코루틴
     public IEnumerator FadeInForEvent302()
     {
+        isFading = true;
+
         fadeInOutPanel.SetActive(true);
         fadeInOutAnimator.SetBool("isfadeout2", true);
         yield return new WaitForSeconds(2.4f);
@@ -847,6 +901,8 @@ public class UIManager : MonoBehaviour {
     // 3. 대화 출력(\n 을 csv에서 어떻게 받아올 수 있는지 고민해봐야함)
     public IEnumerator FadeEffect(float fadeTime, string fadeWhat)
     {
+        isFading = true;
+
         //대화 글자를 나타내게 하고 싶으면, conversationText의 color도 다른방식으로 이용하면 될듯
         Color tempColor1, tempColor2, tempColor3, tempColor4;
 

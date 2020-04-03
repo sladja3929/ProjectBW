@@ -72,6 +72,7 @@ public class PlayerManager : MonoBehaviour {
 
         //currentPosition = "Downtown_Street1";
         currentPosition = "Chapter_Merte_Office"; // 메르테 위치 : 11419, 5169
+        //currentPosition = "Chapter_Zaral_Office";
         //currentPosition = "Slum_Information_agency"; // -3212 -224
 
         isInPortalZone = false;
@@ -144,55 +145,90 @@ public class PlayerManager : MonoBehaviour {
         {
             if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
             { 
-                UIManager.instance.isFading = true;
-                DocumentControll.instance.ResetDocumentOfAndren();
+                if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                {
+                    UIManager.instance.isFading = true;
+                    DocumentControll.instance.ResetDocumentOfAndren();
 
-                //Debug.Log("단서 정리 시스템 종료");
-                UIManager.instance.ArrangeClue();
+                    //Debug.Log("단서 정리 시스템 종료");
+                    UIManager.instance.ArrangeClue();
 
-                //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
-                StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+                    //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
+                    StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
+                }
+                else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                {
+                    TutorialManager.instance.isParchmentTutorial = false;
+
+                    UIManager.instance.ArrangeClue();
+                }
 
                 UIManager.instance.isReadParchment = false;
             }
 
+            //if (Input.GetMouseButtonDown(0))
+            //{
+            //    Debug.Log(UIManager.instance.GetIsOpenedParchment() + ", " + UIManager.instance.isFading + ", " + UIManager.instance.GetIsOpenNote() + ", " + UIManager.instance.isPortaling + ", " + MiniMapManager.instance.IsMiniMapOpen() + ", " + isNearObject);
+            //}
+
             /* 오브젝트와의 상호작용을 위한 if */
-            if (!UIManager.instance.isConversationing && !EventManager.instance.isPlaying302Event)
+            if ( Input.GetMouseButtonDown(0) && CheckCondition_InteractionObject() )
             {
-                if ((( (Input.GetMouseButtonDown(0) ) && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isPortaling && !MiniMapManager.instance.IsMiniMapOpen())  )
-                    && isNearObject)
+                pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                ray = new Ray2D(pos, Vector2.zero);
+                hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+                if (hit.collider == null)
                 {
-                    pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    ray = new Ray2D(pos, Vector2.zero);
-                    hit = Physics2D.Raycast(ray.origin, ray.direction);
-
-                    if (hit.collider == null)
+                    //Debug.Log("아무것도 안맞죠?");
+                }
+                else if ( hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject" )
+                {
+                    if (hit.collider.name.Equals("책상_메르테 사무실"))
                     {
-                        //Debug.Log("아무것도 안맞죠?");
-                    }
-                    else if ((hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject"))
-                    {
-                        if (hit.collider.name.Equals("책상_메르테 사무실"))
+                        if (!UIManager.instance.isReadParchment)
                         {
-                            if (!UIManager.instance.isReadParchment)
+                            // 메르테 책상 강조 종료 및 다음 대화 출력 트리거
+                            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && !TutorialManager.instance.isCompletedTutorial[21])
                             {
-                                //Debug.Log("단서 정리 시스템 활성화");
-                                UIManager.instance.SetDocumentControll(true);
-
-                                if (ParchmentControll.instance.GetParchmentPosition().y != -720)
-                                    ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
-
-                                if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
-                                    ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
-
-                                if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
-                                    ParchmentControll.instance.SetHelperContentPosition(new Vector2(0, 0));
-
-                                UIManager.instance.ArrangeClue();
+                                TutorialManager.instance.isCompletedTutorial[21] = true;
+                                TutorialManager.instance.isParchmentTutorial = false;
                             }
-                            else
+
+                            //Debug.Log("단서 정리 시스템 활성화");
+                            UIManager.instance.SetDocumentControll(true);
+
+                            if (ParchmentControll.instance.GetParchmentPosition().y != -720)
+                                ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
+
+                            if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
+                                ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
+
+                            if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
+                                ParchmentControll.instance.SetHelperContentPosition(new Vector2(0, 0));
+
+                            UIManager.instance.ArrangeClue();
+                        }
+                        else
+                        {
+                            //Debug.Log("단서 정리 시스템 활성화 실패");
+                        }
+                    }
+                    else
+                    {
+                        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                        {
+                            if (DialogManager.instance.CheckInteraction(hit.collider.name))
                             {
-                                //Debug.Log("단서 정리 시스템 활성화 실패");
+                                //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
+                                try
+                                {
+                                    DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                                }
+                                catch
+                                {
+
+                                }
                             }
                         }
                         else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
@@ -201,7 +237,7 @@ public class PlayerManager : MonoBehaviour {
                             {
                                 TutorialManager.instance.isCompletedTutorial[4] = true;
                                 //DialogManager.instance.InteractionWithObject("905");
-                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
                                 TutorialManager.instance.InvokeTutorial();
                                 //TutorialManager.instance.IncreaseTutorial_Index();
 
@@ -212,7 +248,7 @@ public class PlayerManager : MonoBehaviour {
                             {
                                 TutorialManager.instance.isCompletedTutorial[6] = true;
                                 //DialogManager.instance.InteractionWithObject("907");
-                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
                                 TutorialManager.instance.InvokeTutorial();
                                 //TutorialManager.instance.IncreaseTutorial_Index();
 
@@ -223,7 +259,7 @@ public class PlayerManager : MonoBehaviour {
                             {
                                 TutorialManager.instance.isCompletedTutorial[8] = true;
                                 //DialogManager.instance.InteractionWithObject("909");
-                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
                                 TutorialManager.instance.InvokeTutorial();
                                 //TutorialManager.instance.IncreaseTutorial_Index();
 
@@ -235,43 +271,23 @@ public class PlayerManager : MonoBehaviour {
                                 //TutorialManager.instance.IncreaseTutorial_Index();
                                 //TutorialManager.instance.isCompletedTutorial[11] = true;
                                 //DialogManager.instance.InteractionWithObject("912");
-                                Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
                                 TutorialManager.instance.InvokeTutorial();
                                 //TutorialManager.instance.IncreaseTutorial_Index();
 
                                 TutorialManager.instance.TagChange(3, "Untagged");
                             }
-                        }
-                        else if (DialogManager.instance.CheckInteraction(hit.collider.name))
-                        {
-                            //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
-                            try
-                            {
-                                if (!UIManager.instance.isConversationing && !UIManager.instance.isFading)
-                                {
-                                    if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
-                                    {
-                                        DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
-                                    }
-
-                                }//if-elseif
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-                }
-            }
-        }
+                        }// if-else PlayState
+                    }// if-else hit 책상
+                }// if-else hit null
+            }// if-else GetMouseButtonDown
+        }// if GetIsPaused
     }
     
     // for tutorial
     public void SetPlayer(GameObject character)
     {
         player = character;
-        Debug.Log("PlayManager의 player가 " + player + "로 바뀜");
     }
 
     // 플레이어(메르테)의 x포지션 값 반환
@@ -426,7 +442,6 @@ public class PlayerManager : MonoBehaviour {
 
     public void SetPlayerPosition(Vector3 tempPosition) {
         player.transform.localPosition = tempPosition;
-        Debug.Log("PlayManager의 " + player + " 위치가 바뀜");
     }
 
     // 이벤트 변수 초기화 (처음하기 시에 사용)
@@ -439,5 +454,25 @@ public class PlayerManager : MonoBehaviour {
     public ref EventVariable GetEventVariableClass()
     {
         return ref eventVariable;
+    }
+
+    public bool CheckCondition_InteractionObject()
+    {
+        if (!UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenNote()
+            && !UIManager.instance.isPortaling && !MiniMapManager.instance.IsMiniMapOpen() && isNearObject
+            && !EventManager.instance.isPlaying302Event)
+        {
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            {
+                if(!UIManager.instance.isConversationing)
+                    return true;
+            }
+            else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                return true;
+
+            return false;
+        }
+        else
+            return false;
     }
 }

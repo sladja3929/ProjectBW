@@ -89,17 +89,33 @@ public class MiniMapManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Tab) && isOpen == false && !UIManager.instance.IsBookOpened() && !UIManager.instance.isFading)
         {
-            miniMapUI.SetActive(true);
-            isOpen = true;
-            
-            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && TutorialManager.instance.isCompletedTutorial[12])
-            {
-                TutorialManager.instance.isMinimapTutorial = false;
-            }
+            Debug.Log(isOpen + ", " + UIManager.instance.IsBookOpened() + ", " + UIManager.instance.isFading);
 
-            if (isOpen == true && isInsideNow == true && isInsideOpen == false)
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
             {
-                PopUpInsideUI();
+                miniMapUI.SetActive(true);
+                isOpen = true;
+
+                if (isOpen == true && isInsideNow == true && isInsideOpen == false)
+                {
+                    PopUpInsideUI();
+                }
+            }
+            else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+            {
+                // 미니맵 튜토리얼을 진행한 적이 있을 경우에만 미니맵 활성화
+                if (TutorialManager.instance.isCompletedTutorial[12])
+                {
+                    miniMapUI.SetActive(true);
+                    isOpen = true;
+
+                    if (isOpen == true && isInsideNow == true && isInsideOpen == false)
+                    {
+                        PopUpInsideUI();
+                    }
+
+                    TutorialManager.instance.isMinimapTutorial = false;
+                }
             }
         }
         //미니맵 끄기
@@ -303,6 +319,9 @@ public class MiniMapManager : MonoBehaviour
             case "Chapter_Merte_Office":
                 tmp = "메르테의 사무실";
                 break;
+            case "Chapter_Zaral_Office":
+                tmp = "제렐의 사무실";
+                break;
             case "Mansion_Guest_Room1":
                 tmp = "손님방 1";
                 break;
@@ -358,6 +377,7 @@ public class MiniMapManager : MonoBehaviour
             case "Chapter_President_Office":
             case "Chapter_Secret_Space":
             case "Chapter_Merte_Office":
+            case "Chapter_Zaral_Office":
             case "Mansion_Guest_Room1":
             case "Mansion_Guest_Room2":
             case "Mansion_President_Room":
@@ -755,5 +775,10 @@ public class MiniMapManager : MonoBehaviour
 
         miniMapUI.SetActive(false);
         isOpen = false;
+    }
+
+    public void SetIsInsideNow(bool boolValue)
+    {
+        isInsideNow = boolValue;
     }
 }

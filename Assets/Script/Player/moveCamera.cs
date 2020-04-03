@@ -202,7 +202,6 @@ public class MoveCamera : MonoBehaviour
     public void SetPlayer(GameObject player)
     {
         this.player = player;
-        Debug.Log("MoveCamera의 player가 " + player + "로 바뀜");
     }
 
     public void SetCameraPosition()

@@ -42,7 +42,7 @@ public class TutorialManager : MonoBehaviour
 
     private bool[] checkCondition_901;      // wasd를 눌럿는지 체크
     public bool isFading;                   // 페이드아웃이 됐는지 여부
-    public bool[] isCompletedTutorial;      // 대화묶음 진행 여부 ( 0 ~ 20 = 1 ~ 21)
+    public bool[] isCompletedTutorial;      // 대화묶음 진행 여부 ( 0 ~ 21 )
 
     public int index;                       // 915 대화 진행
 
@@ -55,13 +55,21 @@ public class TutorialManager : MonoBehaviour
     public bool isPlaying915;
     public bool isMinimapTutorial;
     public bool isPushedTab;
-    public bool isNoteTutorial;    // 920 튜토리얼 제어
+    public bool isNoteTutorial;         // 920 수첩 튜토리얼 제어
+    public bool isParchmentTutorial;    // 921 양피지 튜토리얼 제어
 
     [SerializeField] private Sprite merte_Idle;
     [SerializeField] private Sprite merte_Right;
     [SerializeField] private Sprite merte_Left;
     [SerializeField] private Sprite zaral_Idle;
     [SerializeField] private Sprite zaral_Left;
+
+    [SerializeField]
+    private GameObject wall_For_903;        // 레이나 집으로 들어가는 과정에서 필요한 벽
+    [SerializeField]
+    private GameObject[] blocking_Object;   // 튜토리얼중 맵 이동 제어
+    [SerializeField]
+    private GameObject[] deActive_Object;   // 튜토리얼중 오브젝트 활성화 제어
 
     // Start is called before the first frame update
     void Start()
@@ -71,7 +79,10 @@ public class TutorialManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
-        InitSetting();
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+            InitSetting();
+        else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            SetActiveFalse_Tutorial_Character();
     }
 
     // Update is called once per frame
@@ -92,7 +103,7 @@ public class TutorialManager : MonoBehaviour
             if (CheckComplete901())
             {
                 isCompletedTutorial[0] = true;
-                Debug.Log(tutorial_Index + "진입");
+
                 InvokeTutorial();
                 StartCoroutine(FlashTutorialEntranceArrow());
                 entrance_RainaHouse.SetActive(true);
@@ -120,7 +131,7 @@ public class TutorialManager : MonoBehaviour
         //MoveCamera.instance.SetPlayer(zaral);
         //inGameCharacter.SetActive(false);
         PlayerManager.instance.SetPlayer(zaral);
-        PlayerManager.instance.SetCurrentPosition("Chapter_zaral_Office");
+        PlayerManager.instance.SetCurrentPosition("Chapter_Zaral_Office");
         PlayerManager.instance.SetPlayerPosition(new Vector3(11474.0f, 7399.0f, 0f));
         assistant.GetComponent<Transform>().localPosition = new Vector3(12052.0f, 7410.0f, 0);
         //PlayerManager.instance.SetPlayer(inGameCharacter, "Chapter_Merte_Office");
@@ -135,7 +146,7 @@ public class TutorialManager : MonoBehaviour
         checkCondition_901 = new bool[4];
         tutorial_Arrow.SetActive(false);
         tutorial_Exit_Arrow.SetActive(false);
-        isCompletedTutorial = new bool[21];
+        isCompletedTutorial = new bool[22];
         isCompletedTutorial[0] = true;
         index = 0;
         isConversationing = false;
@@ -144,31 +155,43 @@ public class TutorialManager : MonoBehaviour
         isMinimapTutorial = false;
         isPushedTab = false;
         isNoteTutorial = false;
+        isParchmentTutorial = false;
 
         for (int i = 0; i < GuideArrowToDowntown.Length; i++)
         {
             GuideArrowToDowntown[i].SetActive(false);
         }
 
+        wall_For_903.SetActive(true);
+
+        for (int i = 0; i < blocking_Object.Length; i++)
+        {
+            blocking_Object[i].SetActive(true);
+        }
+
+        for (int i = 0; i < deActive_Object.Length; i++)
+        {
+            deActive_Object[i].SetActive(false);
+        }
+
         interactionLists = DialogManager.instance.GetInteractionList();
-        Debug.Log(tutorial_Index + "진입");
+
         InvokeTutorial();
     }
 
     public void InvokeTutorial()
     {
-        //while (UIManager.instance.isFading) ;
-        Debug.Log("index = " + tutorial_Index);
-
         if (tutorial_Index == 901)
+        {
             StartCoroutine(Play901());
+        }
         else if (tutorial_Index == 903)
         {
             StartCoroutine(Play903());
         }
         else if (tutorial_Index == 904)
         {
-            Invoke("PlayTutorial", 0.3f);
+            Invoke("PlayTutorial", 0.1f);
             StartCoroutine(Highlight_Object(0, isCompletedTutorial[3]));
             tutorial_904_Trigger.SetActive(false);
         }
@@ -177,12 +200,14 @@ public class TutorialManager : MonoBehaviour
             Invoke("PlayTutorial", 0.3f);
             StartCoroutine(Highlight_Object(2, isCompletedTutorial[7]));
         }
-        else if (tutorial_Index == 911 || tutorial_Index == 914)
+        else if (tutorial_Index == 911)
         {
             Invoke("PlayTutorial", 0.6f);
-
-            if (tutorial_Index == 914)
-                tutorial_914_Trigger.SetActive(false);
+        }
+        else if (tutorial_Index == 914)
+        {
+            Invoke("PlayTutorial", 0.3f);
+            tutorial_914_Trigger.SetActive(false);
         }
         else if (tutorial_Index == 918 || tutorial_Index == 919 || tutorial_Index == 920)
         {
@@ -196,14 +221,13 @@ public class TutorialManager : MonoBehaviour
 
     public void PlayTutorial()
     {
-        Debug.Log(tutorial_Index + " 번 대화묶음 진행");
         DialogManager.instance.InteractionWithObject(tutorial_Index.ToString());  // 900 ~ 921
     }
 
     public void IncreaseTutorial_Index()
     {
         tutorial_Index++;
-        Debug.Log(tutorial_Index + "로 증가");
+        //Debug.Log(tutorial_Index + "로 증가");
     }
 
     // 튜토리얼을 진행하는 메인 캐릭터 설정 함수
@@ -318,7 +342,8 @@ public class TutorialManager : MonoBehaviour
 
             highlightObject[indexOfObject].GetComponent<SpriteRenderer>().sprite = nonHighlight_Sprite[indexOfObject];
 
-            if ((tutorial_Index == 905 && isCompletedTutorial[3]) || (tutorial_Index == 907 && isCompletedTutorial[5]) || (tutorial_Index == 909 && isCompletedTutorial[7]) || (tutorial_Index == 912 && isCompletedTutorial[11]) || (tutorial_Index == 914 && isCompletedTutorial[13]))
+            if ((tutorial_Index == 905 && isCompletedTutorial[3]) || (tutorial_Index == 907 && isCompletedTutorial[5]) || (tutorial_Index == 909 && isCompletedTutorial[7]) || (tutorial_Index == 912 && isCompletedTutorial[11])
+                || (tutorial_Index == 914 && isCompletedTutorial[13]) || (tutorial_Index == 921 && isCompletedTutorial[21]))
             {
                 isCompleted = true;
             }
@@ -344,11 +369,10 @@ public class TutorialManager : MonoBehaviour
 
     public IEnumerator Play901()
     {
-        Debug.Log("대기중");
         yield return new WaitUntil(() => !isFading);
-        Debug.Log("대기 해제");
+
         yield return new WaitForSeconds(0.6f);
-        //Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+
         DialogManager.instance.InteractionWithObject("901");
         tutorial_Index++;
         isFading = true;
@@ -359,17 +383,20 @@ public class TutorialManager : MonoBehaviour
     {
         SetAssistantPosition(new Vector3(4630.0f, 7300.0f, 0));
 
-        yield return new WaitForSeconds(1.3f);
-        //Debug.Log(TutorialManager.instance.tutorial_Index + "진입");
+        yield return new WaitForSeconds(0.8f);
+
         DialogManager.instance.InteractionWithObject("903");
         tutorial_Index++;
 
         tutorial_903_Trigger.SetActive(false);
+        wall_For_903.SetActive(false);
     }
 
     // 알맞은 대화를 출력해주는 코루틴
     public IEnumerator TypingFor915()
     {
+        UIManager.instance.isFading = true;
+
         isPlaying915 = true;
         isConversationing = true;
         targetInteractionLists = interactionLists.FindAll(x => (x.CheckStartObject("915")) == true);
@@ -493,10 +520,33 @@ public class TutorialManager : MonoBehaviour
     public void SetSpriteCharacterFor920()
     {
         inGameCharacter.GetComponent<Animator>().SetFloat("y", -1);
+
+        if (inGameCharacter.GetComponent<Transform>().localScale.x < 0)
+        {
+            Transform temp = inGameCharacter.GetComponent<Transform>();
+            temp.localScale = new Vector3(temp.localScale.x * -1, temp.localScale.y, temp.localScale.z);
+            inGameCharacter.GetComponent<Transform>().localScale = temp.localScale;
+        }
     }
 
     public void Invoke_SetSpriteCharacterFor920()
     {
-        Invoke("SetSpriteCharacterFor920", 1.0f);
+        Invoke("SetSpriteCharacterFor920", 2.0f);
+    }
+
+    public void EndTutorial()
+    {
+        for (int i = 0; i < blocking_Object.Length; i++)
+        {
+            blocking_Object[i].SetActive(false);
+        }
+
+        for (int i = 0; i < deActive_Object.Length; i++)
+        {
+            deActive_Object[i].SetActive(true);
+        }
+
+        GameManager.instance.SetPlayState(GameManager.PlayState.Act);
+        isPlayingTutorial = false;
     }
 }

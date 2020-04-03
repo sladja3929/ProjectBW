@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2007585966395150412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2007585966395150402}
+  - component: {fileID: 2007585966395150413}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2007585966395150402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007585966395150412}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1720.944, y: 3012.5356, z: -86}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2007585966395150413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007585966395150412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2f64d419b7baf46b65fad3a0bb642d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonHighlight_Sprite:
+  - {fileID: 21300000, guid: 1d30a3e6a06770445a1d94606dab6e90, type: 3}
+  - {fileID: 21300000, guid: e6c3d17c4c41329449da33ac169de41b, type: 3}
+  - {fileID: 21300000, guid: 04a4ca7b6d9c1c749a12066cbcfe35cc, type: 3}
+  - {fileID: 21300000, guid: 7bbf8109146b8474ba2c6a6d1c96f798, type: 3}
+  - {fileID: 21300000, guid: d990720464e3cb542942752086b6d73b, type: 3}
+  - {fileID: 21300000, guid: 916c4bb2ce4033549a1ad759504aecce, type: 3}
+  highlight_Sprite:
+  - {fileID: 21300000, guid: 3841be785937abc4da4b93a4da28e5b6, type: 3}
+  - {fileID: 21300000, guid: 5d5c7f4752b715c4ba8b77db0c09d9b6, type: 3}
+  - {fileID: 21300000, guid: 8b5ed0a9c17c3734f80a927838a8d7fe, type: 3}
+  - {fileID: 21300000, guid: 18bf4172fee45294ca4349f6b7494ddc, type: 3}
+  - {fileID: 21300000, guid: 063ca2ddea48d7a4aae3eed083a01f46, type: 3}
+  - {fileID: 21300000, guid: d48bf1dd9fb55c74eb3aad5b0e0a640d, type: 3}
+  highlightObject:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  highlightMiniMap: {fileID: 21300000, guid: d48bf1dd9fb55c74eb3aad5b0e0a640d, type: 3}
+  nonHighLightMiniMap: {fileID: 21300000, guid: 916c4bb2ce4033549a1ad759504aecce,
+    type: 3}
+  zaral: {fileID: 0}
+  assistant: {fileID: 0}
+  inGameCharacter: {fileID: 0}
+  tutorial_Arrow: {fileID: 0}
+  entrance_RainaHouse: {fileID: 0}
+  tutorial_Exit_Arrow: {fileID: 0}
+  GuideArrowToDowntown:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  tutorial_903_Trigger: {fileID: 0}
+  tutorial_904_Trigger: {fileID: 0}
+  tutorial_914_Trigger: {fileID: 0}
+  isPlayingTutorial: 0
+  tutorial_Index: 0
+  isFading: 0
+  isCompletedTutorial: 
+  index: 0
+  textFor915: {fileID: 0}
+  isPlaying915: 0
+  isMinimapTutorial: 0
+  isPushedTab: 0
+  isNoteTutorial: 0
+  isParchmentTutorial: 0
+  merte_Idle: {fileID: 21300000, guid: 8e7e46c8aee98704b9229530b6f81754, type: 3}
+  merte_Right: {fileID: 21300000, guid: b8382e2676cdb474bb3acecc5302b8e7, type: 3}
+  merte_Left: {fileID: 21300000, guid: 67f51082487b792419e96d1e9aaca7e5, type: 3}
+  zaral_Idle: {fileID: 21300000, guid: 8e7e46c8aee98704b9229530b6f81754, type: 3}
+  zaral_Left: {fileID: 21300000, guid: 67f51082487b792419e96d1e9aaca7e5, type: 3}
+  wall_For_903: {fileID: 0}
+  blocking_Object:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  deActive_Object:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
