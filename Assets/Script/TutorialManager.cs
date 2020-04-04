@@ -48,7 +48,7 @@ public class TutorialManager : MonoBehaviour
 
     [SerializeField]
     private Text textFor915;
-    private List<Interaction> interactionLists;
+    //private List<Interaction> interactionLists;
     private List<Interaction> targetInteractionLists;
     private bool isConversationing;
     private bool isTextFull;
@@ -57,6 +57,7 @@ public class TutorialManager : MonoBehaviour
     public bool isPushedTab;
     public bool isNoteTutorial;         // 920 수첩 튜토리얼 제어
     public bool isParchmentTutorial;    // 921 양피지 튜토리얼 제어
+    public bool isPlayingEndTutorial;
 
     [SerializeField] private Sprite merte_Idle;
     [SerializeField] private Sprite merte_Right;
@@ -156,6 +157,7 @@ public class TutorialManager : MonoBehaviour
         isPushedTab = false;
         isNoteTutorial = false;
         isParchmentTutorial = false;
+        isPlayingEndTutorial = false;
 
         for (int i = 0; i < GuideArrowToDowntown.Length; i++)
         {
@@ -174,7 +176,7 @@ public class TutorialManager : MonoBehaviour
             deActive_Object[i].SetActive(false);
         }
 
-        interactionLists = DialogManager.instance.GetInteractionList();
+        //interactionLists = DialogManager.instance.GetInteractionList();
 
         InvokeTutorial();
     }
@@ -191,7 +193,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (tutorial_Index == 904)
         {
-            Invoke("PlayTutorial", 0.1f);
+            Invoke("PlayTutorial", 0.3f);
             StartCoroutine(Highlight_Object(0, isCompletedTutorial[3]));
             tutorial_904_Trigger.SetActive(false);
         }
@@ -206,7 +208,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (tutorial_Index == 914)
         {
-            Invoke("PlayTutorial", 0.3f);
+            Invoke("PlayTutorial", 0.6f);
             tutorial_914_Trigger.SetActive(false);
         }
         else if (tutorial_Index == 918 || tutorial_Index == 919 || tutorial_Index == 920)
@@ -399,7 +401,8 @@ public class TutorialManager : MonoBehaviour
 
         isPlaying915 = true;
         isConversationing = true;
-        targetInteractionLists = interactionLists.FindAll(x => (x.CheckStartObject("915")) == true);
+        targetInteractionLists = DialogManager.instance.GetInteractionList().FindAll(x => (x.CheckStartObject("915")) == true);
+        //targetInteractionLists = interactionLists.FindAll(x => (x.CheckStartObject("915")) == true);
         
         string text = targetInteractionLists[index].GetDesc();
 
@@ -475,6 +478,9 @@ public class TutorialManager : MonoBehaviour
 
     public void SetSpriteCharacterFor918()
     {
+        zaral.GetComponent<Animator>().SetFloat("x", -1);
+        zaral.GetComponent<Animator>().SetFloat("y", 0);
+
         inGameCharacter.GetComponent<Animator>().SetFloat("x", 1);
         inGameCharacter.GetComponent<SpriteRenderer>().sprite = merte_Right;
 
@@ -519,14 +525,15 @@ public class TutorialManager : MonoBehaviour
 
     public void SetSpriteCharacterFor920()
     {
+        inGameCharacter.GetComponent<Animator>().SetFloat("x", 0);
         inGameCharacter.GetComponent<Animator>().SetFloat("y", -1);
 
-        if (inGameCharacter.GetComponent<Transform>().localScale.x < 0)
-        {
-            Transform temp = inGameCharacter.GetComponent<Transform>();
-            temp.localScale = new Vector3(temp.localScale.x * -1, temp.localScale.y, temp.localScale.z);
-            inGameCharacter.GetComponent<Transform>().localScale = temp.localScale;
-        }
+        //if (inGameCharacter.GetComponent<Transform>().localScale.x < 0)
+        //{
+        //    Transform temp = inGameCharacter.GetComponent<Transform>();
+        //    temp.localScale = new Vector3(temp.localScale.x * -1, temp.localScale.y, temp.localScale.z);
+        //    inGameCharacter.GetComponent<Transform>().localScale = temp.localScale;
+        //}
     }
 
     public void Invoke_SetSpriteCharacterFor920()
@@ -548,5 +555,6 @@ public class TutorialManager : MonoBehaviour
 
         GameManager.instance.SetPlayState(GameManager.PlayState.Act);
         isPlayingTutorial = false;
+        isPlayingEndTutorial = false;
     }
 }

@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scene/BW_H.unity
     guid: 768e8439c10553349b4e126c46983cbb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scene/BW_K.unity
     guid: 4a88535ac74b14a42bcda68e81bab93b
   m_configObjects: {}

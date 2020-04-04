@@ -186,7 +186,7 @@ public class PlayerManager : MonoBehaviour {
                 {
                     if (hit.collider.name.Equals("책상_메르테 사무실"))
                     {
-                        if (!UIManager.instance.isReadParchment)
+                        if (!UIManager.instance.isReadParchment && !TutorialManager.instance.isPlayingEndTutorial)
                         {
                             // 메르테 책상 강조 종료 및 다음 대화 출력 트리거
                             if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial && !TutorialManager.instance.isCompletedTutorial[21])

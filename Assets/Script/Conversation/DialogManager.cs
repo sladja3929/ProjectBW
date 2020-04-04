@@ -1181,6 +1181,12 @@ public class DialogManager : MonoBehaviour
                         {
                             UIManager.instance.ActivateDeadBodyImage();
                         }
+
+                        if (tempSentenceOfCondition.Equals("921"))
+                        {
+                            // 메르테 책상 상호작용 제어
+                            TutorialManager.instance.isPlayingEndTutorial = true;
+                        }
                     }
                 }
 
