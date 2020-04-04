@@ -26,6 +26,10 @@ public class PrologueManager : MonoBehaviour
     private int setOfConversation;  // 대화 묶음 번호
     private bool isSentenceDone;    // 해댕 대화 묶음이 모두 끝난경우
     private bool isConversationing; // 프롤로그 대화가 진행중인가?
+
+    private float speed;
+    private const float normalSpeed = 0.02f;
+    private const float skipSpeed = 1f;
     
     void Start()
     {
@@ -35,6 +39,8 @@ public class PrologueManager : MonoBehaviour
         interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetInteractionLists();
 
         targetOfInteractionList = new List<Interaction>();
+
+        speed = normalSpeed;
 
         InitPrologueSetting();
 
@@ -53,6 +59,16 @@ public class PrologueManager : MonoBehaviour
             {
                 PrologueNextSentence();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            speed = normalSpeed;
+        }
+
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            speed = skipSpeed;
         }
     }
 
@@ -109,7 +125,9 @@ public class PrologueManager : MonoBehaviour
         while (prologueText.color.a < 1f)
         {
             //tempColor.a += 0.02f;
-            tempColor.a += 1f;
+            //tempColor.a += 1f; // 빠른 스킵을 위한 코드
+            tempColor.a += speed;
+
             prologueText.color = tempColor;
 
             yield return new WaitForSeconds(0.02f);

@@ -1258,6 +1258,21 @@ PrefabInstance:
       propertyPath: actPlayer
       value: 
       objectReference: {fileID: 1350677836}
+    - target: {fileID: 7778437740110113178, guid: 2710d0d705fa07a42afad4dbbbbe1a66,
+        type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1350677836}
+    - target: {fileID: 7778437740110113178, guid: 2710d0d705fa07a42afad4dbbbbe1a66,
+        type: 3}
+      propertyPath: tutorialPlayer
+      value: 
+      objectReference: {fileID: 194104170}
+    - target: {fileID: 7778437740110113178, guid: 2710d0d705fa07a42afad4dbbbbe1a66,
+        type: 3}
+      propertyPath: actPlayer
+      value: 
+      objectReference: {fileID: 1350677836}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2710d0d705fa07a42afad4dbbbbe1a66, type: 3}
 --- !u!20 &1321237452 stripped
@@ -1917,6 +1932,12 @@ GameObject:
 --- !u!1 &1475452988 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4413329031576417567, guid: 47fe2f38073653f41894e3bde41cdf1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475452972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475452989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2629388314448897762, guid: 47fe2f38073653f41894e3bde41cdf1c,
     type: 3}
   m_PrefabInstance: {fileID: 1475452972}
   m_PrefabAsset: {fileID: 0}
@@ -3386,6 +3407,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2007585966395150413, guid: cdb60035c335f2843a7794b4839e9d45,
         type: 3}
+      propertyPath: deActive_Object.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007585966395150413, guid: cdb60035c335f2843a7794b4839e9d45,
+        type: 3}
       propertyPath: highlightObject.Array.data[0]
       value: 
       objectReference: {fileID: 1475452979}
@@ -3554,6 +3580,11 @@ PrefabInstance:
       propertyPath: deActive_Object.Array.data[8]
       value: 
       objectReference: {fileID: 1475452988}
+    - target: {fileID: 2007585966395150413, guid: cdb60035c335f2843a7794b4839e9d45,
+        type: 3}
+      propertyPath: deActive_Object.Array.data[9]
+      value: 
+      objectReference: {fileID: 1475452989}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdb60035c335f2843a7794b4839e9d45, type: 3}
 --- !u!1 &2295133443487230434 stripped

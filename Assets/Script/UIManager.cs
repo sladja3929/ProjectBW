@@ -643,7 +643,8 @@ public class UIManager : MonoBehaviour {
         /*페이드 아웃*/
         fadeInOutPanel.SetActive(true);
         fadeInOutAnimator.SetBool("isfadeout", true);
-        yield return new WaitForSeconds(1.7f);
+        //yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(2.0f);
 
         /*이동*/
         PlayerManager.instance.SetCurrentPosition(position);
@@ -699,9 +700,6 @@ public class UIManager : MonoBehaviour {
             timeSlotText.GetComponent<Text>().text = "세 번째 연쇄 살인";
 
             yield return new WaitForSeconds(0.7f);
-
-            act3Button.SetActive(true);
-            TutorialManager.instance.EndTutorial();
 
         }
         else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
@@ -763,12 +761,14 @@ public class UIManager : MonoBehaviour {
                         act5Button.SetActive(true);
                 }// if-else
             }// if
+
+            // 세이브
+            GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+            GameManager.instance.thread.IsBackground = true;
+            GameManager.instance.thread.Start();
+
         }// if-else
 
-        // 세이브
-        GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-        GameManager.instance.thread.IsBackground = true;
-        GameManager.instance.thread.Start();
 
         // 디버깅용
         PlayerManager.instance.checkNumOfAct = PlayerManager.instance.NumOfAct;
@@ -802,6 +802,12 @@ public class UIManager : MonoBehaviour {
         tempColor1 = timeSlotText.GetComponent<Text>().color;
         tempColor1.a = 1f;
         timeSlotText.GetComponent<Text>().color = tempColor1;
+
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+        {
+            act3Button.SetActive(true);
+            TutorialManager.instance.EndTutorial();
+        }
     }
 
     // 301번 이벤트를 위한 Fade In & Out
@@ -813,6 +819,7 @@ public class UIManager : MonoBehaviour {
 
         isFading = true;
         isConversationing = true;
+        TutorialManager.instance.isPlayingTutorial = true;
 
         yield return new WaitForSeconds(1.7f);
 
