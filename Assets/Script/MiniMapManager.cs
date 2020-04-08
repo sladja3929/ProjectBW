@@ -534,6 +534,9 @@ public class MiniMapManager : MonoBehaviour
             case "Chapter_Merte_Office":
                 Chapter_Merte_Office_Inside();
                 break;
+            case "Chapter_Zaral_Office":
+                Chapter_Zaral_Office_Inside();
+                break;
             case "Mansion_Guest_Room1":
                 Mansion_Guest_Room1_Inside();
                 break;
@@ -640,6 +643,10 @@ public class MiniMapManager : MonoBehaviour
     public void Chapter_Merte_Office_Inside()
     {
         InsideCamera = InsideCameraWhole.transform.Find("Chapter_Merte_Office Camera").GetComponent<Camera>();
+    }
+    public void Chapter_Zaral_Office_Inside()
+    {
+        InsideCamera = InsideCameraWhole.transform.Find("Chapter_Zaral_Office Camera").GetComponent<Camera>();
     }
     public void Mansion_Guest_Room1_Inside()
     {
