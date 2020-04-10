@@ -74,16 +74,16 @@ public class GameManager : MonoBehaviour {
 
         }
         //// 암호화 ON
-        //if (Input.GetKeyDown(KeyCode.F6))
-        //{
-        //    isEncrypted = true;
-        //}
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            isEncrypted = true;
+        }
 
-        //// 암호화 OFF
-        //if (Input.GetKeyDown(KeyCode.F7))
-        //{
-        //    isEncrypted = false;
-        //}
+        // 암호화 OFF
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            isEncrypted = false;
+        }
     }
 
     // Use this for initialization
@@ -122,12 +122,12 @@ public class GameManager : MonoBehaviour {
             //Debug.Log("Act " + (numOfAct) + "의 단서인 " + clueName + "를 얻었습니다.");
             string numOfAct = ItemDatabase.instance.FindClue(clueName);
             //Debug.Log("clueName = " + clueName + " , numOfAct = " + numOfAct);
-            //Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
+            Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
             Inventory.instance.MakeClueSlot(clueName, numOfAct); // 수첩에 Clue slot 추가
 
         } else
         {
-            //Debug.Log("이미 획득한 단서입니다.");
+            Debug.Log("이미 획득한 단서입니다.");
         }
     }
 
@@ -229,7 +229,16 @@ public class GameManager : MonoBehaviour {
         for (int i = 0; i < playerClueNameLists.Count; i++)
         {
             GetClue(playerClueNameLists[i]);
-            PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(playerFirstInfoOfClueLists[i]);
+
+            try
+            {
+                PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(playerFirstInfoOfClueLists[i]);
+            }
+            catch
+            {
+                PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(" ");
+                //Debug.Log("GameManager LoadPlayerData() 오류, i = " + i);
+            }
         }
     }
 

@@ -81,8 +81,20 @@ public class PlayerInfo
 
         for (int i = 0; i < jsonPlayerInfoData["playerClueNameLists"].Count; i++)
         {
-            playerClueNameLists.Add(jsonPlayerInfoData["playerClueNameLists"][i].ToString());
-            firstInfoOfClueLists.Add(jsonPlayerInfoData["firstInfoOfClueLists"][i].ToString());
+            if (jsonPlayerInfoData["playerClueNameLists"][i].ToString().Length != 0)
+                playerClueNameLists.Add(jsonPlayerInfoData["playerClueNameLists"][i].ToString());
+
+            try
+            {
+                if (jsonPlayerInfoData["firstInfoOfClueLists"][i].ToString().Length != 0)
+                {
+                    firstInfoOfClueLists.Add(jsonPlayerInfoData["firstInfoOfClueLists"][i].ToString());
+                }
+            }
+            catch
+            {
+                firstInfoOfClueLists.Add(" ");
+            }
         }
     }
 
@@ -90,8 +102,8 @@ public class PlayerInfo
     public void LoadPlayerInfo()
     {
         string loadDataPath = Application.streamingAssetsPath + "/Data/PlayerInfo.json";
-        string tempJsonString = File.ReadAllText(loadDataPath);
-
+        string tempJsonString = File.ReadAllText(loadDataPath, System.Text.Encoding.UTF8);
+        
         if (GameManager.instance.isEncrypted)
             tempJsonString = GameManager.instance.DecryptData(tempJsonString);
 

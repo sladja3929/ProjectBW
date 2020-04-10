@@ -307,8 +307,8 @@ public class UIManager : MonoBehaviour {
 
                     buttonIndex = 0;    /* for Button test */
 
-                    ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
-
+                    if(isOpened == true)
+                        ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
 
                     /* 아래의 코드는 전에 봤던 사건의 단서를 계속 봐야하는 것으로 기획이 변경되면 쓰면 됨 */
                     /* 쓸 때는 AutoFlip 스크립트의 FlipPage(int PressAct)의 howManyOpenNote 주석처리 풀어야 함 */
@@ -345,10 +345,18 @@ public class UIManager : MonoBehaviour {
 
                     buttonIndex = 0;    /* for Button test */
 
-                    ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
+                    if (isOpened == true)
+                        ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
                     
                     ActivateUpDownButton(!isOpenedNote);
                 }
+
+                // testButton 오브젝트가 null이기 때문에, 수첩을 처음 열었을 때 사건 1,2 단서 버튼을 누르면 발생하는 NullReferenceException 에러를 해결하기 위한 if
+                if (Inventory.instance.GetSlotCount() > 0)
+                {
+                    testButton = Inventory.instance.GetSlotObject(0); // 첫번째 슬롯을 testButton 으로써 사용한다
+                }
+
             }
 
             if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && isConversationing && !isFading)
@@ -519,13 +527,18 @@ public class UIManager : MonoBehaviour {
         }
 
         // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
-        if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4)
+        // 튜토리얼 진행중일때도 스크롤이 되게끔 만든다.
+        Debug.Log("개수 : " + PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot());
+        if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4 || GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
             parchmentClueScrollList.transform.SetParent(parchment.transform);
         else
             parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
 
         // 양피지에 단서 리스트 출력(중복처리해야함)
-        Inventory.instance.MakeClueSlotInParchment();
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+        {
+            Inventory.instance.MakeClueSlotInParchment();
+        }
         //}
     }
 
@@ -664,7 +677,7 @@ public class UIManager : MonoBehaviour {
         }
         else if (TutorialManager.instance.tutorial_Index == 920)
         {
-            TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+            TutorialManager.instance.SetActiveFalse_Tutorial_Objects();
         }
 
         /*플레이어의 위치에 따른 BGM변경*/
