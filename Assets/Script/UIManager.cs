@@ -500,8 +500,8 @@ public class UIManager : MonoBehaviour {
         parchmentHelper.SetActive(isOpenedParchment);
         parchmentClueScrollList.SetActive(isOpenedParchment);
 
-        // 메르테의 말 ( 사건 3은 44개의 단서 )
-        float clearRate = (PlayerManager.instance.playerClueLists.Count / 44.0f) * 100;
+        // 메르테의 말 ( 사건 3은 44개의 단서, 전체 115개의 단서가 존재)
+        float clearRate = (PlayerManager.instance.playerClueLists.Count / 115.0f) * 100;
         if (clearRate < 5.0f)
             wordOfMerte.GetComponent<Text>().text = "내가 현재 잘 하고 있는건지 잘 모르겠다. 조금만 더 열심히 해보자.";
         else if(clearRate >= 5.0f && clearRate < 21.0f)
@@ -528,7 +528,6 @@ public class UIManager : MonoBehaviour {
 
         // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
         // 튜토리얼 진행중일때도 스크롤이 되게끔 만든다.
-        Debug.Log("개수 : " + PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot());
         if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4 || GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
             parchmentClueScrollList.transform.SetParent(parchment.transform);
         else
