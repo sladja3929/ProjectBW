@@ -235,6 +235,7 @@ public class PlayerManager : MonoBehaviour {
                         {
                             if (hit.collider.name.Equals("시체_튜토리얼") && !TutorialManager.instance.isCompletedTutorial[4])
                             {
+                                TutorialManager.instance.isCompletedTutorial[3] = true;
                                 TutorialManager.instance.isCompletedTutorial[4] = true;
                                 //DialogManager.instance.InteractionWithObject("905");
 
@@ -246,6 +247,7 @@ public class PlayerManager : MonoBehaviour {
 
                             if (hit.collider.name.Equals("식탁_레이나 집") && !TutorialManager.instance.isCompletedTutorial[6])
                             {
+                                TutorialManager.instance.isCompletedTutorial[5] = true;
                                 TutorialManager.instance.isCompletedTutorial[6] = true;
                                 //DialogManager.instance.InteractionWithObject("907");
 
@@ -257,6 +259,7 @@ public class PlayerManager : MonoBehaviour {
 
                             if (hit.collider.name.Equals("싱크대_레이나 집") && !TutorialManager.instance.isCompletedTutorial[8])
                             {
+                                TutorialManager.instance.isCompletedTutorial[7] = true;
                                 TutorialManager.instance.isCompletedTutorial[8] = true;
                                 //DialogManager.instance.InteractionWithObject("909");
 
@@ -266,8 +269,10 @@ public class PlayerManager : MonoBehaviour {
                                 TutorialManager.instance.TagChange(2, "Untagged");
                             }
 
-                            if (hit.collider.name.Equals("바륀") && TutorialManager.instance.isCompletedTutorial[11])
+                            if (hit.collider.name.Equals("바륀") && !TutorialManager.instance.isCompletedTutorial[11])
                             {
+                                TutorialManager.instance.isCompletedTutorial[9] = true;
+                                TutorialManager.instance.isCompletedTutorial[11] = true;
                                 //TutorialManager.instance.IncreaseTutorial_Index();
                                 //TutorialManager.instance.isCompletedTutorial[11] = true;
                                 //DialogManager.instance.InteractionWithObject("912");
@@ -475,5 +480,17 @@ public class PlayerManager : MonoBehaviour {
         }
         else
             return false;
+    }
+
+    // 사건 4 첫 이벤트가 진행될 때, 메르테가 위를 보고있는 것 처럼 만들기
+    public void ChangeStateFor301Event_Fisrt()
+    {
+        player.GetComponent<Animator>().SetFloat("y", 1);
+    }
+
+    // 사건 4 첫 이벤트가 진행될 때, 메르테가 정면을 보고있는 것 처럼 만들기
+    public void ChangeStateFor301Event_Second()
+    {
+        player.GetComponent<Animator>().SetFloat("y", -1);
     }
 }
