@@ -1290,17 +1290,18 @@ public class DialogManager : MonoBehaviour
                         if (tempSentenceOfCondition.Equals("902"))
                         {
                             TutorialManager.instance.IncreaseTutorial_Index();
-                            TutorialManager.instance.isCompletedTutorial[1] = true;
+                            //TutorialManager.instance.isCompletedTutorial[1] = true;
                         }
 
                         if (tempSentenceOfCondition.Equals("903"))
                         {
                             TutorialManager.instance.entrance_RainaHouse.SetActive(false);
+                            TutorialManager.instance.isCompletedTutorial[1] = true;
                         }
 
                         if (tempSentenceOfCondition.Equals("904"))
                         {
-                            TutorialManager.instance.isCompletedTutorial[3] = true;
+                            //TutorialManager.instance.isCompletedTutorial[3] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
                             TutorialManager.instance.TagChange(0, "InteractionObject");
                         }
@@ -1313,7 +1314,7 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("906"))
                         {
-                            TutorialManager.instance.isCompletedTutorial[5] = true;
+                            //TutorialManager.instance.isCompletedTutorial[5] = true;
                             TutorialManager.instance.TagChange(1, "InteractionObject");
                             TutorialManager.instance.IncreaseTutorial_Index();
                         }
@@ -1326,7 +1327,7 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("908"))
                         {
-                            TutorialManager.instance.isCompletedTutorial[7] = true;
+                            //TutorialManager.instance.isCompletedTutorial[7] = true;
                             TutorialManager.instance.TagChange(2, "InteractionObject");
                             TutorialManager.instance.IncreaseTutorial_Index();
                         }
@@ -1339,7 +1340,7 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("910"))
                         {
-                            TutorialManager.instance.isCompletedTutorial[9] = true;
+                            //TutorialManager.instance.isCompletedTutorial[9] = true;
                             TutorialManager.instance.isCompletedTutorial[10] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
                             TutorialManager.instance.RainaExit_Active_True();
@@ -1348,7 +1349,7 @@ public class DialogManager : MonoBehaviour
                         if (tempSentenceOfCondition.Equals("911"))
                         {
                             TutorialManager.instance.TagChange(3, "InteractionObject");
-                            TutorialManager.instance.isCompletedTutorial[11] = true;
+                            //TutorialManager.instance.isCompletedTutorial[11] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
                         }
 

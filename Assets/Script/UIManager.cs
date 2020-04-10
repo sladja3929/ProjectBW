@@ -879,6 +879,7 @@ public class UIManager : MonoBehaviour {
         // 2. Fade Out 된다.
         fadeInOutAnimator.SetBool("isfadeout", false);
 
+        PlayerManager.instance.ChangeStateFor301Event_Fisrt();
         PlayerManager.instance.SetPlayerPosition(new Vector3(15850.0f, 4100.0f, 0));
         PlayerManager.instance.SetCurrentPosition("Mansion_Viscount_Mansion_Second_Floor");
         PlayerManager.instance.AddEventCodeToList("301");
@@ -900,10 +901,13 @@ public class UIManager : MonoBehaviour {
         fadeInOutAnimator.SetBool("isfadeout2", true);
         yield return new WaitForSeconds(2.4f);
 
+        PlayerManager.instance.ChangeStateFor301Event_Second();
         PlayerManager.instance.SetPlayerPosition(new Vector3(11419.0f, 5220.0f, 0));
         PlayerManager.instance.SetCurrentPosition("Chapter_Merte_Office");
         PlayerManager.instance.AddEventCodeToList("302");
-        
+
+        isFading = false;
+
         yield return null;
     }
 

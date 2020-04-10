@@ -453,6 +453,17 @@ public class EventManager : MonoBehaviour
                     npcListForEvent[37].SetActive(false);
             }
 
+            // 사건 4때 지부 2층에 제렐 등장
+            if (PlayerManager.instance.NumOfAct.Equals("54"))
+            {
+                if (!npcListForEvent[38].activeSelf)
+                    npcListForEvent[38].SetActive(true);
+            }
+            else
+            {
+                if (npcListForEvent[38].activeSelf)
+                    npcListForEvent[38].SetActive(false);
+            }
 
             // 특정 변수가 조건에 만족할 경우, 특정 이벤트 추가하는 식으로 일단 하기(1월 23일 작업)
 
