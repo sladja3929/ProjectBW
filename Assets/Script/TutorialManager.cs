@@ -83,7 +83,7 @@ public class TutorialManager : MonoBehaviour
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
             InitSetting();
         else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
-            SetActiveFalse_Tutorial_Character();
+            SetActiveFalse_Tutorial_Objects();
     }
 
     // Update is called once per frame
@@ -243,10 +243,21 @@ public class TutorialManager : MonoBehaviour
         return zaral;
     }
 
-    public void SetActiveFalse_Tutorial_Character()
+    public void SetActiveFalse_Tutorial_Objects()
     {
         zaral.SetActive(false);
         assistant.SetActive(false);
+        wall_For_903.SetActive(false);
+
+        for (int i = 0; i < blocking_Object.Length; i++)
+        {
+            blocking_Object[i].SetActive(false);
+        }
+
+        for (int i = 0; i < deActive_Object.Length; i++)
+        {
+            deActive_Object[i].SetActive(true);
+        }
     }
 
     public void SetAssistantPosition(Vector3 position)
@@ -392,6 +403,7 @@ public class TutorialManager : MonoBehaviour
 
         tutorial_903_Trigger.SetActive(false);
         wall_For_903.SetActive(false);
+        deActive_Object[10].SetActive(false);
     }
 
     // 알맞은 대화를 출력해주는 코루틴
@@ -552,9 +564,34 @@ public class TutorialManager : MonoBehaviour
         {
             deActive_Object[i].SetActive(true);
         }
-
+        
         GameManager.instance.SetPlayState(GameManager.PlayState.Act);
+        DialogManager.instance.SetLists();
+        ItemDatabase.instance.SetLists();
         isPlayingTutorial = false;
         isPlayingEndTutorial = false;
+    }
+
+    public void RainaExit_Active_True()
+    {
+        deActive_Object[10].SetActive(true);
+    }
+
+    public void Add_Clues_Act1_2()
+    {
+        GameManager.instance.GetClue("피해자의 사체");
+        GameManager.instance.GetClue("성실한 아이");
+        GameManager.instance.GetClue("가족");
+        GameManager.instance.GetClue("남은 아이");
+        GameManager.instance.GetClue("언성");
+        GameManager.instance.GetClue("틀어져 버린 사이");
+        GameManager.instance.GetClue("사라진 이들");
+        GameManager.instance.GetClue("두번째 피해자");
+        GameManager.instance.GetClue("몸싸움의 흔적");
+        GameManager.instance.GetClue("그녀의 가족들");
+        GameManager.instance.GetClue("그녀의 성격");
+        GameManager.instance.GetClue("어느 날 갑자기");
+        GameManager.instance.GetClue("이상한 종이");
+        GameManager.instance.GetClue("소란스러웠던 밤");
     }
 }

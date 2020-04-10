@@ -1342,6 +1342,7 @@ public class DialogManager : MonoBehaviour
                             TutorialManager.instance.isCompletedTutorial[9] = true;
                             TutorialManager.instance.isCompletedTutorial[10] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
+                            TutorialManager.instance.RainaExit_Active_True();
                         }
 
                         if (tempSentenceOfCondition.Equals("911"))
@@ -1399,11 +1400,13 @@ public class DialogManager : MonoBehaviour
 
                             TutorialManager.instance.isNoteTutorial = true;
                             TutorialManager.instance.isCompletedTutorial[19] = true;
+
+                            TutorialManager.instance.Add_Clues_Act1_2();
                         }
 
                         if (tempSentenceOfCondition.EndsWith("920"))
                         {
-                            TutorialManager.instance.SetActiveFalse_Tutorial_Character();
+                            TutorialManager.instance.SetActiveFalse_Tutorial_Objects();
                             TutorialManager.instance.IncreaseTutorial_Index();
                             TutorialManager.instance.InvokeTutorial();
                         }

@@ -364,7 +364,8 @@ public class PlayerManager : MonoBehaviour {
     public void AddClueToList(ClueStructure clueData)
     {
         playerClueLists.Add(clueData);
-        playerClueLists_In_Certain_Timeslot.Add(clueData);  // 단서 정리를 위한 단서 저장
+        if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            playerClueLists_In_Certain_Timeslot.Add(clueData);  // 단서 정리를 위한 단서 저장
     }
 
     /* 단서 중복 방지 */

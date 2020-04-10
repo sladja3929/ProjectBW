@@ -55,19 +55,19 @@ public class CSVParser : MonoBehaviour
     }//Awake()
 
     // 초기 데이터 파일 암호화 용도
-    //void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.F1))
-    //    {
-    //        string temp = File.ReadAllText(initConversationDataPath);
-    //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
-    //        //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            string temp = File.ReadAllText(initConversationDataPath);
+            File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+            //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
 
-    //        temp = File.ReadAllText(initClueDataPath);
-    //        File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
-    //        //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
-    //    }
-    //}
+            temp = File.ReadAllText(initClueDataPath);
+            File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+            //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
+        }
+    }
 
     /* 타이틀에서 새로하기를 눌렀을 때, 실행 */
     public void InitDataFromCSV()

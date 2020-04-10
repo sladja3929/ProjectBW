@@ -100,7 +100,7 @@ public class Inventory : MonoBehaviour {
                 tempColorBlock.pressedColor = Color.white;
                 slot[tempIndex].transform.GetComponent<Button>().colors = tempColorBlock;
 
-                //Debug.Log(clueName + " 슬롯 생성 완료");
+                Debug.Log(clueName + " 슬롯 생성 완료");
                 break;
             }
             else
@@ -143,6 +143,7 @@ public class Inventory : MonoBehaviour {
             slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
             slot[tempIndex].transform.Find("SlotText").GetComponent<Text>().text = clueName;
 
+            Debug.Log("tempIndex = " + tempIndex);
             // 단서의 이미지를 적용시킨 후, 슬롯을 클릭했을때의 이벤트 처리
             slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => addedSlotButton.GetComponent<SlotButtonColor>().ChangeSlotColor(tempIndex));
             slot[tempIndex].transform.GetComponent<Button>().onClick.AddListener(() => AutoFlip.instance.FlipPage(tempIndex, numOfAct));

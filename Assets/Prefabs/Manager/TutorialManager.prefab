@@ -92,6 +92,7 @@ MonoBehaviour:
   isPushedTab: 0
   isNoteTutorial: 0
   isParchmentTutorial: 0
+  isPlayingEndTutorial: 0
   merte_Idle: {fileID: 21300000, guid: 8e7e46c8aee98704b9229530b6f81754, type: 3}
   merte_Right: {fileID: 21300000, guid: b8382e2676cdb474bb3acecc5302b8e7, type: 3}
   merte_Left: {fileID: 21300000, guid: 67f51082487b792419e96d1e9aaca7e5, type: 3}
@@ -104,6 +105,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   deActive_Object:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
