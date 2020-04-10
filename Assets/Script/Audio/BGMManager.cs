@@ -20,6 +20,8 @@ public class BGMManager : MonoBehaviour
     public const string gamescene = "BW_H";
     public const string prologuescene = "Prologue";
 
+    /*튜토용 트리거 1*/
+    public bool tutorialBGMtrigger_1;
 
     private void Awake()
     {
@@ -39,7 +41,7 @@ public class BGMManager : MonoBehaviour
         source = GetComponent<AudioSource>();
 
         BGMVolume = 1f; //초기 볼륨
-
+        tutorialBGMtrigger_1 = false; ;
 
         AutoSelectBGM();//BGM 셀렉
         PlayBGM(BGMnowplaying);//BGM 재생
@@ -53,6 +55,7 @@ public class BGMManager : MonoBehaviour
         int nextBGMnowPlaying = preBGMnowPlaying;
 
         string curscene = SceneManager.GetActiveScene().name;
+
         Debug.Log("curscene : " + curscene);
 
         if (curscene == titlescene)//타이틀 씬 (메인)
@@ -61,10 +64,31 @@ public class BGMManager : MonoBehaviour
         }
         else if (curscene == gamescene)// 인게임 씬
         {
-            //플레이어 위치 받아와서 분류
-            string curpos = PlayerManager.instance.GetCurrentPosition();
-            string curhighpos = PlayerManager.instance.GetHigherCurrentPosition();
-            nextBGMnowPlaying = GetAreaBGM(curpos, curhighpos);
+            Debug.Log("인게임씬~");
+            if (TutorialManager.instance.IsTutorialBGMPlaying() == true)
+            {
+                Debug.Log("튜토리얼 중이므로 브금 특수 적용 0");
+                //프롤로그 ~ 튜토리얼 소개 까지 프롤로그 브금
+                if (PlayerManager.instance.GetCurrentPosition() == "Chapter_Zaral_Office" && tutorialBGMtrigger_1 == false)
+                {
+                    Debug.Log("튜토리얼 중이므로 브금 특수 적용 1");
+                    tutorialBGMtrigger_1 = true;
+                    nextBGMnowPlaying = 1;
+                }
+                // 주택가에 이동 시 지부 음악으로 바뀜
+                else
+                {
+                    Debug.Log("튜토리얼 중이므로 브금 특수 적용 2");
+                    nextBGMnowPlaying = 2;
+                }
+            }
+            else// 플레이 중일 때
+            {
+                Debug.Log("튜토 중 아님");
+                string curpos = PlayerManager.instance.GetCurrentPosition();
+                string curhighpos = PlayerManager.instance.GetHigherCurrentPosition();
+                nextBGMnowPlaying = GetAreaBGM(curpos, curhighpos);
+            }
         }
         else if (curscene == prologuescene)
         {

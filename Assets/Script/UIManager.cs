@@ -709,6 +709,10 @@ public class UIManager : MonoBehaviour {
 
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
         {
+            /*브금 체인지*/
+            BGMManager.instance.FadeOutBGM();
+            BGMManager.instance.StopBGM();
+
             timeSlotText.GetComponent<Text>().text = "세 번째 연쇄 살인";
 
             yield return new WaitForSeconds(0.7f);
@@ -817,7 +821,9 @@ public class UIManager : MonoBehaviour {
 
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
         {
+
             act3Button.SetActive(true);
+
             TutorialManager.instance.EndTutorial();
         }
     }

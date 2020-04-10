@@ -59,6 +59,9 @@ public class TutorialManager : MonoBehaviour
     public bool isParchmentTutorial;    // 921 양피지 튜토리얼 제어
     public bool isPlayingEndTutorial;
 
+    public bool isTutorialBGM; // 프롤로그 브금
+
+
     [SerializeField] private Sprite merte_Idle;
     [SerializeField] private Sprite merte_Right;
     [SerializeField] private Sprite merte_Left;
@@ -71,6 +74,8 @@ public class TutorialManager : MonoBehaviour
     private GameObject[] blocking_Object;   // 튜토리얼중 맵 이동 제어
     [SerializeField]
     private GameObject[] deActive_Object;   // 튜토리얼중 오브젝트 활성화 제어
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -158,6 +163,9 @@ public class TutorialManager : MonoBehaviour
         isNoteTutorial = false;
         isParchmentTutorial = false;
         isPlayingEndTutorial = false;
+
+        /*BGM*/
+        isTutorialBGM = true;
 
         for (int i = 0; i < GuideArrowToDowntown.Length; i++)
         {
@@ -555,6 +563,10 @@ public class TutorialManager : MonoBehaviour
 
     public void EndTutorial()
     {
+        Debug.Log("튜토리얼 끝");
+        isTutorialBGM = false;
+        
+       
         for (int i = 0; i < blocking_Object.Length; i++)
         {
             blocking_Object[i].SetActive(false);
@@ -564,12 +576,19 @@ public class TutorialManager : MonoBehaviour
         {
             deActive_Object[i].SetActive(true);
         }
+
         
         GameManager.instance.SetPlayState(GameManager.PlayState.Act);
         DialogManager.instance.SetLists();
         ItemDatabase.instance.SetLists();
+        
         isPlayingTutorial = false;
         isPlayingEndTutorial = false;
+
+        /*브금 체인지*/
+        BGMManager.instance.PlayBGM(2);
+        BGMManager.instance.FadeInBGM();
+
     }
 
     public void RainaExit_Active_True()
@@ -593,5 +612,10 @@ public class TutorialManager : MonoBehaviour
         GameManager.instance.GetClue("어느 날 갑자기");
         GameManager.instance.GetClue("이상한 종이");
         GameManager.instance.GetClue("소란스러웠던 밤");
+    }
+
+    public bool IsTutorialBGMPlaying()
+    {
+        return isTutorialBGM;
     }
 }
