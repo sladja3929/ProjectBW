@@ -68,6 +68,7 @@ public class PrologueManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F4))
         {
+            Debug.Log("skipspeed");
             speed = skipSpeed;
         }
     }

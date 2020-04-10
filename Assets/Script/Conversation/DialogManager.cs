@@ -1123,7 +1123,7 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("916"))
                         {
-                            // 뛰어오는 발 소리 재생
+                            EffectManager.instance.Play("뛰어오는 발 소리");
                             Debug.Log("뛰어오는 발 소리 재생");
                         }
                     }
