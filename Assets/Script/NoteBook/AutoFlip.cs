@@ -83,7 +83,7 @@ public class AutoFlip : MonoBehaviour {
     //페이지 넘김 효과를 준 후, 단서의 내용을 출력하기 위한 함수
     public void FlipPage(int tempIndex, string numOfAct)
     {
-        int num = Random.Range(0, 1 + 1);
+        //int num = Random.Range(0, 1 + 1);
 
         UIManager.instance.ActivateUpDownButton(false);
 
@@ -98,16 +98,19 @@ public class AutoFlip : MonoBehaviour {
                 return;
             }
 
-            if (num % 2 == 0)
-            {
-                FlipRightPage(tempIndex, numOfAct);
-                UIManager.instance.shownSlotIndex = tempIndex + 1;
-            }
-            else
-            {
-                FlipLeftPage(tempIndex, numOfAct);
-                UIManager.instance.shownSlotIndex = tempIndex + 1;
-            }
+            FlipRightPage(tempIndex, numOfAct);
+            UIManager.instance.shownSlotIndex = tempIndex + 1;
+
+            //if (num % 2 == 0)
+            //{
+            //    FlipRightPage(tempIndex, numOfAct);
+            //    UIManager.instance.shownSlotIndex = tempIndex + 1;
+            //}
+            //else
+            //{
+            //    FlipLeftPage(tempIndex, numOfAct);
+            //    UIManager.instance.shownSlotIndex = tempIndex + 1;
+            //}
         }
     }
 

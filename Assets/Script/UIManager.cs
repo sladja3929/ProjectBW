@@ -84,9 +84,9 @@ public class UIManager : MonoBehaviour {
     private RectTransform rectOfParchment;  // 양피지의 position 값을 가질 변수
     [SerializeField]
     private RectTransform rectOfParchmentHelper;    // 양피지 helper의 position 값을 가질 변수
-    [SerializeField]
-    private RectTransform rectOfParchmentClueScrollList;    // 양피지에 나타날 단서들의 리스트를 담을 스크롤뷰의 position 값을 가질 변수 ( = 양피지의 y위치 값과 같아야 함)
-    private float yMinValue_RectOfParchment = -720.0f;
+    //[SerializeField]
+    //private RectTransform rectOfParchmentClueScrollList;    // 양피지에 나타날 단서들의 리스트를 담을 스크롤뷰의 position 값을 가질 변수 ( = 양피지의 y위치 값과 같아야 함)
+    public float yMinValue_RectOfParchment { get; set; } = -400.0f;
     private float yMinVallue_RectOfHelper = 0.0f;
     private float tempValue_RectOfParchment;        // 양피지의 Rect y값과 helper의 Rect y값을 매칭시켜 양피지의 Rect y값을 변화시키면 스크롤이 될 것임
     private float tempValue_RectOfHelper;
@@ -207,35 +207,6 @@ public class UIManager : MonoBehaviour {
         //일시정지 상태가 아닐 때 && Act를 플레이하고 있을 때
         if (!UIManager.instance.GetIsPaused())
         {
-            /* 단서 정리 테스트용 0115 */
-            /*
-            if ((Input.GetKeyDown(KeyCode.E) && isReadParchment))
-            {
-                isReadParchment = false;
-                // On & Off
-                isOpenedParchment = !isOpenedParchment;
-
-                //양피지를 보이게 하기
-                parchment.SetActive(isOpenedParchment);
-                parchmentHelper.SetActive(isOpenedParchment);
-                parchmentClueScrollList.SetActive(isOpenedParchment);
-                // 만약 양피지가 닫힐 때, 화살표도 없애기
-                if (!isOpenedParchment)
-                {
-                    parchmentUpButton.SetActive(isOpenedParchment);
-                    parchmentDownButton.SetActive(isOpenedParchment);
-                }
-
-                // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
-                if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4)
-                    parchmentClueScrollList.transform.SetParent(parchment.transform);
-                else
-                    parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
-
-                // 양피지에 단서 리스트 출력(중복처리해야함)
-                Inventory.instance.MakeClueSlotInParchment();
-            }*/
-
             if (documentCover.activeSelf && paperOfDocument.localPosition.y > 600)
             {
                 SetDocumentCover(false);
@@ -249,14 +220,7 @@ public class UIManager : MonoBehaviour {
                     // 양피지의 위치값을 양피지 helper의 위치값과 양피지의 최소 위치값을 이용하여 적용시킴
                     rectOfParchment.localPosition = new Vector2(rectOfParchment.localPosition.x, rectOfParchmentHelper.localPosition.y + yMinValue_RectOfParchment);
                     // 바뀐 양피지의 위치값을 이용하여, 양피지의 단서 리스트가 표현되는 스크롤 뷰의 위치값을 같게 만듦 (양피지를 따라가게)
-                    rectOfParchmentClueScrollList.localPosition = new Vector2(rectOfParchmentClueScrollList.localPosition.x, rectOfParchment.localPosition.y);
-
-                    /*
-                    tempValue_RectOfParchment = rectOfParchmentHelper.localPosition.y - tempValue_RectOfHelper; // 현재 y값과 후에 저장된 y값의 차이를 저장함, 이는 양피지의 위치에 반영될 것임
-                    rectOfParchmentHelper.localPosition = new Vector2(rectOfParchmentHelper.localPosition.x, tempValue_RectOfParchment + yMinVallue_RectOfHelper);
-                    rectOfParchment.localPosition = new Vector2(rectOfParchment.localPosition.x, tempValue_RectOfParchment + yMinValue_RectOfParchment);
-                    tempValue_RectOfHelper = rectOfParchmentHelper.localPosition.y; // 이전에 저장된 y값을 백업 해놓기 -> tempValue_RectOfParchment 를 구하기 위해서 필요함
-                    */
+                    //rectOfParchmentClueScrollList.localPosition = new Vector2(rectOfParchmentClueScrollList.localPosition.x, rectOfParchment.localPosition.y);
                 }
             }
 
@@ -489,6 +453,9 @@ public class UIManager : MonoBehaviour {
 
     public void ArrangeClue()
     {
+        int clueCount = 0;
+        float clearRate = 0.0f;
+
         //if ((Input.GetKeyDown(KeyCode.E) && isReadParchment))
         //{
         isReadParchment = false;
@@ -500,8 +467,18 @@ public class UIManager : MonoBehaviour {
         parchmentHelper.SetActive(isOpenedParchment);
         parchmentClueScrollList.SetActive(isOpenedParchment);
 
-        // 메르테의 말 ( 사건 3은 44개의 단서, 전체 115개의 단서가 존재)
-        float clearRate = (PlayerManager.instance.playerClueLists.Count / 115.0f) * 100;
+        // 사건별로 메르테의 말을 다르게 설정 ( 사건 3은 44개의 단서, 사건 4는 51개의 단서, 전체 115개의 단서가 존재)
+        if (PlayerManager.instance.NumOfAct.Equals("53"))
+        {
+            clueCount = PlayerManager.instance.playerClueLists.FindAll(x => (x.GetNumOfAct().Equals("53"))).Count;
+            clearRate = (clueCount / 44.0f) * 100;
+        }
+        else if (PlayerManager.instance.NumOfAct.Equals("54"))
+        {
+            clueCount = PlayerManager.instance.playerClueLists.FindAll(x => (x.GetNumOfAct().Equals("54"))).Count;
+            clearRate = (clueCount / 51.0f) * 100;
+        }
+
         if (clearRate < 5.0f)
             wordOfMerte.GetComponent<Text>().text = "내가 현재 잘 하고 있는건지 잘 모르겠다. 조금만 더 열심히 해보자.";
         else if(clearRate >= 5.0f && clearRate < 21.0f)
@@ -528,10 +505,10 @@ public class UIManager : MonoBehaviour {
 
         // 현재 시간대에 발견한 단서가 4개 미만이라면, 양피지를 부모로 취해 단서 리스트의 영역에 마우스 커서가 있을 때에도 양피지가 스크롤이 되게끔 만든다.
         // 튜토리얼 진행중일때도 스크롤이 되게끔 만든다.
-        if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4 || GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
-            parchmentClueScrollList.transform.SetParent(parchment.transform);
-        else
-            parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
+        //if (PlayerManager.instance.GetCount_ClueList_In_Certain_Timeslot() < 4 || GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+        //    parchmentClueScrollList.transform.SetParent(parchment.transform);
+        //else
+        //    parchmentClueScrollList.transform.SetParent(canvasForParchment.transform);
 
         // 양피지에 단서 리스트 출력(중복처리해야함)
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)

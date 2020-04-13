@@ -135,15 +135,9 @@ public class PlayerManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
 
-        /* 안드렌의 단서 테스트 */
-        //if (Input.GetKeyDown(KeyCode.F3))
-        //{
-        //    DocumentControll.instance.InvokeDocumentAnim();
-        //}
-
-        if(!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
+        if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐때
         {
-            if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E))
+            if (UIManager.instance.isReadParchment && Input.GetKeyDown(KeyCode.E) && !ParchmentControll.instance.GetIsPlayingDocumentAnim())
             { 
                 if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
                 {
@@ -197,12 +191,14 @@ public class PlayerManager : MonoBehaviour {
 
                             //Debug.Log("단서 정리 시스템 활성화");
                             UIManager.instance.SetDocumentControll(true);
+                            // 양피지 갱신
+                            ParchmentControll.instance.UpdateParchmentPosition(playerClueLists_In_Certain_Timeslot.Count);
 
-                            if (ParchmentControll.instance.GetParchmentPosition().y != -720)
-                                ParchmentControll.instance.SetParchmentPosition(new Vector2(0, -720));
+                            if (ParchmentControll.instance.GetParchmentPosition().y != ParchmentControll.instance.min_Scroll_Position_Parchment)
+                                ParchmentControll.instance.SetParchmentPosition(new Vector2(0, ParchmentControll.instance.min_Scroll_Position_Parchment));
 
-                            if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
-                                ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
+                            //if (ParchmentControll.instance.GetAggregationClueListScrollListPosition().y != -720)
+                            //    ParchmentControll.instance.SetAggregationClueListScrollListPosition(new Vector2(0, -720));
 
                             if (ParchmentControll.instance.GetHelperContentPosition().y != 0)
                                 ParchmentControll.instance.SetHelperContentPosition(new Vector2(0, 0));

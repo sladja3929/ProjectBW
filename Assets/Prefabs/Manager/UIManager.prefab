@@ -78,7 +78,6 @@ MonoBehaviour:
   parchmentClueScrollList: {fileID: 0}
   rectOfParchment: {fileID: 0}
   rectOfParchmentHelper: {fileID: 0}
-  rectOfParchmentClueScrollList: {fileID: 0}
   parchmentUpButton: {fileID: 0}
   parchmentDownButton: {fileID: 0}
   DocumentOfAndren: {fileID: 0}

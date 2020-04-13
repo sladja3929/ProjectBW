@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
 
 public class DocumentControll : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class DocumentControll : MonoBehaviour
     public static DocumentControll instance = null;
 
     [SerializeField]
+    private RectTransform rect_DocumentControl;
+    [SerializeField]
     private RectTransform rect_DocumentOfAndren;
     [SerializeField]
     private RectTransform rect_DocumentOpener;
@@ -22,6 +25,14 @@ public class DocumentControll : MonoBehaviour
     [SerializeField]
     private RectTransform rect_DocumentCover;
 
+    [SerializeField]
+    private GameObject first_AndrenClue;
+    [SerializeField]
+    private GameObject second_AndrenClue;
+    [SerializeField]
+    private GameObject third_AndrenClue;
+
+    private Vector2 initPositionDocumentOfControl;
     private Vector2 initPositionDocumentOfAndren;
     private Quaternion initRotationDocumentOpener;
     private Vector2 initSizePaperOfDocument;
@@ -40,6 +51,7 @@ public class DocumentControll : MonoBehaviour
 
     public void Init_Document()
     {
+        initPositionDocumentOfControl = rect_DocumentControl.localPosition;
         initPositionDocumentOfAndren = rect_DocumentOfAndren.localPosition;
         initRotationDocumentOpener = rect_DocumentOpener.localRotation;
         initSizePaperOfDocument = rect_PaperOfDocument.sizeDelta;
@@ -48,11 +60,15 @@ public class DocumentControll : MonoBehaviour
 
     public void ResetDocumentOfAndren()
     {
+        playableDirector.Stop();
+        rect_DocumentControl.localPosition = initPositionDocumentOfControl;
         rect_DocumentOfAndren.localPosition = initPositionDocumentOfAndren;
         rect_DocumentOpener.localRotation = initRotationDocumentOpener;
         rect_PaperOfDocument.sizeDelta = initSizePaperOfDocument;
         rect_DocumentCover.localPosition = initPositionDocumentCover;
+        UIManager.instance.SetDocumentCover(true);
         ParchmentControll.instance.SetIsPlayingDocumentAnimToFalse();
+        ParchmentControll.instance.atOnce = false;
         //UIManager.instance.SetDocumentControll(false);
     }
 
@@ -60,8 +76,9 @@ public class DocumentControll : MonoBehaviour
     public void InvokeDocumentAnim()
     {
         playableDirector.Stop();
+        GetAndrenClue(PlayerManager.instance.NumOfAct);  // 안드렌이 모은 단서 획득
+        SettingAndrenClue(PlayerManager.instance.NumOfAct);
         Invoke("PlayDocumentAnim", 1.0f);
-        //UIManager.instance.SetDocumentCover(true);
     }
 
     public void PlayDocumentAnim()
@@ -69,4 +86,47 @@ public class DocumentControll : MonoBehaviour
         playableDirector.Play();
     }
 
+    public void SettingAndrenClue(string numOfAct)
+    {
+        List<ClueStructure> tempClueLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetClueStructureLists();
+
+        if (numOfAct.Equals("53"))
+        {
+            first_AndrenClue.transform.Find("ClueName").GetComponent<Text>().text = "과거 후원의 아이";
+            first_AndrenClue.transform.Find("ClueText").GetComponent<Text>().text = tempClueLists.Find(x => x.GetClueName().Equals("과거 후원의 아이")).GetDesc();
+
+            second_AndrenClue.transform.Find("ClueName").GetComponent<Text>().text = "용의자 추정";
+            second_AndrenClue.transform.Find("ClueText").GetComponent<Text>().text = tempClueLists.Find(x => x.GetClueName().Equals("용의자 추정")).GetDesc();
+
+            third_AndrenClue.transform.Find("ClueName").GetComponent<Text>().text = "슬램가의 한 남매";
+            third_AndrenClue.transform.Find("ClueText").GetComponent<Text>().text = tempClueLists.Find(x => x.GetClueName().Equals("슬램가의 한 남매")).GetDesc();
+        }
+        else if (numOfAct.Equals("54"))
+        {
+            first_AndrenClue.transform.Find("ClueName").GetComponent<Text>().text = "륑 집안의 과거";
+            first_AndrenClue.transform.Find("ClueText").GetComponent<Text>().text = tempClueLists.Find(x => x.GetClueName().Equals("륑 집안의 과거")).GetDesc();
+
+            second_AndrenClue.transform.Find("ClueName").GetComponent<Text>().text = "범인의 행적";
+            second_AndrenClue.transform.Find("ClueText").GetComponent<Text>().text = tempClueLists.Find(x => x.GetClueName().Equals("범인의 행적")).GetDesc();
+
+            third_AndrenClue.transform.Find("ClueName").GetComponent<Text>().text = "...";
+            third_AndrenClue.transform.Find("ClueText").GetComponent<Text>().text = tempClueLists.Find(x => x.GetClueName().Equals("...")).GetDesc();
+        }
+    }
+
+    public void GetAndrenClue(string numOfAct)
+    {
+        if (numOfAct.Equals("53"))
+        {
+            GameManager.instance.GetClue("과거 후원의 아이");
+            GameManager.instance.GetClue("용의자 추정");
+            GameManager.instance.GetClue("슬램가의 한 남매");
+        }
+        else if (numOfAct.Equals("54"))
+        {
+            GameManager.instance.GetClue("륑 집안의 과거");
+            GameManager.instance.GetClue("범인의 행적");
+            GameManager.instance.GetClue("...");
+        }
+    }
 }

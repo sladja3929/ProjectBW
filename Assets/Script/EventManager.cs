@@ -576,7 +576,7 @@ public class EventManager : MonoBehaviour
             // 안드렌이 2주마다 단서를 정리하여 사무실에 두고간다. -> 단서 정리 시스템에서 안드렌의 서류를 2주에 한번씩 나타나게 해야함
             if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("224"))
             {
-
+                ParchmentControll.instance.SetActive_Help_Of_Andren(true);
             }
 
             // 이벤트 228

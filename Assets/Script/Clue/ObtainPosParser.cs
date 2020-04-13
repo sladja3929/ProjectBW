@@ -37,9 +37,19 @@ public class ObtainPosParser
     {
         string obtainPos1 = "";
         char[] tempArray;
-
+        
         try
         {
+            if (posCode[0].Equals("0"))
+            {
+                return "제렐이 건네준 단서";
+            }
+
+            if (posCode[0].Equals("1"))
+            {
+                return "안드렌이 건네준 단서";
+            }
+
             for (int i = 0; i < posCode.Length; i++)
             {
                 tempArray = posCode[i].ToCharArray();

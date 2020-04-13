@@ -37,10 +37,13 @@ public class Inventory : MonoBehaviour {
     {
         // 플레이어가 현재 시간대에 얻은 단서들의 리스트를 가져온다.
         List<ClueStructure> certainClueLists = PlayerManager.instance.playerClueLists_In_Certain_Timeslot;
-
-        if (certainClueLists.Count == 0)
+        int num_Clue = certainClueLists.Count;
+        
+        if (num_Clue == 0)
         {
             //Debug.Log("현 시간대에 얻은 단서가 없음");
+            // 양피지 위치 갱신
+            ParchmentControll.instance.UpdateParchmentPosition(num_Clue);
             return;
         }
 
@@ -49,14 +52,23 @@ public class Inventory : MonoBehaviour {
         string tempClueName;
 
         // 리스트에 있는 단서들의 수만큼 for문으로 slot을 만들어 넣는다.
-        for (int i = 0; i < certainClueLists.Count; i++)
+        for (int i = 0; i < num_Clue; i++)
         {
-            tempSlot = Instantiate(addedSlot, clueList_Panel_In_Parchment.transform);
-            slotList_In_Parchment.Add(tempSlot);
-            tempClueName = certainClueLists[i].GetClueName();
-            tempSlot.transform.Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempClueName);
-            tempSlot.transform.Find("ClueName").GetComponent<Text>().text = "" + tempClueName;
+            // 안드렌이 건네준 단서는 단서정리할때 양피지에 나타나지 않도록 한다.
+            if (!CheckAndrenClue(certainClueLists, i))
+            {
+                ParchmentControll.instance.UpdateAdditionalCluePosition(i + 1);
+                tempSlot = Instantiate(addedSlot, clueList_Panel_In_Parchment.transform);
+                tempSlot.GetComponent<RectTransform>().localPosition = new Vector3(tempSlot.GetComponent<RectTransform>().localPosition.x, ParchmentControll.instance.additional_Clue_Pos_y, tempSlot.GetComponent<RectTransform>().localPosition.z);
+                slotList_In_Parchment.Add(tempSlot);
+                tempClueName = certainClueLists[i].GetClueName();
+                tempSlot.transform.GetChild(0).Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempClueName);
+                tempSlot.transform.GetChild(0).Find("ClueName").GetComponent<Text>().text = "" + tempClueName;
+            }
         }
+
+        // 양피지 위치 갱신
+        ParchmentControll.instance.UpdateParchmentPosition(num_Clue);
 
         // 현재 시간대에 가지고 있는 단서 리스트 초기화
         PlayerManager.instance.ResetClueList_In_Certain_Timeslot();
@@ -219,4 +231,13 @@ public class Inventory : MonoBehaviour {
         return slot[index].GetComponent<Button>();
     }
 
+    public bool CheckAndrenClue(List<ClueStructure> certainClueLists, int index)
+    {
+        if (certainClueLists[index].GetClueName().Equals("과거 후원의 아이") || certainClueLists[index].GetClueName().Equals("용의자 추정")
+            || certainClueLists[index].GetClueName().Equals("슬램가의 한 남매") || certainClueLists[index].GetClueName().Equals("륑 집안의 과거")
+            || certainClueLists[index].GetClueName().Equals("범인의 행적") || certainClueLists[index].GetClueName().Equals("..."))
+            return true;
+        else
+            return false;
+    }
 }

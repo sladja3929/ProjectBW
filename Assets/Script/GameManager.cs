@@ -228,7 +228,14 @@ public class GameManager : MonoBehaviour {
 
         for (int i = 0; i < playerClueNameLists.Count; i++)
         {
-            GetClue(playerClueNameLists[i]);
+            try
+            {
+                GetClue(playerClueNameLists[i]);
+            }
+            catch
+            {
+                Debug.Log("Error Clue Name = " + playerClueNameLists[i]);
+            }
 
             try
             {

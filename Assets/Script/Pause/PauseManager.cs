@@ -56,10 +56,11 @@ public class PauseManager : MonoBehaviour
         EffectManager.instance.Play("버튼 클릭음");
         ClosePausePanel();
         UIManager.instance.SetIsPausedFalse();
+
         // 세이브
-        GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-        GameManager.instance.thread.IsBackground = true;
-        GameManager.instance.thread.Start();
+        //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+        //GameManager.instance.thread.IsBackground = true;
+        //GameManager.instance.thread.Start();
 
         SceneManager.LoadScene("Title_Tmp");
     }
