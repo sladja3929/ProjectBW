@@ -35,6 +35,10 @@ public class TitleManager : MonoBehaviour
     // LoadDataForScene 에는 CSV 데이터 등을 로드하는 함수를 넣으면 됨
     IEnumerator LoadAsyncNewGameScene(CorrectLoadSceneFunc LoadDataForScene)
     {
+        SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
+
+        yield return StartCoroutine(LoadingManager.instance.Fade(true));
+
         //GameManager.instance.PlayNewGame();
         LoadDataForScene();
 
@@ -44,23 +48,56 @@ public class TitleManager : MonoBehaviour
         }
 
         AsyncOperation asyncLoad;
-        
+
+        float timer = 0.0f;
+
         if (GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
         {
+            LoadingManager.instance.loadSceneName = "Prologue";
             asyncLoad = SceneManager.LoadSceneAsync("Prologue");
+
+            asyncLoad.allowSceneActivation = false;            
 
             while (!asyncLoad.isDone)
             {
                 yield return null;
+                timer += Time.unscaledDeltaTime;
+
+
+                if (asyncLoad.progress >= 0.9f)
+                {
+                    if (timer > 2.0f)//페이크 로딩
+                    {
+                        asyncLoad.allowSceneActivation = true;
+
+                        timer = 0.0f;
+                        yield break;
+                    }
+                }
             }
         }
         else if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
         {
+            LoadingManager.instance.loadSceneName = "BW_H";
             asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+
+            asyncLoad.allowSceneActivation = false;
+
 
             while (!asyncLoad.isDone)
             {
                 yield return null;
+                timer += Time.unscaledDeltaTime;
+
+                if (asyncLoad.progress > 0.9f)
+                {
+                    if (timer > 2.0f)//페이크 로딩
+                    {
+                        asyncLoad.allowSceneActivation = true;
+                        timer = 0.0f;
+                        yield break;
+                    }
+                }
             }
         }
     }
