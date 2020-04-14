@@ -113,6 +113,7 @@ public class LoadingManager : MonoBehaviour
 
     public void LoadSceneEnd(Scene curscene, LoadSceneMode loadSceneMode)
     {
+        Debug.Log("LoadSceneEnd 발동");
         if (curscene.name == loadSceneName)
         {
             StartCoroutine(Fade(false));

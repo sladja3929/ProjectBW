@@ -36,7 +36,6 @@ public class TitleManager : MonoBehaviour
     IEnumerator LoadAsyncNewGameScene(CorrectLoadSceneFunc LoadDataForScene)
     {
         SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
-
         yield return StartCoroutine(LoadingManager.instance.Fade(true));
 
         //GameManager.instance.PlayNewGame();
@@ -63,7 +62,6 @@ public class TitleManager : MonoBehaviour
                 yield return null;
                 timer += Time.unscaledDeltaTime;
 
-
                 if (asyncLoad.progress >= 0.9f)
                 {
                     if (timer > 2.0f)//페이크 로딩
@@ -83,17 +81,18 @@ public class TitleManager : MonoBehaviour
 
             asyncLoad.allowSceneActivation = false;
 
-
+            Debug.Log("일단 이어하기로 loadSceneName : " + LoadingManager.instance.loadSceneName);
             while (!asyncLoad.isDone)
             {
                 yield return null;
                 timer += Time.unscaledDeltaTime;
 
-                if (asyncLoad.progress > 0.9f)
+                if (asyncLoad.progress >= 0.9f)
                 {
                     if (timer > 2.0f)//페이크 로딩
                     {
                         asyncLoad.allowSceneActivation = true;
+
                         timer = 0.0f;
                         yield break;
                     }

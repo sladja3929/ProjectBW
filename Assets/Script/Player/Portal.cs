@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
@@ -177,10 +178,10 @@ public class Portal : MonoBehaviour
 
 
         /*플레이어의 위치에 따른 BGM변경*/
-        BGMManager.instance.AutoSelectBGM();
+        BGMManager.instance.AutoSelectBGM(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
         /*이벤트를 적용시킬 것이 있는지 확인 후, 적용*/
-        if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
             EventManager.instance.PlayEvent();      
 
         /*화면 페이드 인*/

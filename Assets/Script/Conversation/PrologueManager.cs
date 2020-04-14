@@ -44,7 +44,6 @@ public class PrologueManager : MonoBehaviour
 
         InitPrologueSetting();
 
-        BGMManager.instance.AutoSelectBGM();
     }
     
     void Update()
@@ -223,11 +222,32 @@ public class PrologueManager : MonoBehaviour
     {
         GameManager.instance.SetPlayState(GameManager.PlayState.Tutorial);
 
+        SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
+        yield return StartCoroutine(LoadingManager.instance.Fade(true));
+
+        float timer = 0.0f;
+
+        LoadingManager.instance.loadSceneName = "BW_H";
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BW_H");
+
+        asyncLoad.allowSceneActivation = false;
 
         while (!asyncLoad.isDone)
         {
             yield return null;
+
+            timer += Time.unscaledDeltaTime;
+
+            if (asyncLoad.progress >= 0.9f)
+            {
+                if (timer > 2.0f)//페이크 로딩
+                {
+                    asyncLoad.allowSceneActivation = true;
+
+                    timer = 0.0f;
+                    yield break;
+                }
+            }
         }
 
     }

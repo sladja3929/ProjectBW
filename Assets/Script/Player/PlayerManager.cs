@@ -128,8 +128,6 @@ public class PlayerManager : MonoBehaviour {
 
             ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame
         }
-
-        BGMManager.instance.AutoSelectBGM(); //씬 이동에 따른 BGM 조정
     }
 
     // Update is called once per frame

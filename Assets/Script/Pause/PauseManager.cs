@@ -57,12 +57,7 @@ public class PauseManager : MonoBehaviour
         ClosePausePanel();
         UIManager.instance.SetIsPausedFalse();
 
-        // 세이브
-        //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-        //GameManager.instance.thread.IsBackground = true;
-        //GameManager.instance.thread.Start();
-
-        SceneManager.LoadScene("Title_Tmp");
+        StartCoroutine(LoadAsyncTitleScene());
     }
 
     public void OpenSettingPanel()
@@ -92,5 +87,39 @@ public class PauseManager : MonoBehaviour
     bool GetIsSetting()
     {
         return issetting;
+    }
+
+    IEnumerator LoadAsyncTitleScene()
+    {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Title);
+
+        SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
+        yield return StartCoroutine(LoadingManager.instance.Fade(true));
+
+        float timer = 0.0f;
+
+        LoadingManager.instance.loadSceneName = "Title_Tmp";
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Title_Tmp");
+
+        asyncLoad.allowSceneActivation = false;
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+
+            timer += Time.unscaledDeltaTime;
+
+            if (asyncLoad.progress >= 0.9f)
+            {
+                if (timer > 2.0f)//페이크 로딩
+                {
+                    asyncLoad.allowSceneActivation = true;
+
+                    timer = 0.0f;
+                    yield break;
+                }
+            }
+        }
+
     }
 }

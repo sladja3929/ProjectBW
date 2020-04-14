@@ -43,20 +43,22 @@ public class BGMManager : MonoBehaviour
         BGMVolume = 1f; //초기 볼륨
         tutorialBGMtrigger_1 = false; ;
 
-        AutoSelectBGM();//BGM 셀렉
+        AutoSelectBGM(SceneManager.GetActiveScene(),LoadSceneMode.Single);//BGM 셀렉
         PlayBGM(BGMnowplaying);//BGM 재생
 
+        SceneManager.sceneLoaded += AutoSelectBGM;
     }
 
+    /*씬 변경 시마다 BGM 적용*/
     /*BGM 자동선택 - 씬과 플레이어 위치 판별*/
-    public void AutoSelectBGM()
+    public void AutoSelectBGM(Scene scene, LoadSceneMode loadSceneMode)
     {
         int preBGMnowPlaying = BGMnowplaying;
         int nextBGMnowPlaying = preBGMnowPlaying;
 
-        string curscene = SceneManager.GetActiveScene().name;
+        string curscene = scene.name;
 
-        Debug.Log("curscene : " + curscene);
+        Debug.Log("BGM 선택됨 curscene : " + curscene);
 
         if (curscene == titlescene)//타이틀 씬 (메인)
         {
@@ -64,7 +66,6 @@ public class BGMManager : MonoBehaviour
         }
         else if (curscene == gamescene)// 인게임 씬
         {
-            //Debug.Log("인게임씬~");
             //if (TutorialManager.instance.IsTutorialBGMPlaying() == true)
             //{
             //    Debug.Log("튜토리얼 중이므로 브금 특수 적용 0");

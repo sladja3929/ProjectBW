@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class UIManager : MonoBehaviour {
 
@@ -657,7 +659,7 @@ public class UIManager : MonoBehaviour {
         }
 
         /*플레이어의 위치에 따른 BGM변경*/
-        BGMManager.instance.AutoSelectBGM();
+        BGMManager.instance.AutoSelectBGM(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
         /* 패널 페이드 인*/
         fadeInOutAnimator.SetBool("isfadeout", false);
@@ -833,6 +835,8 @@ public class UIManager : MonoBehaviour {
 
         isConversationing = false;
         isFading = false;
+
+        BGMManager.instance.AutoSelectBGM(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
         MiniMapManager.instance.SetIsInsideNow(true);       // 메르테의 사무실에 있으므로, isInsideNow 값을 true로 변경
         TutorialManager.instance.IncreaseTutorial_Index();
