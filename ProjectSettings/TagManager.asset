@@ -11,6 +11,7 @@ TagManager:
   - Parchment
   - ParchmentList
   - MerteDesk
+  - PortalDoor
   layers:
   - Default
   - TransparentFX

@@ -3052,7 +3052,7 @@ GameObject:
   - component: {fileID: 8636860117420534364}
   m_Layer: 10
   m_Name: FromOuthouseToGirlsRoom
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3295,11 +3295,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193895844028612902}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 2560, y: 45, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
-  m_Father: {fileID: 4079122955929313996}
-  m_RootOrder: 0
+  m_Father: {fileID: 6674403252815319883}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &577873872291294254
 SpriteRenderer:
@@ -3856,11 +3856,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234170743053068819}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1280, y: 45, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
-  m_Father: {fileID: 3924370848751694892}
-  m_RootOrder: 0
+  m_Father: {fileID: 7751173844641833170}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6009843402775547894
 SpriteRenderer:
@@ -3939,6 +3939,7 @@ Transform:
   m_Children:
   - {fileID: 5985036292504690964}
   - {fileID: 1242910585004472796}
+  - {fileID: 1918608844168996188}
   - {fileID: 7900342456936048581}
   - {fileID: 7177396317158440060}
   m_Father: {fileID: 774518179912683001}
@@ -5945,7 +5946,7 @@ GameObject:
   - component: {fileID: 4525849568895637649}
   m_Layer: 10
   m_Name: FromRainaHouseToStreet2
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8361,7 +8362,7 @@ GameObject:
   - component: {fileID: 5096302274933609553}
   m_Layer: 10
   m_Name: FromDowntownToCafe
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9006,7 +9007,7 @@ GameObject:
   - component: {fileID: 3836715423890988218}
   m_Layer: 10
   m_Name: FromStreet2ToRainaHouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12224,7 +12225,7 @@ GameObject:
   - component: {fileID: 3126534460494363260}
   m_Layer: 10
   m_Name: FromStreet1ToCruise
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12297,7 +12298,7 @@ GameObject:
   - component: {fileID: 1477202586297554253}
   m_Layer: 10
   m_Name: FromOuthouseToFirstFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13841,7 +13842,7 @@ GameObject:
   - component: {fileID: 7790329067949155154}
   m_Layer: 10
   m_Name: FromCruiseToStreet1
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15284,7 +15285,7 @@ GameObject:
   - component: {fileID: 713582674208971532}
   m_Layer: 18
   m_Name: FromPresidentOfficeToSecretSpace
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16164,7 +16165,7 @@ GameObject:
   - component: {fileID: 2993828959574389960}
   m_Layer: 10
   m_Name: FromOuthouseToDiningRoom
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17213,7 +17214,7 @@ GameObject:
   - component: {fileID: 1850376112769129156}
   m_Layer: 13
   m_Name: FromZaralOfficeToFirstFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19754,7 +19755,7 @@ GameObject:
   - component: {fileID: 764245456553459682}
   m_Layer: 10
   m_Name: FromSecondFloorToGuestRoom1
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21947,7 +21948,7 @@ GameObject:
   - component: {fileID: 524748899384088601}
   m_Layer: 10
   m_Name: FromDowntownToSalon
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22724,7 +22725,7 @@ GameObject:
   - component: {fileID: 4282135736452441475}
   m_Layer: 10
   m_Name: FromSecondFloorToPresidentRoom
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22797,7 +22798,7 @@ GameObject:
   - component: {fileID: 8705466340555020562}
   m_Layer: 22
   m_Name: FromDiningRoomToOuthouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23858,7 +23859,7 @@ GameObject:
   - component: {fileID: 6035234509369698602}
   m_Layer: 10
   m_Name: FromStreet1ToInformationAgency
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32382,7 +32383,7 @@ GameObject:
   - component: {fileID: 2629388314371874974}
   m_Layer: 10
   m_Name: FromMansionToFirstFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33090,7 +33091,7 @@ GameObject:
   - component: {fileID: 2629388314448897760}
   m_Layer: 10
   m_Name: FromDowntownToChapter
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49681,7 +49682,7 @@ GameObject:
   - component: {fileID: 7339291220141280727}
   m_Layer: 20
   m_Name: FromGuestRoom2ToSecondFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51692,7 +51693,7 @@ GameObject:
   - component: {fileID: 2741319471472355251}
   m_Layer: 10
   m_Name: FromSecondFloorToGuestRoom2
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52417,6 +52418,7 @@ Transform:
   m_Children:
   - {fileID: 4108881975473533921}
   - {fileID: 3184305192740035588}
+  - {fileID: 4840456848805753811}
   - {fileID: 3924370848751694892}
   m_Father: {fileID: 774518179912683001}
   m_RootOrder: 1
@@ -52601,7 +52603,7 @@ GameObject:
   - component: {fileID: 6932604188550968972}
   m_Layer: 10
   m_Name: FromFirstFloorToMansion
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52753,7 +52755,7 @@ GameObject:
   - component: {fileID: 1411131316525305283}
   m_Layer: 10
   m_Name: FromMansionToFirstFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56277,7 +56279,7 @@ GameObject:
   - component: {fileID: 438578351353577776}
   m_Layer: 22
   m_Name: FromBoysRoomToOuthouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58641,7 +58643,7 @@ GameObject:
   - component: {fileID: 7888594929261102557}
   m_Layer: 16
   m_Name: FromSecretSpaceToPresidentOffice
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -60983,12 +60985,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3911097077737031796}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1280, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children:
-  - {fileID: 4840456848805753811}
+  m_LocalPosition: {x: 1280, y: 50, z: 0}
+  m_LocalScale: {x: 100, y: 105, z: 100}
+  m_Children: []
   m_Father: {fileID: 7751173844641833170}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2911548002778553899
 SpriteRenderer:
@@ -61051,7 +61052,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.19808125}
+  m_Offset: {x: -0.038724422, y: 0.0000030994415}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -61062,7 +61063,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 12.86, y: 5.6038375}
+  m_Size: {x: 12.78255, y: 5.9434495}
   m_EdgeRadius: 0
 --- !u!114 &4589257446285102048
 MonoBehaviour:
@@ -62599,7 +62600,7 @@ GameObject:
   - component: {fileID: 751901416974361538}
   m_Layer: 20
   m_Name: FromGuestRoom1ToSecondFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -62672,7 +62673,7 @@ GameObject:
   - component: {fileID: 4431369700988728107}
   m_Layer: 10
   m_Name: FromBalruaHouseToStreet3
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65499,7 +65500,7 @@ GameObject:
   - component: {fileID: 9205249751787782934}
   m_Layer: 10
   m_Name: FromBroSisHouseToStreet3
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66602,7 +66603,7 @@ GameObject:
   - component: {fileID: 1641580574575888114}
   m_Layer: 13
   m_Name: FromMerteOfficeToFirstFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69888,7 +69889,7 @@ GameObject:
   - component: {fileID: 1667006327055237013}
   m_Layer: 14
   m_Name: FromFirstFloorToZaralOffice
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71151,12 +71152,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5189675150083978938}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children:
-  - {fileID: 1918608844168996188}
+  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalScale: {x: 100, y: 105, z: 100}
+  m_Children: []
   m_Father: {fileID: 4512132353567924118}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3894028720141579936
 SpriteRenderer:
@@ -71219,7 +71219,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.21726096}
+  m_Offset: {x: -0.037510872, y: 0.0000030994415}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -71230,7 +71230,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 12.86, y: 5.5654783}
+  m_Size: {x: 12.784979, y: 5.9434495}
   m_EdgeRadius: 0
 --- !u!114 &5230891512295654816
 MonoBehaviour:
@@ -74274,7 +74274,7 @@ GameObject:
   - component: {fileID: 3401459013358144858}
   m_Layer: 14
   m_Name: FromFirstFloorToOutside
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76703,7 +76703,7 @@ GameObject:
   - component: {fileID: 985865913964723178}
   m_Layer: 21
   m_Name: FromGirlsRoomToOuthouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76954,7 +76954,7 @@ GameObject:
   - component: {fileID: 6382440305424286454}
   m_Layer: 15
   m_Name: FromSecondFloorToPresidentOffice
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80282,7 +80282,7 @@ GameObject:
   - component: {fileID: 2261698852157658894}
   m_Layer: 10
   m_Name: FromFirstFloorToMansion
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80540,7 +80540,7 @@ GameObject:
   - component: {fileID: 620906453936741717}
   m_Layer: 10
   m_Name: FromDowntownToRealestate
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84332,7 +84332,7 @@ GameObject:
   - component: {fileID: 1256536356517910108}
   m_Layer: 10
   m_Name: FromOuthouseToStudyRoom
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84885,7 +84885,7 @@ Transform:
   m_Children:
   - {fileID: 7160356916803465801}
   m_Father: {fileID: 4512132353567924118}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &8891527652670360921
 BoxCollider2D:
@@ -88936,7 +88936,7 @@ GameObject:
   - component: {fileID: 5632648429614743609}
   m_Layer: 10
   m_Name: FromStreet3ToBalruaHouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89501,7 +89501,7 @@ GameObject:
   - component: {fileID: 7941987494978020897}
   m_Layer: 10
   m_Name: FromChapterToFirstFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95201,7 +95201,7 @@ GameObject:
   - component: {fileID: 7692016666694122918}
   m_Layer: 18
   m_Name: FromPresidentOfficeToSecondFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99285,11 +99285,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8220336693121523699}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 45, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
-  m_Father: {fileID: 7900342456936048581}
-  m_RootOrder: 0
+  m_Father: {fileID: 4512132353567924118}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5573889931673374851
 SpriteRenderer:
@@ -99431,7 +99431,7 @@ GameObject:
   - component: {fileID: 5154998533200953378}
   m_Layer: 10
   m_Name: FromOuthouseToBoysRoom
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100011,7 +100011,7 @@ GameObject:
   - component: {fileID: 6595382265350526507}
   m_Layer: 10
   m_Name: FromFirstFloorToOuthouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100155,12 +100155,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8364163832606760230}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2560, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_Children:
-  - {fileID: 2630776990682597041}
+  m_LocalPosition: {x: 2560, y: 50, z: 0}
+  m_LocalScale: {x: 100, y: 105, z: 100}
+  m_Children: []
   m_Father: {fileID: 6674403252815319883}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3487991112988734824
 SpriteRenderer:
@@ -100223,7 +100222,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.22593772}
+  m_Offset: {x: 0, y: 0.0000030994415}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -100234,7 +100233,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 12.86, y: 5.5481243}
+  m_Size: {x: 12.86, y: 5.9434495}
   m_EdgeRadius: 0
 --- !u!114 &3529017225444716814
 MonoBehaviour:
@@ -101114,7 +101113,7 @@ GameObject:
   - component: {fileID: 7704888255496581664}
   m_Layer: 14
   m_Name: FromFirstFloorToMerteOffice
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104157,6 +104156,7 @@ Transform:
   m_Children:
   - {fileID: 4262198872107228654}
   - {fileID: 6550943811140225265}
+  - {fileID: 2630776990682597041}
   - {fileID: 4079122955929313996}
   m_Father: {fileID: 774518179912683001}
   m_RootOrder: 2
@@ -104174,7 +104174,7 @@ GameObject:
   - component: {fileID: 1638827142530260035}
   m_Layer: 19
   m_Name: FromCafeToDowntown
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104326,7 +104326,7 @@ GameObject:
   - component: {fileID: 5360565179279059803}
   m_Layer: 10
   m_Name: FromStreet3ToBroSisHouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104688,7 +104688,7 @@ GameObject:
   - component: {fileID: 8111352042214722948}
   m_Layer: 10
   m_Name: FromSalonToDowntown
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -105838,7 +105838,7 @@ GameObject:
   - component: {fileID: 2567829952733016032}
   m_Layer: 21
   m_Name: FromStudyRoomToOuthouse
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106723,7 +106723,7 @@ GameObject:
   - component: {fileID: 7435960466526238594}
   m_Layer: 10
   m_Name: FromRealestateToDowntown
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107697,7 +107697,7 @@ GameObject:
   - component: {fileID: 3485510718965654518}
   m_Layer: 10
   m_Name: FromPresidentRoomToSecondFloor
-  m_TagString: PortalPoint
+  m_TagString: PortalDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108212,6 +108212,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 864aa9263bd845746aebac8bf0dcb142, type: 3}
@@ -108759,6 +108769,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.92
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 864aa9263bd845746aebac8bf0dcb142, type: 3}
 --- !u!4 &2522855269191737976 stripped
@@ -109123,6 +109143,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 864aa9263bd845746aebac8bf0dcb142, type: 3}
@@ -112695,6 +112725,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 475052292495763102, guid: 864aa9263bd845746aebac8bf0dcb142,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.92
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 864aa9263bd845746aebac8bf0dcb142, type: 3}

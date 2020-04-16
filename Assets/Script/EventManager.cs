@@ -527,15 +527,15 @@ public class EventManager : MonoBehaviour
 
 
             // 이벤트 221
-            if (eventVariable.isInvestigated_StrangeDoor)
-            {
-                if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("221"))
-                {
-                    eventVariable.isInvestigated_StrangeDoor = false;  // 한번만 이동이 이루어지도록 처리
-                                                                       //유람선 지하로 맵 이동 시키기 -> 나중에 Invoke 같은 함수 써서, 특정 대화가 끝나거나 시작하면 이동되게끔 해보기 (1월 27일 메모)
-                    Invoke("PlayActForEvent221", 1.0f);
-                }
-            }
+            //if (eventVariable.isInvestigated_StrangeDoor)
+            //{
+            //    if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("221"))
+            //    {
+            //        eventVariable.isInvestigated_StrangeDoor = false;  // 한번만 이동이 이루어지도록 처리
+            //                                                           //유람선 지하로 맵 이동 시키기 -> 나중에 Invoke 같은 함수 써서, 특정 대화가 끝나거나 시작하면 이동되게끔 해보기 (1월 27일 메모)
+            //        Invoke("PlayActForEvent221", 1.0f);
+            //    }
+            //}
 
 
             // 이벤트 222
@@ -974,5 +974,9 @@ public class EventManager : MonoBehaviour
     {
         npcListForEvent[35].SetActive(boolValue);
     }
-    
+
+    public EventVariable GetEventVariable()
+    {
+        return eventVariable;
+    }
 }

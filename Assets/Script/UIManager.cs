@@ -706,6 +706,10 @@ public class UIManager : MonoBehaviour {
             else if (PlayerManager.instance.NumOfAct.Equals("54"))
             {
                 timeSlotText.GetComponent<Text>().text = "사건 발생으로부터 " + (int.Parse(timeslot) - 74) + "일이 지나갔다";
+            }
+            else if (PlayerManager.instance.NumOfAct.Equals("55"))
+            {
+                timeSlotText.GetComponent<Text>().text = "엔딩이 준비 중입니다. 플레이해 주셔서 감사합니다.";
             }// if-else
 
             // 이벤트를 적용시킬 것이 있는지 확인 후, 적용
