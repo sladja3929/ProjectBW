@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EventManager : MonoBehaviour
 {
@@ -569,6 +570,7 @@ public class EventManager : MonoBehaviour
                 // 메르테를 유람선 밖으로 내보내기
                 PlayerManager.instance.SetCurrentPosition("Harbor_Street1");
                 //positionOfMerte.localPosition = positionOfCruiseOutside.localPosition;
+                BGMManager.instance.AutoSelectBGM(SceneManager.GetActiveScene(), LoadSceneMode.Single);
                 positionOfMerte.localPosition = new Vector3(1345.0f, 3560.0f, 0.0f);
                 triggerKickMerte = false;
             }
@@ -965,6 +967,7 @@ public class EventManager : MonoBehaviour
         PlayerManager.instance.SetCurrentPosition("Harbor_Prison");
         //positionOfMerte.localPosition = positionOfPrisonInCruise.localPosition;
         positionOfMerte.localPosition = new Vector3(-1100.0f, 5970.0f, 0f);
+        BGMManager.instance.AutoSelectBGM(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     public void SetActive_DeadBody_For_Tutorial(bool boolValue)

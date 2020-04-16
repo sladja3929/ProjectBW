@@ -114,11 +114,17 @@ public class BGMManager : MonoBehaviour
         }
 
         if (curpos_ == "Mansion_President_Mansion_Outhouse")
+        {
             area_num = 4;
+        }
         else if (curpos_ == "Harbor_Cruise")
+        {
             area_num = 6;
+        }
         else if (curpos_ == "Harbor_Prison")
+        {
             area_num = 7;
+        }
 
 
         return area_num;
