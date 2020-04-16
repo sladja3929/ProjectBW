@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ProhibitionEntry : MonoBehaviour
 {
-    private bool[] atonce = new bool[5];
+    private bool[] atonce = new bool[3];
 
     private void OnTriggerEnter2D(Collider2D other)
     {

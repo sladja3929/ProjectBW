@@ -353,6 +353,11 @@ public class DialogManager : MonoBehaviour
         }
         else if (targetObject.Equals("이벤트 자동발생"))
             tempSentenceOfCondition = targetObject;
+        else if (targetObject.Equals("비밀공간_진입불가"))
+        {
+            // 314 번 이벤트를 위한 처리
+            tempSentenceOfCondition = targetObject;
+        }
 
         // 226번 이벤트를 위한 처리
         if (targetObject.Equals("9404") && PlayerManager.instance.TimeSlot.Equals("71"))
@@ -669,7 +674,7 @@ public class DialogManager : MonoBehaviour
                 // 상호작용하는 오브젝트가 사물이라면, 초상화 비활성화
                 UIManager.instance.SetActivePortrait(false);
 
-                if (tempNpcName.Equals("서술자") || tempNpcName.Equals("시스템"))
+                if (tempNpcName.Equals("서술자") || tempNpcName.Equals("시스템") || tempNpcName.Equals("감시자"))
                     npcNameText.text = tempNpcName;
                 else
                     npcNameText.text = objectName;
@@ -1517,12 +1522,13 @@ public class DialogManager : MonoBehaviour
     public bool CheckInteraction(string objectName)
     {
         string targetObject = npcParser.GetNpcCodeFromName(objectName);   //StartObject에 해당하는 값
-        
+
         List<Interaction> targetOfInteractionList = new List<Interaction>();
 
         // 진행시킬 대화가 있는지 확인
         targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
 
+        //Debug.Log("time = " + PlayerManager.instance.TimeSlot + ", startObject = " + targetObject);
         // 해당 NPC와의 대화가 없을 경우
         if (targetOfInteractionList.Count == 0)
             return false;

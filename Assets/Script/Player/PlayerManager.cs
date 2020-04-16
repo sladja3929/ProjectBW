@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour {
 
@@ -414,6 +415,8 @@ public class PlayerManager : MonoBehaviour {
     {
         //Debug.Log(currentPosition + "으로 워프!");
         this.currentPosition = currentPosition;
+        // 플레이어의 현재 위치에 따른 BGM 변경
+        BGMManager.instance.AutoSelectBGM(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     public bool GetIsInPortalZone()

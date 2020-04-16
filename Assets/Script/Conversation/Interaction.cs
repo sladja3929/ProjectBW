@@ -196,14 +196,13 @@ public class Interaction
 
         for (int i = 0; i < tempStartObject.Length; i++)
         {
-            //Debug.Log("tempStartObject[" + i + "] = " + tempStartObject[i]);
-            if (tempStartObject[i] == startObject)
+            if (tempStartObject[i].Equals(startObject))
             {
+                //Debug.Log("tempStartObject[" + i + "] = " + tempStartObject[i]);
                 return true;
             }
         }
 
-        //Debug.Log("startObject = " + startObject);
         return false;
     }
 
