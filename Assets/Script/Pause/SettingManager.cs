@@ -76,12 +76,10 @@ public class SettingManager : MonoBehaviour
     public void UpdateBrightness()
     {
 
-        Debug.Log("현재 가동중인 씬 이름 : " + SceneManager.GetActiveScene().name);
-
         if (SceneManager.GetActiveScene().name == titlescene)
         {
             brightness = Mathf.RoundToInt(brightness_S.value);
-            Debug.Log("brightness : " + brightness);
+            //Debug.Log("brightness : " + brightness);
             SetCurSetting();//실제적용
         }
         else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name ==  gamescene_debug)
@@ -89,7 +87,7 @@ public class SettingManager : MonoBehaviour
             if (UIManager.instance.GetIsPaused())
             {
                 brightness = Mathf.RoundToInt(brightness_S.value);
-                Debug.Log("brightness : " + brightness);
+                //Debug.Log("brightness : " + brightness);
                 SetCurSetting();//실제적용
             }
         }
@@ -103,7 +101,7 @@ public class SettingManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == titlescene)
         {
             bgmvolume = Mathf.RoundToInt(bgmvolume_S.value);
-            Debug.Log("bgmvolume : " + bgmvolume);
+            //Debug.Log("bgmvolume : " + bgmvolume);
             SetCurSetting();//실제적용
         }
         else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
@@ -111,7 +109,7 @@ public class SettingManager : MonoBehaviour
             if (UIManager.instance.GetIsPaused())
             {
                 bgmvolume = Mathf.RoundToInt(bgmvolume_S.value);
-                Debug.Log("bgmvolume : " + bgmvolume);
+                //Debug.Log("bgmvolume : " + bgmvolume);
                 SetCurSetting();//실제적용
             }
         }
@@ -123,7 +121,7 @@ public class SettingManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == titlescene)
         {
             effectvolume = Mathf.RoundToInt(effectvolume_S.value);
-            Debug.Log("effectvolume : " + effectvolume);
+            //Debug.Log("effectvolume : " + effectvolume);
             SetCurSetting();//실제적용
         }
         else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
@@ -131,7 +129,7 @@ public class SettingManager : MonoBehaviour
             if (UIManager.instance.GetIsPaused())
             {
                 effectvolume = Mathf.RoundToInt(effectvolume_S.value);
-                Debug.Log("effectvolume : " + effectvolume);
+                //Debug.Log("effectvolume : " + effectvolume);
                 SetCurSetting();//실제적용
             }
         }

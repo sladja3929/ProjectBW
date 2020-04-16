@@ -1663,6 +1663,11 @@ PrefabInstance:
       propertyPath: Loop
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[9].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: dec82d368821ff440990ec3b06f95055, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e06e38774cd0214091a23f919dffff9, type: 3}
 --- !u!1 &1893830535
@@ -2042,6 +2047,11 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8255790629344070700, guid: ebdca733d5d634644a46e2afc2b5670b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5652329685027126240, guid: ebdca733d5d634644a46e2afc2b5670b,
         type: 3}
       propertyPath: m_IsActive
       value: 1

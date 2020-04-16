@@ -38,13 +38,7 @@ public class TitleManager : MonoBehaviour
         SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
         yield return StartCoroutine(LoadingManager.instance.Fade(true));
 
-        //GameManager.instance.PlayNewGame();
-        LoadDataForScene();
-
-        while (!CSVParser.instance.CompleteLoadFile())
-        {
-            yield return null;
-        }
+        
 
         AsyncOperation asyncLoad;
 
@@ -55,7 +49,14 @@ public class TitleManager : MonoBehaviour
             LoadingManager.instance.loadSceneName = "Prologue";
             asyncLoad = SceneManager.LoadSceneAsync("Prologue");
 
-            asyncLoad.allowSceneActivation = false;            
+            asyncLoad.allowSceneActivation = false;
+
+            LoadDataForScene();
+
+            while (!CSVParser.instance.CompleteLoadFile())
+            {
+                yield return null;
+            }
 
             while (!asyncLoad.isDone)
             {
@@ -81,7 +82,14 @@ public class TitleManager : MonoBehaviour
 
             asyncLoad.allowSceneActivation = false;
 
-            Debug.Log("일단 이어하기로 loadSceneName : " + LoadingManager.instance.loadSceneName);
+            LoadDataForScene();
+
+            while (!CSVParser.instance.CompleteLoadFile())
+            {
+                yield return null;
+            }
+
+            //Debug.Log("일단 이어하기로 loadSceneName : " + LoadingManager.instance.loadSceneName);
             while (!asyncLoad.isDone)
             {
                 yield return null;
@@ -110,12 +118,12 @@ public class TitleManager : MonoBehaviour
         // 데이터 파일 체크
         if (CSVParser.instance.CheckSaveData())
         {
-            Debug.Log("처음하기 로딩 성공");
+            //Debug.Log("처음하기 로딩 성공");
             StartCoroutine(LoadAsyncNewGameScene(GameManager.instance.PlayNewGame));
         }
         else
         {
-            Debug.Log("처음하기 로딩 실패");
+            //Debug.Log("처음하기 로딩 실패");
             GameManager.instance.SetGameState(GameManager.GameState.Idle);
         }
     }
@@ -129,12 +137,12 @@ public class TitleManager : MonoBehaviour
         // 데이터 파일 체크
         if (CSVParser.instance.CheckSaveData())
         {
-            Debug.Log("이어하기 로딩 성공, " + GameManager.instance.GetGameState().ToString());
+            //Debug.Log("이어하기 로딩 성공, " + GameManager.instance.GetGameState().ToString());
             StartCoroutine(LoadAsyncNewGameScene(GameManager.instance.PlaySaveGame));
         }
         else
         {
-            Debug.Log("이어하기 로딩 실패");
+            //Debug.Log("이어하기 로딩 실패");
             GameManager.instance.SetGameState(GameManager.GameState.Idle);
         }
     }
