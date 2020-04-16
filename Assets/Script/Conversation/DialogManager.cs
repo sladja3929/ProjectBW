@@ -664,7 +664,7 @@ public class DialogManager : MonoBehaviour
             //Debug.Log("objectName = " + objectName);
             //Debug.Log("tempNpcName = " + tempNpcName);
             //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
-            if (checkObject || tempNpcName.Equals("서술자") || tempNpcName.Equals("시스템"))
+            if (checkObject || tempNpcName.Equals("서술자") || tempNpcName.Equals("시스템") || tempNpcName.Equals("감시자"))
             {
                 // 상호작용하는 오브젝트가 사물이라면, 초상화 비활성화
                 UIManager.instance.SetActivePortrait(false);
@@ -747,7 +747,7 @@ public class DialogManager : MonoBehaviour
                     }
                 }
 
-                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                // 125자 이상 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText > textLimit || tempEnterCount == enterLimitCount)
                 {
                     UIManager.instance.canSkipConversation = true;
@@ -777,7 +777,7 @@ public class DialogManager : MonoBehaviour
             tempEnterCount = 0;
             numOfText = 0;
             numOfTextLimit = 0;
-            
+
             foreach (char letter in sentences[index].ToCharArray())
             {
                 if (letter.Equals('\n'))
@@ -797,9 +797,15 @@ public class DialogManager : MonoBehaviour
                     tempString += '\n';
                     tempEnterCount++;
                     numOfTextLimit = 0;
+
+                    // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                    if (numOfText == textLimit || tempEnterCount == enterLimitCount)
+                    {
+                        isTextFull = true;
+                    }
                 }
 
-                // 125자가 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
+                // 125자 이상 출력되었거나, 개행문자 \n가 3번 출력되었을 경우 대화 출력 제어
                 if (numOfText > textLimit || tempEnterCount == enterLimitCount)
                 {
                     conversationText.text = tempString;
@@ -816,9 +822,9 @@ public class DialogManager : MonoBehaviour
                 }
 
                 conversationText.text = tempString;
-            }
 
-            UIManager.instance.playerWantToSkip = false;
+                UIManager.instance.playerWantToSkip = false;
+            }
         }
 
         UIManager.instance.canSkipConversation = true;
@@ -886,6 +892,7 @@ public class DialogManager : MonoBehaviour
         {
             npcNameText.text = tempNpcName;
             //slot[tempIndex].transform.Find("SlotImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Slot_" + clueName);
+            UIManager.instance.SetActivePortrait(true);
             npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
         }
         else
@@ -1431,6 +1438,20 @@ public class DialogManager : MonoBehaviour
                         {
                             PlayerManager.instance.AddEventCodeToList("0209");
                             EventManager.instance.PlayEvent();
+                        }
+
+                        if (tempSentenceOfCondition.Equals("9507"))
+                        {
+                            // 이벤트 221
+                            if (EventManager.instance.GetEventVariable().isInvestigated_StrangeDoor)
+                            {
+                                if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("221"))
+                                {
+                                    EventManager.instance.GetEventVariable().isInvestigated_StrangeDoor = false;  // 한번만 이동이 이루어지도록 처리
+
+                                    EventManager.instance.PlayActForEvent221(); // 유람선 지하로 이동
+                                }
+                            }
                         }
 
                         // 사체 묘사 이미지 비활성화

@@ -39,12 +39,6 @@ public class TitleManager : MonoBehaviour
         yield return StartCoroutine(LoadingManager.instance.Fade(true));
 
         //GameManager.instance.PlayNewGame();
-        LoadDataForScene();
-
-        while (!CSVParser.instance.CompleteLoadFile())
-        {
-            yield return null;
-        }
 
         AsyncOperation asyncLoad;
 
@@ -55,7 +49,14 @@ public class TitleManager : MonoBehaviour
             LoadingManager.instance.loadSceneName = "Prologue";
             asyncLoad = SceneManager.LoadSceneAsync("Prologue");
 
-            asyncLoad.allowSceneActivation = false;            
+            asyncLoad.allowSceneActivation = false;
+
+            LoadDataForScene();
+
+            while (!CSVParser.instance.CompleteLoadFile())
+            {
+                yield return null;
+            }
 
             while (!asyncLoad.isDone)
             {
@@ -80,6 +81,13 @@ public class TitleManager : MonoBehaviour
             asyncLoad = SceneManager.LoadSceneAsync("BW_H");
 
             asyncLoad.allowSceneActivation = false;
+
+            LoadDataForScene();
+
+            while (!CSVParser.instance.CompleteLoadFile())
+            {
+                yield return null;
+            }
 
             Debug.Log("일단 이어하기로 loadSceneName : " + LoadingManager.instance.loadSceneName);
             while (!asyncLoad.isDone)

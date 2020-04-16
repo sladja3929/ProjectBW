@@ -23,7 +23,7 @@ public class TutorialManager : MonoBehaviour
     private GameObject assistant;           // 조수
     [SerializeField]
     private GameObject inGameCharacter;     // 메르테
-
+    
     [SerializeField]
     private GameObject tutorial_Arrow;      // 레이나 집 진입 화살표
     [SerializeField]
@@ -256,6 +256,14 @@ public class TutorialManager : MonoBehaviour
         zaral.SetActive(false);
         assistant.SetActive(false);
         wall_For_903.SetActive(false);
+        tutorial_Arrow.SetActive(false);
+        tutorial_Exit_Arrow.SetActive(false);
+        highlightObject[0].SetActive(false);    // 튜토리얼의 레이나 집 시체 비활성화
+
+        for (int i = 0; i < GuideArrowToDowntown.Length; i++)
+        {
+            GuideArrowToDowntown[i].SetActive(false);
+        }
 
         for (int i = 0; i < blocking_Object.Length; i++)
         {

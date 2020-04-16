@@ -18,6 +18,7 @@ public class Portal : MonoBehaviour
     private Vector2 pos;            //마우스로 클릭한 곳의 위치
     private Ray2D ray;              //마우스로 클릭한 곳에 보이지않는 광선을 쏨
     private RaycastHit2D hit;       //쏜 광선에 닿은것이 뭔지 확인하기위한 변수
+    private string hitColliderTagName;
 
     private bool changeBGM;     //PlayerPos 변경에 따른 BGM 변경 필요성
 
@@ -27,6 +28,7 @@ public class Portal : MonoBehaviour
         arrow = transform.GetChild(0).gameObject;
         door = arrow;
         arrow.SetActive(false);
+        hitColliderTagName = "";
 
         Fadeanimator = GameObject.Find("Fade_Image").transform.GetComponent<Animator>();
         FadeImage = GameObject.Find("Fade_Image");
@@ -133,7 +135,11 @@ public class Portal : MonoBehaviour
         string position = destination.transform.parent.parent.parent.name
                            + "_" + destination.transform.parent.parent.name;
 
-        EffectManager.instance.Play("문 소리 1");//문 혹은 포탈 효과음 - 나중에 구분할 것
+        // 이동의 통로가 문일 경우에 문 소리 출력
+        if (tag.Equals("PortalDoor"))
+        {
+            EffectManager.instance.Play("문 소리 1");//문 혹은 포탈 효과음 - 나중에 구분할 것
+        }
 
         /*목적지로 이동*/
         PlayerManager.instance.SetCurrentPosition(position);
