@@ -418,7 +418,7 @@ public class TutorialManager : MonoBehaviour
         tutorial_Index++;
 
         tutorial_903_Trigger.SetActive(false);
-        wall_For_903.SetActive(false);
+        //wall_For_903.SetActive(false); // 911 대화 후에 비활성화 됨
         deActive_Object[10].SetActive(false);
     }
 
@@ -625,5 +625,10 @@ public class TutorialManager : MonoBehaviour
     public bool IsTutorialBGMPlaying()
     {
         return isTutorialBGM;
+    }
+
+    public void SetActiveWall903(bool boolValue)
+    {
+        wall_For_903.SetActive(boolValue);
     }
 }

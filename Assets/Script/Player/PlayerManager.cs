@@ -123,6 +123,12 @@ public class PlayerManager : MonoBehaviour {
                 UIManager.instance.act4Button.SetActive(true);
                 UIManager.instance.act5Button.SetActive(false);
             }
+            else if (NumOfAct.Equals("55"))
+            {
+                UIManager.instance.SetNameOfCase("사건4 연쇄살인 4번째 피해자_륑 에고이스모");
+                UIManager.instance.act4Button.SetActive(true);
+                UIManager.instance.act5Button.SetActive(true);
+            }
 
             checkNumOfAct = NumOfAct;
             checkTimeSlot = TimeSlot;

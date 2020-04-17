@@ -53,10 +53,10 @@ public class GameManager : MonoBehaviour {
                 {
                     if (hit.collider.tag.Equals("InteractionObject"))
                     {
-                        //if (DialogManager.instance.CheckInteraction(hit.collider.name))
-                        //    SetCursorActivate();
-                        //else
-                        //    SetCursorIdle();
+                        if (DialogManager.instance.CheckInteraction(hit.collider.name))
+                            SetCursorActivate();
+                        else
+                            SetCursorIdle();
                     }
                     else if (hit.collider.tag.Equals("MerteDesk"))
                     {

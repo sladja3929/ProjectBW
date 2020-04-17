@@ -73,7 +73,8 @@ public class ParchmentControll : MonoBehaviour
                 // 중복 실행을 방지
                 // 2월 발표회 이후 구현할 예정 (1월 28일 메모)
                 /* 안드렌의 서류(단서) 등장 이벤트 진행 코드 */
-                if (isActivated_Help_Of_Andren && !atOnce && !isPlayingDocumentAnim && (PlayerManager.instance.TimeSlot.Equals("74") || PlayerManager.instance.TimeSlot.Equals("79") ))
+                if (isActivated_Help_Of_Andren && !atOnce && !isPlayingDocumentAnim 
+                    && ( (PlayerManager.instance.NumOfAct.Equals("53") && PlayerManager.instance.TimeSlot.Equals("74") ) || (PlayerManager.instance.NumOfAct.Equals("54") && PlayerManager.instance.TimeSlot.Equals("79")) ))
                 {
                     DocumentControll.instance.InvokeDocumentAnim();
                     isPlayingDocumentAnim = !isPlayingDocumentAnim;

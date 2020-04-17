@@ -58,6 +58,11 @@ public class PauseManager : MonoBehaviour
         ClosePausePanel();
         UIManager.instance.SetIsPausedFalse();
 
+        // 세이브
+        //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+        //GameManager.instance.thread.IsBackground = true;
+        //GameManager.instance.thread.Start();
+
         StartCoroutine(LoadAsyncTitleScene());
     }
 

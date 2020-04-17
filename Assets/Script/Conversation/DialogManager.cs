@@ -1372,6 +1372,7 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("912"))
                         {
+                            TutorialManager.instance.SetActiveWall903(false);
                             TutorialManager.instance.TagChange(3, "Untagged");
                             TutorialManager.instance.isCompletedTutorial[12] = true;
                             TutorialManager.instance.IncreaseTutorial_Index();
