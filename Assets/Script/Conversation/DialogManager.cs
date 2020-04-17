@@ -89,6 +89,10 @@ public class DialogManager : MonoBehaviour
 
         isFirstConversation = false;
         controlEventNum231 = false;
+
+        /*혹시 몰라서 설정 한번 더 (다이얼로그 속도) 적용...*/
+        SettingManager.instance.SetCurSetting();
+
     }
 
     void Update()

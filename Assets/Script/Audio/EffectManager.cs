@@ -10,6 +10,7 @@ public class Sound
     public AudioClip clip; //이펙트 사운드 파일
     private AudioSource source; //이펙트 사운드 플레이어
 
+    
     private bool loop;//루프 여부
 
     /*이펙트 사운드 소스 지정*/
@@ -58,6 +59,9 @@ public class EffectManager : MonoBehaviour
 
     public float EffectVolume;//이펙트 사운드 볼륨
 
+    public bool EMStartEnd;
+
+
     private void Awake()
     {
         if (instance != null)
@@ -69,6 +73,8 @@ public class EffectManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             instance = this;
         }
+
+        EMStartEnd = false;
     }
    
     void Start()
@@ -84,6 +90,8 @@ public class EffectManager : MonoBehaviour
         }
 
         SetLoopInit();//루프 초기값
+
+        EMStartEnd = true;
     }
     
     /*사운드 이름을 참조해 개별 이펙트 사운드 재생 or 중단 */

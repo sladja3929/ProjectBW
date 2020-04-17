@@ -185,3 +185,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 52eab544f434d8b47b2902e0659450b9, type: 3}
   - {fileID: 8300000, guid: 0da8b37ef980ca84b845f7def18fef6e, type: 3}
   - {fileID: 8300000, guid: a375acfcddbca28478a38db5a846c4a4, type: 3}
+  source: {fileID: 6421818621480324616}
+  tutorialBGMtrigger_1: 0

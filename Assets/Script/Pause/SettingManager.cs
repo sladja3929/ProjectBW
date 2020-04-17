@@ -9,13 +9,12 @@ public class SettingManager : MonoBehaviour
 {
     /*싱글톤*/
     public static SettingManager instance;
-
     #region Singleton
     private void Awake()
     {
         if (instance == null)
         {
-            //DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
             instance = this;
         }
         else
@@ -25,15 +24,18 @@ public class SettingManager : MonoBehaviour
     }
     #endregion Singleton
 
-    /*재생속도 상수 - 조정해야함*/
+    /*자막 재생속도 상수*/
     public const float pv_1 = 0.1f;
     public const float pv_2 = 0.02f;
     public const float pv_3 = 0.005f;
 
-    /*컬러*/
+    /*선택한 자막속도 강조용 컬러*/
     private  Color32 color_select = new Color32 (255, 0, 0, 255);
     private Color32 color_unselect = new Color32 (255,255,255,255);
     private Color32 canvas_brightness = new Color32(0, 0, 0, 0);
+
+    /*환경설정 UI 패널*/
+    public GameObject SettingPanel;
 
     /*환경설정 변수 */
     private float brightness; //(0 - 100)
@@ -41,7 +43,6 @@ public class SettingManager : MonoBehaviour
     private float effectvolume; //(0 - 100)
     private float playvelocity;//(0-2)
 
-    /*playerpref으로 유지되는 환경설정 변수 부가적으로 관리하도록 하기*/
 
     /*각종 조절 게임 오브젝트 변수*/
     public Slider brightness_S;
@@ -60,18 +61,23 @@ public class SettingManager : MonoBehaviour
     public const string gamescene = "BW_H";
     public const string gamescene_debug = "BW_K";
 
+    private bool issetting; // 환경설정중인가?
+
     void Start()
     {
-        SetInitSetting();//기본 설정 적용하기 
-
         /*설정*/
-        GetPrevSetting();//이전 설정 불러오기
-        SetCurSetting();//현재 설정에 적용하기       
+        GetPrevSetting();//이전 설정 불러오기 없으면 기본 설정 적용하기 
+        StartCoroutine(FirstSetCurSetting());//현재 설정에 적용하기 
     }
 
+    /*첫 설정 적용의 코루틴 - 오디오 쪽 설정이 모두 적용된 이후에 적용되어야 하기 때문*/
+    IEnumerator FirstSetCurSetting()
+    {
+        yield return new WaitUntil(() => BGMManager.instance.BMStartEnd == true && EffectManager.instance.EMStartEnd == true);
+        SetCurSetting();       
+    }
 
     /*설정 변경 시 적용 - EventSystem On value changed 사용*/
-
     /*화면 밝기 조정*/
     public void UpdateBrightness()
     {
@@ -242,19 +248,48 @@ public class SettingManager : MonoBehaviour
 
     /*저장 및 적용*/
 
-    /*PlayerPref로부터 이전 설정 불러오기 */
+    /*PlayerPref로부터 이전 설정 불러오기 없으면 기본 설정 적용하기 */
     public void GetPrevSetting()
     {
-        /*Load*/
-        brightness = PlayerPrefs.GetFloat("Brightness");
-        bgmvolume = PlayerPrefs.GetFloat("BGMVolume");
-        effectvolume = PlayerPrefs.GetFloat("EffectVolume");
-        playvelocity = PlayerPrefs.GetFloat("PlayVelocity");
+        /*Load or Init*/
+        if (PlayerPrefs.HasKey("Brightness"))
+        {
+            brightness = PlayerPrefs.GetFloat("Brightness");
+        }
+        else
+        {
+            SetInitSetting_brigthness();
+        }
+        if (PlayerPrefs.HasKey("BGMVolume"))
+        {
+            bgmvolume = PlayerPrefs.GetFloat("BGMVolume");
+            
+        }
+        else
+        {
+            SetInitSetting_bgmvolume();
+        }
+        if (PlayerPrefs.HasKey("EffectVolume"))
+        {
+            effectvolume = PlayerPrefs.GetFloat("EffectVolume");
+        }
+        else
+        {
+            SetInitSetting_effectvolume();
+        }
+        if (PlayerPrefs.HasKey("PlayVelocity"))
+        {
+            playvelocity = PlayerPrefs.GetFloat("PlayVelocity");
+        }
+        else
+        {
+            SetInitSetting_playvelocity();
+        }
 
         /*UI에 적용*/
         SetUISetting();
-
     }
+
     /*현재 설정 PlayerPref에 저장*/
     public void SaveCurSetting()
     {
@@ -264,6 +299,7 @@ public class SettingManager : MonoBehaviour
         PlayerPrefs.SetFloat("EffectVolume", effectvolume);
         PlayerPrefs.SetFloat("PlayVelocity", playvelocity);
     }
+
     /*임시값을 실제값에 적용*/
     public void SetCurSetting()
     {
@@ -289,7 +325,7 @@ public class SettingManager : MonoBehaviour
         }
     }
 
-    /*패널 열 때 UI설정 적용*/
+    /*패널 열 때 UI 설정 적용*/
     public void SetUISetting()
     {
         brightness_S.value = brightness;
@@ -316,13 +352,56 @@ public class SettingManager : MonoBehaviour
         }
     }
 
-    /*Init 환경설정*/
-    public void SetInitSetting()
+    /*초기 설정*/
+    private void SetInitSetting_brigthness()
     {
-        //PlayerPref에 데이터가 없으면 기본값을 적용하게 해야하나?
         brightness = 100f;
+    }
+    private void SetInitSetting_bgmvolume()
+    {
         bgmvolume = 100f;
+    }
+    private void SetInitSetting_effectvolume()
+    {
         effectvolume = 100f;
-        playvelocity = 1f;//mid       
+    }
+    private void SetInitSetting_playvelocity()
+    {
+        playvelocity = 1f;//mid     
+    }
+
+    /*패널 여닫기*/
+    public void OpenSettingPanel()
+    {
+        EffectManager.instance.Play("버튼 클릭음");
+        SetIsSetting(true);
+        SettingPanel.SetActive(true);
+        GetPrevSetting();//이전 PlayerPrefs 설정 불러오기
+        SetUISetting();//UI에 PlayerPrefs 설정 적용
+    }
+
+    public void CloseSettingPanel()
+    {      
+        SetCurSetting();//UI로부터 받은 임시값을 실제 값에 적용
+        SaveCurSetting();//PlayerPrefs에 저장하기
+        SettingPanel.SetActive(false);
+        SetIsSetting(false);
+    }
+
+    /*bool 값인 issetting 컨트롤*/
+    private void SetIsSetting(bool status)
+    {
+        if (status)
+        {
+            issetting = true;
+        }
+        else
+        {
+            issetting = false;
+        }
+    }
+    public bool GetIsSetting()
+    {
+        return issetting;
     }
 }

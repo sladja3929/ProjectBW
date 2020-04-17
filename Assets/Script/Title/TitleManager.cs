@@ -7,10 +7,6 @@ using System;
 public class TitleManager : MonoBehaviour
 {
 
-    public GameObject SettingPanel;
-
-    private bool issetting; // 환경설정중인가?
-
     // Scene을 Load하는 함수를 담을 Delegate
     public delegate void CorrectLoadSceneFunc();
 
@@ -25,9 +21,9 @@ public class TitleManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (issetting == true)
+            if (SettingManager.instance.GetIsSetting() == true)
             {
-                CloseSettingPanel();
+                SettingManager.instance.CloseSettingPanel();
             }
         }
     }
@@ -147,23 +143,13 @@ public class TitleManager : MonoBehaviour
         }
     }
 
-    public void OpenSettingPanel()
+    //설정
+    public void Setting()
     {
-        EffectManager.instance.Play("버튼 클릭음");
-        issetting = true;
-        SettingPanel.SetActive(true);
-        SettingManager.instance.GetPrevSetting();//패널 열면서 이전설정 불러오기
-        //SettingManager.instance.SetCurSetting();//불러온 이전 설정 적용하기
+        SettingManager.instance.OpenSettingPanel();
     }
 
-    void CloseSettingPanel()
-    {
-        issetting = false;
-        SettingManager.instance.SaveCurSetting();//저장하기
-        SettingPanel.SetActive(false);
-    }
-
-
+    //종료하기
     public void GameOver()
     {
         #if UNITY_EDITOR

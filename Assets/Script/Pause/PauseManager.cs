@@ -9,16 +9,12 @@ public class PauseManager : MonoBehaviour
     private SettingManager theSM;
 
     public GameObject PausePanel;
-    public GameObject SettingPanel;
    
-    private bool issetting; // 환경설정중인가?
-
     void Start()
     {
         //theSM = SettingManager.instance;
         theSM = FindObjectOfType<SettingManager>();
         UIManager.instance.SetIsPausedFalse();
-        issetting = false;
     }
 
     void Update()
@@ -31,17 +27,22 @@ public class PauseManager : MonoBehaviour
                 UIManager.instance.SetIsPausedTrue();
                 OpenPausePanel();
             }
-            else if (UIManager.instance.GetIsPaused() == true && GetIsSetting() == false)
+            else if (UIManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == false)
             {
                 BacktoGame();
             }
-            else if (UIManager.instance.GetIsPaused() == true && GetIsSetting() == true)
+            else if (UIManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == true)
             {
                 Debug.Log("환경설정 저장됨");
                 theSM.SaveCurSetting();//환경설정 저장
-                CloseSettingPanel();
+                SettingManager.instance.CloseSettingPanel();
             }
         }
+    }
+
+    public void Setting()
+    {
+        SettingManager.instance.OpenSettingPanel();
     }
 
     public void BacktoGame()
@@ -60,20 +61,6 @@ public class PauseManager : MonoBehaviour
         StartCoroutine(LoadAsyncTitleScene());
     }
 
-    public void OpenSettingPanel()
-    {
-        EffectManager.instance.Play("버튼 클릭음");
-        issetting = true;        
-        SettingPanel.SetActive(true);
-        SettingManager.instance.GetPrevSetting();//패널 열면서 이전설정 불러오기
-    }
-
-    void CloseSettingPanel()
-    {
-        issetting = false;
-        SettingPanel.SetActive(false);
-    }
-
     void OpenPausePanel()
     {
         PausePanel.SetActive(true);
@@ -82,11 +69,6 @@ public class PauseManager : MonoBehaviour
     void ClosePausePanel()
     {
         PausePanel.SetActive(false);
-    }
-
-    bool GetIsSetting()
-    {
-        return issetting;
     }
 
     IEnumerator LoadAsyncTitleScene()
