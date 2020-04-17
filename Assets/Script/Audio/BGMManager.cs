@@ -15,7 +15,7 @@ public class BGMManager : MonoBehaviour
 
     private int BGMnowplaying; //현재 재생중인 BGM
 
-    public bool BMStartEnd;
+    //public bool BMStartEnd;
 
     /*씬 이름들*/
     public const string titlescene = "Title_Tmp";
@@ -36,16 +36,13 @@ public class BGMManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             instance = this;
         }
+        source = this.GetComponent<AudioSource>();
 
-        BMStartEnd = false;
+        //BMStartEnd = false;
     }
 
     void Start()
     {
-        source = this.GetComponent<AudioSource>();
-
-
-        BGMVolume = 1f; //초기 볼륨
         tutorialBGMtrigger_1 = false; ;
 
         AutoSelectBGM(SceneManager.GetActiveScene(),LoadSceneMode.Single);//BGM 셀렉
@@ -53,7 +50,7 @@ public class BGMManager : MonoBehaviour
 
         SceneManager.sceneLoaded += AutoSelectBGM;
 
-        BMStartEnd = true;
+        //BMStartEnd = true;
     }
 
     /*씬 변경 시마다 BGM 적용*/

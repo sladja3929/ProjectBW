@@ -59,7 +59,7 @@ public class EffectManager : MonoBehaviour
 
     public float EffectVolume;//이펙트 사운드 볼륨
 
-    public bool EMStartEnd;
+    //public bool EMStartEnd;
 
 
     private void Awake()
@@ -74,24 +74,23 @@ public class EffectManager : MonoBehaviour
             instance = this;
         }
 
-        EMStartEnd = false;
+        for (int i = 0; i < sounds.Length; i++)
+        {
+            GameObject soundObject = new GameObject(sounds[i].name);
+            sounds[i].SetSource(soundObject.AddComponent<AudioSource>());
+            soundObject.transform.SetParent(this.transform);
+        }
+
+        //EMStartEnd = false;
     }
    
     void Start()
     {
         EffectVolume = 1f; //초기 볼륨
 
-        for (int i = 0; i < sounds.Length; i++)
-        {
-            //GameObject soundObject = new GameObject("사운드 파일 이름 : " + i + " = " + sounds[i].name);
-            GameObject soundObject = new GameObject(sounds[i].name);
-            sounds[i].SetSource(soundObject.AddComponent<AudioSource>());
-            soundObject.transform.SetParent(this.transform);
-        }
-
         SetLoopInit();//루프 초기값
 
-        EMStartEnd = true;
+        //EMStartEnd = true;
     }
     
     /*사운드 이름을 참조해 개별 이펙트 사운드 재생 or 중단 */
