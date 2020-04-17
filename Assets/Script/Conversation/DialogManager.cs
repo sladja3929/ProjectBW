@@ -1165,6 +1165,7 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("916"))
                         {
+                            EffectManager.instance.Stop("뛰어오는 발 소리");
                             TutorialManager.instance.SetAssistantPosition(new Vector3(11330.0f, 5220.0f, 0)); // 3번 인덱스의 대화와 함께 조수 등장
                         }
 
