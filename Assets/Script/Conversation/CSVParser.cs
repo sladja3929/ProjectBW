@@ -628,10 +628,17 @@ public class CSVParser : MonoBehaviour
     /* 저장된 csv 파일 불러오기 */
     public void LoadCSVData()
     {
-        string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
-        string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
-        ParsingConversationCSV(conversationDataPath);
-        ParsingClueDataCSV(clueDataPath);
+        try
+        {
+            string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+            string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+            ParsingConversationCSV(conversationDataPath);
+            ParsingClueDataCSV(clueDataPath);
+        }
+        catch
+        {
+            Debug.Log("PlayerConversation.csv, 단서.csv 로드 에러");
+        }
     }
 
     // 세이브 파일이 있는지 체크

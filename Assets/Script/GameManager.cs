@@ -194,6 +194,7 @@ public class GameManager : MonoBehaviour {
         {
             // 로드 실패시 -> 저장된 게임 데이터가 없을 시
             gameState = GameState.Idle;
+            Debug.Log("게임 로드 에러");
             return;
         }
     }

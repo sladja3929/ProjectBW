@@ -102,12 +102,16 @@ public class PlayerManager : MonoBehaviour {
             checkNumOfAct = NumOfAct;
             checkTimeSlot = TimeSlot;
 
-            DialogManager.instance.SetLists();
+            //DialogManager.instance.SetLists();
             ItemDatabase.instance.SetLists();
         }
         else if (GameManager.instance.GetGameState().Equals(GameManager.GameState.PastGame_Loaded))
         {
-            DialogManager.instance.SetLists();
+            
+            NumOfAct = "";
+            TimeSlot = "";
+
+            //DialogManager.instance.SetLists();
             ItemDatabase.instance.SetLists();
             GameManager.instance.LoadPlayerData();
             GameManager.instance.SetEventVariable(ref GetEventVariableClass());
@@ -133,7 +137,7 @@ public class PlayerManager : MonoBehaviour {
             checkNumOfAct = NumOfAct;
             checkTimeSlot = TimeSlot;
 
-            ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame
+            ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame 
         }
     }
 

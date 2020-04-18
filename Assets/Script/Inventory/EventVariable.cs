@@ -166,11 +166,18 @@ public class EventVariable
         string loadDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         string tempJsonString = File.ReadAllText(loadDataPath);
 
-        if (GameManager.instance.isEncrypted)
-            tempJsonString = GameManager.instance.DecryptData(tempJsonString);
+        try
+        {
+            if (GameManager.instance.isEncrypted)
+                tempJsonString = GameManager.instance.DecryptData(tempJsonString);
 
-        JsonData jsonData = JsonMapper.ToObject(tempJsonString);
-        SetEventvariables(jsonData);
+            JsonData jsonData = JsonMapper.ToObject(tempJsonString);
+            SetEventvariables(jsonData);
+        }
+        catch
+        {
+            Debug.Log("이벤트 변수 로드 에러");
+        }
     }
 
     /* 이벤트 관련 변수 Save 파일 만들기 */

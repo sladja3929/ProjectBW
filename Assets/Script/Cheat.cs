@@ -48,7 +48,7 @@ public class Cheat : MonoBehaviour
         }
     }
 
-   
+
     public void InputCheatKey()
     {
         string _tmp;

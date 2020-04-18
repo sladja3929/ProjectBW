@@ -251,7 +251,7 @@ public class UIManager : MonoBehaviour {
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isFading && !isOpenedParchment)
+            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isFading && !isOpenedParchment && !isPortaling)
             {
                 if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && !isConversationing)
                 {

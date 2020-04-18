@@ -71,6 +71,7 @@ public class DialogManager : MonoBehaviour
         curNumOfNpcNameLists = 0;
         sentences = new string[] { "" };
         //UIManager 오브젝트에 있는 CSVParser의 스크립트 안에 있는 GetDataList() 함수로 상호작용 dictionary 불러오기
+
         dataList = GameObject.Find("DataManager").GetComponent<CSVParser>().GetDataList();
         interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetInteractionLists();
 
