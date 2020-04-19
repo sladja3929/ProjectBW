@@ -145,6 +145,37 @@ public class DataEncryption
         return result;
     }
 
+    public string[] DecryptString(string text, string text2, string password)
+    {
+        byte[] baPwd = Encoding.UTF8.GetBytes(password);
+
+        // Hash the password with SHA256
+        byte[] baPwdHash = SHA256.Create().ComputeHash(baPwd);
+
+        byte[] baText = Convert.FromBase64String(text);
+        byte[] baText2 = Convert.FromBase64String(text2);
+
+        byte[] baDecrypted = AES_Decrypt(baText, baPwdHash);
+        byte[] baDecrypted2 = AES_Decrypt(baText2, baPwdHash);
+
+        // Remove salt
+        int saltLength = GetSaltLength();
+        byte[] baResult = new byte[baDecrypted.Length - saltLength];
+        byte[] baResult2 = new byte[baDecrypted2.Length - saltLength];
+
+        for (int i = 0; i < baResult.Length; i++)
+            baResult[i] = baDecrypted[i + saltLength];
+
+        for (int i = 0; i < baResult.Length; i++)
+            baResult2[i] = baDecrypted2[i + saltLength];
+
+        string[] result = new string[2];
+        result[0] = Encoding.UTF8.GetString(baResult);
+        result[1] = Encoding.UTF8.GetString(baResult2);
+
+        return result;
+    }
+
     public static byte[] GetRandomBytes()
     {
         int saltLength = GetSaltLength();

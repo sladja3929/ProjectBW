@@ -606,15 +606,19 @@ public class DialogManager : MonoBehaviour
 
         //tempParentIndex는 특정 대화묶음과 그 묶음 안의 대사의 id를 갖는 특정 대사의 위치Index를 가지고 있는 변수임
         //따라서 tempParentIndex를 이용하면 다시 FindIndex를 쓸 필요 없음.
+        //Debug.Log("CheckAndAddSentence 함수 이전의 tempParentindex = " + tempParentIndex);
         CheckAndAddSentence(tempParentIndex);    //해당 tempId에 맞는 대화로 인해 얻을 수 있는 정보를 얻는 함수
-
+        //Debug.Log("tempId = " + tempId + ", tempParent = " + tempParent);
         /* 현재의 tempId와 tempParent가 다르다면(연결된 대화가 있다면) 진행 */
         while (tempId != tempParent)
         {
             tempId = tempParent; //다음 대화를 위해 index에 tempParent(다음 연관된 대화와 관련된 id값)값을 넣음
                                  //대화가 이어질 수 있도록 parent값을 이용
             tempParentIndex = interactionLists.FindIndex(x => x.GetSetOfDesc() == tempSetOfDesc_Index && x.GetId() == tempId);
+
+            //Debug.Log("tempParentIndex = " + tempParentIndex);
             tempParent = interactionLists[tempParentIndex].GetParent();
+            
 
             CheckAndAddSentence(tempParentIndex);
         }
@@ -650,7 +654,9 @@ public class DialogManager : MonoBehaviour
         /* tempNpcNameLists[curNumOfNpcNameLists]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
         //Debug.Log("curNumOfNpcNameLists = " + curNumOfNpcNameLists);
 
-        tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[curNumOfNpcNameLists]);
+        string tempObjectCode = tempNpcNameLists[curNumOfNpcNameLists];
+
+        tempNpcName = npcParser.GetNpcNameFromCode(tempObjectCode);
 
         UIManager.instance.isConversationing = true;
 
@@ -664,11 +670,13 @@ public class DialogManager : MonoBehaviour
         if (tempNpcName != null)
         {
             npcNameText.text = tempNpcName;
-            string objectName = npcParser.GetObjectNameFromCode(tempObjectPortrait);
+            string objectName = npcParser.GetObjectNameFromCode(tempObjectCode);
             bool checkObject = false;
             try
             {
-                checkObject = npcParser.GetNpcCodeFromName(objectName).Equals(objectName);
+                if (objectName != null)
+                    checkObject = true;
+                    //checkObject = npcParser.GetNpcCodeFromName(objectName).Equals(objectName);
             }
             catch { };
             //Debug.Log("objectName = " + objectName);
@@ -691,6 +699,9 @@ public class DialogManager : MonoBehaviour
 
                 npcImage.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/PortraitOfCharacter/" + tempNpcName + "_초상화");
             }
+
+            // 사물로부터 시작한 대화에 사람이 껴있는 경우를 위해
+            tempObjectPortrait = tempNpcName;
         }
         else
             npcNameText.text = "???";
@@ -1109,6 +1120,7 @@ public class DialogManager : MonoBehaviour
         imagePathLists.Clear();
         tempCertainDescIndexLists.Clear();
         tempNpcNameLists.Clear();
+        tempNpcName = null;
         curNumOfNpcNameLists = 0;
         rewardsLists.Clear();
         isFirstConversation = false;
@@ -1269,23 +1281,6 @@ public class DialogManager : MonoBehaviour
                             PlayerManager.instance.playerClueLists[j].SetFirstInfoOfClue(tempText);
                     }
                 }
-
-                //Debug.Log("대화가 모두 끝나서, 초기화 되기 직전");
-
-                //하나의 대화가 끝났으므로, 리셋
-                index = 0;
-                numOfText = 0;
-                sentences = null;
-                sentenceLists.Clear();
-                imagePathLists.Clear();
-                tempCertainDescIndexLists.Clear();
-                tempNpcNameLists.Clear();
-                curNumOfNpcNameLists = 0;
-                rewardsLists.Clear();
-                //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
-                isFirstConversation = false;
-                UIManager.instance.isTypingText = false;
-                EventManager.instance.isFinishedConversationFor222 = true;
 
                 //Debug.Log("tempSentenceOfCondition = " + tempSentenceOfCondition);
 
@@ -1494,12 +1489,37 @@ public class DialogManager : MonoBehaviour
                 //UIManager.instance.RemoveDeadBodyImage();
                 if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
                     EventManager.instance.PlayEvent();
+
+                //Debug.Log("대화가 모두 끝나서, 초기화 되기 직전");
+
+                //하나의 대화가 끝났으므로, 리셋
+                if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                    Debug.Log("사건 " + PlayerManager.instance.NumOfAct + "의 " + PlayerManager.instance.TimeSlot + "시간대에서 " + tempSentenceOfCondition + "과 대화 완료");
+
+                tempSentenceOfCondition = null;
+                index = 0;
+                numOfText = 0;
+                sentences = null;
+                sentenceLists.Clear();
+                imagePathLists.Clear();
+                tempCertainDescIndexLists.Clear();
+                tempNpcNameLists.Clear();
+                tempNpcName = null;
+                curNumOfNpcNameLists = 0;
+                rewardsLists.Clear();
+                //UIManager.instance.OpenGetClueButton();               // 단서 선택창 비활성화(임시)
+                isFirstConversation = false;
+                UIManager.instance.isTypingText = false;
+                EventManager.instance.isFinishedConversationFor222 = true;
             }
         }
         catch
         {
-            Debug.Log("대화중 오류 발생");
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                Debug.Log("사건 " + PlayerManager.instance.NumOfAct + "의 " + PlayerManager.instance.TimeSlot + "시간대에서 " + tempSentenceOfCondition + "과 " + (index - 1) + "번째 대화중 오류 발생");
+
             //하나의 대화가 끝났으므로, 리셋
+            tempSentenceOfCondition = null;
             index = 0;
             numOfText = 0;
             sentences = null;
@@ -1530,18 +1550,31 @@ public class DialogManager : MonoBehaviour
     {
         string targetObject = npcParser.GetNpcCodeFromName(objectName);   //StartObject에 해당하는 값
 
-        List<Interaction> targetOfInteractionList = new List<Interaction>();
+        List<Interaction> tempTargetOfInteractionList = new List<Interaction>();
+        List<Interaction> tempLists = new List<Interaction>();
 
         // 진행시킬 대화가 있는지 확인
-        targetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
+        tempTargetOfInteractionList = interactionLists.FindAll(x => (x.CheckTime(PlayerManager.instance.TimeSlot) == true) && (x.CheckStartObject(targetObject) == true) && (x.GetId() == 0));
+
+        // 진행시킬 대화중에, 이미 진행한 적이 있는 이벤트 대사가 있는지 골라내기
+        tempLists = tempTargetOfInteractionList.FindAll(x => (x.GetRepeatability().Equals("2") && x.GetStatus() >= 1));
 
         //Debug.Log("time = " + PlayerManager.instance.TimeSlot + ", startObject = " + targetObject);
         // 해당 NPC와의 대화가 없을 경우
-        if (targetOfInteractionList.Count == 0)
+        if (tempTargetOfInteractionList.Count == 0 || tempTargetOfInteractionList.Count == tempLists.Count)
+        {
+            tempTargetOfInteractionList.Clear();
+            tempLists.Clear();
             return false;
-        if (targetOfInteractionList.Count > 0)
+        }
+        else if (tempTargetOfInteractionList.Count > 0)
+        {
+            tempTargetOfInteractionList.Clear();
+            tempLists.Clear();
             return true;
+        }
 
+        tempTargetOfInteractionList.Clear();
         return false;
     }
 }

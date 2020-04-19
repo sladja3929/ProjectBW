@@ -73,7 +73,10 @@ public class Portal : MonoBehaviour
                     DialogManager.instance.InteractionWithObject("제렐사무실");
                 }
                 else
-                    StartCoroutine(FadeWithTakePortal());
+                {
+                    if(!UIManager.instance.isPortaling)
+                        StartCoroutine(FadeWithTakePortal());
+                }
             }
 
             /*

@@ -156,6 +156,9 @@ public class PlayerManager : MonoBehaviour {
                     //Debug.Log("단서 정리 시스템 종료");
                     UIManager.instance.ArrangeClue();
 
+                    // 단서 정리 후, 현재 시간대에 가지고 있는 단서 리스트 초기화
+                    ResetClueList_In_Certain_Timeslot();
+
                     //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
                     StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
                 }
@@ -173,6 +176,12 @@ public class PlayerManager : MonoBehaviour {
             //{
             //    Debug.Log(UIManager.instance.GetIsOpenedParchment() + ", " + UIManager.instance.isFading + ", " + UIManager.instance.GetIsOpenNote() + ", " + UIManager.instance.isPortaling + ", " + MiniMapManager.instance.IsMiniMapOpen() + ", " + isNearObject);
             //}
+
+            if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.GetIsOpenedParchment())
+            {
+                // 양피지 비활성화
+                UIManager.instance.SetActiveFalseToParchment();
+            }
 
             /* 오브젝트와의 상호작용을 위한 if */
             if ( Input.GetMouseButtonDown(0) && CheckCondition_InteractionObject() )
@@ -226,14 +235,18 @@ public class PlayerManager : MonoBehaviour {
                             if (DialogManager.instance.CheckInteraction(hit.collider.name))
                             {
                                 //Debug.Log("hit.collider.name : " + npcParser.GetNpcCodeFromName(hit.collider.name));
-                                try
-                                {
-                                    DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
-                                }
-                                catch
-                                {
-                                    
-                                }
+                                //try
+                                //{
+                                //    Debug.Log("사건" + NumOfAct + "의 " + TimeSlot + "시간대에서 " + hit.collider.name + "과 대화시도");
+                                //    DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
+                                //}
+                                //catch
+                                //{
+                                //    Debug.Log("사건" + NumOfAct + "의 " + TimeSlot + "시간대에서 " + hit.collider.name + "과 대화 중 오류 발생");
+                                //}
+
+                                Debug.Log("사건" + NumOfAct + "의 " + TimeSlot + "시간대에서 " + hit.collider.name + "( + " + npcParser.GetNpcCodeFromName(hit.collider.name) + ")과 대화시도");
+                                DialogManager.instance.InteractionWithObject(npcParser.GetNpcCodeFromName(hit.collider.name));
                             }
                         }
                         else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)

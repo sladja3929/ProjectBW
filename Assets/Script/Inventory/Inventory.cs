@@ -38,10 +38,11 @@ public class Inventory : MonoBehaviour {
         // 플레이어가 현재 시간대에 얻은 단서들의 리스트를 가져온다.
         List<ClueStructure> certainClueLists = PlayerManager.instance.playerClueLists_In_Certain_Timeslot;
         int num_Clue = certainClueLists.Count;
+        //Debug.Log(PlayerManager.instance.playerClueLists.Count);
         
         if (num_Clue == 0)
         {
-            //Debug.Log("현 시간대에 얻은 단서가 없음");
+            Debug.Log("현 시간대에 얻은 단서가 없음");
             // 양피지 위치 갱신
             ParchmentControll.instance.UpdateParchmentPosition(num_Clue);
             return;
@@ -70,8 +71,8 @@ public class Inventory : MonoBehaviour {
         // 양피지 위치 갱신
         ParchmentControll.instance.UpdateParchmentPosition(num_Clue);
 
-        // 현재 시간대에 가지고 있는 단서 리스트 초기화
-        PlayerManager.instance.ResetClueList_In_Certain_Timeslot();
+        //// 현재 시간대에 가지고 있는 단서 리스트 초기화
+        //PlayerManager.instance.ResetClueList_In_Certain_Timeslot();
     }
     
 

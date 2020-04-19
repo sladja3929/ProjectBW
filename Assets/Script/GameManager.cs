@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
         {
 
         }
-        //// 암호화 ON
+        // 암호화 ON
         if (Input.GetKeyDown(KeyCode.F6))
         {
             isEncrypted = true;
@@ -120,10 +120,17 @@ public class GameManager : MonoBehaviour {
         {
             //int numOfAct = ItemDatabase.instance.FindClue(clueName);
             //Debug.Log("Act " + (numOfAct) + "의 단서인 " + clueName + "를 얻었습니다.");
-            string numOfAct = ItemDatabase.instance.FindClue(clueName);
-            //Debug.Log("clueName = " + clueName + " , numOfAct = " + numOfAct);
-            //Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
-            Inventory.instance.MakeClueSlot(clueName, numOfAct); // 수첩에 Clue slot 추가
+            try
+            {
+                string numOfAct = ItemDatabase.instance.FindClue(clueName);
+                //Debug.Log("clueName = " + clueName + " , numOfAct = " + numOfAct);
+                //Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
+                Inventory.instance.MakeClueSlot(clueName, numOfAct); // 수첩에 Clue slot 추가
+            }
+            catch
+            {
+                Debug.Log(clueName + "단서를 얻으려다 실패");
+            }
 
         } else
         {
@@ -139,6 +146,11 @@ public class GameManager : MonoBehaviour {
     public string DecryptData(string text)
     {
         return dataAES.DecryptString(text, passwordForAES);
+    }
+
+    public string[] DecryptData(string text, string text2)
+    {
+        return dataAES.DecryptString(text, text2, passwordForAES);
     }
 
     public GameState GetGameState()
@@ -244,8 +256,8 @@ public class GameManager : MonoBehaviour {
             }
             catch
             {
+                Debug.Log("GameManager LoadPlayerData() 오류, i = " + i);
                 PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(" ");
-                //Debug.Log("GameManager LoadPlayerData() 오류, i = " + i);
             }
         }
     }

@@ -82,8 +82,11 @@ public class TitleManager : MonoBehaviour
 
             while (!CSVParser.instance.CompleteLoadFile())
             {
+                //Debug.Log(CSVParser.instance.GetInteractionLists().Count);
+                //yield return new WaitForSeconds(1.0f);
                 yield return null;
             }
+            
 
             //Debug.Log("일단 이어하기로 loadSceneName : " + LoadingManager.instance.loadSceneName);
             while (!asyncLoad.isDone)

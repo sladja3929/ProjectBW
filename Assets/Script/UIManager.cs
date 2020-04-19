@@ -453,6 +453,21 @@ public class UIManager : MonoBehaviour {
         return isOpenedParchment;
     }
 
+    public void SetActiveFalseToParchment()
+    {
+        isReadParchment = false;
+        isOpenedParchment = false;
+
+        //양피지를 안보이게 하기
+        parchmentUpButton.SetActive(isOpenedParchment);
+        parchmentDownButton.SetActive(isOpenedParchment);
+        parchment.SetActive(isOpenedParchment);
+        parchmentHelper.SetActive(isOpenedParchment);
+        parchmentClueScrollList.SetActive(isOpenedParchment);
+
+        //Inventory.instance.DestroySlotInParchment();
+    }
+
     public void ArrangeClue()
     {
         int clueCount = 0;

@@ -20,7 +20,7 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         /*키입력 받아 일시정지*/
-        if (Input.GetKeyDown(KeyCode.Escape) && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.IsBookOpened())
+        if (Input.GetKeyDown(KeyCode.Escape) && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.IsBookOpened() && !UIManager.instance.GetIsOpenedParchment())
         {
             if (UIManager.instance.GetIsPaused() == false)
             {

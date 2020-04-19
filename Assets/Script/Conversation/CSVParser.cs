@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 
 public class CSVParser : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class CSVParser : MonoBehaviour
     /* 메인 Dictionary의 key값은 각 interaction의 id값들을 넣고, value는 내부 dictionary를 넣는다 */
     /* 내부 Dictionary의 key값은 각 interaction이 가지고 있는 npcName 등의 값이고, value는 해당 key값의 실질적인 값을 가지게 한다. */
     private Dictionary<int, Dictionary<string, string>> dataList;
+    private Dictionary<int, Dictionary<string, string>> status_Repeatability_DataList;
 
     /* 구조는 dataList와 일맥상통하다 */
     // csv 형식의 단서 테이블의 데이터들을 저장할 수 있는 변수
@@ -66,6 +68,10 @@ public class CSVParser : MonoBehaviour
             temp = File.ReadAllText(initClueDataPath);
             File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
             //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
+
+            //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+            //GameManager.instance.thread.IsBackground = true;
+            //GameManager.instance.thread.Start();
         }
     }
 
@@ -75,7 +81,381 @@ public class CSVParser : MonoBehaviour
         ParsingConversationCSV(initConversationDataPath);   // 대화 테이블 파싱
         ParsingClueDataCSV(initClueDataPath);       // 단서 테이블 파싱
     }
+    
+    public void GetInfoParsingConversationCSV(object dataPath, object status_Repeat_DataPath)
+    {
+        dataList = new Dictionary<int, Dictionary<string, string>>();
+        status_Repeatability_DataList = new Dictionary<int, Dictionary<string, string>>();
 
+        interactionLists = new List<Interaction>();
+
+        string textAsset = File.ReadAllText(dataPath.ToString(), System.Text.Encoding.UTF8); // old
+        string newTextAsset = File.ReadAllText(status_Repeat_DataPath.ToString(), System.Text.Encoding.UTF8);
+        string[] tempStringArr = new string[2];
+
+        if (GameManager.instance.isEncrypted)
+        {
+            tempStringArr = GameManager.instance.DecryptData(textAsset, newTextAsset);
+            Debug.Log("textAsset 1 = " + tempStringArr[0]);
+            Debug.Log("textAsset 2 = " + tempStringArr[1]);
+        }
+
+        string[] stringArrOld = tempStringArr[1].Split(new string[] { "줄바꿈\r\n" }, System.StringSplitOptions.None);
+        string[] subjectArrOld = stringArrOld[0].Split(',');      //속성에 해당하는 첫째줄 분리
+
+        int index = 0;
+
+        for (int i = 1; i < stringArrOld.Length - 1; i++)
+        {
+            //두번째 줄부터 ,를 기준으로 쪼갬
+            string[] dataArrOld = stringArrOld[i].Split(',');
+
+            //int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
+
+            /* FindIndex가 0부터 반환하면 0, 1부터 반환하면 1로 고쳐야함 */
+            //int index = 0; // 그냥 0부터 차례대로 박아넣기 // int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
+
+            //해당 index가 dictionary에 없으면 추가
+            if (!status_Repeatability_DataList.ContainsKey(index))
+                status_Repeatability_DataList.Add(index, new Dictionary<string, string>());
+
+            //메인 dictionary에는 index의 키값을 가지는 내부 dictionary가 있을것이다.
+            //내부 dictionary에 각 속성들의 값을 대입하기위해 for문을 돌린다.
+            for (int j = 0; j < dataArrOld.Length; j++)
+            {
+                /* """ -> " , $ -> , 변환해서 데이터 넣기 */
+                //dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
+                //dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
+                dataArrOld[j] = ReplaceComma(dataArrOld[j]);
+                dataArrOld[j] = ReplaceEnter(dataArrOld[j]);
+                //if (index >= 1340)
+                //{
+                //    Debug.Log("index = " + index);
+                //    Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
+                //    Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
+                //}
+                status_Repeatability_DataList[index].Add(subjectArrOld[j], dataArrOld[j]);
+
+            }//for j
+            index++;
+        }//for i
+
+        //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
+        //string[] stringArr = textAsset.text.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
+        string[] stringArr = tempStringArr[0].Split(new string[] { "줄바꿈\r\n" }, System.StringSplitOptions.None);
+        string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
+
+        index = 0;
+
+        //맨 마지막 줄은 한 줄 띄워져있으니 생략하기위해 길이 - 1 해줌
+        //첫번째줄 속성줄을 무시하기위해 i = 1 부터 시작
+        for (int i = 1; i < stringArr.Length - 1; i++)
+        {
+            //두번째 줄부터 ,를 기준으로 쪼갬
+            string[] dataArr = stringArr[i].Split(',');
+
+            //int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
+
+            /* FindIndex가 0부터 반환하면 0, 1부터 반환하면 1로 고쳐야함 */
+            //int index = 0; // 그냥 0부터 차례대로 박아넣기 // int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
+
+            //해당 index가 dictionary에 없으면 추가
+            if (!dataList.ContainsKey(index))
+                dataList.Add(index, new Dictionary<string, string>());
+
+            //메인 dictionary에는 index의 키값을 가지는 내부 dictionary가 있을것이다.
+            //내부 dictionary에 각 속성들의 값을 대입하기위해 for문을 돌린다.
+            for (int j = 0; j < dataArr.Length; j++)
+            {
+                /* """ -> " , $ -> , 변환해서 데이터 넣기 */
+                //dataArr[j] = ReplaceDoubleQuotationMark(dataArr[j]);
+                //dataArr[j] = RemoveDoubleQuotationMark(dataArr[j]);     // 대화에 줄바꿈이 있을경우, 양끝에 "가 붙은걸 없애기
+                dataArr[j] = ReplaceComma(dataArr[j]);
+                dataArr[j] = ReplaceEnter(dataArr[j]);
+                //if (index >= 1340)
+                //{
+                //    Debug.Log("index = " + index);
+                //    Debug.Log("subjectArr[" + j + "] = " + subjectArr[j]);
+                //    Debug.Log("dataArr[" + j + "] = " + dataArr[j]);
+                //}
+                dataList[index].Add(subjectArr[j], dataArr[j]);
+
+            }//for j
+            index++;
+        }//for i
+
+        //Debug.Log("대화 갯수 = " + index);
+
+        //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
+        for (int i = 0; i < dataList.Count; i++)
+        {
+            //dataList.Count 만큼 interaction 클래스 객체가 만들어짐.
+            Interaction tempInteraction = new Interaction();
+
+            for (int j = 0; j < dataList[i].Count; j++)
+            {
+                //(dataList[i])[subjectArr[j]]
+                switch (subjectArr[j])
+                {
+                    case "사건":
+                        try
+                        {
+                            tempInteraction.SetAct(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "사건에서 오류발생");
+                        }
+                        break;
+
+                    case "시간대":
+
+                        //tempInteraction.SetTime(int.Parse((dataList[i])[subjectArr[j]]));
+                        //tempInteraction.SetTime(((dataList[i])[subjectArr[j]]));
+
+                        // 각 대화가 여러 시간대에서 나타날 수 있는 대화일 때를 포함한 작업
+                        string tempTime = ((dataList[i])[subjectArr[j]]);
+                        string[] tempTimeList;
+                        if (tempTime.Contains(","))
+                        {   // 여러개일 경우
+                            tempTimeList = tempTime.Split(',');
+                            tempInteraction.SetTime(tempTimeList);
+                        }
+                        else
+                        {   // 1개일 경우
+                            tempTimeList = new string[1];
+                            tempTimeList[0] = tempTime;
+                            tempInteraction.SetTime(tempTimeList);
+                        }
+
+                        break;
+
+                    case "위치":
+
+                        //tempInteraction.SetPosition(int.Parse((dataList[i])[subjectArr[j]]));
+                        //tempInteraction.SetPosition(((dataList[i])[subjectArr[j]]));
+                        string tempPosition = ((dataList[i])[subjectArr[j]]);
+                        string[] tempPositionList;
+                        if (tempPosition.Contains(","))
+                        {   // 여러개일 경우
+                            tempPositionList = tempPosition.Split(',');
+                            tempInteraction.SetPosition(tempPositionList);
+                        }
+                        else
+                        {   // 1개일 경우
+                            tempPositionList = new string[1];
+                            tempPositionList[0] = tempPosition;
+                            tempInteraction.SetPosition(tempPositionList);
+                        }
+                        break;
+
+                    case "대화 묶음":
+                        try
+                        {
+                            tempInteraction.SetSetOfDesc(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "대화 묶음에서 오류발생");
+                        }
+                        break;
+
+                    case "id":
+                        try
+                        {
+                            tempInteraction.SetId(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList["+i+"])[subjectArr["+j+"]])" + (dataList[i])[subjectArr[j]] + "id에서 오류발생");
+                        }
+                        break;
+
+                    case "startObject":
+                        //tempInteraction.SetStartObject((dataList[i])[subjectArr[j]]);
+                        string tempStartObject = (dataList[i])[subjectArr[j]];
+                        string[] tempStartObjectList;
+                        if (tempStartObject.Contains(","))
+                        {   // 여러개일 경우
+                            tempStartObjectList = tempStartObject.Split(',');
+                            tempInteraction.SetStartObject(tempStartObjectList);
+                        }
+                        else
+                        {   // 1개일 경우
+                            tempStartObjectList = new string[1];
+                            tempStartObjectList[0] = tempStartObject;
+                            tempInteraction.SetStartObject(tempStartObjectList);
+                        }
+                        //if (tempStartObject.Equals("800"))
+                        //{
+                        //    Debug.Log(tempStartObject + "의 대화 적용 완료");
+                        //}
+                        break;
+
+                    case "npcFrom":
+                        try
+                        {
+                            tempInteraction.SetNpcFrom((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "npcFrom에서 오류발생");
+                        }
+                        break;
+                    /*
+                case "npcTo":
+
+                    tempInteraction.SetNpcTo((dataList[i])[subjectArr[j]]);
+                    break;
+                    */
+                    case "desc":
+                        try
+                        {
+                            tempInteraction.SetDesc((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "desc에서 오류발생");
+                        }
+                        break;
+
+                    case "반복성":
+                        try
+                        {
+                            //tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
+                            if((status_Repeatability_DataList[i])[subjectArr[j]] != null)
+                                tempInteraction.SetRepeatability((status_Repeatability_DataList[i])[subjectArr[j]]);
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (status_Repeatability_DataList[i])[subjectArr[j]] + "반복성 추가");
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "반복성에서 오류발생");
+                        }
+                        break;
+
+                    case "대사 조건":
+
+                        string tempCondition = (dataList[i])[subjectArr[j]];
+
+                        if (tempCondition.Contains(","))   // 여러개일 경우
+                        {
+                            string[] tempConditionList;
+                            tempConditionList = tempCondition.Split(',');
+                            tempInteraction.SetConditionOfDesc(tempConditionList);
+                        }
+                        else
+                        {   // 1개이거나 없는 경우
+                            string[] tempConditionList;
+                            tempConditionList = new string[1];
+                            tempConditionList[0] = tempCondition;
+                            tempInteraction.SetConditionOfDesc(tempConditionList);
+                        }
+
+                        break;
+
+                    case "status":
+                        try
+                        {
+                            //tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
+                            tempInteraction.SetStatus(int.Parse((status_Repeatability_DataList[i])[subjectArr[j]]));
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (status_Repeatability_DataList[i])[subjectArr[j]] + "status 추가");
+                        }
+                        catch
+                        {
+                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "status에서 오류발생");
+                        }
+                        break;
+
+                    case "rewards":
+
+                        //rewards는 여러개 일 수 있음. 그것은 보상을 얻을때 , 를 기점으로 나눌것
+                        //Debug.Log("tempRewards = " + (dataList[i])[subjectArr[j]]);
+                        string tempRewards = ReplaceComma((dataList[i])[subjectArr[j]]);
+                        //string[] rewardsList = tempRewards.Split(',');
+                        tempInteraction.SetRewards(tempRewards);
+                        //tempInteraction.SetRewards((dataList[i])[subjectArr[j]]);
+                        break;
+
+                    case "parent":
+                        try
+                        {
+                            tempInteraction.SetParent(int.Parse((dataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "parent에서 오류발생");
+                        }
+
+                        break;
+                    /* 삭제 예정(11/12) */
+                    case "단서 루트 해금":
+
+                        string tempRevealList = ReplaceComma((dataList[i])[subjectArr[j]]);
+                        string[] revealList = tempRevealList.Split(',');
+                        tempInteraction.SetRevealList(revealList);
+
+                        break;
+                    // 아래 두 부분은, 나중에 이벤트 처리할 때 수정할 것(1223)
+                    case "발생 여부":
+                        try
+                        {
+                            tempInteraction.SetOccurrence((dataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "발생 여부에서 오류발생");
+                        }
+
+                        break;
+
+                    case "새로운 이벤트 발생":
+                        string tempEvent = (dataList[i])[subjectArr[j]];
+
+                        try
+                        {
+                            //tempInteraction.SetEventIndexToOccur(((dataList[i])[subjectArr[j]]));
+
+                            if (tempEvent.Contains(","))   // 여러개일 경우
+                            {
+                                string[] tempEventList;
+                                tempEventList = tempEvent.Split(',');
+                                tempInteraction.SetEventIndexToOccur(tempEventList);
+                            }
+                            else
+                            {   // 1개이거나 없는 경우
+                                string[] tempEventList;
+                                tempEventList = new string[1];
+                                tempEventList[0] = tempEvent;
+                                tempInteraction.SetEventIndexToOccur(tempEventList);
+                            }
+
+                            /* 굳이 이 로직을 실행할 필요 없음 (1월 27일 메모)
+                            // 대화로 인해 발생할 이벤트가 존재한다면
+                            if (!((dataList[i])[subjectArr[j]]).Equals(""))
+                            {
+                                // npc와 관련된(생성 및 삭제) 새로운 이벤트가 있다면 추가
+                                EventManager.instance.AddToEventIndexList(tempInteraction.GetEventIndexToOccur());
+                            }
+                            */
+                        }
+                        catch
+                        {
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "새로운 이벤트에서 오류발생");
+                        }
+                        break;
+
+                    default:
+                        continue;
+                }//switch
+            }//for j
+
+            //추출해서 적용시킨 interaction 클래스를 리스트에 추가
+            interactionLists.Add(tempInteraction);
+        }//for i
+
+        Debug.Log("index = " + index);
+    } //ParsingConversationCSV()
+    
     /* 대화 테이블을 파싱하는 함수 */
     public void ParsingConversationCSV(object dataPath)
     {
@@ -632,7 +1012,8 @@ public class CSVParser : MonoBehaviour
         {
             string conversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
             string clueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
-            ParsingConversationCSV(conversationDataPath);
+            //ParsingConversationCSV(conversationDataPath);
+            GetInfoParsingConversationCSV(initConversationDataPath, conversationDataPath);
             ParsingClueDataCSV(clueDataPath);
         }
         catch
