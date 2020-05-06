@@ -48,7 +48,7 @@ public class EventManager : MonoBehaviour
         hasBeenInHarbor = false;
         hasPlayed252Event = false;
         isActivatedEvent222 = false;
-        eventVariable = PlayerManager.instance.GetEventVariableClass();
+        eventVariable = GameManager.instance.GetEventVariable();
 
         /* for test */
         // 이벤트 시스템 구현으로 인한 주석처리(테스트용, 1월 23일)
@@ -176,13 +176,20 @@ public class EventManager : MonoBehaviour
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
         {
             // 특정 인물 등장 이벤트 처리 시작
-            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("200") && PlayerManager.instance.TimeSlot.Equals("71"))
+            if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("200") && (PlayerManager.instance.TimeSlot.Equals("71") || PlayerManager.instance.TimeSlot.Equals("72")))
             {
                 //tempIndex = npcListForEvent.FindIndex(x => x.gameObject.name == "체스미터");
                 if (!npcListForEvent[1].activeSelf)
                 {
                     npcListForEvent[1].SetActive(true);
                     Debug.Log("체스미터 활성화");
+                }
+            }
+            else
+            {
+                if (npcListForEvent[1].activeSelf)
+                {
+                    npcListForEvent[1].SetActive(false);
                 }
             }
 
@@ -201,7 +208,7 @@ public class EventManager : MonoBehaviour
                 }
             }
 
-            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("207") && PlayerManager.instance.TimeSlot.Equals("72"))
+            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("207") && !PlayerManager.instance.TimeSlot.Equals("71"))
             {
                 //index 5 ~ 12 : 정보상 엑스트라들
                 for (int i = 5; i <= 12; i++)
@@ -335,11 +342,11 @@ public class EventManager : MonoBehaviour
                 else
                 {
                     //tempIndex = npcListForEvent.FindIndex(x => x.gameObject.name == "사제");
-                    if (!npcListForEvent[2].activeSelf)
+                    if (npcListForEvent[2].activeSelf)
                         npcListForEvent[2].SetActive(false);
 
                     //tempIndex = npcListForEvent.FindIndex(x => x.gameObject.name == "새로 누워있는 아이");
-                    if (!npcListForEvent[3].activeSelf)
+                    if (npcListForEvent[3].activeSelf)
                         npcListForEvent[3].SetActive(false);
                 }
             }
@@ -373,19 +380,31 @@ public class EventManager : MonoBehaviour
 
             // 상호작용이 가능한 자작의 저택(23)을 비활성화하고, 상호작용이 불가능한 자작의 저택(24)과, 자작의 저택으로 가는 포탈(25) 활성화하기 -> 변경(0302)
             // 자작의 저택으로 가는 포탈(25) 활성화하기
+
             if (eventVariable.num_Try_to_Enter_in_Mansion >= 3)
             {
                 if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("233"))
                 {
                     PlayerManager.instance.DeleteEventCodeFromList("257");
                     PlayerManager.instance.AddEventCodeToList("233");
-                    /*
+
                     if (npcListForEvent[23].activeSelf)
                         npcListForEvent[23].SetActive(false);
 
                     if (!npcListForEvent[24].activeSelf)
                         npcListForEvent[24].SetActive(true);
-                        */
+
+                    if (!npcListForEvent[25].activeSelf)
+                        npcListForEvent[25].SetActive(true);
+                }
+                else
+                {
+                    if (npcListForEvent[23].activeSelf)
+                        npcListForEvent[23].SetActive(false);
+
+                    if (!npcListForEvent[24].activeSelf)
+                        npcListForEvent[24].SetActive(true);
+
                     if (!npcListForEvent[25].activeSelf)
                         npcListForEvent[25].SetActive(true);
                 }
@@ -842,6 +861,22 @@ public class EventManager : MonoBehaviour
             // 251번 이벤트를 위한 처리
             if (PlayerManager.instance.GetCurrentPosition().Equals("Harbor_Cruise"))
                 eventVariable.isEnter_In_Cruise = true;
+
+            // 258번 이벤트를 위한 처리 (콜린(멜리사의 애인)의 등장)
+            if (PlayerManager.instance.TimeSlot.Equals("73"))
+            {
+                if (!npcListForEvent[39].activeSelf)
+                {
+                    npcListForEvent[39].SetActive(true);
+                }
+            }
+            else
+            {
+                if (npcListForEvent[39].activeSelf)
+                {
+                    npcListForEvent[39].SetActive(false);
+                }
+            }
 
             // 300번 이벤트를 위한 처리
             if (PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("300"))

@@ -84,7 +84,11 @@ public class DialogManager : MonoBehaviour
         eventManager = new EventConversationManager();
 
         npcParser = new NpcParser();
-        eventVariable = PlayerManager.instance.GetEventVariableClass();
+
+        if (GameManager.instance.GetGameState() == GameManager.GameState.PastGame_Loaded)
+            eventVariable = GameManager.instance.GetEventVariable();
+        else if(GameManager.instance.GetGameState() == GameManager.GameState.NewGame_Loaded)
+            eventVariable = PlayerManager.instance.GetEventVariableClass();
 
         UIManager.instance.SetAlphaToZero_ConversationUI();    //대화창 UI 투명화
 
@@ -479,15 +483,16 @@ public class DialogManager : MonoBehaviour
         // (당신과 할 말이 없습니다.) 와 같은 대사가 고정적으로 나오게 하면 좋을듯? (1210에 update 함) -> 반영완료 (1223)
         if (targetOfInteractionList.Count == 0)
         {
+            // 삭제
             //Debug.Log("할 말이 없습니다.");
 
-            UIManager.instance.isConversationing = true;    // 대화중
-            UIManager.instance.OpenConversationUI();        // 대화창 오픈
-            UIManager.instance.isFading = true;
-            StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
+            //UIManager.instance.isConversationing = true;    // 대화중
+            //UIManager.instance.OpenConversationUI();        // 대화창 오픈
+            //UIManager.instance.isFading = true;
+            //StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
 
-            //메르테 초상화 + 메르테가 하는 대사처럼 만들기
-            StartCoroutine(TypeNull());
+            ////메르테 초상화 + 메르테가 하는 대사처럼 만들기
+            //StartCoroutine(TypeNull());
 
 
             return;
@@ -515,7 +520,7 @@ public class DialogManager : MonoBehaviour
             
             for (int i = 0; i < eventIndex.Length; i++)
             {
-                //Debug.Log("발생될 이벤트 = " + eventIndex);
+                //Debug.Log("발생될 이벤트 = " + eventIndex[i]);
                 EventManager.instance.ActivateNpcForEvent(eventIndex[i]);
             }
             
@@ -542,15 +547,16 @@ public class DialogManager : MonoBehaviour
             // 해당 NPC와의 대화가 없을 경우, 함수 종료 (1210에 update 함) -> 이부분은 앞에서 실행하는 부분이라 필요없다고 판단함 (1223)
             if (setOfDescList.Count == 0)
             {
+                // 삭제
                 //Debug.Log("이 npc와 할 말이 없습니다.");
 
-                UIManager.instance.isConversationing = true;    // 대화중
-                UIManager.instance.OpenConversationUI();        // 대화창 오픈
-                UIManager.instance.isFading = true;
-                StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
+                //UIManager.instance.isConversationing = true;    // 대화중
+                //UIManager.instance.OpenConversationUI();        // 대화창 오픈
+                //UIManager.instance.isFading = true;
+                //StartCoroutine(UIManager.instance.FadeEffect(0.5f, "In"));  //0.5초 동안 fade in
 
-                //메르테 초상화 + 메르테가 하는 대사처럼 만들기
-                StartCoroutine(TypeNull());
+                ////메르테 초상화 + 메르테가 하는 대사처럼 만들기
+                //StartCoroutine(TypeNull());
                 
                 return;
             }
@@ -1561,13 +1567,13 @@ public class DialogManager : MonoBehaviour
 
         //Debug.Log("time = " + PlayerManager.instance.TimeSlot + ", startObject = " + targetObject);
         // 해당 NPC와의 대화가 없을 경우
-        if (tempTargetOfInteractionList.Count == 0 || tempTargetOfInteractionList.Count == tempLists.Count)
+        if (tempTargetOfInteractionList.Count == 0 || (tempTargetOfInteractionList.Count > 0 && tempTargetOfInteractionList.Count == tempLists.Count) )
         {
             tempTargetOfInteractionList.Clear();
             tempLists.Clear();
             return false;
         }
-        else if (tempTargetOfInteractionList.Count > 0)
+        else if (tempTargetOfInteractionList.Count > 0 && tempTargetOfInteractionList.Count - tempLists.Count > 0)
         {
             tempTargetOfInteractionList.Clear();
             tempLists.Clear();
@@ -1575,6 +1581,7 @@ public class DialogManager : MonoBehaviour
         }
 
         tempTargetOfInteractionList.Clear();
+        tempLists.Clear();
         return false;
     }
 }

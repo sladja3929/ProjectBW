@@ -114,7 +114,8 @@ public class PlayerManager : MonoBehaviour {
             //DialogManager.instance.SetLists();
             ItemDatabase.instance.SetLists();
             GameManager.instance.LoadPlayerData();
-            GameManager.instance.SetEventVariable(ref GetEventVariableClass());
+            eventVariable = GameManager.instance.GetEventVariable();
+            //GameManager.instance.SetEventVariable(ref GetEventVariableClass());
 
             if (NumOfAct.Equals("53"))
             {
@@ -138,6 +139,8 @@ public class PlayerManager : MonoBehaviour {
             checkTimeSlot = TimeSlot;
 
             ResetClueList_In_Certain_Timeslot(); // for PlaySaveGame 
+
+            EventManager.instance.PlayEvent();
         }
     }
 
@@ -153,11 +156,14 @@ public class PlayerManager : MonoBehaviour {
                     UIManager.instance.isFading = true;
                     DocumentControll.instance.ResetDocumentOfAndren();
 
+                    if ((NumOfAct.Equals("53") && TimeSlot.Equals("74")) || (NumOfAct.Equals("54") && TimeSlot.Equals("79")))
+                    {
+                        DocumentControll.instance.GetAndrenClue(NumOfAct);  // 안드렌이 모은 단서 획득
+                        UIManager.instance.SetIsReadParchment_In_74_79(false);
+                    }
+
                     //Debug.Log("단서 정리 시스템 종료");
                     UIManager.instance.ArrangeClue();
-
-                    // 단서 정리 후, 현재 시간대에 가지고 있는 단서 리스트 초기화
-                    ResetClueList_In_Certain_Timeslot();
 
                     //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
                     StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
@@ -177,10 +183,11 @@ public class PlayerManager : MonoBehaviour {
             //    Debug.Log(UIManager.instance.GetIsOpenedParchment() + ", " + UIManager.instance.isFading + ", " + UIManager.instance.GetIsOpenNote() + ", " + UIManager.instance.isPortaling + ", " + MiniMapManager.instance.IsMiniMapOpen() + ", " + isNearObject);
             //}
 
-            if (Input.GetKeyDown(KeyCode.Escape) && UIManager.instance.GetIsOpenedParchment())
+            if (Input.GetKeyDown(KeyCode.Escape) && !UIManager.instance.GetIsReadParchment_In_74_79())
             {
                 // 양피지 비활성화
                 UIManager.instance.SetActiveFalseToParchment();
+                DocumentControll.instance.ResetDocumentOfAndren();
             }
 
             /* 오브젝트와의 상호작용을 위한 if */

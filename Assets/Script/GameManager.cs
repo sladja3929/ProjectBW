@@ -216,7 +216,7 @@ public class GameManager : MonoBehaviour {
     {
         CSVParser.instance.SaveCSVData();
         SavePlayerData();
-        eventVariable.SaveEventVariables();
+        eventVariable.SaveEventVariables(EventManager.instance.GetEventVariable());
     }
 
     /* Load된 Player의 정보를 적용 */
@@ -268,6 +268,11 @@ public class GameManager : MonoBehaviour {
         PlayerInfo tempPlayerInfo = new PlayerInfo(PlayerManager.instance.NumOfAct, PlayerManager.instance.TimeSlot, PlayerManager.instance.GetPlayedEventList(), PlayerManager.instance.playerClueLists);
 
         tempPlayerInfo.SavePlayerInfo();
+    }
+
+    public EventVariable GetEventVariable()
+    {
+        return eventVariable;
     }
 
     public void SetEventVariable(ref EventVariable eventVariable)

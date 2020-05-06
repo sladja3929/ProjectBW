@@ -76,8 +76,9 @@ public class ParchmentControll : MonoBehaviour
                 if (isActivated_Help_Of_Andren && !atOnce && !isPlayingDocumentAnim 
                     && ( (PlayerManager.instance.NumOfAct.Equals("53") && PlayerManager.instance.TimeSlot.Equals("74") ) || (PlayerManager.instance.NumOfAct.Equals("54") && PlayerManager.instance.TimeSlot.Equals("79")) ))
                 {
+                    UIManager.instance.isReadParchment_In_74_79 = true;
                     DocumentControll.instance.InvokeDocumentAnim();
-                    isPlayingDocumentAnim = !isPlayingDocumentAnim;
+                    isPlayingDocumentAnim = true;
                     atOnce = !atOnce;
                     DocumentAnim_End();
                 }
@@ -91,9 +92,16 @@ public class ParchmentControll : MonoBehaviour
         }
     }
 
+    public bool GetIsActivated_Help_Of_Andren()
+    {
+        return isActivated_Help_Of_Andren;
+    }
+
     // 현재 시간대에 얻은 단서의 수에 따라서, 양피지 위치 재조정
     public void UpdateParchmentPosition(int clueCount_In_This_TimeSlot)
     {
+        //Debug.Log("현 시간대 얻은 단서 수 = " + clueCount_In_This_TimeSlot);
+
         min_Scroll_Position_Parchment = -400.0f + (-100.0f * clueCount_In_This_TimeSlot);
         UIManager.instance.yMinValue_RectOfParchment = -400.0f + (-100.0f * clueCount_In_This_TimeSlot);
         max_Scroll_Position_Parchment = 400.0f + (100.0f * clueCount_In_This_TimeSlot);
@@ -149,14 +157,26 @@ public class ParchmentControll : MonoBehaviour
     }
 
     // 단서 정리가 완전히 끝난 후 실행되야 할 함수임
-    public void SetIsPlayingDocumentAnimToFalse()
-    {
-        isPlayingDocumentAnim = false;
-    }
+    //public void SetIsPlayingDocumentAnimToFalse()
+    //{
+    //    isPlayingDocumentAnim = false;
+    //}
 
     public void DocumentAnim_End()
     {
-        Invoke("SetIsPlayingDocumentAnimToFalse", 6.0f);
+        //Invoke("SetIsPlayingDocumentAnimToFalse", 6.0f);
+        StartCoroutine(SetIsPlayingDocumentAnimToFalse());
+    }
+
+    IEnumerator SetIsPlayingDocumentAnimToFalse()
+    {
+        yield return new WaitForSecondsRealtime(6.0f);
+        isPlayingDocumentAnim = false;
+    }
+
+    public void SetIsPlayingDocumentAnim(bool boolValue)
+    {
+        isPlayingDocumentAnim = boolValue;
     }
 
     public bool GetIsPlayingDocumentAnim()

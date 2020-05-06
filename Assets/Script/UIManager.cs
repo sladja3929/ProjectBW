@@ -103,6 +103,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject documentCover;      // 안드렌의 서류봉투 열리는 부분의 게임 오브젝트
     public bool isReadParchment;            // 양피지를 끝까지 읽었는지 확인하는 변수
+    public bool isReadParchment_In_74_79;
     [SerializeField]
     private GameObject fadeInOutPanel;      // 시간대가 지났다는 것을 알리기 위한 FadeInOut 패널
     [SerializeField]
@@ -179,6 +180,7 @@ public class UIManager : MonoBehaviour {
         parchmentUpButton.SetActive(isOpenedParchment);
         parchmentDownButton.SetActive(isOpenedParchment);
         isReadParchment = false;
+        isReadParchment_In_74_79 = false;
         isPortaling = false;
 
         isConversationing = false;
@@ -453,6 +455,16 @@ public class UIManager : MonoBehaviour {
         return isOpenedParchment;
     }
 
+    public bool GetIsReadParchment_In_74_79()
+    {
+        return isReadParchment_In_74_79;
+    }
+
+    public void SetIsReadParchment_In_74_79(bool boolValue)
+    {
+        isReadParchment_In_74_79 = boolValue;
+    }
+
     public void SetActiveFalseToParchment()
     {
         isReadParchment = false;
@@ -688,6 +700,10 @@ public class UIManager : MonoBehaviour {
     public IEnumerator FadeEffectForChangeTimeSlot()
     {
         isFading = true;
+
+        // 단서 정리 후, 현재 시간대에 가지고 있는 단서 리스트 초기화
+        if(GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+            PlayerManager.instance.ResetClueList_In_Certain_Timeslot();
 
         // 시간대가 변경되는 동안 캐릭터가 행동 못하게 해야함
         // 1. FadeIn 된다.

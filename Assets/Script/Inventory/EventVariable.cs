@@ -158,6 +158,14 @@ public class EventVariable
         else
             isActivated_4015_Conversation = false;
 
+        string tempString = "";
+
+        for (int i = 0; i < 29; i++)
+        {
+            tempString += jsonEventVariablesData[i].ToString();
+        }
+        //Debug.Log(tempString);
+        //Debug.Log("EventVariable 값 적용 완료");
     }
 
     /* 이벤트 관련 변수 Save 파일 로드하고, 값 설정하기 */
@@ -181,11 +189,11 @@ public class EventVariable
     }
 
     /* 이벤트 관련 변수 Save 파일 만들기 */
-    public void SaveEventVariables()
+    public void SaveEventVariables(EventVariable playerEventVariable)
     {
         string saveDataPath = Application.streamingAssetsPath + "/Data/PlayerEventVariable.json";
         // EventVariable 클래스 통째로 json화
-        JsonData tempJsonData = JsonMapper.ToJson(this);
+        JsonData tempJsonData = JsonMapper.ToJson(playerEventVariable);
 
         if (GameManager.instance.isEncrypted)
         {

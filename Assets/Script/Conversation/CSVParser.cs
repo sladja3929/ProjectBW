@@ -96,8 +96,8 @@ public class CSVParser : MonoBehaviour
         if (GameManager.instance.isEncrypted)
         {
             tempStringArr = GameManager.instance.DecryptData(textAsset, newTextAsset);
-            Debug.Log("textAsset 1 = " + tempStringArr[0]);
-            Debug.Log("textAsset 2 = " + tempStringArr[1]);
+            //Debug.Log("textAsset 1 = " + tempStringArr[0]);
+            //Debug.Log("textAsset 2 = " + tempStringArr[1]);
         }
 
         string[] stringArrOld = tempStringArr[1].Split(new string[] { "줄바꿈\r\n" }, System.StringSplitOptions.None);
@@ -453,7 +453,7 @@ public class CSVParser : MonoBehaviour
             interactionLists.Add(tempInteraction);
         }//for i
 
-        Debug.Log("index = " + index);
+        //Debug.Log("index = " + index);
     } //ParsingConversationCSV()
     
     /* 대화 테이블을 파싱하는 함수 */

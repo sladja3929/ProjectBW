@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 70.597, y: -101.54}
-  m_SizeDelta: {x: 473.84683, y: 914.3081}
+  m_SizeDelta: {x: 473.61172, y: 914.16705}
   m_Pivot: {x: 1, y: 0.1}
 --- !u!222 &16137588
 CanvasRenderer:
@@ -513,7 +513,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -70.597, y: -101.55}
-  m_SizeDelta: {x: 473.84683, y: 914.3081}
+  m_SizeDelta: {x: 473.61172, y: 914.16705}
   m_Pivot: {x: 0, y: 0.1}
 --- !u!222 &276119059
 CanvasRenderer:
@@ -989,7 +989,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 238.49512, y: -105.37775}
-  m_SizeDelta: {x: 947.69366, y: 1577.6936}
+  m_SizeDelta: {x: 947.22345, y: 1577.2234}
   m_Pivot: {x: 1, y: 0.12}
 --- !u!222 &519360254
 CanvasRenderer:
@@ -2683,7 +2683,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 238.49512, y: -106.38922}
-  m_SizeDelta: {x: 473.84683, y: 914.3081}
+  m_SizeDelta: {x: 473.61172, y: 914.16705}
   m_Pivot: {x: 0.000000020489097, y: 0.12}
 --- !u!222 &972024985
 CanvasRenderer:
@@ -7125,7 +7125,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1406701503725934089}
   m_HandleRect: {fileID: 8161280268140342381}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8020,7 +8020,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 124.99994}
+  m_AnchoredPosition: {x: 0, y: 125}
   m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5234463859588333774
@@ -8712,21 +8712,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4884609808045409239, guid: 3d7d42d23422284479e207de13c59f1b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4670746752978245147, guid: 3d7d42d23422284479e207de13c59f1b,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4670746752978245147, guid: 3d7d42d23422284479e207de13c59f1b,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1471767910123435693, guid: 3d7d42d23422284479e207de13c59f1b,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -8840,7 +8825,7 @@ PrefabInstance:
     - target: {fileID: 6503896275505333046, guid: 3d7d42d23422284479e207de13c59f1b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2960
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 6503896275505333046, guid: 3d7d42d23422284479e207de13c59f1b,
         type: 3}
@@ -9043,6 +9028,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5826978640599326170, guid: faa4877fe6dfac241b388e782efcd8a1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1663221283}
+    - target: {fileID: 5826978640599326170, guid: faa4877fe6dfac241b388e782efcd8a1,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Setting
+      objectReference: {fileID: 0}
     - target: {fileID: 2801222045477451203, guid: faa4877fe6dfac241b388e782efcd8a1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9153,17 +9148,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1663221283}
-    - target: {fileID: 5826978640599326170, guid: faa4877fe6dfac241b388e782efcd8a1,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2783045315507059567, guid: 4258779ed18cbf445ab7ab9f974b8bb4,
-        type: 3}
-    - target: {fileID: 5826978640599326170, guid: faa4877fe6dfac241b388e782efcd8a1,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OpenSettingPanel
-      objectReference: {fileID: 0}
     - target: {fileID: 5475229462755066436, guid: faa4877fe6dfac241b388e782efcd8a1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

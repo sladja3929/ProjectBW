@@ -56,27 +56,31 @@ public class DocumentControll : MonoBehaviour
         initRotationDocumentOpener = rect_DocumentOpener.localRotation;
         initSizePaperOfDocument = rect_PaperOfDocument.sizeDelta;
         initPositionDocumentCover = rect_DocumentCover.localPosition;
+
+        //Debug.Log("init = " + initPositionDocumentOfControl + ", " + initPositionDocumentOfAndren + ", " + initRotationDocumentOpener + ", " + initSizePaperOfDocument + ", " + initPositionDocumentCover);
     }
 
     public void ResetDocumentOfAndren()
     {
-        playableDirector.Stop();
+        //Debug.Log("reset = " + initPositionDocumentOfControl + ", " + initPositionDocumentOfAndren + ", " + initRotationDocumentOpener + ", " + initSizePaperOfDocument + ", " + initPositionDocumentCover);
+        StopDocumentAnim();
         rect_DocumentControl.localPosition = initPositionDocumentOfControl;
         rect_DocumentOfAndren.localPosition = initPositionDocumentOfAndren;
         rect_DocumentOpener.localRotation = initRotationDocumentOpener;
         rect_PaperOfDocument.sizeDelta = initSizePaperOfDocument;
         rect_DocumentCover.localPosition = initPositionDocumentCover;
         UIManager.instance.SetDocumentCover(true);
-        ParchmentControll.instance.SetIsPlayingDocumentAnimToFalse();
+        //ParchmentControll.instance.SetIsPlayingDocumentAnimToFalse();
+        ParchmentControll.instance.SetIsPlayingDocumentAnim(false);
         ParchmentControll.instance.atOnce = false;
+        UIManager.instance.isReadParchment_In_74_79 = false;
         //UIManager.instance.SetDocumentControll(false);
     }
 
     // 1초 후, 안드렌의 서류 애니메이션 플레이
     public void InvokeDocumentAnim()
     {
-        playableDirector.Stop();
-        GetAndrenClue(PlayerManager.instance.NumOfAct);  // 안드렌이 모은 단서 획득
+        StopDocumentAnim();
         SettingAndrenClue(PlayerManager.instance.NumOfAct);
         Invoke("PlayDocumentAnim", 1.0f);
     }
@@ -84,6 +88,11 @@ public class DocumentControll : MonoBehaviour
     public void PlayDocumentAnim()
     {
         playableDirector.Play();
+    }
+
+    public void StopDocumentAnim()
+    {
+        playableDirector.Stop();
     }
 
     public void SettingAndrenClue(string numOfAct)
