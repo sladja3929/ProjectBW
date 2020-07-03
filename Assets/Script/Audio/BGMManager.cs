@@ -117,19 +117,66 @@ public class BGMManager : MonoBehaviour
                 break;
         }
 
-        if (curpos_ == "Mansion_President_Mansion_Outhouse")
+        switch (curpos_)
         {
-            area_num = 4;
+            case "Harbor_Cruise":
+                area_num = 6;
+                break;
+            case "Harbor_Prison":
+                area_num = 7;
+                break;
+            case "Forest_Bro_sis_home":
+                area_num = 8;
+                break;
+            case "Village_Raina_House":
+                area_num = 9;
+                break;
+            case "Village_Balrua_House":
+                area_num = 10;
+                break;
+            case "Mansion_President_Mansion_Outhouse":
+            case "Mansion_Girls_Room":
+            case "Mansion_Boys_Room":
+            case "Mansion_Study_Room":
+            case "Mansion_Dining_Room":
+                area_num = 11;
+                break;
+            case "Downtown_Real_estate":
+                area_num = 12;
+                break;
+            case "Downtown_Salon":
+                area_num = 13;
+                break;
+            case "Mansion_Guest_Room1":
+            case "Mansion_Guest_Room2":
+            case "Mansion_Viscount_Mansion_First_Floor":
+            case "Mansion_Viscount_Mansion_Second_Floor":
+                area_num = 14;
+                break;
+            case "Slum_Information_agency":
+                area_num = 15;
+                break;
+            case "Chapter_Chapter_First_Floor":
+            case "Chapter_Chapter_Second_Floor":
+            case "Chapter_Merte_Office":
+            case "Chapter_Zaral_Office":
+            case "Chapter_President_Office":
+                area_num = 16;
+                break;
+            case "Chapter_Secret_Space":
+                area_num = 17;
+                break;
+            case "Mansion_President_Room":
+            case "Mansion_President_Mansion_First_Floor":
+            case "Mansion_President_Mansion_Second_Floor":
+                area_num = 18;
+                break;
+            case "Downtown_Cafe":
+                area_num = 19;
+                break;
+            default:
+                break;
         }
-        else if (curpos_ == "Harbor_Cruise")
-        {
-            area_num = 6;
-        }
-        else if (curpos_ == "Harbor_Prison")
-        {
-            area_num = 7;
-        }
-
 
         return area_num;
     }

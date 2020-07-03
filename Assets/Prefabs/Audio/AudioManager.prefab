@@ -184,7 +184,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e4acd4faefc152649aa8cabc1ff80e5e, type: 3}
   - {fileID: 8300000, guid: 52eab544f434d8b47b2902e0659450b9, type: 3}
   - {fileID: 8300000, guid: 0da8b37ef980ca84b845f7def18fef6e, type: 3}
-  - {fileID: 8300000, guid: a375acfcddbca28478a38db5a846c4a4, type: 3}
   - {fileID: 8300000, guid: 6dd30fe9ed0b7e54cae83603afba5fda, type: 3}
   - {fileID: 8300000, guid: e00694c26cd69ee41a0e32e9a4a373c4, type: 3}
   - {fileID: 8300000, guid: b3ab22b7232b47c43b7101f238ec7dcf, type: 3}
@@ -197,4 +196,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d4a37817632062b40890c21e8fece7b7, type: 3}
   - {fileID: 8300000, guid: bd6848eca030df44e97d8a57f372251b, type: 3}
   - {fileID: 8300000, guid: 2e51199edfb9938458341e5ffd472b91, type: 3}
+  - {fileID: 8300000, guid: a375acfcddbca28478a38db5a846c4a4, type: 3}
   tutorialBGMtrigger_1: 0
