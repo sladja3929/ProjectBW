@@ -176,9 +176,9 @@ MonoBehaviour:
   InsideUI: {fileID: 0}
   StreetUI: {fileID: 0}
   miniMapUI: {fileID: 0}
-  StreetRenderTexture: {fileID: 8400000, guid: ffb043e2f4f2ecd4288d9e06709dbd13, type: 2}
-  InsideRenderTexture: {fileID: 8400000, guid: 9891dee4fbbdd6d4483499bc128923a9, type: 2}
-  TempRenderTexture: {fileID: 8400000, guid: b2fa4cccc3c787842890aa44731885d2, type: 2}
+  StreetRenderTexture: {fileID: 0}
+  InsideRenderTexture: {fileID: 0}
+  TempRenderTexture: {fileID: 0}
 --- !u!1 &8044354624182990316
 GameObject:
   m_ObjectHideFlags: 0

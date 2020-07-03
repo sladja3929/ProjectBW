@@ -86,8 +86,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.271001, y: 20.449993}
-  m_SizeDelta: {x: 13.458, y: 6.1}
+  m_AnchoredPosition: {x: 4.232999, y: 10.8}
+  m_SizeDelta: {x: 9.176, y: 4.05}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187927185930234
 CanvasRenderer:
@@ -165,18 +165,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187927185930213}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Village_Street3_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187927236168818
@@ -214,8 +203,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -16.469, y: -22.9}
-  m_SizeDelta: {x: 8.758, y: 4.85}
+  m_AnchoredPosition: {x: -13.047, y: -18.73}
+  m_SizeDelta: {x: 6.4835, y: 3.93}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187927236168822
 CanvasRenderer:
@@ -293,18 +282,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187927236168817}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Slum_Street2_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187927254592723
@@ -324,7 +302,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3911187927254592720
 RectTransform:
   m_ObjectHideFlags: 0
@@ -419,8 +397,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18.759, y: 14.7}
-  m_SizeDelta: {x: 12.454, y: 5.4}
+  m_AnchoredPosition: {x: -15.69, y: 6.7399974}
+  m_SizeDelta: {x: 9.908, y: 4.07}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187927331454925
 CanvasRenderer:
@@ -498,18 +476,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187927331454924}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Market_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187927777395366
@@ -547,8 +514,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19.01, y: -11.97}
-  m_SizeDelta: {x: 11.77, y: 6.49}
+  m_AnchoredPosition: {x: 13.229, y: -11.54}
+  m_SizeDelta: {x: 11.103, y: 4.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187927777395386
 CanvasRenderer:
@@ -626,18 +593,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187927777395365}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Mansion_Street3_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187927796454672
@@ -675,8 +631,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.5123, y: 14.699999}
-  m_SizeDelta: {x: 12.039, y: 5.4}
+  m_AnchoredPosition: {x: -6.75, y: 6.94}
+  m_SizeDelta: {x: 9.453, y: 4.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187927796454676
 CanvasRenderer:
@@ -754,18 +710,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187927796454679}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Market_Street2_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187927963577781
@@ -803,8 +748,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.3, y: -28.91}
-  m_SizeDelta: {x: 14.51, y: 7.17}
+  m_AnchoredPosition: {x: 0.9135, y: -23.7}
+  m_SizeDelta: {x: 10.512, y: 6.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187927963577737
 CanvasRenderer:
@@ -882,18 +827,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187927963577736}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Forest_Street2_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928027908319
@@ -931,8 +865,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -18.538, y: -14.68}
-  m_SizeDelta: {x: 12.896, y: 5.54}
+  m_AnchoredPosition: {x: -15.419, y: -13.1}
+  m_SizeDelta: {x: 11.227, y: 4.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928027908307
 CanvasRenderer:
@@ -1010,18 +944,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928027908306}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Slum_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928307734994
@@ -1051,7 +974,7 @@ RectTransform:
   m_GameObject: {fileID: 3911187928307734994}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.90909076, z: 1}
+  m_LocalScale: {x: 0.86785907, y: 1.5779253, z: 1.7357181}
   m_Children:
   - {fileID: 3911187927158640508}
   m_Father: {fileID: 3911187927254592720}
@@ -1059,7 +982,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 2.3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928307734992
@@ -1132,8 +1055,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -13.977, y: 33.45}
-  m_SizeDelta: {x: 8.184, y: 5.75}
+  m_AnchoredPosition: {x: -11.16, y: 19.79}
+  m_SizeDelta: {x: 5.996, y: 4.0052}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928325704576
 CanvasRenderer:
@@ -1211,18 +1134,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928325704579}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Harbor_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928468891381
@@ -1260,8 +1172,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.5, y: -3.05}
-  m_SizeDelta: {x: 6.8, y: 6.1}
+  m_AnchoredPosition: {x: 13.228999, y: -5.269}
+  m_SizeDelta: {x: 5.089, y: 4.283}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928468891337
 CanvasRenderer:
@@ -1339,18 +1251,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928468891336}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Mansion_Street2_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928626078820
@@ -1388,8 +1289,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.91, y: -3.05}
-  m_SizeDelta: {x: 15.49, y: 6.1}
+  m_AnchoredPosition: {x: 2.0424976, y: -5.4199996}
+  m_SizeDelta: {x: 11.269, y: 4.585}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928626078840
 CanvasRenderer:
@@ -1467,18 +1368,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928626078843}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Downtown_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928670816947
@@ -1516,8 +1406,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.061, y: -28.91}
-  m_SizeDelta: {x: 13.66, y: 7.17}
+  m_AnchoredPosition: {x: 10.712, y: -23.7}
+  m_SizeDelta: {x: 10.122, y: 6.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928670816951
 CanvasRenderer:
@@ -1595,18 +1485,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928670816950}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Forest_Street3_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928697427137
@@ -1644,8 +1523,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19.208, y: 6.27}
-  m_SizeDelta: {x: 12.165, y: 6.84}
+  m_AnchoredPosition: {x: 13.229, y: 1.06}
+  m_SizeDelta: {x: 11.103, y: 4.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928697427141
 CanvasRenderer:
@@ -1723,18 +1602,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928697427140}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Mansion_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928813449217
@@ -1772,8 +1640,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.313, y: 34.51}
-  m_SizeDelta: {x: 13.542, y: 5.3}
+  m_AnchoredPosition: {x: 4.233, y: 20.51}
+  m_SizeDelta: {x: 9.176, y: 3.47}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928813449221
 CanvasRenderer:
@@ -1851,18 +1719,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928813449220}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Village_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187928973932061
@@ -1900,8 +1757,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.299999, y: 6.71}
-  m_SizeDelta: {x: 5.46, y: 5.96}
+  m_AnchoredPosition: {x: 0.62, y: 1.4465}
+  m_SizeDelta: {x: 3.757, y: 3.897}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187928973932049
 CanvasRenderer:
@@ -1979,18 +1836,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187928973932048}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Chapter_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187929047767199
@@ -2028,8 +1874,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.275, y: -20.19}
-  m_SizeDelta: {x: 8.46, y: 7.95}
+  m_AnchoredPosition: {x: -1.34, y: -17.068}
+  m_SizeDelta: {x: 6.005, y: 5.675}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187929047767187
 CanvasRenderer:
@@ -2107,18 +1953,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187929047767186}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Forest_Street1_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &3911187929124326536
@@ -2156,8 +1991,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.271001, y: 27.42}
-  m_SizeDelta: {x: 13.458, y: 4.84}
+  m_AnchoredPosition: {x: 4.232999, y: 15.7}
+  m_SizeDelta: {x: 9.176, y: 3.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3911187929124326540
 CanvasRenderer:
@@ -2235,18 +2070,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3911187929124326543}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Village_Street2_Button
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1001 &1600172369646926751
@@ -2260,6 +2084,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StreetUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2338389618772399302, guid: fbc2b49b3ebee0d418fbcca693c22013,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2338389618772399297, guid: fbc2b49b3ebee0d418fbcca693c22013,
         type: 3}
@@ -2366,6 +2195,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2338389618772399297, guid: fbc2b49b3ebee0d418fbcca693c22013,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9502512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2338389618772399297, guid: fbc2b49b3ebee0d418fbcca693c22013,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9502512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2338389618772399297, guid: fbc2b49b3ebee0d418fbcca693c22013,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9502512
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fbc2b49b3ebee0d418fbcca693c22013, type: 3}
 --- !u!224 &3911187928185892702 stripped
@@ -2385,6 +2229,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: InsideUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3151337206904802228, guid: d3b23b1ff88b78e4fba3198194f1c330,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1966096911314539002, guid: d3b23b1ff88b78e4fba3198194f1c330,
         type: 3}
@@ -2490,6 +2339,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966096911314539002, guid: d3b23b1ff88b78e4fba3198194f1c330,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9487516
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966096911314539002, guid: d3b23b1ff88b78e4fba3198194f1c330,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9487516
+      objectReference: {fileID: 0}
+    - target: {fileID: 1966096911314539002, guid: d3b23b1ff88b78e4fba3198194f1c330,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9487516
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3b23b1ff88b78e4fba3198194f1c330, type: 3}
