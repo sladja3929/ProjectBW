@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject GetClueButton;
 
+   
+
     /* Clue UI */
     [SerializeField]
     private GameObject Background;     // 배경

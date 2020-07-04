@@ -5,6 +5,8 @@ using System.Threading;
 using UnityEngine;
 using System.IO;
 using System.Threading.Tasks;
+using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour {
 
@@ -22,6 +24,19 @@ public class GameManager : MonoBehaviour {
     public List<string> playerEventIndexLists;
     public List<string> playerClueNameLists;
     public List<string> playerFirstInfoOfClueLists;
+
+    /*Clue Popup UI*/
+    [SerializeField]
+    private GameObject PopupSmall;
+    [SerializeField]
+    private Text SmallClueName;
+    [SerializeField]
+    private GameObject PopupLarge;
+    [SerializeField]
+    private Text LargeClueName;
+    [SerializeField]
+    private Text LargeClueContent;
+
 
     // 대칭키 비밀번호
     private const string passwordForAES = "gmrrhkqor";
@@ -126,6 +141,9 @@ public class GameManager : MonoBehaviour {
                 //Debug.Log("clueName = " + clueName + " , numOfAct = " + numOfAct);
                 //Debug.Log("사건 " + numOfAct + "의 단서인 " + clueName + "를 얻었습니다.");
                 Inventory.instance.MakeClueSlot(clueName, numOfAct); // 수첩에 Clue slot 추가
+
+                //Popup창 표출
+                StartCoroutine("showPopup",clueName);    
             }
             catch
             {
@@ -136,6 +154,27 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("이미 획득한 단서입니다.");
         }
+
+       
+    }
+
+    IEnumerator showPopup(string clueName)
+    {
+        //show
+        PopupSmall.SetActive(true);
+        SmallClueName.text = clueName.ToString();
+        PopupLarge.SetActive(true);
+        LargeClueName.text = clueName.ToString();
+        LargeClueContent.text = "test";
+
+        yield return new WaitForSeconds(2.0f);
+
+        //hide
+        PopupSmall.SetActive(false);
+        SmallClueName.text = "";
+        PopupLarge.SetActive(false);
+        LargeClueName.text = "";
+        LargeClueContent.text = "test";
     }
 
     public string EncryptData(string text)
