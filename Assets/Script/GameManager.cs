@@ -163,18 +163,14 @@ public class GameManager : MonoBehaviour {
         //show
         PopupSmall.SetActive(true);
         SmallClueName.text = clueName.ToString();
-        PopupLarge.SetActive(true);
-        LargeClueName.text = clueName.ToString();
-        LargeClueContent.text = "test";
+        //popup effectsound
+        EffectManager.instance.Play("단서 획득 팝업 소리");
 
         yield return new WaitForSeconds(2.0f);
 
         //hide
         PopupSmall.SetActive(false);
         SmallClueName.text = "";
-        PopupLarge.SetActive(false);
-        LargeClueName.text = "";
-        LargeClueContent.text = "test";
     }
 
     public string EncryptData(string text)

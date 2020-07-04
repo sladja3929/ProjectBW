@@ -162,6 +162,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 498bb0410cbc30541a1e42c4132c4ba7, type: 3}
   - name: "\uB6F0\uC5B4\uC624\uB294 \uBC1C \uC18C\uB9AC"
     clip: {fileID: 8300000, guid: 6217a891ed236f641b23f89632e92d63, type: 3}
+  - name: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
+    clip: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
   EffectVolume: 0
 --- !u!114 &3145072027401794380
 MonoBehaviour:
