@@ -3546,7 +3546,7 @@ GameObject:
   - component: {fileID: 7940500199130136523}
   - component: {fileID: 709777070823441497}
   - component: {fileID: 4394979096997811648}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: Mansion_Street2 Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3597,7 +3597,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 8388608
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: b2fa4cccc3c787842890aa44731885d2, type: 2}
   m_TargetDisplay: 0
