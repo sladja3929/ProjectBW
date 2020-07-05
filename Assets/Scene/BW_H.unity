@@ -1075,19 +1075,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 519360255, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 948.51166
+      value: 947.22345
       objectReference: {fileID: 0}
     - target: {fileID: 519360255, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1578.5117
+      value: 1577.2234
       objectReference: {fileID: 0}
     - target: {fileID: 972024986, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 474.25583
+      value: 473.61172
       objectReference: {fileID: 0}
     - target: {fileID: 972024986, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.5535
+      value: 914.16705
       objectReference: {fileID: 0}
     - target: {fileID: 933879102, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1095,19 +1095,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 276119060, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 474.25583
+      value: 473.61172
       objectReference: {fileID: 0}
     - target: {fileID: 276119060, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.5535
+      value: 914.16705
       objectReference: {fileID: 0}
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 474.25583
+      value: 473.61172
       objectReference: {fileID: 0}
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.5535
+      value: 914.16705
       objectReference: {fileID: 0}
     - target: {fileID: 4493791569154852779, guid: 4359ff62fd6425b43bacde06aa957093,
         type: 3}
@@ -2649,11 +2649,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
         type: 3}
-      propertyPath: npcListForEvent.Array.size
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
       propertyPath: npcListForEvent.Array.data[0]
       value: 
       objectReference: {fileID: 2026002364}
@@ -2784,21 +2779,6 @@ PrefabInstance:
       objectReference: {fileID: 215099107}
     - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
         type: 3}
-      propertyPath: positionOfPrisonInCruise
-      value: 
-      objectReference: {fileID: 533431215}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
-      propertyPath: positionOfMerte
-      value: 
-      objectReference: {fileID: 1350677842}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
-      propertyPath: positionOfCruiseOutside
-      value: 
-      objectReference: {fileID: 709898197}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
       propertyPath: npcListForEvent.Array.data[26]
       value: 
       objectReference: {fileID: 348228439}
@@ -2849,11 +2829,6 @@ PrefabInstance:
       objectReference: {fileID: 2100702424}
     - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
         type: 3}
-      propertyPath: positionOfMainCamera
-      value: 
-      objectReference: {fileID: 1321237453}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
       propertyPath: npcListForEvent.Array.data[36]
       value: 
       objectReference: {fileID: 1475452973}
@@ -2864,21 +2839,6 @@ PrefabInstance:
       objectReference: {fileID: 1475452974}
     - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
         type: 3}
-      propertyPath: isFinishedConversationFor222
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
-      propertyPath: isPlaying302Event
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
-      propertyPath: isPlaying2032Conversation
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
-        type: 3}
       propertyPath: npcListForEvent.Array.data[38]
       value: 
       objectReference: {fileID: 7919027186091543007}
@@ -2887,6 +2847,41 @@ PrefabInstance:
       propertyPath: npcListForEvent.Array.data[39]
       value: 
       objectReference: {fileID: 1475453004}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: npcListForEvent.Array.data[40]
+      value: 
+      objectReference: {fileID: 1475453007}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: npcListForEvent.Array.data[41]
+      value: 
+      objectReference: {fileID: 1475453006}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: npcListForEvent.Array.data[42]
+      value: 
+      objectReference: {fileID: 1475453005}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: positionOfPrisonInCruise
+      value: 
+      objectReference: {fileID: 533431215}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: positionOfMerte
+      value: 
+      objectReference: {fileID: 1350677842}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: positionOfCruiseOutside
+      value: 
+      objectReference: {fileID: 709898197}
+    - target: {fileID: 6895955824882764331, guid: 86a56dd4843c44c4fa6dd81562b927c5,
+        type: 3}
+      propertyPath: positionOfMainCamera
+      value: 
+      objectReference: {fileID: 1321237453}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86a56dd4843c44c4fa6dd81562b927c5, type: 3}
 --- !u!1 &1356996839 stripped
@@ -3332,6 +3327,24 @@ GameObject:
 --- !u!1 &1475453004 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 893151159081560901, guid: 47fe2f38073653f41894e3bde41cdf1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475452972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475453005 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2275913188672203158, guid: 47fe2f38073653f41894e3bde41cdf1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475452972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475453006 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6905706467722394919, guid: 47fe2f38073653f41894e3bde41cdf1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475452972}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475453007 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6648570457964457266, guid: 47fe2f38073653f41894e3bde41cdf1c,
     type: 3}
   m_PrefabInstance: {fileID: 1475452972}
   m_PrefabAsset: {fileID: 0}

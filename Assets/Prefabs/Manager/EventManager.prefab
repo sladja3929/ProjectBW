@@ -85,6 +85,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   positionOfPrisonInCruise: {fileID: 0}
   positionOfMerte: {fileID: 0}
   positionOfCruiseOutside: {fileID: 0}
@@ -94,3 +96,4 @@ MonoBehaviour:
   isPlaying8014Conversation: 0
   isPlaying2032Conversation: 0
   isPlaying302Event: 0
+  portalToViscountRoom: {fileID: 0}
