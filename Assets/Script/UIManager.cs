@@ -20,7 +20,11 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject GetClueButton;
 
-   
+    /*Clue Popup UI*/
+    [SerializeField]
+    public GameObject PopupSmall;
+    [SerializeField]
+    public Text SmallClueName;
 
     /* Clue UI */
     [SerializeField]
