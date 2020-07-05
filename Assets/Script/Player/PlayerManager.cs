@@ -165,6 +165,15 @@ public class PlayerManager : MonoBehaviour {
                     //Debug.Log("단서 정리 시스템 종료");
                     UIManager.instance.ArrangeClue();
 
+                    if (NumOfAct.Equals("54") && TimeSlot.Equals("79"))
+                    {
+                        // 사건4 마지막날에 단서정리 양피지를 닫은 경우, 엔딩 선택 분기 UI가 나타나야한다.
+
+
+                        UIManager.instance.isReadParchment = false;
+                        return;
+                    }
+
                     //단서 정리 시스템을 종료 한 후, 화면이 Fade in 되고 "~시간대가 지났다" 라는 텍스트 출력 후, 같이 Fade out되고 시간대 변경
                     StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
                 }
@@ -201,7 +210,7 @@ public class PlayerManager : MonoBehaviour {
                 {
                     //Debug.Log("아무것도 안맞죠?");
                 }
-                else if ( hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject" )
+                else if ((hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject") && GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
                 {
                     if (hit.collider.name.Equals("책상_메르테 사무실"))
                     {
@@ -310,6 +319,25 @@ public class PlayerManager : MonoBehaviour {
                         }// if-else PlayState
                     }// if-else hit 책상
                 }// if-else hit null
+                else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
+                {
+                    if (DialogManager.instance.CheckInteraction(hit.collider.name))
+                    {
+                        Debug.Log("사건" + NumOfAct + "의 " + TimeSlot + "시간대에서 " + hit.collider.name + "( + " + npcParser.GetNpcCodeFromName(hit.collider.name) + ")과 대화시도");
+
+                        if (hit.collider.name.Equals("금고_주인공사무실"))
+                        {
+                            // 일기장을 얻었다는 대화가 끝난 후, 일기장 활성화 시키기
+                            DialogManager.instance.InteractionWithObject("getDiary");
+                        }
+                        else
+                        {
+                            // 금고가 아닌 다른 오브젝트와 상호작용 시
+                            DialogManager.instance.InteractionWithObject("findUsingKey");
+                        }
+                    }
+                    
+                }
             }// if-else GetMouseButtonDown
         }// if GetIsPaused
     }
@@ -497,10 +525,12 @@ public class PlayerManager : MonoBehaviour {
         {
             if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
             {
-                if(!UIManager.instance.isConversationing)
+                if (!UIManager.instance.isConversationing)
                     return true;
             }
             else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
+                return true;
+            else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
                 return true;
 
             return false;

@@ -795,6 +795,7 @@ public class UIManager : MonoBehaviour {
             GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
             GameManager.instance.thread.IsBackground = true;
             GameManager.instance.thread.Start();
+            GameManager.instance.thread.Join();
 
         }// if-else
 
@@ -826,11 +827,31 @@ public class UIManager : MonoBehaviour {
 
         /* 패널 페이드 인*/
         fadeInOutAnimator.SetBool("isfadeout", false);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2.2f);
 
         tempColor1 = timeSlotText.GetComponent<Text>().color;
         tempColor1.a = 1f;
         timeSlotText.GetComponent<Text>().color = tempColor1;
+
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+        {
+            if (PlayerManager.instance.TimeSlot.Equals("72") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("259"))
+            {
+                EventManager.instance.Starting72_Event();
+                DialogManager.instance.InteractionWithObject("Starting72");
+            }
+
+            if (PlayerManager.instance.TimeSlot.Equals("78") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("318"))
+            {
+                DialogManager.instance.InteractionWithObject("Starting78");
+            }
+
+            if (PlayerManager.instance.TimeSlot.Equals("79") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("319"))
+            {
+                DialogManager.instance.InteractionWithObject("Starting79");
+            }
+        }
+
 
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial)
         {
@@ -1177,5 +1198,33 @@ public class UIManager : MonoBehaviour {
         characterFrame.SetActive(boolValue);
         characterBackfroundImage.SetActive(boolValue);
         characterImage.SetActive(boolValue);
+    }
+
+    // 263번 이벤트 전용
+    public void OpenAndCloseNote()
+    {
+            isOpened = !isOpened;       //열려있으면 닫고, 닫혀있으면 연다.
+
+            // 수첩 열고닫을때마다 초기화
+            ResetWrittenClueData();
+
+            Inventory.instance.ResetSlotForTest();
+
+            isOpenedNote = !isOpenedNote;
+            //GetClueButton.SetActive(!isOpenedNote);
+            Background.SetActive(isOpenedNote);
+            NoteBook.SetActive(isOpenedNote);
+            GetClueUI.SetActive(isOpenedNote);
+            clueScroller.SetActive(isOpenedNote);
+
+            tempIndex = 0;
+
+            buttonIndex = 0;    /* for Button test */
+
+            if (isOpened == true)
+                ItemDatabase.instance.LoadHaveDataOfAct("51");     // 수첩을 열면, 항상 사건 1의 첫번째 단서가 보여져야 함
+            
+            ActivateUpDownButton(!isOpenedNote);
+        
     }
 }
