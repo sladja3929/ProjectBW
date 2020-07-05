@@ -34,12 +34,6 @@ public class GameManager : MonoBehaviour {
     private GameObject PopupSmall;
     [SerializeField]
     private Text SmallClueName;
-    [SerializeField]
-    private GameObject PopupLarge;
-    [SerializeField]
-    private Text LargeClueName;
-    [SerializeField]
-    private Text LargeClueContent;
 
 
     // 대칭키 비밀번호
