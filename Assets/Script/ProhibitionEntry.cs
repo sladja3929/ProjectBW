@@ -15,7 +15,7 @@ public class ProhibitionEntry : MonoBehaviour
         }
 
         // 사이드 1 트리거
-        if (PlayerManager.instance.GetCurrentPosition().Equals("Chapter_Chapter_First_Floor") && other.tag == "character" && PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("300"))
+        if (PlayerManager.instance.GetPositionOfMerte() <= 11000.0f && PlayerManager.instance.GetCurrentPosition().Equals("Chapter_Chapter_First_Floor") && other.tag == "character" && PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("300"))
         {
             PlayerManager.instance.AddEventCodeToList("300");
             DialogManager.instance.InteractionWithObject("사건4 시작");
