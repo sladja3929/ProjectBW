@@ -171,6 +171,10 @@ public class MoveCamera : MonoBehaviour
     private Vector3 position_Of_Sector1_Of_PresidentRoom = new Vector3(17800.0f, 5900.0f, -10);
     private Vector3 position_Of_Sector2_Of_PresidentRoom = new Vector3(19080.0f, 5900.0f, -10);
 
+    /* 자작의 방 */
+    private Vector3 position_Of_Sector1_Of_ViscountRoom = new Vector3(14946.0f, 5900.0f, -10);
+    private Vector3 position_Of_Sector2_Of_ViscountRoom = new Vector3(16225.0f, 5900.0f, -10);
+
     /* 여자아이 방, 남자아이 방, 공부 방, 식사 방 */
     private Vector3 position_Of_Sector1_Of_GirlsRoom = new Vector3(18430.0f, 1500.0f, -10);
     private Vector3 position_Of_Sector1_Of_BoysRoom = new Vector3(20000.0f, 1500.0f, -10);
@@ -707,6 +711,17 @@ public class MoveCamera : MonoBehaviour
             else if (playerPosition.x >= (position_Of_Sector2_Of_PresidentRoom.x - 640.0f) && playerPosition.x < (position_Of_Sector2_Of_PresidentRoom.x + 640.0f))
             {
                 transform.localPosition = position_Of_Sector2_Of_PresidentRoom;
+            }
+        }
+        else if (whereIsPlayer == "Mansion_Viscount_Room")
+        {
+            if (playerPosition.x >= (position_Of_Sector1_Of_ViscountRoom.x - 640.0f) && playerPosition.x < (position_Of_Sector1_Of_ViscountRoom.x + 640.0f))
+            {
+                transform.localPosition = position_Of_Sector1_Of_ViscountRoom;
+            }
+            else if (playerPosition.x >= (position_Of_Sector2_Of_ViscountRoom.x - 640.0f) && playerPosition.x < (position_Of_Sector2_Of_ViscountRoom.x + 640.0f))
+            {
+                transform.localPosition = position_Of_Sector2_Of_ViscountRoom;
             }
         }
         else if (whereIsPlayer == "Mansion_Girls_Room")

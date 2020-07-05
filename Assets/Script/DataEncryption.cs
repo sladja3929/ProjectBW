@@ -166,7 +166,7 @@ public class DataEncryption
         for (int i = 0; i < baResult.Length; i++)
             baResult[i] = baDecrypted[i + saltLength];
 
-        for (int i = 0; i < baResult.Length; i++)
+        for (int i = 0; i < baResult2.Length; i++)
             baResult2[i] = baDecrypted2[i + saltLength];
 
         string[] result = new string[2];

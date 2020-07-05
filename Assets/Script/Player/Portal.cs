@@ -22,6 +22,7 @@ public class Portal : MonoBehaviour
 
     private bool changeBGM;     //PlayerPos 변경에 따른 BGM 변경 필요성
 
+    private string backupCurrentPosition; // 317 이벤트를 위한 변수
 
     private void Awake() {
         // 포탈 스크립트를 가진 오브젝트는 오직 1개의 오브젝트만 가진다. (화살표 or 문)
@@ -130,6 +131,14 @@ public class Portal : MonoBehaviour
 
     public void TakePortal() {
 
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending && GameManager.instance.GetEndingState() == GameManager.EndingState.True)
+        {
+            DialogManager.instance.InteractionWithObject("finfUsingKey");
+            return;
+        }
+
+        backupCurrentPosition = PlayerManager.instance.GetCurrentPosition();
+
         /*목적지 설정*/
         Vector3 tempPosition = PlayerManager.instance.GetPlayerPosition();
         tempPosition.x = destination.transform.position.x;
@@ -197,6 +206,13 @@ public class Portal : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Fadeanimator.SetBool("isfadeout", false);
         UIManager.instance.isPortaling = false;
+
+        // Chapter_Street1 에서 지부 안으로 워프했을 때, 77시간대이고 317 이벤트가 진행된 적이 없을 경우, 317번 이벤트 실행
+        if (backupCurrentPosition.Equals("Chapter_Street1") && PlayerManager.instance.GetCurrentPosition().Equals("Chapter_Chapter_First_Floor")
+            && PlayerManager.instance.TimeSlot.Equals("77") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("317"))
+        {
+            DialogManager.instance.InteractionWithObject("enterChapterAfterOut");
+        }
     }
 }
 

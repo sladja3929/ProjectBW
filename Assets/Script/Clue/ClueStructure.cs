@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ClueStructure
 {
-    private string specialNum; //S.no
+    private string[] specialNum; //S.no
     private string eventNum;  //E.no
     private int id;
     private string clueName;    //단서 이름(rewards)
@@ -51,19 +51,19 @@ public class ClueStructure
         SetDesc(desctiption);
     }
     */
-    public string GetSpecialNum()
+    public string[] GetSpecialNum()
     {
-        return this.specialNum;
+        return specialNum;
     }
 
-    public void SetSpecialNum(string specialNum)
+    public void SetSpecialNum(string[] specialNum)
     {
         this.specialNum = specialNum;
     }
 
     public string GetEventNum()
     {
-        return this.eventNum;
+        return eventNum;
     }
 
     public void SetEventNum(string eventNum)
@@ -73,7 +73,7 @@ public class ClueStructure
 
     public int GetId()
     {
-        return this.id;
+        return id;
     }
 
     public void SetId(int id)
@@ -83,7 +83,7 @@ public class ClueStructure
 
     public string GetClueName()
     {
-        return this.clueName;
+        return clueName;
     }
 
     public void SetClueName(string clueName)
@@ -93,7 +93,7 @@ public class ClueStructure
 
     public string GetNumOfAct()
     {
-        return this.numOfAct;
+        return numOfAct;
     }
 
     public void SetNumOfAct(string numOfAct)
@@ -103,7 +103,7 @@ public class ClueStructure
 
     public string GetTimeSlot()
     {
-        return this.timeSlot;
+        return timeSlot;
     }
 
     public void SetTimeSlot(string timeSlot)
@@ -113,7 +113,7 @@ public class ClueStructure
 
     public string GetObtainPos1()
     {
-        return this.obtainPos1.ToString();
+        return obtainPos1.ToString();
     }
 
     public void SetObtainPos1(string[] obtainPos1)

@@ -37,6 +37,12 @@ public class EventManager : MonoBehaviour
 
     private EventVariable eventVariable;    //PlayerManager의 eventVariable 변수의 주소를 가질 변수
 
+    [SerializeField]
+    private GameObject portalToViscountRoom;    // 자작의 방으로 가는 포탈 (사건 4에서만 활성화)
+
+    private Vector3 backupPositionOfMerteInChapterForEvent317;  // 317 이벤트를 위한 메르테 위치 값 백업
+    private string backupCurrentPositionOfMerteInChapterForEvent317; // 317 이벤트 진행시, 카메라 위치 값 변경을 위한 변수
+
     void Start()
     {
         if (instance == null)
@@ -57,12 +63,16 @@ public class EventManager : MonoBehaviour
         // 항구의 쉐렌, 악당 1, 악당 2를 비활성화 시키고, 주택가의 쉐렌을 활성화 시키기 위한 이벤트 저장
         AddToEventIndexList("0209");
 
-        // id 200번 이벤트부터 253번 이벤트까지 저장
-        for (int i = 200; i <= 257; i++)
+        // 사건3 이벤트 등록
+        // 사건3 강제 이벤트 번호 259 ~ 263
+        // id 200번 이벤트부터 263번 이벤트까지 저장
+        for (int i = 200; i <= 263; i++)
             AddToEventIndexList(i.ToString());
 
-        // id 300번 이벤트부터 315번 이벤트까지 저장
-        for (int i = 300; i <= 315; i++)
+        // 사건4 이벤트 등록
+        // 사건4 강제 이벤트 번호 316 ~ 319
+        // id 300번 이벤트부터 319번 이벤트까지 저장
+        for (int i = 300; i <= 319; i++)
             AddToEventIndexList(i.ToString());
 
         DisableNpcForEvent();
@@ -85,7 +95,7 @@ public class EventManager : MonoBehaviour
     {
         for (int i = 0; i < npcListForEvent.Count; i++)
         {
-            if (i == 4 || i == 14 || i == 30 || i == 32 || i == 20 || i == 23 || i == 26 || i == 36) { }
+            if (i == 4 || i == 14 || i == 30 || i == 32 || i == 20 || i == 23 || i == 26 || i == 36 || i == 41) { }
             else
                 npcListForEvent[i].SetActive(false);
         }
@@ -175,6 +185,34 @@ public class EventManager : MonoBehaviour
     {
         if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
         {
+            // 사건 4에서만 자작의 방으로 가는 포탈 활성화
+            if (PlayerManager.instance.NumOfAct.Equals("54"))
+            {
+                if (!portalToViscountRoom.activeSelf)
+                    portalToViscountRoom.SetActive(true);
+            }
+            else
+            {
+                if (portalToViscountRoom.activeSelf)
+                    portalToViscountRoom.SetActive(false);
+            }
+
+            // 사건 4 첫 시간대에서만 자작의 사체 활성화
+            if (PlayerManager.instance.TimeSlot.Equals("75") && PlayerManager.instance.NumOfAct.Equals("54"))
+            {
+                if (!npcListForEvent[42].activeSelf)
+                    npcListForEvent[42].SetActive(true);
+            }
+            else
+            {
+                if (npcListForEvent[42].activeSelf)
+                    npcListForEvent[42].SetActive(false);
+            }
+
+            // Act 진행중일때만 도우미 캐릭터 활성화
+            if (!npcListForEvent[40].activeSelf)
+                npcListForEvent[40].SetActive(true);
+
             // 특정 인물 등장 이벤트 처리 시작
             if (PlayerManager.instance.CheckEventCodeFromPlayedEventList("200") && (PlayerManager.instance.TimeSlot.Equals("71") || PlayerManager.instance.TimeSlot.Equals("72")))
             {
@@ -380,41 +418,55 @@ public class EventManager : MonoBehaviour
 
             // 상호작용이 가능한 자작의 저택(23)을 비활성화하고, 상호작용이 불가능한 자작의 저택(24)과, 자작의 저택으로 가는 포탈(25) 활성화하기 -> 변경(0302)
             // 자작의 저택으로 가는 포탈(25) 활성화하기
-
-            if (eventVariable.num_Try_to_Enter_in_Mansion >= 3)
+            // 사건 4에서는 항상 활성화
+            if (PlayerManager.instance.NumOfAct.Equals("53"))
             {
-                if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("233"))
+                if (eventVariable.num_Try_to_Enter_in_Mansion >= 3)
                 {
-                    PlayerManager.instance.DeleteEventCodeFromList("257");
-                    PlayerManager.instance.AddEventCodeToList("233");
+                    if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("233"))
+                    {
+                        PlayerManager.instance.DeleteEventCodeFromList("257");
+                        PlayerManager.instance.AddEventCodeToList("233");
 
-                    if (npcListForEvent[23].activeSelf)
-                        npcListForEvent[23].SetActive(false);
+                        if (npcListForEvent[23].activeSelf)
+                            npcListForEvent[23].SetActive(false);
 
-                    if (!npcListForEvent[24].activeSelf)
-                        npcListForEvent[24].SetActive(true);
+                        if (!npcListForEvent[24].activeSelf)
+                            npcListForEvent[24].SetActive(true);
 
-                    if (!npcListForEvent[25].activeSelf)
-                        npcListForEvent[25].SetActive(true);
+                        if (!npcListForEvent[25].activeSelf)
+                            npcListForEvent[25].SetActive(true);
+                    }
+                    else
+                    {
+                        if (!npcListForEvent[23].activeSelf)
+                            npcListForEvent[23].SetActive(true);
+
+                        if (npcListForEvent[24].activeSelf)
+                            npcListForEvent[24].SetActive(false);
+
+                        if (!npcListForEvent[25].activeSelf)
+                            npcListForEvent[25].SetActive(true);
+                    }
                 }
-                else
+                else if (eventVariable.num_Try_to_Enter_in_Mansion < 3)
                 {
-                    if (npcListForEvent[23].activeSelf)
-                        npcListForEvent[23].SetActive(false);
-
-                    if (!npcListForEvent[24].activeSelf)
-                        npcListForEvent[24].SetActive(true);
-
-                    if (!npcListForEvent[25].activeSelf)
-                        npcListForEvent[25].SetActive(true);
+                    if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("257"))
+                    {
+                        PlayerManager.instance.AddEventCodeToList("257");
+                    }
                 }
             }
-            else if (eventVariable.num_Try_to_Enter_in_Mansion < 3)
+            else if (PlayerManager.instance.NumOfAct.Equals("54"))
             {
-                if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("257"))
-                {
-                    PlayerManager.instance.AddEventCodeToList("257");
-                }
+                if (npcListForEvent[23].activeSelf)
+                    npcListForEvent[23].SetActive(false);
+
+                if (!npcListForEvent[24].activeSelf)
+                    npcListForEvent[24].SetActive(true);
+
+                if (!npcListForEvent[25].activeSelf)
+                    npcListForEvent[25].SetActive(true);
             }
 
             if (!PlayerManager.instance.TimeSlot.Equals("72"))
@@ -473,17 +525,17 @@ public class EventManager : MonoBehaviour
                     npcListForEvent[37].SetActive(false);
             }
 
-            // 사건 4때 지부 2층에 제렐 등장
+            // 사건 4 때부터 지부 2층에 제렐 등장
             if (PlayerManager.instance.NumOfAct.Equals("54"))
             {
                 if (!npcListForEvent[38].activeSelf)
                     npcListForEvent[38].SetActive(true);
             }
-            else
-            {
-                if (npcListForEvent[38].activeSelf)
-                    npcListForEvent[38].SetActive(false);
-            }
+            //else
+            //{
+            //    if (npcListForEvent[38].activeSelf)
+            //        npcListForEvent[38].SetActive(false);
+            //}
 
             // 특정 변수가 조건에 만족할 경우, 특정 이벤트 추가하는 식으로 일단 하기(1월 23일 작업)
 
@@ -736,10 +788,10 @@ public class EventManager : MonoBehaviour
             //71시간대에서 사이드 2를 조사하려 했을 때
             // -> 즉, 71시간대에서 사이드 2에 포함된 오브젝트와 상호작용하려 했을때, 이벤트 발생
             // ProhibitionEntry.cs 참고
-            if (PlayerManager.instance.TimeSlot.Equals("71"))
-            {
-                PlayerManager.instance.AddEventCodeToList("241");
-            }
+            //if (PlayerManager.instance.TimeSlot.Equals("71"))
+            //{
+            //    PlayerManager.instance.AddEventCodeToList("241");
+            //}
 
             // 이벤트 242
             if (eventVariable.isInvestigated_Raina_house)
@@ -879,10 +931,10 @@ public class EventManager : MonoBehaviour
             }
 
             // 300번 이벤트를 위한 처리
-            if (PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("300"))
-            {
-                PlayerManager.instance.AddEventCodeToList("300");
-            }
+            //if (PlayerManager.instance.TimeSlot.Equals("75") && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("300"))
+            //{
+            //    PlayerManager.instance.AddEventCodeToList("300");
+            //}
 
             // 303번 이벤트를 위한 처리
             if (eventVariable.isActivated_4015_Conversation && !PlayerManager.instance.CheckEventCodeFromPlayedEventList("304"))
@@ -1013,5 +1065,83 @@ public class EventManager : MonoBehaviour
     public EventVariable GetEventVariable()
     {
         return eventVariable;
+    }
+
+    public void ResetZaralPoint()
+    {
+        Vector3 resetPoint = new Vector3(1180.0f, -174.0f, 0);
+        npcListForEvent[38].GetComponent<Transform>().localPosition = resetPoint;
+
+        if (npcListForEvent[38].activeSelf)
+        {
+            npcListForEvent[38].SetActive(false);
+        }
+    }
+
+    // 사건3 72시간대 시작 강제 이벤트
+    public void Starting72_Event()
+    {
+        if (!npcListForEvent[38].activeSelf)
+        {
+            npcListForEvent[38].SetActive(true);
+        }
+
+        // 제렐 이동
+        Vector3 targetPoint = new Vector3(961.0f, 926.0f, 0);
+        npcListForEvent[38].GetComponent<Transform>().localPosition = targetPoint;
+    }
+
+    public void ResetAndrenPoint()
+    {
+        Vector3 resetPoint = new Vector3(1488.0f, -166.0f, 0);
+        npcListForEvent[41].GetComponent<Transform>().localPosition = resetPoint;
+    }
+
+    // 사겅4 76시간대 강제 이벤트
+    public void Starting76_Event()
+    {
+        // 지부 앞에 안드렌이 나타나며 안드렌과 대화, 이후 사라짐
+        if (!npcListForEvent[41].activeSelf)
+        {
+            npcListForEvent[41].SetActive(true);
+        }
+
+        Vector3 targetPoint = new Vector3(-3875.0f, -1788.0f, 0);
+        npcListForEvent[41].GetComponent<Transform>().localPosition = targetPoint;
+    }
+
+    // 사건4 78시간대 시작 강제 이벤트
+    public void Starting78_Event()
+    {
+        if (!npcListForEvent[41].activeSelf)
+        {
+            npcListForEvent[41].SetActive(true);
+        }
+
+        Vector3 targetPoint = new Vector3(961.0f, 2000.0f, 0);
+        npcListForEvent[41].GetComponent<Transform>().localPosition = targetPoint;
+    }
+
+    // 사건4 77시간대 강제 이벤트
+    // 지부에 있던 메르테를, 자작의 방_책장 앞 으로 워프
+    public void Starting77_Event()
+    {
+        // 이동 전, 위치 백업
+        backupPositionOfMerteInChapterForEvent317 = PlayerManager.instance.GetPlayerPosition();
+        backupCurrentPositionOfMerteInChapterForEvent317 = PlayerManager.instance.GetCurrentPosition();
+
+        // 자작의 방_책장 앞 좌표 설정
+        Vector3 targetPoint = new Vector3(15950.0f, 5700.0f, 0);
+        // 워프
+        PlayerManager.instance.SetPlayerPosition(targetPoint);
+        PlayerManager.instance.SetCurrentPosition("Mansion_Viscount_Room");
+    }
+
+    // 자작의 방_책장 앞 에 있던 메르테를, 지부의 제자리에 돌려놓음
+    public void ResetMertePointToChapter()
+    {
+        // 백업된 위치로 워프
+        PlayerManager.instance.SetPlayerPosition(backupPositionOfMerteInChapterForEvent317);
+        PlayerManager.instance.SetCurrentPosition(backupCurrentPositionOfMerteInChapterForEvent317);
     }
 }

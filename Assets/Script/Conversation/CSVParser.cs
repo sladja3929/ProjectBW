@@ -21,6 +21,14 @@ public class CSVParser : MonoBehaviour
     /* 내부 Dictionary의 key값은 각 interaction이 가지고 있는 npcName 등의 값이고, value는 해당 key값의 실질적인 값을 가지게 한다. */
     private Dictionary<int, Dictionary<string, string>> dataList;
     private Dictionary<int, Dictionary<string, string>> status_Repeatability_DataList;
+    private Dictionary<int, Dictionary<string, string>> endingDataList;
+
+    // 단서 테이블을 파싱하면서, S.no 값에 따라 단서들을 각 리스트에 넣을 것임.
+    // 엔딩 분기 화면을 띄우기 전에, 리스트 안에 있는 단서들을 모두 가지고 있는지에 따라 분기 화면을 나눌 것임. (0702)
+    //[SerializeField] private List<string> valueEndingClueLists; // 발루아엔딩은 항상 볼 수 있는 엔딩
+    [SerializeField] private List<string> andrenEndingClueLists;
+    [SerializeField] private List<string> arnoldEndingClueLists;
+    [SerializeField] private List<string> trueEndingClueLists;
 
     /* 구조는 dataList와 일맥상통하다 */
     // csv 형식의 단서 테이블의 데이터들을 저장할 수 있는 변수
@@ -28,13 +36,17 @@ public class CSVParser : MonoBehaviour
 
     //게임에 필요한 상호작용들을 가지고 있을 리스트변수 선언
     private List<Interaction> interactionLists;
-
+    private List<Interaction> endingInteractionLists;
     private List<ClueStructure> clueStructureLists;
+    private List<string> startObjectListsForEnding;
 
     private string initConversationDataPath;
     private string initClueDataPath;
-    public string chapter4_ConversationDataPath;
     private string playerConversationDataPath;
+    private string trueEndingDataPath;
+    private string valuaEndingDataPath;
+    private string arnoldEndingDataPath;
+    private string andrenEndingDataPath;
 
     /* csv 파일 불러오면서 적용시키기 */
     void Awake()
@@ -46,11 +58,7 @@ public class CSVParser : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
-        //initConversationDataPath = Application.streamingAssetsPath + "/Data/사건_3_전체_테이블.csv";
-        initConversationDataPath = Application.streamingAssetsPath + "/Data/전체_테이블.csv";
-        initClueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
-        //chapter4_ConversationDataPath = Application.streamingAssetsPath + "/Data/사건_4_전체_테이블.csv";
-        playerConversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+        SettingDataPath(); // 데이터 파일 경로 세팅
 
         // 파일 컨트롤은 GameManager에서 수행
         //InitDataFromCSV();
@@ -59,20 +67,45 @@ public class CSVParser : MonoBehaviour
     // 초기 데이터 파일 암호화 용도
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F12))
         {
             string temp = File.ReadAllText(initConversationDataPath);
             File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
             //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
 
-            temp = File.ReadAllText(initClueDataPath);
-            File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+            //string temp = File.ReadAllText(initClueDataPath);
+            //File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
             //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
+
+            //string temp = File.ReadAllText(trueEndingDataPath);
+            //File.WriteAllText(trueEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+
+            //temp = File.ReadAllText(valuaEndingDataPath);
+            //File.WriteAllText(valuaEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+
+            //temp = File.ReadAllText(arnoldEndingDataPath);
+            //File.WriteAllText(arnoldEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+
+            //temp = File.ReadAllText(andrenEndingDataPath);
+            //File.WriteAllText(andrenEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
 
             //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
             //GameManager.instance.thread.IsBackground = true;
             //GameManager.instance.thread.Start();
+            Debug.Log("파일 암호화 완료");
         }
+    }
+
+    // 데이터 파일 경로 지정 함수
+    public void SettingDataPath()
+    {
+        initConversationDataPath = Application.streamingAssetsPath + "/Data/전체_테이블.csv";
+        initClueDataPath = Application.streamingAssetsPath + "/Data/단서.csv";
+        playerConversationDataPath = Application.streamingAssetsPath + "/Data/PlayerConversation.csv";
+        trueEndingDataPath = Application.streamingAssetsPath + "/Data/True_Ending.csv";
+        valuaEndingDataPath = Application.streamingAssetsPath + "/Data/Valua_Ending.csv";
+        arnoldEndingDataPath = Application.streamingAssetsPath + "/Data/Arnold_Ending.csv";
+        andrenEndingDataPath = Application.streamingAssetsPath + "/Data/Andren_Ending.csv";
     }
 
     /* 타이틀에서 새로하기를 눌렀을 때, 실행 */
@@ -80,6 +113,31 @@ public class CSVParser : MonoBehaviour
     {
         ParsingConversationCSV(initConversationDataPath);   // 대화 테이블 파싱
         ParsingClueDataCSV(initClueDataPath);       // 단서 테이블 파싱
+    }
+
+    // 달성한 엔딩에 따라 알맞은 엔딩 파일 불러오기
+    public void LoadingEndingDataFromCSV()
+    {
+        GameManager.EndingState gameEndingState = GameManager.instance.GetEndingState();
+
+        switch (gameEndingState)
+        {
+            case GameManager.EndingState.Valua:
+                ParsingEndingCSV(valuaEndingDataPath);
+                break;
+            case GameManager.EndingState.Arnold:
+                ParsingEndingCSV(arnoldEndingDataPath);
+                break;
+            case GameManager.EndingState.Andren:
+                ParsingEndingCSV(andrenEndingDataPath);
+                break;
+            case GameManager.EndingState.True:
+                ParsingEndingCSV(trueEndingDataPath);
+                break;
+            default:
+                Debug.Log("엔딩 파일 불러오기 오류, 엔딩 코드 : " + gameEndingState);
+                break;
+        }
     }
     
     public void GetInfoParsingConversationCSV(object dataPath, object status_Repeat_DataPath)
@@ -109,11 +167,6 @@ public class CSVParser : MonoBehaviour
         {
             //두번째 줄부터 ,를 기준으로 쪼갬
             string[] dataArrOld = stringArrOld[i].Split(',');
-
-            //int index = int.Parse(dataArr[0]);  //첫번째 속성인 id값을 int형으로 집어넣기
-
-            /* FindIndex가 0부터 반환하면 0, 1부터 반환하면 1로 고쳐야함 */
-            //int index = 0; // 그냥 0부터 차례대로 박아넣기 // int.Parse(dataArr[4]);  //5번째 속성인 id값을 int형으로 집어넣기
 
             //해당 index가 dictionary에 없으면 추가
             if (!status_Repeatability_DataList.ContainsKey(index))
@@ -322,14 +375,48 @@ public class CSVParser : MonoBehaviour
                     case "반복성":
                         try
                         {
+                            if (i == 3604)
+                            {
+                                int a = 1;
+                            }
+
+                            if ((status_Repeatability_DataList[i])[subjectArr[j]] != null)
+                            {
+                                int b = 1;
+                            }
+                            else if ((status_Repeatability_DataList[i])[subjectArr[j]].Equals(""))
+                            {
+                                int c = 1;
+                            }
+                            else if ((status_Repeatability_DataList[i])[subjectArr[j]] == null)
+                            {
+                                int d = 1;
+                            }
+                            else
+                            {
+                                int e = 1;
+                            }
+
                             //tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
-                            if((status_Repeatability_DataList[i])[subjectArr[j]] != null)
+                            if ((status_Repeatability_DataList[i])[subjectArr[j]] != null)
+                            {
+                                // 저장된 파일에 해당 Interaction에 대한 정보가 있다면, 저장된 데이터를 설정
                                 tempInteraction.SetRepeatability((status_Repeatability_DataList[i])[subjectArr[j]]);
+                            }
+                            else
+                            {
+                                // 저장된 파일에 해당 Interaction에 대한 정보가 없다면, 대화 데이터가 추가되었기 때문에, 새로 읽은 데이터를 설정
+                                tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
+                            }
                             //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (status_Repeatability_DataList[i])[subjectArr[j]] + "반복성 추가");
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "반복성에서 오류발생");
+                            // 조건문 실행중에 null 비교 하면서 오류발생할 수 있음.
+                            // 저장된 파일에 해당 Interaction에 대한 정보가 없다면, 대화 데이터가 추가되었기 때문에, 새로 읽은 데이터를 설정
+                            tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
+                            
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]]) 반복성에서 오류발생하여 init 데이터인 " + (dataList[i])[subjectArr[j]] + " 값이 설정됨");
                         }
                         break;
 
@@ -357,12 +444,25 @@ public class CSVParser : MonoBehaviour
                         try
                         {
                             //tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
-                            tempInteraction.SetStatus(int.Parse((status_Repeatability_DataList[i])[subjectArr[j]]));
+                            if ((status_Repeatability_DataList[i])[subjectArr[j]] != null)
+                            {
+                                // 저장된 파일에 해당 Interaction에 대한 정보가 있다면, 저장된 데이터를 설정
+                                tempInteraction.SetStatus(int.Parse((status_Repeatability_DataList[i])[subjectArr[j]]));
+                            }
+                            else
+                            {
+                                // 저장된 파일에 해당 Interaction에 대한 정보가 없다면, 대화 데이터가 추가되었기 때문에, 새로 읽은 데이터를 설정
+                                tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
+                            }
                             //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (status_Repeatability_DataList[i])[subjectArr[j]] + "status 추가");
                         }
                         catch
                         {
-                            Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]])" + (dataList[i])[subjectArr[j]] + "status에서 오류발생");
+                            // 조건문 실행중에 null 비교 하면서 오류발생할 수 있음.
+                            // 저장된 파일에 해당 Interaction에 대한 정보가 없다면, 대화 데이터가 추가되었기 때문에, 새로 읽은 데이터를 설정
+                            tempInteraction.SetStatus(int.Parse((dataList[i])[subjectArr[j]]));
+
+                            //Debug.Log("(dataList[" + i + "])[subjectArr[" + j + "]]) status에서 오류발생하여 init 데이터인 " + (dataList[i])[subjectArr[j]] + " 값이 설정됨");
                         }
                         break;
 
@@ -455,7 +555,174 @@ public class CSVParser : MonoBehaviour
 
         //Debug.Log("index = " + index);
     } //ParsingConversationCSV()
-    
+
+    /* 엔딩 테이블을 파싱하는 함수 */
+    public void ParsingEndingCSV(object dataPath)
+    {
+        
+        endingDataList = new Dictionary<int, Dictionary<string, string>>();
+        endingInteractionLists = new List<Interaction>();
+        startObjectListsForEnding = new List<string>();
+
+        string textAsset = File.ReadAllText(dataPath.ToString(), System.Text.Encoding.UTF8);
+
+        if (GameManager.instance.isEncrypted)
+            textAsset = GameManager.instance.DecryptData(textAsset);
+
+        //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
+        string[] stringArr = textAsset.Split(new string[] { "줄바꿈\r\n" }, System.StringSplitOptions.None);
+        string[] subjectArr = stringArr[0].Split(',');      //속성에 해당하는 첫째줄 분리
+
+        int index = 0;
+
+        //맨 마지막 줄은 한 줄 띄워져있으니 생략하기위해 길이 - 1 해줌
+        //첫번째줄 속성줄을 무시하기위해 i = 1 부터 시작
+        for (int i = 1; i < stringArr.Length - 1; i++)
+        {
+            //두번째 줄부터 ,를 기준으로 쪼갬
+            string[] dataArr = stringArr[i].Split(',');
+
+            //해당 index가 dictionary에 없으면 추가
+            if (!endingDataList.ContainsKey(index))
+                endingDataList.Add(index, new Dictionary<string, string>());
+
+            //메인 dictionary에는 index의 키값을 가지는 내부 dictionary가 있을것이다.
+            //내부 dictionary에 각 속성들의 값을 대입하기위해 for문을 돌린다.
+            for (int j = 0; j < dataArr.Length; j++)
+            {
+                /* """ -> " , $ -> , 변환해서 데이터 넣기 */
+                dataArr[j] = ReplaceComma(dataArr[j]);
+                dataArr[j] = ReplaceEnter(dataArr[j]);
+                endingDataList[index].Add(subjectArr[j], dataArr[j]);
+            }//for j
+            index++;
+        }//for i
+
+        //Debug.Log("대화 갯수 = " + index);
+
+        //interation list에 추가하기 -> id를 알기 위한 클래스 리스트
+        for (int i = 0; i < endingDataList.Count; i++)
+        {
+            //dataList.Count 만큼 interaction 클래스 객체가 만들어짐.
+            Interaction tempInteraction = new Interaction();
+
+            for (int j = 0; j < endingDataList[i].Count; j++)
+            {
+                //(dataList[i])[subjectArr[j]]
+                switch (subjectArr[j])
+                {
+                    case "사건":
+                        try
+                        {
+                            tempInteraction.SetAct(int.Parse((endingDataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i + "])[subjectArr[" + j + "]])" + (endingDataList[i])[subjectArr[j]] + "사건에서 오류발생");
+                        }
+                        break;
+                        
+                    case "대화 묶음":
+                        try
+                        {
+                            tempInteraction.SetSetOfDesc(int.Parse((endingDataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i + "])[subjectArr[" + j + "]])" + (endingDataList[i])[subjectArr[j]] + "대화 묶음에서 오류발생");
+                        }
+                        break;
+
+                    case "id":
+                        try
+                        {
+                            tempInteraction.SetId(int.Parse((endingDataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i+"])[subjectArr["+j+"]])" + (endingDataList[i])[subjectArr[j]] + "id에서 오류발생");
+                        }
+                        break;
+
+                    case "startObject":
+                        try
+                        {
+                            //tempInteraction.SetStartObject((dataList[i])[subjectArr[j]]);
+                            string tempStartObject = (endingDataList[i])[subjectArr[j]];
+                            string[] tempStartObjectList;
+
+                            // 1개일 경우
+                            tempStartObjectList = new string[1];
+                            tempStartObjectList[0] = tempStartObject;
+                            tempInteraction.SetStartObject(tempStartObjectList);
+
+                            if (!startObjectListsForEnding.Contains(tempStartObject))
+                                startObjectListsForEnding.Add(tempStartObject);
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i + "])[subjectArr[" + j + "]])" + (endingDataList[i])[subjectArr[j]] + "startObject에서 오류발생");
+                        }
+                        break;
+
+                    case "npcFrom":
+                        try
+                        {
+                            tempInteraction.SetNpcFrom((endingDataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i + "])[subjectArr[" + j + "]])" + (endingDataList[i])[subjectArr[j]] + "npcFrom에서 오류발생");
+                        }
+                        break;
+
+                    case "desc":
+                        try
+                        {
+                            tempInteraction.SetDesc((endingDataList[i])[subjectArr[j]]);
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i + "])[subjectArr[" + j + "]])" + (endingDataList[i])[subjectArr[j]] + "desc에서 오류발생");
+                        }
+                        break;
+                        
+                    case "parent":
+                        try
+                        {
+                            tempInteraction.SetParent(int.Parse((endingDataList[i])[subjectArr[j]]));
+                        }
+                        catch
+                        {
+                            Debug.Log("(endingDataList[" + i + "])[subjectArr[" + j + "]])" + (endingDataList[i])[subjectArr[j]] + "parent에서 오류발생");
+                        }
+
+                        break;
+
+                    default:
+                        continue;
+                }//switch
+            }//for j
+
+            //추출해서 적용시킨 interaction 클래스를 리스트에 추가
+            endingInteractionLists.Add(tempInteraction);
+        }//for i
+
+        /* interactionList에 있는 내용들 출력(debug) */
+        //for (int i = 0; i < endingInteractionLists.Count; i++)
+        //{
+        //    Debug.Log((i + 1) + "번째 데이터" +
+        //        "\nact : " + endingInteractionLists[i].GetAct() +
+        //        "\nsetOfDesc : " + endingInteractionLists[i].GetSetOfDesc() +
+        //        "\nid : " + endingInteractionLists[i].GetId() +
+        //        "\nstartObject : " + endingInteractionLists[i].GetStartObject() +
+        //        "\nnpcFrom : " + endingInteractionLists[i].GetNpcFrom() +
+        //        "\ndesc : " + endingInteractionLists[i].GetDesc() +
+        //        "\nparent : " + endingInteractionLists[i].GetParent());
+        //}
+
+    } //ParsingEndingCSV()
+
     /* 대화 테이블을 파싱하는 함수 */
     public void ParsingConversationCSV(object dataPath)
     {
@@ -841,11 +1108,14 @@ public class CSVParser : MonoBehaviour
     {
         clueList = new Dictionary<int, Dictionary<string, string>>();
         clueStructureLists = new List<ClueStructure>();
+        arnoldEndingClueLists = new List<string>();
+        andrenEndingClueLists = new List<string>();
+        trueEndingClueLists = new List<string>();
         
         string textAsset = File.ReadAllText(dataPath, System.Text.Encoding.UTF8);
 
         if (GameManager.instance.isEncrypted)
-            textAsset = GameManager.instance.DecryptData(textAsset);
+            textAsset = GameManager.instance.DecryptData(textAsset); // 복호화가 왜 안돼?
 
         //전체 데이터 줄바꿈단위로 분리 (csv파일의 한 문장 끝에는 \r\n이 붙어있음)
         string[] stringArr = textAsset.Split(new string[] { "\r\n" }, System.StringSplitOptions.None);
@@ -895,7 +1165,21 @@ public class CSVParser : MonoBehaviour
                 {
                     case "S.no":
 
-                        tempClueStructure.SetSpecialNum(((clueList[i])[subjectArr[j]]));
+                        //tempClueStructure.SetSpecialNum(((clueList[i])[subjectArr[j]]));
+                        string tempSpecialNum = (clueList[i])[subjectArr[j]];
+                        string[] tempSpecialNumList;
+
+                        if (tempSpecialNum.Contains(","))
+                        {   // 여러개일때
+                            tempSpecialNumList = tempSpecialNum.Split(',');
+                            tempClueStructure.SetObtainPos1(tempSpecialNumList);
+                        }
+                        else
+                        {   // 1개일때
+                            tempSpecialNumList = new string[1];
+                            tempSpecialNumList[0] = tempSpecialNum;
+                            tempClueStructure.SetObtainPos1(tempSpecialNumList);
+                        }
                         break;
 
                     case "E.no":
@@ -960,6 +1244,37 @@ public class CSVParser : MonoBehaviour
 
             //추출해서 적용시킨 ClueStructure 클래스를 리스트에 추가
             clueStructureLists.Add(tempClueStructure);
+
+            if (tempClueStructure.GetSpecialNum() != null)
+            {
+                for (int k = 0; k < tempClueStructure.GetSpecialNum().Length; k++)
+                {
+                    if (tempClueStructure.GetSpecialNum()[k].Equals("아놀드"))
+                    {
+                        if (!arnoldEndingClueLists.Contains(tempClueStructure.GetClueName()))
+                        {
+                            arnoldEndingClueLists.Add(tempClueStructure.GetClueName());
+                        }
+                    }
+
+                    if (tempClueStructure.GetSpecialNum()[k].Equals("안드렌"))
+                    {
+                        if (!andrenEndingClueLists.Contains(tempClueStructure.GetClueName()))
+                        {
+                            andrenEndingClueLists.Add(tempClueStructure.GetClueName());
+                        }
+                    }
+
+                    if (tempClueStructure.GetSpecialNum()[k].Equals("메르테"))
+                    {
+                        if (!trueEndingClueLists.Contains(tempClueStructure.GetClueName()))
+                        {
+                            trueEndingClueLists.Add(tempClueStructure.GetClueName());
+                        }
+                    }
+                } // for k
+            } // if
+
         }//for i
     }//ParsingClueDataCSV()
 
@@ -1168,9 +1483,24 @@ public class CSVParser : MonoBehaviour
         return ref dataList;
     }
 
+    public ref Dictionary<int, Dictionary<string, string>> GetEndingDataList()
+    {
+        return ref endingDataList;
+    }
+
     public ref List<Interaction> GetInteractionLists()
     {
         return ref interactionLists;
+    }
+
+    public ref List<Interaction> GetEndingInteractionLists()
+    {
+        return ref endingInteractionLists;
+    }
+
+    public ref List<string> GetEndingStartObjectLists()
+    {
+        return ref startObjectListsForEnding;
     }
 
     public Dictionary<int, Dictionary<string, string>> GetClueList()
@@ -1188,9 +1518,24 @@ public class CSVParser : MonoBehaviour
         if (interactionLists == null)
             return false;
 
-        if (interactionLists.Count == 3604)
+        if (interactionLists.Count >= 3604)
             return true;
         else
             return false;
+    }
+
+    public List<string> GetArnoldEndingClueLists()
+    {
+        return arnoldEndingClueLists;
+    }
+
+    public List<string> GetAndrenEndingClueLists()
+    {
+        return andrenEndingClueLists;
+    }
+
+    public List<string> GetTrueEndingClueLists()
+    {
+        return trueEndingClueLists;
     }
 }

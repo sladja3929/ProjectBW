@@ -37,16 +37,16 @@ public class Cheat : MonoBehaviour
         ischeatopen = false;
     }
 
-    void Update()
-    {
-        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && Input.GetKeyDown(KeyCode.F12))
-        {
-            if (ischeatopen == true)
-                HideCheatPanel();
-            else
-                OpenCheatPanel();
-        }
-    }
+    //void Update()
+    //{
+    //    if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && Input.GetKeyDown(KeyCode.F12))
+    //    {
+    //        if (ischeatopen == true)
+    //            HideCheatPanel();
+    //        else
+    //            OpenCheatPanel();
+    //    }
+    //}
 
 
     public void InputCheatKey()

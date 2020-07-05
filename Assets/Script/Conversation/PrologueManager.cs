@@ -136,41 +136,6 @@ public class PrologueManager : MonoBehaviour
         isConversationing = false;
         isTextFull = false;
         yield return new WaitUntil(() => !isTextFull);
-        
-
-        //// 한 문장의 한 단어씩 출력하는 반복문
-        //foreach (char letter in text.ToCharArray())
-        //{
-        //    //출력된 텍스트 수가 최대 텍스트 수보다 작은 경우 -> 정상출력
-        //    if (numOfText <= text.Length - 1)
-        //    {
-        //        // 대사 한줄이 모두 출력됐을때
-        //        if (numOfText == text.Length - 1)
-        //        {
-        //            isTextFull = true;
-        //        }
-
-        //        prologueText.text += letter;
-        //        numOfText++;
-
-        //        //글자 타이핑 소리?
-
-        //        // 대사 한줄이 모두 출력됐을 때
-        //        if (numOfText > text.Length - 1)
-        //        {
-        //            isTextFull = false;
-        //            yield return new WaitUntil(() => !isTextFull);
-                    
-        //            //prologueText.text = "";
-        //            numOfText = 0;
-        //            isConversationing = false;
-        //        }
-        //        else
-        //        {
-        //            yield return new WaitForSeconds(0.02f);
-        //        }
-        //    }
-        //}
     }
 
     public void PrologueNextSentence()

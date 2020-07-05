@@ -14,7 +14,10 @@ public class PauseManager : MonoBehaviour
     {
         //theSM = SettingManager.instance;
         theSM = FindObjectOfType<SettingManager>();
-        UIManager.instance.SetIsPausedFalse();
+
+        // 엔딩에도 pause 기능을 넣어야 할까?
+        if (GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
+            UIManager.instance.SetIsPausedFalse();
     }
 
     void Update()

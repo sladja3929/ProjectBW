@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine.UI;
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviour {
 
     public enum PlayState { Title, Prologue, Tutorial, Act, Ending };
     private PlayState playState;
+
+    public enum EndingState { None, Valua, Arnold, Andren, True };
+    private EndingState endingState;
 
     public Thread thread;
     public Thread thread2;
@@ -88,17 +92,17 @@ public class GameManager : MonoBehaviour {
         {
 
         }
-        // 암호화 ON
-        if (Input.GetKeyDown(KeyCode.F6))
-        {
-            isEncrypted = true;
-        }
+        //// 암호화 ON
+        //if (Input.GetKeyDown(KeyCode.F6))
+        //{
+        //    isEncrypted = true;
+        //}
 
-        // 암호화 OFF
-        if (Input.GetKeyDown(KeyCode.F7))
-        {
-            isEncrypted = false;
-        }
+        //// 암호화 OFF
+        //if (Input.GetKeyDown(KeyCode.F7))
+        //{
+        //    isEncrypted = false;
+        //}
     }
 
     // Use this for initialization
@@ -110,12 +114,58 @@ public class GameManager : MonoBehaviour {
 
         gameState = GameState.Idle;
         playState = PlayState.Title;
+        endingState = EndingState.None;
         eventVariable = new EventVariable();
         dataAES = new DataEncryption();
 
         activateMouseCursorTexture = Resources.Load<Texture2D>("Image/Cursor/Active");
 
         isEncrypted = true;
+    }
+
+    void Update()
+    {
+        // 엔딩 진행 테스트를 위한 코드
+        //if (Input.GetKeyDown(KeyCode.F1))
+        //{
+        //    SetPlayState(PlayState.Ending);
+        //    SetEndingState(EndingState.Valua);
+        //    Debug.Log("Valua 엔딩 시작");
+        //    SceneManager.LoadScene("Ending");
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.F2))
+        //{
+        //    SetPlayState(PlayState.Ending);
+        //    SetEndingState(EndingState.Arnold);
+        //    Debug.Log("Arnold 엔딩 시작");
+        //    SceneManager.LoadScene("Ending");
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.F3))
+        //{
+        //    SetPlayState(PlayState.Ending);
+        //    SetEndingState(EndingState.Andren);
+        //    Debug.Log("Andren 엔딩 시작");
+        //    SceneManager.LoadScene("Ending");
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.F4))
+        //{
+        //    SetPlayState(PlayState.Ending);
+        //    SetEndingState(EndingState.True);
+        //    Debug.Log("True 엔딩 시작");
+        //    SceneManager.LoadScene("Ending");
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.F5))
+        //{
+        //    // 세이브
+        //    GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+        //    GameManager.instance.thread.IsBackground = true;
+        //    GameManager.instance.thread.Start();
+        //    GameManager.instance.thread.Join();
+        //}
     }
 
     public void SetCursorActivate()
@@ -208,6 +258,16 @@ public class GameManager : MonoBehaviour {
         this.playState = playState;
     }
 
+    public EndingState GetEndingState()
+    {
+        return endingState;
+    }
+
+    public void SetEndingState(EndingState endingState)
+    {
+        this.endingState = endingState;
+    }
+
     // 처음 부터
     public void PlayNewGame()
     {
@@ -215,6 +275,7 @@ public class GameManager : MonoBehaviour {
         thread = new Thread(CSVParser.instance.InitDataFromCSV);
         thread.IsBackground = true;
         thread.Start();
+        thread.Join();
         //CSVParser.instance.InitDataFromCSV();
         // 불러온 데이터를 적용시킴
         //DialogManager.instance.SetLists();
@@ -230,6 +291,7 @@ public class GameManager : MonoBehaviour {
             thread = new Thread(CSVParser.instance.LoadCSVData);
             thread.IsBackground = true;
             thread.Start();
+            thread.Join();
             //CSVParser.instance.LoadCSVData();
             // 불러온 데이터를 적용시킴
             //DialogManager.instance.SetLists();
