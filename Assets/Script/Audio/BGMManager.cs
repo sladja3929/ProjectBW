@@ -151,6 +151,7 @@ public class BGMManager : MonoBehaviour
             case "Mansion_Guest_Room2":
             case "Mansion_Viscount_Mansion_First_Floor":
             case "Mansion_Viscount_Mansion_Second_Floor":
+            case "Mansion_Viscount_Room":
                 area_num = 14;
                 break;
             case "Slum_Information_agency":

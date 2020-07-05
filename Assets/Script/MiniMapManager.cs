@@ -280,6 +280,9 @@ public class MiniMapManager : MonoBehaviour
             case "Mansion_Viscount_Mansion_Second_Floor":
                 tmp = "자작의 저택 2층";
                 break;
+            case "Mansion_Viscount_Room":
+                tmp = "자작의 방";
+                break;
             case "Mansion_President_Mansion_First_Floor":
                 tmp = "총장의 저택 1층";
                 break;
@@ -364,6 +367,7 @@ public class MiniMapManager : MonoBehaviour
             case "Chapter_Chapter_Second_Floor":
             case "Mansion_Viscount_Mansion_First_Floor":
             case "Mansion_Viscount_Mansion_Second_Floor":
+            case "Mansion_Viscount_Room":
             case "Mansion_President_Mansion_First_Floor":
             case "Mansion_President_Mansion_Second_Floor":
             case "Mansion_President_Mansion_Outhouse":
@@ -495,6 +499,9 @@ public class MiniMapManager : MonoBehaviour
             case "Mansion_Viscount_Mansion_Second_Floor":
                 Mansion_Viscount_Mansion_Second_Floor_Inside();
                 break;
+            case "Mansion_Viscount_Room":
+                Mansion_Viscount_Room_Inside();
+                break;
             case "Mansion_President_Mansion_First_Floor":
                 Mansion_President_Mansion_First_Floor_Inside();
                 break;
@@ -591,6 +598,10 @@ public class MiniMapManager : MonoBehaviour
     public void Mansion_Viscount_Mansion_Second_Floor_Inside()
     {
         InsideCamera = InsideCameraWhole.transform.Find("Mansion_Viscount_Mansion_Second_Floor Camera").GetComponent<Camera>();
+    }
+    public void Mansion_Viscount_Room_Inside()
+    {
+        InsideCamera = InsideCameraWhole.transform.Find("Mansion_Viscount_Room Camera").GetComponent<Camera>();
     }
     public void Mansion_President_Mansion_First_Floor_Inside()
     {

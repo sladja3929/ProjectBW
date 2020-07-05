@@ -702,6 +702,7 @@ public class DialogManager : MonoBehaviour
                 if (index == 1)
                 {
                     EventManager.instance.Starting78_Event();
+                    EffectManager.instance.Play("뛰어오는 발 소리");
                 }
             }
         }
