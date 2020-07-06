@@ -59,7 +59,7 @@ public class SettingManager : MonoBehaviour
     /*게임씬 구분용 - 게임 씬 내에서만 설정 가능한 것들 구분*/
     public const string titlescene = "Title_Tmp";
     public const string gamescene = "BW_H";
-    public const string gamescene_debug = "BW_K";
+    public const string endingscene = "Ending";
 
     private bool issetting; // 환경설정중인가?
 
@@ -68,15 +68,8 @@ public class SettingManager : MonoBehaviour
         /*설정*/
         GetPrevSetting();//이전 설정 불러오기 없으면 기본 설정 적용하기 
         SetCurSetting();
-        //StartCoroutine(FirstSetCurSetting());//현재 설정에 적용하기 
     }
 
-    /*첫 설정 적용의 코루틴 - 오디오 쪽 설정이 모두 적용된 이후에 적용되어야 하기 때문*/
-    //IEnumerator FirstSetCurSetting()
-    //{
-    //    yield return new WaitUntil(() => BGMManager.instance.BMStartEnd == true && EffectManager.instance.EMStartEnd == true);
-    //    SetCurSetting();       
-    //}
 
     /*설정 변경 시 적용 - EventSystem On value changed 사용*/
     /*화면 밝기 조정*/
@@ -89,7 +82,7 @@ public class SettingManager : MonoBehaviour
             //Debug.Log("brightness : " + brightness);
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name ==  gamescene_debug)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -111,7 +104,7 @@ public class SettingManager : MonoBehaviour
             //Debug.Log("bgmvolume : " + bgmvolume);
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -131,7 +124,7 @@ public class SettingManager : MonoBehaviour
             //Debug.Log("effectvolume : " + effectvolume);
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -159,7 +152,7 @@ public class SettingManager : MonoBehaviour
 
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -193,7 +186,7 @@ public class SettingManager : MonoBehaviour
 
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
 
             if (UIManager.instance.GetIsPaused())
@@ -229,7 +222,7 @@ public class SettingManager : MonoBehaviour
 
             SetCurSetting();//실제적용
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
+        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
             if (UIManager.instance.GetIsPaused())
             {
@@ -314,7 +307,7 @@ public class SettingManager : MonoBehaviour
         EffectManager.instance.SetEffectVolume(effectvolume * 0.01f);
 
 
-        if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == gamescene_debug)
+        if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
         {
             /*자막재생속도*/
             if (playvelocity == 0f)
