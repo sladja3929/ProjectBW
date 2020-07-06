@@ -26,6 +26,10 @@ public class PlayerManager : MonoBehaviour {
     private string currentPosition;             //플레이어의 맵에서의 현재 위치
     private bool isInPortalZone;                //플레이어가 포탈존에 있는지 유무 확인
 
+    [SerializeField] private GameObject merte;
+    [SerializeField] private GameObject zaral;  // 진엔딩시 제렐 캐릭터를 움직일 수 있게 하기 위함. -> 추후 안드렌으로 변경
+    //[SerializeField] private GameObject andren;
+
     /* 오브젝트와의 상호작용을 위한 변수 */
     [SerializeField] private bool isNearObject;      //상호작용할 수 있는 오브젝트와 가까이 있는가?
     private Vector2 pos;            //마우스로 클릭한 곳의 위치
@@ -89,6 +93,19 @@ public class PlayerManager : MonoBehaviour {
 
     void Start()
     {
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
+        {
+            if (GameManager.instance.GetEndingState() == GameManager.EndingState.True)
+            {
+                // 제렐을 플레이어로 만들고, 메르테 비활성화
+                Vector3 mertePosition = GetPlayerPosition();
+                merte.SetActive(false);
+                zaral.SetActive(true);
+                SetPlayer(zaral);
+                SetPlayerPosition(mertePosition); // 제렐을 메르테의 원래 자리로 변경
+            }
+        }
+
         if (GameManager.instance.GetGameState().Equals(GameManager.GameState.NewGame_Loaded))
         {
             NumOfAct = "53";   //사건3 시작

@@ -452,6 +452,14 @@ public class EndingManager : MonoBehaviour
             }
         }
 
+        if (tempSentenceOfCondition.Equals("andren_0"))
+        {
+            if (index == 0)
+            {
+                // 모든 배경음 stop
+            }
+        }
+
         if (tempSentenceOfCondition.Equals("andren_1") || tempSentenceOfCondition.Equals("arnold_0") || tempSentenceOfCondition.Equals("valua_0"))
         {
             if (index == 1)
@@ -485,7 +493,7 @@ public class EndingManager : MonoBehaviour
 
             if (index == 21)
             {
-                // 심장소리 시작
+                // "신문실_심장소리" 시작
             }
         }
 
@@ -493,7 +501,7 @@ public class EndingManager : MonoBehaviour
         {
             if (index == 0)
             {
-                // 진엔딩 bgm 시작
+                // "진엔딩" bgm 시작
             }
         }
 
@@ -501,7 +509,7 @@ public class EndingManager : MonoBehaviour
         {
             if (index == 3)
             {
-                // 진엔딩_총소리 설정 필요
+                // 진엔딩_총소리 시작
                 
             }
         }
