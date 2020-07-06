@@ -52,7 +52,8 @@ public class GameManager : MonoBehaviour {
     {
         try
         {
-            if (!UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment())
+            if (!UIManager.instance.GetIsPaused() && !UIManager.instance.IsBookOpened() && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.isPaging && !UIManager.instance.isConversationing && !UIManager.instance.isFading && !UIManager.instance.GetIsOpenedParchment()
+                && !UIManager.instance.GetStateDiary())
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 ray = new Ray2D(pos, Vector2.zero);
@@ -115,8 +116,23 @@ public class GameManager : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            UIManager.instance.GetCluesForArnoldEnding();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+            UIManager.instance.GetCluesForAndrenEnding();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            UIManager.instance.GetCluesForTrueEnding();
+        }
+
         // 엔딩 진행 테스트를 위한 코드
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.F8))
         {
             SetPlayState(PlayState.Ending);
             SetEndingState(EndingState.Valua);
@@ -124,7 +140,7 @@ public class GameManager : MonoBehaviour {
             SceneManager.LoadScene("Ending");
         }
 
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.F9))
         {
             SetPlayState(PlayState.Ending);
             SetEndingState(EndingState.Arnold);
@@ -132,7 +148,7 @@ public class GameManager : MonoBehaviour {
             SceneManager.LoadScene("Ending");
         }
 
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.F10))
         {
             SetPlayState(PlayState.Ending);
             SetEndingState(EndingState.Andren);
@@ -140,7 +156,7 @@ public class GameManager : MonoBehaviour {
             SceneManager.LoadScene("Ending");
         }
 
-        if (Input.GetKeyDown(KeyCode.F4))
+        if (Input.GetKeyDown(KeyCode.F11))
         {
             SetPlayState(PlayState.Ending);
             SetEndingState(EndingState.True);
@@ -366,4 +382,6 @@ public class GameManager : MonoBehaviour {
     {
         this.eventVariable = eventVariable;
     }
+
+    
 }

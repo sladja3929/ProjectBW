@@ -119,6 +119,15 @@ public class DialogManager : MonoBehaviour
         //}
     }
 
+    public List<string> GetDiaryContents()
+    {
+        List<string> diaryContentsList = new List<string>();
+        
+        
+
+        return diaryContentsList;
+    }
+
     // 대화 테이블 관련 정보 최신화
     public void SetLists()
     {
@@ -1064,9 +1073,9 @@ public class DialogManager : MonoBehaviour
         //certainDescIndex => 특정 대사 인덱스, 여기서의 인덱스는 csv파일 내에서의 이 대화의 index, 즉 csv파일 안에 몇번째줄에 있는 대사인지
         //tempSetOfDesc_IndexList.Add(tempSetOfDesc_Index);       //status 변경용
         tempCertainDescIndexLists.Add(certainDescIndex);                          //status 변경용
-        
+
         tempNpcNameLists.Add((dataList[certainDescIndex])["npcFrom"]);    //대화중인 npc이름 변경용
-        
+
         if ((dataList[certainDescIndex]["rewards"] != null) && !(dataList[certainDescIndex]["rewards"].Equals("")))
         {
             //대화를 통해 얻을 수 있는 단서들의 목록 만들기
@@ -1611,7 +1620,7 @@ public class DialogManager : MonoBehaviour
                         if (tempSentenceOfCondition.Equals("getDiary"))
                         {
                             // 메르테의 일기장 활성화
-                            Debug.Log("메르테의 일기장 활성화");
+                            UIManager.instance.ActivateDiary();
                         }
                     } // if - ending
                 }

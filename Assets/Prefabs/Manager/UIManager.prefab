@@ -47,6 +47,8 @@ MonoBehaviour:
   ispaused: 0
   GetClueUI: {fileID: 0}
   GetClueButton: {fileID: 0}
+  PopupSmall: {fileID: 0}
+  SmallClueName: {fileID: 0}
   Background: {fileID: 0}
   NoteBook: {fileID: 0}
   isOpenedNote: 0
@@ -84,6 +86,7 @@ MonoBehaviour:
   paperOfDocument: {fileID: 0}
   documentCover: {fileID: 0}
   isReadParchment: 0
+  isReadParchment_In_74_79: 0
   fadeInOutPanel: {fileID: 0}
   fadeInOutAnimator: {fileID: 0}
   timeSlotText: {fileID: 0}
@@ -114,6 +117,21 @@ MonoBehaviour:
   characterFrame: {fileID: 0}
   characterBackfroundImage: {fileID: 0}
   characterImage: {fileID: 0}
+  diary: {fileID: 0}
+  diary_LeftArrow: {fileID: 0}
+  diary_RightArrow: {fileID: 0}
+  diary_Month_Day_Text: {fileID: 0}
+  diary_Content_Text: {fileID: 0}
+  diary_Index: 0
+  theEndText: {fileID: 0}
+  pressGoTitleFromTheEnd: 0
+  pressChoiceEndingUI: 0
+  choiceEndingUI: {fileID: 0}
+  valuaEndingButton: {fileID: 0}
+  arnoldEndingButton: {fileID: 0}
+  andrenEndingButton: {fileID: 0}
+  trueEndingButton: {fileID: 0}
+  endingChoiceTextUI: {fileID: 0}
 --- !u!114 &3814327114598580311
 MonoBehaviour:
   m_ObjectHideFlags: 0

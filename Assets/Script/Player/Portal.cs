@@ -73,6 +73,11 @@ public class Portal : MonoBehaviour
                     // 305번 이벤트를 위한 처리
                     DialogManager.instance.InteractionWithObject("제렐사무실");
                 }
+                else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending && GameManager.instance.GetEndingState() == GameManager.EndingState.True)
+                {
+                    // 진엔딩 이벤트를 위한 처리
+                    DialogManager.instance.InteractionWithObject("findUsingKey");
+                }
                 else
                 {
                     if(!UIManager.instance.isPortaling)
@@ -130,12 +135,6 @@ public class Portal : MonoBehaviour
     }
 
     public void TakePortal() {
-
-        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending && GameManager.instance.GetEndingState() == GameManager.EndingState.True)
-        {
-            DialogManager.instance.InteractionWithObject("finfUsingKey");
-            return;
-        }
 
         backupCurrentPosition = PlayerManager.instance.GetCurrentPosition();
 

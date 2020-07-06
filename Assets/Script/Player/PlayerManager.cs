@@ -184,10 +184,8 @@ public class PlayerManager : MonoBehaviour {
 
                     if (NumOfAct.Equals("54") && TimeSlot.Equals("79"))
                     {
-                        // 사건4 마지막날에 단서정리 양피지를 닫은 경우, 엔딩 선택 분기 UI가 나타나야한다.
-
-
                         UIManager.instance.isReadParchment = false;
+                        StartCoroutine(UIManager.instance.FadeEffectForChoiceEnding());
                         return;
                     }
 
@@ -217,7 +215,7 @@ public class PlayerManager : MonoBehaviour {
             }
 
             /* 오브젝트와의 상호작용을 위한 if */
-            if ( Input.GetMouseButtonDown(0) && CheckCondition_InteractionObject() )
+            if (Input.GetMouseButtonDown(0) && CheckCondition_InteractionObject() && !UIManager.instance.GetStateDiary())
             {
                 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 ray = new Ray2D(pos, Vector2.zero);

@@ -22,7 +22,7 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!UIManager.instance.GetIsPaused())//일시정지 상태가 아닐 때
+        if (!UIManager.instance.GetIsPaused() && !UIManager.instance.GetStateDiary())//일시정지 상태가 아닐 때 혹은 일기장이 열려있지 않을 때
         {
             if (!TutorialManager.instance.isPlayingTutorial && !UIManager.instance.GetIsOpenNote() && !UIManager.instance.isConversationing && !UIManager.instance.GetIsOpenedParchment() && !UIManager.instance.isFading && !EventManager.instance.isPlaying302Event)
             {       

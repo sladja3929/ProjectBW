@@ -114,6 +114,31 @@ public class AutoFlip : MonoBehaviour {
         }
     }
 
+    // 일기장에서 쓰일 페이지 넘기는 함수
+    public void FlipRightPage()
+    {
+        if (isFlipping) return;
+        if (ControledBook.currentPage >= ControledBook.TotalPageCount) return;
+        isFlipping = true;
+        float frameTime = PageFlipTime / AnimationFramesCount;
+        float xc = (ControledBook.EndBottomRight.x + ControledBook.EndBottomLeft.x) / 2;
+        float xl = ((ControledBook.EndBottomRight.x - ControledBook.EndBottomLeft.x) / 2) * 0.9f;
+        //float h =  ControledBook.Height * 0.5f;
+        float h = Mathf.Abs(ControledBook.EndBottomRight.y) * 0.9f;
+        float dx = (xl) * 2 / AnimationFramesCount;
+
+        // 일기장 끝에서 오른쪽 클릭을 한 경우
+        if (UIManager.instance.diary_Index == CSVParser.instance.diary_Contents.Count - 1)
+        {
+            //넘기지 말고 FadeOut 시킨 후, -The End - 문구 띄우기
+            StartCoroutine(UIManager.instance.FadeEffectForTrueEnding());
+        }
+        else
+        {
+            StartCoroutine(FlipRTL(xc, xl, h, frameTime, dx));
+        }
+    }
+
     public void FlipRightPage(string pressedAct)
     {
         if (isFlipping) return;
@@ -140,6 +165,21 @@ public class AutoFlip : MonoBehaviour {
         float h = Mathf.Abs(ControledBook.EndBottomRight.y) * 0.9f;
         float dx = (xl) * 2 / AnimationFramesCount;
         StartCoroutine(FlipRTL(xc, xl, h, frameTime, dx, tempIndex, numOfAct));
+    }
+
+    public void FlipLeftPage()
+    {
+        if (isFlipping) return;
+        if (ControledBook.currentPage <= -10) return;
+        isFlipping = true;
+        float frameTime = PageFlipTime / AnimationFramesCount;
+        float xc = (ControledBook.EndBottomRight.x + ControledBook.EndBottomLeft.x) / 2;
+        float xl = ((ControledBook.EndBottomRight.x - ControledBook.EndBottomLeft.x) / 2) * 0.9f;
+        //float h =  ControledBook.Height * 0.5f;
+        float h = Mathf.Abs(ControledBook.EndBottomRight.y) * 0.9f;
+        float dx = (xl) * 2 / AnimationFramesCount;
+
+        StartCoroutine(FlipLTR(xc, xl, h, frameTime, dx));
     }
 
     public void FlipLeftPage(string pressedAct)
@@ -211,6 +251,34 @@ public class AutoFlip : MonoBehaviour {
                 break;
         }
     }
+    IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx)
+    {
+        // 일기장 UI 비활성화 하는 곳
+        UIManager.instance.DeActivateDiary();
+
+        float x = xc + xl;
+        float y = (-h / (xl * xl)) * (x - xc) * (x - xc);
+
+        ControledBook.DragRightPageToPoint(new Vector3(x, y, 0));
+        for (int i = 0; i < AnimationFramesCount; i++)
+        {
+            y = (-h / (xl * xl)) * (x - xc) * (x - xc);
+            ControledBook.UpdateBookRTLToPoint(new Vector3(x, y, 0));
+            yield return new WaitForSeconds(frameTime);
+            x -= dx;
+        }
+        ControledBook.ReleasePage();
+
+        yield return new WaitForSeconds(0.2f);
+
+        // 일기장 UI 활성화하는 곳
+        // 일기장 텍스트를 변경하는 곳
+        if(UIManager.instance.diary_Index < CSVParser.instance.diary_Contents.Count - 1)
+            UIManager.instance.diary_Index++;
+
+        UIManager.instance.ActivateDiary();
+    }
+
     IEnumerator FlipRTL(float xc, float xl, float h, float frameTime, float dx, string pressedAct)
     {
         // slot reset
@@ -291,6 +359,33 @@ public class AutoFlip : MonoBehaviour {
         UIManager.instance.testButton = Inventory.instance.GetSlotObject(UIManager.instance.buttonIndex);
         //ItemDatabase.instance.LoadHaveDataOfAct(pressedAct);
         
+    }
+
+    IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx)
+    {
+        // 일기장 UI 비활성화하는 곳
+        UIManager.instance.DeActivateDiary();
+
+        float x = xc - xl;
+        float y = (-h / (xl * xl)) * (x - xc) * (x - xc);
+        ControledBook.DragLeftPageToPoint(new Vector3(x, y, 0));
+        for (int i = 0; i < AnimationFramesCount; i++)
+        {
+            y = (-h / (xl * xl)) * (x - xc) * (x - xc);
+            ControledBook.UpdateBookLTRToPoint(new Vector3(x, y, 0));
+            yield return new WaitForSeconds(frameTime);
+            x += dx;
+        }
+        ControledBook.ReleasePage();
+
+        yield return new WaitForSeconds(0.2f);
+
+        // 일기장 UI 활성화하는 곳
+        // 일기장 텍스트 변경하는 곳
+        if (UIManager.instance.diary_Index > 0)
+            UIManager.instance.diary_Index--;
+
+        UIManager.instance.ActivateDiary();
     }
 
     IEnumerator FlipLTR(float xc, float xl, float h, float frameTime, float dx, string pressedAct)

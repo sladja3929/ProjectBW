@@ -51,6 +51,14 @@ public class ClueStructure
         SetDesc(desctiption);
     }
     */
+    public int GetNumSpecialNum()
+    {
+        if (specialNum == null)
+            return 0;
+        else
+            return specialNum.Length;
+    }
+
     public string[] GetSpecialNum()
     {
         return specialNum;

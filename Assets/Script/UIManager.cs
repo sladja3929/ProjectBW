@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class UIManager : MonoBehaviour {
@@ -155,6 +155,27 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private GameObject characterImage;
 
+    // 메르테의 일기장 관련 UI
+    [SerializeField] private GameObject diary;
+    [SerializeField] private GameObject diary_LeftArrow;
+    [SerializeField] private GameObject diary_RightArrow;
+    [SerializeField] private GameObject diary_Month_Day_Text; // x월 x일
+    [SerializeField] public GameObject diary_Content_Text;   // 일기장 내용
+    public int diary_Index;
+
+    [SerializeField] private GameObject theEndText;
+
+    public bool pressGoTitleFromTheEnd;
+    public bool pressChoiceEndingUI;
+
+    // 엔딩 분기 UI
+    [SerializeField] private GameObject choiceEndingUI;
+    [SerializeField] private GameObject valuaEndingButton;
+    [SerializeField] private GameObject arnoldEndingButton;
+    [SerializeField] private GameObject andrenEndingButton;
+    [SerializeField] private GameObject trueEndingButton;
+    [SerializeField] private GameObject endingChoiceTextUI;
+
     // Use this for initialization
     void Awake () {
         if (instance == null)
@@ -200,7 +221,8 @@ public class UIManager : MonoBehaviour {
         */
         npcNameLists = new List<string>();
         sentenceList = new List<string>();
-
+        pressGoTitleFromTheEnd = false;
+        pressChoiceEndingUI = false;
 
         //customNav = new Navigation();
         //customNav2 = new Navigation();
@@ -210,6 +232,9 @@ public class UIManager : MonoBehaviour {
         /* 양피지 스크롤을 위한 작업 */
         tempValue_RectOfHelper = rectOfParchmentHelper.localPosition.y;
 
+        theEndText.SetActive(false);
+        InitDiaryGameObject();
+        InitEndingChoiceUI();
     }
 
     void Update()
@@ -259,7 +284,7 @@ public class UIManager : MonoBehaviour {
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isFading && !isOpenedParchment && !isPortaling)
+            if (Input.GetKeyDown(KeyCode.Space) && !MiniMapManager.instance.IsMiniMapOpen() && !isPaging && !isFading && !isOpenedParchment && !isPortaling && !GetStateDiary())
             {
                 if (GameManager.instance.GetPlayState() == GameManager.PlayState.Act && !isConversationing)
                 {
@@ -331,6 +356,16 @@ public class UIManager : MonoBehaviour {
                     testButton = Inventory.instance.GetSlotObject(0); // 첫번째 슬롯을 testButton 으로써 사용한다
                 }
 
+            }
+
+            // -The End- 에서 상호작용 키를 눌럿을 때
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending && GameManager.instance.GetEndingState() == GameManager.EndingState.True
+                && theEndText.activeSelf)
+            {
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0))
+                {
+                    pressGoTitleFromTheEnd = true;
+                }
             }
 
             if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && isConversationing && !isFading)
@@ -658,6 +693,51 @@ public class UIManager : MonoBehaviour {
         isConversationing = false;
     }
 
+    public IEnumerator FadeEffectForChoiceEnding()
+    {
+        isFading = true;
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("ending", true);
+        fadeInOutAnimator.SetBool("isfadeout", true);
+        StartCoroutine(EndingChoice());
+
+        yield return null;
+    }
+
+    public IEnumerator EndingChoice()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        // 엔딩 분기 출력
+        // 사건4 마지막날에 단서정리 양피지를 닫은 경우, 엔딩 선택 분기 UI가 나타나야한다.
+        ShowChoiceEndingUI();
+    }
+
+    public IEnumerator FadeEffectForTrueEnding()
+    {
+        if(GetStateDiary())
+            CloseDiary();
+
+        isFading = true;
+        fadeInOutPanel.SetActive(true);
+        fadeInOutAnimator.SetBool("ending", true);
+        fadeInOutAnimator.SetBool("isfadeout", true);
+        StartCoroutine(TheEnd());
+
+        yield return null;
+    }
+
+    public IEnumerator TheEnd()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        // -The End- 문구 출력
+        theEndText.SetActive(true);
+
+        // 상호작용 키를 누를때까지 대기
+        yield return new WaitUntil(() => pressGoTitleFromTheEnd);
+        StartCoroutine(LoadAsyncTitleSceneForEnding());
+    }
 
     public IEnumerator FadeEffectForTutorial(string position, Vector3 mainPosition, Vector3 subPosition)
     {
@@ -828,13 +908,13 @@ public class UIManager : MonoBehaviour {
         }
 
         timeSlotText.GetComponent<Text>().color = tempColor1;
-        isFading = false;
         timeSlotText.SetActive(false);
 
         /* 패널 페이드 인*/
         fadeInOutAnimator.SetBool("isfadeout", false);
         yield return new WaitForSeconds(2.2f);
 
+        isFading = false;
         tempColor1 = timeSlotText.GetComponent<Text>().color;
         tempColor1.a = 1f;
         timeSlotText.GetComponent<Text>().color = tempColor1;
@@ -1232,5 +1312,305 @@ public class UIManager : MonoBehaviour {
             
             ActivateUpDownButton(!isOpenedNote);
         
+    }
+
+    IEnumerator LoadAsyncTitleSceneForEnding()
+    {
+        Debug.Log("Starting Load");
+        SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
+        yield return StartCoroutine(LoadingManager.instance.Fade(true));
+
+        AsyncOperation asyncLoad;
+
+        float timer = 0.0f;
+
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
+        {
+            LoadingManager.instance.loadSceneName = "Title_Tmp";
+            asyncLoad = SceneManager.LoadSceneAsync("Title_Tmp");
+            
+            Debug.Log("Setting LoadScene is done");
+            asyncLoad.allowSceneActivation = false;
+
+            if (GameManager.instance.GetEndingState() == GameManager.EndingState.True)
+            {
+                while (!CSVParser.instance.CompleteLoadFile())
+                {
+                    yield return null;
+                }
+            }
+            Debug.Log("CompleteLoadFile");
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+                timer += Time.unscaledDeltaTime;
+
+                if (asyncLoad.progress >= 0.9f)
+                {
+                    if (timer > 2.0f)//페이크 로딩
+                    {
+                        asyncLoad.allowSceneActivation = true;
+
+                        timer = 0.0f;
+                        yield break;
+                    }
+                }
+            }
+            Debug.Log("asyncLoad is Done");
+        }
+    }
+
+    public void InitDiaryGameObject()
+    {
+        diary_Index = 0;
+        diary_LeftArrow.SetActive(false);
+        diary_RightArrow.SetActive(false);
+        diary_Month_Day_Text.SetActive(false);
+        diary_Content_Text.GetComponent<Text>().text = "";
+        diary_Content_Text.SetActive(false);
+        CloseDiary();
+    }
+
+    public void ActivateDiary()
+    {
+        GameManager.instance.SetCursorIdle();
+
+        if (!diary.activeSelf)
+            diary.SetActive(true);
+
+        if (diary_Index == 0)
+            diary_LeftArrow.SetActive(false);
+        else
+            diary_LeftArrow.SetActive(true);
+
+        diary_RightArrow.SetActive(true);
+        diary_Month_Day_Text.SetActive(true);
+        diary_Content_Text.SetActive(true);
+        // diary_Index에 해당하는 일기장 내용이 나타나도록 설정
+        diary_Content_Text.GetComponent<Text>().text = CSVParser.instance.diary_Contents[diary_Index];
+    }
+
+    public void DeActivateDiary()
+    {
+        diary_LeftArrow.SetActive(false);
+        diary_RightArrow.SetActive(false);
+        diary_Month_Day_Text.SetActive(false);
+        diary_Content_Text.SetActive(false);
+    }
+
+    public void OpenDiary()
+    {
+        diary.SetActive(true);
+    }
+
+    public void CloseDiary()
+    {
+        diary.SetActive(false);
+    }
+
+    public bool GetStateDiary()
+    {
+        if (diary.activeSelf)
+            return true;
+        else
+            return false;
+    }
+
+    public void InitEndingChoiceUI()
+    {
+        valuaEndingButton.SetActive(false);
+        arnoldEndingButton.SetActive(false);
+        andrenEndingButton.SetActive(false);
+        trueEndingButton.SetActive(false);
+        choiceEndingUI.SetActive(false);
+        endingChoiceTextUI.SetActive(false);
+    }
+
+    public void ShowChoiceEndingUI()
+    {
+        List<bool> choiceState = GetEndingStateLists_YouCan();
+        for (int i = 0; i < choiceState.Count; i++)
+        {
+            Debug.Log(choiceState[i]);
+        }
+
+        endingChoiceTextUI.SetActive(true);
+        choiceEndingUI.SetActive(true);
+
+        // 발루아 선택지 활성화
+        valuaEndingButton.SetActive(true);
+
+        // state[0] == true 이면, 아놀드 선택지 활성화
+        if (choiceState[0] == true)
+            arnoldEndingButton.SetActive(true);
+        else
+            arnoldEndingButton.SetActive(false);
+
+        // state[1] == true 이면, 안드렌 선택지 활성화
+        if (choiceState[1] == true)
+            andrenEndingButton.SetActive(true);
+        else
+            andrenEndingButton.SetActive(false);
+
+        // state[2] == true 이면, 진엔딩 선택지 활성화 (진엔딩 텍스트는 ??? 로 설정)
+        if (choiceState[2] == true)
+            trueEndingButton.SetActive(true);
+        else
+            trueEndingButton.SetActive(false);
+    }
+
+    public List<bool> GetEndingStateLists_YouCan()
+    {
+        List<bool> tempList = new List<bool>() { false, false, false };
+        int count = 0;
+        int maxCount = 0;
+        List<string> arnoldEndingClueLists = CSVParser.instance.GetArnoldEndingClueLists();
+        List<string> andrenEndingClueLists = CSVParser.instance.GetAndrenEndingClueLists();
+        List<string> trueEndingClueLists = CSVParser.instance.GetTrueEndingClueLists();
+
+        maxCount = arnoldEndingClueLists.Count;
+        for (int i = 0; i < arnoldEndingClueLists.Count; i++)
+        {
+            if (PlayerManager.instance.CheckClue(arnoldEndingClueLists[i]))
+                count++;
+        }
+
+        if (maxCount == count)
+            tempList[0] = true;
+
+        count = 0;
+        maxCount = andrenEndingClueLists.Count;
+        for (int i = 0; i < andrenEndingClueLists.Count; i++)
+        {
+            if (PlayerManager.instance.CheckClue(andrenEndingClueLists[i]))
+                count++;
+        }
+
+        if (maxCount == count)
+            tempList[1] = true;
+
+        count = 0;
+        maxCount = trueEndingClueLists.Count;
+        for (int i = 0; i < trueEndingClueLists.Count; i++)
+        {
+            if (PlayerManager.instance.CheckClue(trueEndingClueLists[i]))
+                count++;
+        }
+
+        if (maxCount == count)
+            tempList[2] = true;
+
+        return tempList;
+    }
+
+    public void GetCluesForArnoldEnding()
+    {
+        List<string> arnoldEndingClueLists = CSVParser.instance.GetArnoldEndingClueLists();
+
+        for (int i = 0; i < arnoldEndingClueLists.Count; i++)
+        {
+            GameManager.instance.GetClue(arnoldEndingClueLists[i]);
+        }
+    }
+
+    public void GetCluesForAndrenEnding()
+    {
+        List<string> andrenEndingClueLists = CSVParser.instance.GetAndrenEndingClueLists();
+
+        for (int i = 0; i < andrenEndingClueLists.Count; i++)
+        {
+            GameManager.instance.GetClue(andrenEndingClueLists[i]);
+        }
+    }
+
+    public void GetCluesForTrueEnding()
+    {
+        List<string> trueEndingClueLists = CSVParser.instance.GetTrueEndingClueLists();
+
+        for (int i = 0; i < trueEndingClueLists.Count; i++)
+        {
+            GameManager.instance.GetClue(trueEndingClueLists[i]);
+        }
+    }
+
+    public void StartValuaEnding()
+    {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Ending);
+        GameManager.instance.SetEndingState(GameManager.EndingState.Valua);
+        Debug.Log("Valua 엔딩 시작");
+        //SceneManager.LoadScene("Ending");
+        StartCoroutine(LoadAsyncEndingScene());
+    }
+
+    public void StartArnoldEnding()
+    {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Ending);
+        GameManager.instance.SetEndingState(GameManager.EndingState.Arnold);
+        Debug.Log("Arnold 엔딩 시작");
+        StartCoroutine(LoadAsyncEndingScene());
+    }
+
+    public void StartAndrenEnding()
+    {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Ending);
+        GameManager.instance.SetEndingState(GameManager.EndingState.Andren);
+        Debug.Log("Andren 엔딩 시작");
+        StartCoroutine(LoadAsyncEndingScene());
+    }
+
+    public void StartTrueEnding()
+    {
+        GameManager.instance.SetPlayState(GameManager.PlayState.Ending);
+        GameManager.instance.SetEndingState(GameManager.EndingState.True);
+        Debug.Log("True 엔딩 시작");
+        StartCoroutine(LoadAsyncEndingScene());
+    }
+
+    IEnumerator LoadAsyncEndingScene()
+    {
+        Debug.Log("Starting Load");
+        SceneManager.sceneLoaded += LoadingManager.instance.LoadSceneEnd;
+        yield return StartCoroutine(LoadingManager.instance.Fade(true));
+
+        AsyncOperation asyncLoad;
+
+        float timer = 0.0f;
+
+        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
+        {
+            LoadingManager.instance.loadSceneName = "Ending";
+            asyncLoad = SceneManager.LoadSceneAsync("Ending");
+
+            Debug.Log("Setting LoadScene is done");
+            asyncLoad.allowSceneActivation = false;
+
+            if (GameManager.instance.GetEndingState() == GameManager.EndingState.True)
+            {
+                while (!CSVParser.instance.CompleteLoadFile())
+                {
+                    yield return null;
+                }
+            }
+            Debug.Log("CompleteLoadFile");
+
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+                timer += Time.unscaledDeltaTime;
+
+                if (asyncLoad.progress >= 0.9f)
+                {
+                    if (timer > 2.0f)//페이크 로딩
+                    {
+                        asyncLoad.allowSceneActivation = true;
+
+                        timer = 0.0f;
+                        yield break;
+                    }
+                }
+            }
+            Debug.Log("asyncLoad is Done");
+        }
     }
 }

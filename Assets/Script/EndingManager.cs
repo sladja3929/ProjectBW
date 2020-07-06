@@ -73,6 +73,7 @@ public class EndingManager : MonoBehaviour
         if (GameManager.instance.GetEndingState() == GameManager.EndingState.True)
         {
             CSVParser.instance.InitDataFromCSV();   // 대화 & 단서 테이블 파싱 -> 진엔딩 후의 작업에 사용
+            CSVParser.instance.SetDiaryContents();  // 일기장 내용 파싱
         }
 
         // 엔딩 테이블 파일 로딩
@@ -453,7 +454,7 @@ public class EndingManager : MonoBehaviour
             }
         }
 
-        if (tempSentenceOfCondition.Equals("andren_0"))
+        if (tempSentenceOfCondition.Equals("andren_0") || tempSentenceOfCondition.Equals("arnold_0") || tempSentenceOfCondition.Equals("valua_0"))
         {
             if (index == 0)
             {
@@ -500,7 +501,14 @@ public class EndingManager : MonoBehaviour
             if (index == 21)
             {
                 // "신문실_심장소리" 시작
+                EffectManager.instance.SetLoop("심문실 심장소리");
                 EffectManager.instance.Play("심문실 심장소리");
+            }
+
+            if (index == 28)
+            {
+                EffectManager.instance.SetLoopCancel("심문실 심장소리");
+                EffectManager.instance.Stop("심문실 심장소리");
             }
         }
 

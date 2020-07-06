@@ -40,6 +40,8 @@ public class CSVParser : MonoBehaviour
     private List<ClueStructure> clueStructureLists;
     private List<string> startObjectListsForEnding;
 
+    [SerializeField] public List<string> diary_Contents;
+
     private string initConversationDataPath;
     private string initClueDataPath;
     private string playerConversationDataPath;
@@ -69,12 +71,12 @@ public class CSVParser : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F12))
         {
-            string temp = File.ReadAllText(initConversationDataPath);
-            File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+            //string temp = File.ReadAllText(initConversationDataPath);
+            //File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
             //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
 
-            //string temp = File.ReadAllText(initClueDataPath);
-            //File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+            string temp = File.ReadAllText(initClueDataPath);
+            File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
             //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
 
             //string temp = File.ReadAllText(trueEndingDataPath);
@@ -1172,13 +1174,13 @@ public class CSVParser : MonoBehaviour
                         if (tempSpecialNum.Contains(","))
                         {   // 여러개일때
                             tempSpecialNumList = tempSpecialNum.Split(',');
-                            tempClueStructure.SetObtainPos1(tempSpecialNumList);
+                            tempClueStructure.SetSpecialNum(tempSpecialNumList);
                         }
                         else
                         {   // 1개일때
                             tempSpecialNumList = new string[1];
                             tempSpecialNumList[0] = tempSpecialNum;
-                            tempClueStructure.SetObtainPos1(tempSpecialNumList);
+                            tempClueStructure.SetSpecialNum(tempSpecialNumList);
                         }
                         break;
 
@@ -1245,7 +1247,7 @@ public class CSVParser : MonoBehaviour
             //추출해서 적용시킨 ClueStructure 클래스를 리스트에 추가
             clueStructureLists.Add(tempClueStructure);
 
-            if (tempClueStructure.GetSpecialNum() != null)
+            if (tempClueStructure.GetNumSpecialNum() > 0)
             {
                 for (int k = 0; k < tempClueStructure.GetSpecialNum().Length; k++)
                 {
@@ -1537,5 +1539,34 @@ public class CSVParser : MonoBehaviour
     public List<string> GetTrueEndingClueLists()
     {
         return trueEndingClueLists;
+    }
+
+    public void SetDiaryContents()
+    {
+        int startSetOfDescNum = 1400;
+
+        while (true)
+        {
+            // 1400 부터 찾는다.
+            List<Interaction> tempInteractionLists = interactionLists.FindAll(x => x.GetSetOfDesc() == startSetOfDescNum);
+
+            if (tempInteractionLists.Count == 0)
+                break;
+
+            string tempDiaryContent = "";
+
+            for (int i = 0; i < tempInteractionLists.Count; i++)
+            {
+                tempDiaryContent += tempInteractionLists[i].GetDesc();
+
+                if (i != tempInteractionLists.Count - 1)
+                {
+                    tempDiaryContent += "\n";
+                }
+            }
+
+            diary_Contents.Add(tempDiaryContent);
+            startSetOfDescNum++;
+        }
     }
 }
