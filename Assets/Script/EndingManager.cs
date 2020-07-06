@@ -449,6 +449,7 @@ public class EndingManager : MonoBehaviour
             if (index == 0)
             {
                 // "아놀드 엔딩_감옥" bgm 시작
+                BGMManager.instance.PlayBGM(22);
             }
         }
 
@@ -457,6 +458,7 @@ public class EndingManager : MonoBehaviour
             if (index == 0)
             {
                 // 모든 배경음 stop
+                BGMManager.instance.StopBGM();
             }
         }
 
@@ -465,6 +467,7 @@ public class EndingManager : MonoBehaviour
             if (index == 1)
             {
                 // "일반 엔딩" bgm 시작
+                BGMManager.instance.PlayBGM(20);
             }
         }
 
@@ -473,6 +476,7 @@ public class EndingManager : MonoBehaviour
             if (index == 0)
             {
                 // "진엔딩_신문실" bgm 시작
+                BGMManager.instance.PlayBGM(23);
             }
         }
 
@@ -481,6 +485,7 @@ public class EndingManager : MonoBehaviour
             if (index == 0)
             {
                 // 모든 배경음 stop
+                BGMManager.instance.StopBGM();
             }
         }
 
@@ -489,11 +494,13 @@ public class EndingManager : MonoBehaviour
             if (index == 0 || index == 30)
             {
                 // 모든 배경음 stop
+                BGMManager.instance.StopBGM();
             }
 
             if (index == 21)
             {
                 // "신문실_심장소리" 시작
+                EffectManager.instance.Play("심문실 심장소리");
             }
         }
 
@@ -502,6 +509,7 @@ public class EndingManager : MonoBehaviour
             if (index == 0)
             {
                 // "진엔딩" bgm 시작
+                BGMManager.instance.PlayBGM(21);
             }
         }
 
@@ -510,7 +518,7 @@ public class EndingManager : MonoBehaviour
             if (index == 3)
             {
                 // 진엔딩_총소리 시작
-                
+                EffectManager.instance.Play("진엔딩 총소리");
             }
         }
 
@@ -519,6 +527,7 @@ public class EndingManager : MonoBehaviour
             if (index == 0)
             {
                 // 모든 배경음 stop
+                BGMManager.instance.StopBGM();
             }
         }
 

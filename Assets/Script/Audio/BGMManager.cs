@@ -21,6 +21,7 @@ public class BGMManager : MonoBehaviour
     public const string titlescene = "Title_Tmp";
     public const string gamescene = "BW_H";
     public const string prologuescene = "Prologue";
+    public const string endingscene = "Ending";
 
     /*튜토용 트리거 1*/
     public bool tutorialBGMtrigger_1;
@@ -76,7 +77,12 @@ public class BGMManager : MonoBehaviour
         {
             nextBGMnowPlaying = 1;
         }
-        //이후 엔딩 추가
+        //엔딩 - 직접적용으로 변경
+        //else if (curscene == endingscene)
+        //{
+        //    nextBGMnowPlaying = 1;
+        //}
+
 
 
         /*BGM 변경 시*/

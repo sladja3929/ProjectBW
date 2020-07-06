@@ -1075,19 +1075,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 519360255, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 947.2174
+      value: 948.38586
       objectReference: {fileID: 0}
     - target: {fileID: 519360255, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1577.2174
+      value: 1578.3859
       objectReference: {fileID: 0}
     - target: {fileID: 972024986, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 473.6087
+      value: 474.19293
       objectReference: {fileID: 0}
     - target: {fileID: 972024986, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.1652
+      value: 914.51575
       objectReference: {fileID: 0}
     - target: {fileID: 933879102, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
@@ -1095,19 +1095,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 276119060, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 473.6087
+      value: 474.19293
       objectReference: {fileID: 0}
     - target: {fileID: 276119060, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.1652
+      value: 914.51575
       objectReference: {fileID: 0}
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 473.6087
+      value: 474.19293
       objectReference: {fileID: 0}
     - target: {fileID: 16137589, guid: 4359ff62fd6425b43bacde06aa957093, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 914.1652
+      value: 914.51575
       objectReference: {fileID: 0}
     - target: {fileID: 4493791569154852779, guid: 4359ff62fd6425b43bacde06aa957093,
         type: 3}
@@ -4037,6 +4037,61 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[13].name
+      value: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[13].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[14].name
+      value: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[14].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[15].name
+      value: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[15].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[16].name
+      value: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[16].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[17].name
+      value: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421818621480324618, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: sounds.Array.data[17].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
+    - target: {fileID: 3145072027401794380, guid: 1e06e38774cd0214091a23f919dffff9,
+        type: 3}
+      propertyPath: clips.Array.data[24]
+      value: 
+      objectReference: {fileID: 8300000, guid: a375acfcddbca28478a38db5a846c4a4, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e06e38774cd0214091a23f919dffff9, type: 3}
 --- !u!1 &1916028632 stripped

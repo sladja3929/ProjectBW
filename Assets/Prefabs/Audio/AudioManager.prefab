@@ -164,6 +164,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 6217a891ed236f641b23f89632e92d63, type: 3}
   - name: "\uB2E8\uC11C \uD68D\uB4DD \uD31D\uC5C5 \uC18C\uB9AC"
     clip: {fileID: 8300000, guid: ded2710a5f34eda4e831d4feb8727703, type: 3}
+  - name: "\uC2EC\uBB38\uC2E4 \uC2EC\uC7A5\uC18C\uB9AC"
+    clip: {fileID: 8300000, guid: 07103041f0bfbca44a94146297b06374, type: 3}
+  - name: "\uC9C4\uC5D4\uB529 \uCD1D\uC18C\uB9AC"
+    clip: {fileID: 8300000, guid: 8602616fe83710044bad7bf57138186b, type: 3}
   EffectVolume: 0
 --- !u!114 &3145072027401794380
 MonoBehaviour:
@@ -198,5 +202,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d4a37817632062b40890c21e8fece7b7, type: 3}
   - {fileID: 8300000, guid: bd6848eca030df44e97d8a57f372251b, type: 3}
   - {fileID: 8300000, guid: 2e51199edfb9938458341e5ffd472b91, type: 3}
-  - {fileID: 8300000, guid: a375acfcddbca28478a38db5a846c4a4, type: 3}
+  - {fileID: 8300000, guid: 0d69b1c4e395c0442a7577c9489c3e02, type: 3}
+  - {fileID: 8300000, guid: b6ea97791b6ab2f4c81d112c5b9173ef, type: 3}
+  - {fileID: 8300000, guid: 88e62cc1a174f4c468f3698237fce2f6, type: 3}
+  - {fileID: 8300000, guid: 6b5cce2ca92213f42a33a1c17544ffec, type: 3}
   tutorialBGMtrigger_1: 0
