@@ -76,168 +76,139 @@ public class SettingManager : MonoBehaviour
     public void UpdateBrightness()
     {
 
-        if (SceneManager.GetActiveScene().name == titlescene)
+        if (SceneManager.GetActiveScene().name == titlescene) { }
+        else if (SceneManager.GetActiveScene().name == gamescene)
         {
-            brightness = Mathf.RoundToInt(brightness_S.value);
-            //Debug.Log("brightness : " + brightness);
-            SetCurSetting();//실제적용
+            if (!UIManager.instance.GetIsPaused())
+                return;
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
+        else if (SceneManager.GetActiveScene().name == endingscene)
         {
-            if (UIManager.instance.GetIsPaused())
-            {
-                brightness = Mathf.RoundToInt(brightness_S.value);
-                //Debug.Log("brightness : " + brightness);
-                SetCurSetting();//실제적용
-            }
+            if (!EndingManager.instance.GetIsPaused())
+                return;
         }
 
-       
+        brightness = Mathf.RoundToInt(brightness_S.value);
+        //Debug.Log("brightness : " + brightness);
+        SetCurSetting();//실제적용
+
     }
 
     /*볼륨 조정*/
     public void UpdateBGMVolume()
     {
-        if (SceneManager.GetActiveScene().name == titlescene)
+        if (SceneManager.GetActiveScene().name == titlescene) { }
+        else if (SceneManager.GetActiveScene().name == gamescene)
         {
-            bgmvolume = Mathf.RoundToInt(bgmvolume_S.value);
-            //Debug.Log("bgmvolume : " + bgmvolume);
-            SetCurSetting();//실제적용
+            if (!UIManager.instance.GetIsPaused())
+                return;
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
+        else if (SceneManager.GetActiveScene().name == endingscene)
         {
-            if (UIManager.instance.GetIsPaused())
-            {
-                bgmvolume = Mathf.RoundToInt(bgmvolume_S.value);
-                //Debug.Log("bgmvolume : " + bgmvolume);
-                SetCurSetting();//실제적용
-            }
+            if (!EndingManager.instance.GetIsPaused())
+                return;
         }
 
-        
+        bgmvolume = Mathf.RoundToInt(bgmvolume_S.value);
+        //Debug.Log("bgmvolume : " + bgmvolume);
+        SetCurSetting();//실제적용
     }
+
     public void UpdateEffectVolume()
     {
-        if (SceneManager.GetActiveScene().name == titlescene)
+        if (SceneManager.GetActiveScene().name == titlescene) { }
+        else if (SceneManager.GetActiveScene().name == gamescene)
         {
-            effectvolume = Mathf.RoundToInt(effectvolume_S.value);
-            //Debug.Log("effectvolume : " + effectvolume);
-            SetCurSetting();//실제적용
+            if (!UIManager.instance.GetIsPaused())
+                return;
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
+        else if (SceneManager.GetActiveScene().name == endingscene)
         {
-            if (UIManager.instance.GetIsPaused())
-            {
-                effectvolume = Mathf.RoundToInt(effectvolume_S.value);
-                //Debug.Log("effectvolume : " + effectvolume);
-                SetCurSetting();//실제적용
-            }
+            if (!EndingManager.instance.GetIsPaused())
+                return;
         }
 
-       
+        effectvolume = Mathf.RoundToInt(effectvolume_S.value);
+        //Debug.Log("effectvolume : " + effectvolume);
+        SetCurSetting();//실제적용
     }
 
     /*자막 재생 속도 조정 - 버튼 눌렀을 때*/
     public void UpdatePlaySlow()
     {
-        if (SceneManager.GetActiveScene().name == titlescene)
+        if (SceneManager.GetActiveScene().name == titlescene) { }
+        else if (SceneManager.GetActiveScene().name == gamescene)
         {
-            EffectManager.instance.Play("버튼 클릭음");
-
-            play_slow_B.image.color = color_select;
-            play_mid_B.image.color = color_unselect;
-            play_fast_B.image.color = color_unselect;
-
-            Debug.Log("play velocity : slow");
-
-            SetCurSetting();//실제적용
+            if (!UIManager.instance.GetIsPaused())
+                return;
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
+        else if (SceneManager.GetActiveScene().name == endingscene)
         {
-            if (UIManager.instance.GetIsPaused())
-            {
-                playvelocity = 0f;
-                EffectManager.instance.Play("버튼 클릭음");
-
-                play_slow_B.image.color = color_select;
-                play_mid_B.image.color = color_unselect;
-                play_fast_B.image.color = color_unselect;
-
-                Debug.Log("play velocity : slow");
-
-                SetCurSetting();//실제적용
-            }
+            if (!EndingManager.instance.GetIsPaused())
+                return;
         }
 
-       
+        playvelocity = 0f;
+        EffectManager.instance.Play("버튼 클릭음");
+
+        play_slow_B.image.color = color_select;
+        play_mid_B.image.color = color_unselect;
+        play_fast_B.image.color = color_unselect;
+
+        Debug.Log("play velocity : slow");
+
+        SetCurSetting();//실제적용
     }
+
     public void UpdatePlayMid()
     {
-        if (SceneManager.GetActiveScene().name == titlescene)
+        if (SceneManager.GetActiveScene().name == titlescene) { }
+        else if (SceneManager.GetActiveScene().name == gamescene)
         {
-            playvelocity = 1f;
-            EffectManager.instance.Play("버튼 클릭음");
-
-            play_slow_B.image.color = color_unselect;
-            play_mid_B.image.color = color_select;
-            play_fast_B.image.color = color_unselect;
-
-            Debug.Log("play velocity : mid");
-
-            SetCurSetting();//실제적용
+            if (!UIManager.instance.GetIsPaused())
+                return;
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
+        else if (SceneManager.GetActiveScene().name == endingscene)
         {
-
-            if (UIManager.instance.GetIsPaused())
-            {
-                playvelocity = 1f;
-                EffectManager.instance.Play("버튼 클릭음");
-
-                play_slow_B.image.color = color_unselect;
-                play_mid_B.image.color = color_select;
-                play_fast_B.image.color = color_unselect;
-
-                Debug.Log("play velocity : mid");
-
-                SetCurSetting();//실제적용
-            }
+            if (!EndingManager.instance.GetIsPaused())
+                return;
         }
 
-        
+        playvelocity = 1f;
+        EffectManager.instance.Play("버튼 클릭음");
+
+        play_slow_B.image.color = color_unselect;
+        play_mid_B.image.color = color_select;
+        play_fast_B.image.color = color_unselect;
+
+        Debug.Log("play velocity : mid");
+
+        SetCurSetting();//실제적용
     }
+
     public void UpdatePlayFast()
     {
-
-        if (SceneManager.GetActiveScene().name == titlescene)
+        if (SceneManager.GetActiveScene().name == titlescene) { }
+        else if (SceneManager.GetActiveScene().name == gamescene)
         {
-            playvelocity = 2f;
-            EffectManager.instance.Play("버튼 클릭음");
-
-            play_slow_B.image.color = color_unselect;
-            play_mid_B.image.color = color_unselect;
-            play_fast_B.image.color = color_select;
-
-            Debug.Log("play velocity : fast");
-
-            SetCurSetting();//실제적용
+            if (!UIManager.instance.GetIsPaused())
+                return;
+        } else if (SceneManager.GetActiveScene().name == endingscene)
+        {
+            if (!EndingManager.instance.GetIsPaused())
+                return;
         }
-        else if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
-        {
-            if (UIManager.instance.GetIsPaused())
-            {
-                playvelocity = 2f;
-                EffectManager.instance.Play("버튼 클릭음");
 
-                play_slow_B.image.color = color_unselect;
-                play_mid_B.image.color = color_unselect;
-                play_fast_B.image.color = color_select;
+        playvelocity = 2f;
+        EffectManager.instance.Play("버튼 클릭음");
 
-                Debug.Log("play velocity : fast");
+        play_slow_B.image.color = color_unselect;
+        play_mid_B.image.color = color_unselect;
+        play_fast_B.image.color = color_select;
 
-                SetCurSetting();//실제적용
-            }
-        }      
+        Debug.Log("play velocity : fast");
+
+        SetCurSetting();//실제적용
     }
 
     /*저장 및 적용*/
@@ -307,7 +278,7 @@ public class SettingManager : MonoBehaviour
         EffectManager.instance.SetEffectVolume(effectvolume * 0.01f);
 
 
-        if (SceneManager.GetActiveScene().name == gamescene || SceneManager.GetActiveScene().name == endingscene)
+        if (SceneManager.GetActiveScene().name == gamescene)
         {
             /*자막재생속도*/
             if (playvelocity == 0f)
@@ -316,6 +287,16 @@ public class SettingManager : MonoBehaviour
             { DialogManager.instance.typingSpeed = pv_2; }
             else if (playvelocity == 2f)
             { DialogManager.instance.typingSpeed = pv_3; }
+        }
+        else if (SceneManager.GetActiveScene().name == endingscene)
+        {
+            /*자막재생속도*/
+            if (playvelocity == 0f)
+            { EndingManager.instance.typingSpeed = pv_1; }
+            else if (playvelocity == 1f)
+            { EndingManager.instance.typingSpeed = pv_2; }
+            else if (playvelocity == 2f)
+            { EndingManager.instance.typingSpeed = pv_3; }
         }
     }
 

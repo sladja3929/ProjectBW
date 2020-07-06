@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class EndingManager : MonoBehaviour
 {
+    public static EndingManager instance = null;
+
     // 각 엔딩에서 사용할 오브젝트들만 저장한 후, 각 장면에 인덱스를 부여하여 알맞은 오브젝트 활성화
     [SerializeField]    private GameObject[] valuaEndingObjects;
     [SerializeField]    private GameObject[] arnoldEndingObjects;
@@ -57,11 +59,14 @@ public class EndingManager : MonoBehaviour
 
     private NpcParser npcParser;
     private string tempNpcName;
+    private string tempSentenceOfCondition;
 
     [SerializeField]
     private bool isFirstConversation;    //대화 묶음의 첫 대사인지 확인하는 변수(Fade in 관련)
     private int enterLimitCount;         //줄바꿈 수를 제한하기 위한 변수
     private string tempObjectPortrait;
+
+    private bool ispaused;
 
     void Awake()
     {
@@ -76,6 +81,11 @@ public class EndingManager : MonoBehaviour
 
     void Start()
     {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+
         textLimit = 125;
         enterLimitCount = 3;    //줄바꿈이 3번 일어나면 대화출력 종료 -> 대화창엔 3줄까지 출력될 것임
         tempLimitInOneLine = 30;    // 띄어쓰기 + 글자가 30자 이상일 경우, 강제로 줄바꿈
@@ -92,6 +102,7 @@ public class EndingManager : MonoBehaviour
         numNpcNameLists = 0;
         curNumOfNpcNameLists = 0;
         sentences = new string[] { "" };
+        ispaused = false;
 
         dataList = GameObject.Find("DataManager").GetComponent<CSVParser>().GetEndingDataList();
         interactionLists = GameObject.Find("DataManager").GetComponent<CSVParser>().GetEndingInteractionLists();
@@ -303,7 +314,7 @@ public class EndingManager : MonoBehaviour
     {
         /* 확장성을 위해 objectName을 파라미터로 받아서, 해당 물체를 조사하는 상호작용 구현하기 */
         string targetObject = objectName;   //StartObject에 해당하는 값
-        
+        tempSentenceOfCondition = targetObject;
         tempObjectPortrait = targetObject;
         
         //targetObject에 해당하는 npc의 이름을 가진 클래스의 index 알아오기
@@ -432,6 +443,76 @@ public class EndingManager : MonoBehaviour
 
         // 엔딩 테이블의 사건 값에 따라서, 이미지 오브젝트들을 활성화 or 비활성화 해주자
         ChangeObject(setActiveTrueLists[index]);
+
+        if (tempSentenceOfCondition.Equals("arnold_4"))
+        {
+            if (index == 0)
+            {
+                // "아놀드 엔딩_감옥" bgm 시작
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("andren_1") || tempSentenceOfCondition.Equals("arnold_0") || tempSentenceOfCondition.Equals("valua_0"))
+        {
+            if (index == 1)
+            {
+                // "일반 엔딩" bgm 시작
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("andren_10"))
+        {
+            if (index == 0)
+            {
+                // "진엔딩_신문실" bgm 시작
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("andren_12") || tempSentenceOfCondition.Equals("arnold_5") || tempSentenceOfCondition.Equals("valua_8"))
+        {
+            if (index == 0)
+            {
+                // 모든 배경음 stop
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("true_0"))
+        {
+            if (index == 0 || index == 30)
+            {
+                // 모든 배경음 stop
+            }
+
+            if (index == 21)
+            {
+                // 심장소리 시작
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("true_1"))
+        {
+            if (index == 0)
+            {
+                // 진엔딩 bgm 시작
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("true_6"))
+        {
+            if (index == 3)
+            {
+                // 진엔딩_총소리 설정 필요
+                
+            }
+        }
+
+        if (tempSentenceOfCondition.Equals("true_7"))
+        {
+            if (index == 0)
+            {
+                // 모든 배경음 stop
+            }
+        }
 
         string tempObjectCode = tempNpcNameLists[curNumOfNpcNameLists];
 
@@ -902,5 +983,21 @@ public class EndingManager : MonoBehaviour
         */
 
         conversationUI.SetActive(false);
+    }
+
+    /*일시정지 관련*/
+    public bool GetIsPaused()
+    {
+        return ispaused;
+    }
+
+    public void SetIsPausedTrue()
+    {
+        ispaused = true;
+    }
+
+    public void SetIsPausedFalse()
+    {
+        ispaused = false;
     }
 }

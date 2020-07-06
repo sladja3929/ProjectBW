@@ -696,13 +696,13 @@ public class DialogManager : MonoBehaviour
                 if (index == 0)
                 {
                     // 안드렌이 뛰어오는 소리 넣기 (발소리 효과음)
-
+                    EffectManager.instance.Play("뛰어오는 발 소리");
                 }
 
                 if (index == 1)
                 {
                     EventManager.instance.Starting78_Event();
-                    EffectManager.instance.Play("뛰어오는 발 소리");
+                    EffectManager.instance.Stop("뛰어오는 발 소리");
                 }
             }
         }

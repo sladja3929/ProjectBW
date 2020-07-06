@@ -116,37 +116,37 @@ public class GameManager : MonoBehaviour {
     void Update()
     {
         // 엔딩 진행 테스트를 위한 코드
-        //if (Input.GetKeyDown(KeyCode.F1))
-        //{
-        //    SetPlayState(PlayState.Ending);
-        //    SetEndingState(EndingState.Valua);
-        //    Debug.Log("Valua 엔딩 시작");
-        //    SceneManager.LoadScene("Ending");
-        //}
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SetPlayState(PlayState.Ending);
+            SetEndingState(EndingState.Valua);
+            Debug.Log("Valua 엔딩 시작");
+            SceneManager.LoadScene("Ending");
+        }
 
-        //if (Input.GetKeyDown(KeyCode.F2))
-        //{
-        //    SetPlayState(PlayState.Ending);
-        //    SetEndingState(EndingState.Arnold);
-        //    Debug.Log("Arnold 엔딩 시작");
-        //    SceneManager.LoadScene("Ending");
-        //}
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            SetPlayState(PlayState.Ending);
+            SetEndingState(EndingState.Arnold);
+            Debug.Log("Arnold 엔딩 시작");
+            SceneManager.LoadScene("Ending");
+        }
 
-        //if (Input.GetKeyDown(KeyCode.F3))
-        //{
-        //    SetPlayState(PlayState.Ending);
-        //    SetEndingState(EndingState.Andren);
-        //    Debug.Log("Andren 엔딩 시작");
-        //    SceneManager.LoadScene("Ending");
-        //}
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            SetPlayState(PlayState.Ending);
+            SetEndingState(EndingState.Andren);
+            Debug.Log("Andren 엔딩 시작");
+            SceneManager.LoadScene("Ending");
+        }
 
-        //if (Input.GetKeyDown(KeyCode.F4))
-        //{
-        //    SetPlayState(PlayState.Ending);
-        //    SetEndingState(EndingState.True);
-        //    Debug.Log("True 엔딩 시작");
-        //    SceneManager.LoadScene("Ending");
-        //}
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            SetPlayState(PlayState.Ending);
+            SetEndingState(EndingState.True);
+            Debug.Log("True 엔딩 시작");
+            SceneManager.LoadScene("Ending");
+        }
 
         //if (Input.GetKeyDown(KeyCode.F5))
         //{

@@ -15,7 +15,6 @@ public class PauseManager : MonoBehaviour
         //theSM = SettingManager.instance;
         theSM = FindObjectOfType<SettingManager>();
 
-        // 엔딩에도 pause 기능을 넣어야 할까?
         if (GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
             UIManager.instance.SetIsPausedFalse();
     }
@@ -23,22 +22,44 @@ public class PauseManager : MonoBehaviour
     void Update()
     {
         /*키입력 받아 일시정지*/
-        if (Input.GetKeyDown(KeyCode.Escape) && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.IsBookOpened() && !UIManager.instance.GetIsOpenedParchment())
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (UIManager.instance.GetIsPaused() == false)
+            if ((GameManager.instance.GetPlayState() == GameManager.PlayState.Tutorial || GameManager.instance.GetPlayState() == GameManager.PlayState.Act)
+                && !MiniMapManager.instance.IsMiniMapOpen() && !UIManager.instance.IsBookOpened() && !UIManager.instance.GetIsOpenedParchment())
             {
-                UIManager.instance.SetIsPausedTrue();
-                OpenPausePanel();
+                if (UIManager.instance.GetIsPaused() == false)
+                {
+                    UIManager.instance.SetIsPausedTrue();
+                    OpenPausePanel();
+                }
+                else if (UIManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == false)
+                {
+                    BacktoGame();
+                }
+                else if (UIManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == true)
+                {
+                    Debug.Log("환경설정 저장됨");
+                    theSM.SaveCurSetting();//환경설정 저장
+                    SettingManager.instance.CloseSettingPanel();
+                }
             }
-            else if (UIManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == false)
+            else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
             {
-                BacktoGame();
-            }
-            else if (UIManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == true)
-            {
-                Debug.Log("환경설정 저장됨");
-                theSM.SaveCurSetting();//환경설정 저장
-                SettingManager.instance.CloseSettingPanel();
+                if (EndingManager.instance.GetIsPaused() == false)
+                {
+                    EndingManager.instance.SetIsPausedTrue();
+                    OpenPausePanel();
+                }
+                else if (EndingManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == false)
+                {
+                    BacktoGame();
+                }
+                else if (EndingManager.instance.GetIsPaused() == true && SettingManager.instance.GetIsSetting() == true)
+                {
+                    Debug.Log("환경설정 저장됨");
+                    theSM.SaveCurSetting();//환경설정 저장
+                    SettingManager.instance.CloseSettingPanel();
+                }
             }
         }
     }
@@ -51,7 +72,14 @@ public class PauseManager : MonoBehaviour
     public void BacktoGame()
     {
         EffectManager.instance.Play("버튼 클릭음");
-        UIManager.instance.SetIsPausedFalse();
+        if (GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
+        {
+            UIManager.instance.SetIsPausedFalse();
+        }
+        else
+        {
+            EndingManager.instance.SetIsPausedFalse();
+        }
         ClosePausePanel();       
     }
 
@@ -59,7 +87,15 @@ public class PauseManager : MonoBehaviour
     {
         EffectManager.instance.Play("버튼 클릭음");
         ClosePausePanel();
-        UIManager.instance.SetIsPausedFalse();
+
+        if (GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
+        {
+            UIManager.instance.SetIsPausedFalse();
+        }
+        else
+        {
+            EndingManager.instance.SetIsPausedFalse();
+        }
 
         // 세이브
         //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
