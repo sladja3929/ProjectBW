@@ -42,6 +42,7 @@ public class NpcParser
     /// 슬램가 - 인물 총 7명
     /// 디펀 = 1300 / 아킬 = 1301 / 노숙자 = 1302
     /// 아반 = 1303 / 자드 = 1304 / 아울 = 1305 / 사람들 = 1306
+    /// 사람1 = 1307 / 사람2 = 1308 / 사람3 = 1309 / 사람4 = 1310
     /// 
     /// 슬램가 - 상호작용하는 오브젝트 총 9개
     /// 나무상자 = 9300 / 창문 = 9301 / 종이 = 9302 / 정보상 문 = 9303 / 기둥 = 9307 / 허름한 집 문 = 9308
@@ -464,6 +465,18 @@ public class NpcParser
             case "1306":
                 return "사람들";
 
+            case "1307":
+                return "사람1";
+
+            case "1308":
+                return "사람2";
+
+            case "1309":
+                return "사람3";
+
+            case "1310":
+                return "사람4";
+
             default:
                 return null;
         }
@@ -492,6 +505,18 @@ public class NpcParser
 
             case "사람들":
                 return "1306";
+
+            case "사람1":
+                return "1307";
+
+            case "사람2":
+                return "1308";
+
+            case "사람3":
+                return "1309";
+
+            case "사람4":
+                return "1310";
 
             default:
                 return null;

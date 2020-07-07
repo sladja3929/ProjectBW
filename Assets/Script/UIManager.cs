@@ -623,12 +623,51 @@ public class UIManager : MonoBehaviour {
             // 해당 사건의 획득한 단서가 있으면 ClueUI 활성화
             OpenClueUI();
             // 해당하는 단서의 index를 찾았으면, 그것을 토대로 수첩에서의 사진, 텍스트 등을 변경
-            clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempList[clueIndex].GetClueName());
+            // tempList[clueIndex].GetObtainPos2() 값이 1이면 서류봉투로 얻은 단서, 9000 이상이면 오브젝트로부터 얻은 단서, 나머지는 사람으로부터 얻은 단서스케치 이미지 적용하기
+            NpcParser npcParser = new NpcParser();
+            string tempObtainPosCode = tempList[clueIndex].GetObtainPos2Code();
+            int tempCode = 0;
+
+            if (tempObtainPosCode.Equals("1"))
+            {
+                tempCode = 1;
+            }
+            else if (tempObtainPosCode.Length == 4)
+            {
+                tempCode = int.Parse(tempObtainPosCode);
+            }
+
+            Debug.Log("obtainPos2 = " + tempList[clueIndex].GetObtainPos2() + ", tempCode = " + tempCode);
+            if (tempCode == 1)
+            {
+                clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Document_Sketch");
+            }
+            else if (tempCode >= 9000)
+            {
+                clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Object_Sketch");
+            }
+            else
+            {
+                clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Human_Sketch");
+            }
+            //clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempList[clueIndex].GetClueName());
             clueContent.GetComponent<Text>().text = "<size=30>" + tempList[clueIndex].GetObtainPos1() + "</size>" + "\n" + "<size=26>" + tempList[clueIndex].GetObtainPos2() + "</size>";
 
             /* 이름 : "대화" 형식으로 붙혀야함 */
             /* 이름 = tempNpcNameLists, 대화 = sentenceLists */
-            textAboutFirstClue.GetComponent<Text>().text = tempList[clueIndex].GetFirstInfoOfClue();
+            if (int.Parse(numOfAct) < 53)
+            {
+                tempList[clueIndex].SetFirstInfoOfClue("지난 사건에 대한 단서다. 천천히 읽어보자.");
+                textAboutFirstClue.GetComponent<Text>().text = tempList[clueIndex].GetFirstInfoOfClue();
+            }
+            else if (tempList[clueIndex].GetFirstInfoOfClue().Equals(" "))
+            {
+                tempList[clueIndex].SetFirstInfoOfClue("안드렌이 건네준 단서다. 천천히 읽어보자.");
+                textAboutFirstClue.GetComponent<Text>().text = tempList[clueIndex].GetFirstInfoOfClue();
+            }
+            else
+                textAboutFirstClue.GetComponent<Text>().text = tempList[clueIndex].GetFirstInfoOfClue();
+
             textAboutSecondClue.GetComponent<Text>().text = tempList[clueIndex].GetDesc();
         }
     }

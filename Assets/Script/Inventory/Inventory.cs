@@ -63,7 +63,34 @@ public class Inventory : MonoBehaviour {
                 tempSlot.GetComponent<RectTransform>().localPosition = new Vector3(tempSlot.GetComponent<RectTransform>().localPosition.x, ParchmentControll.instance.additional_Clue_Pos_y, tempSlot.GetComponent<RectTransform>().localPosition.z);
                 slotList_In_Parchment.Add(tempSlot);
                 tempClueName = certainClueLists[i].GetClueName();
-                tempSlot.transform.GetChild(0).Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempClueName);
+                //tempSlot.transform.GetChild(0).Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempClueName);
+
+                NpcParser npcParser = new NpcParser();
+                string tempObtainPosCode = certainClueLists[i].GetObtainPos2Code();
+                int tempCode = 0;
+
+                if (tempObtainPosCode.Equals("1"))
+                {
+                    tempCode = 1;
+                }
+                else if (tempObtainPosCode.Length == 4)
+                {
+                    tempCode = int.Parse(tempObtainPosCode);
+                }
+                
+                if (tempCode == 1)
+                {
+                    tempSlot.transform.GetChild(0).Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Document_Sketch");
+                }
+                else if (tempCode >= 9000)
+                {
+                    tempSlot.transform.GetChild(0).Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Object_Sketch");
+                }
+                else
+                {
+                    tempSlot.transform.GetChild(0).Find("CluePortrait").GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Human_Sketch");
+                }
+
                 tempSlot.transform.GetChild(0).Find("ClueName").GetComponent<Text>().text = "" + tempClueName;
             }
         }

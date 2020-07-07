@@ -1162,19 +1162,28 @@ public class DialogManager : MonoBehaviour
         /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
         for (int i = 0; i < rewardsLists.Count; i++)
         {
-            string tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
-            for (int j = 0; j < tempNpcNameLists.Count; j++)
-            {   //이름 : "대화"
-                /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
-                tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
+            string tempText = "";
+            if (tempNpcNameLists.Count != 0)
+            {
+                tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
+                for (int j = 0; j < tempNpcNameLists.Count; j++)
+                {   //이름 : "대화"
+                    /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+                    tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
 
-                if (tempNpcName == null)
-                    tempNpcName = "stranger";
+                    if (tempNpcName == null)
+                        tempNpcName = "stranger";
 
-                tempText += (tempNpcName + " : " + sentenceLists[j]);
-                tempText += "\n";
+                    tempText += (tempNpcName + " : " + sentenceLists[j]);
+                    tempText += "\n";
+                }
+                tempText += "</i>";
+                //Debug.Log(tempText);
             }
-            tempText += "</i>";
+            else
+            {
+                tempText = "지난 사건에 대한 단서들이다. 천천히 읽어보자.";
+            }
 
             for (int j = 0; j < PlayerManager.instance.playerClueLists.Count; j++)
             {
@@ -1339,20 +1348,28 @@ public class DialogManager : MonoBehaviour
                 /* 단서 내용1을 위해 각 clueName에 연관되어있는 대화들을 player의 clueList안의 firstInfoOfClue 변수에다가 넣음 */
                 for (int i = 0; i < rewardsLists.Count; i++)
                 {
-                    string tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
-                    for (int j = 0; j < tempNpcNameLists.Count; j++)
-                    {   //이름 : "대화"
-                        /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
-                        tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
+                    string tempText = "";
+                    if (tempNpcNameLists.Count != 0)
+                    {
+                        tempText = "<i>";    //기울임 효과를 위한 <i></i> 태그
+                        for (int j = 0; j < tempNpcNameLists.Count; j++)
+                        {   //이름 : "대화"
+                            /* tempNpcNameLists[j]을 이용하여 고유한 character code 마다 이름으로 바꿔줘야함 */
+                            tempNpcName = npcParser.GetNpcNameFromCode(tempNpcNameLists[j]);
 
-                        if (tempNpcName == null)
-                            tempNpcName = "stranger";
+                            if (tempNpcName == null)
+                                tempNpcName = "stranger";
 
-                        tempText += (tempNpcName + " : " + sentenceLists[j]);
-                        tempText += "\n";
+                            tempText += (tempNpcName + " : " + sentenceLists[j]);
+                            tempText += "\n";
+                        }
+                        tempText += "</i>";
+                        //Debug.Log(tempText);
                     }
-                    tempText += "</i>";
-                    //Debug.Log(tempText);
+                    else
+                    {
+                        tempText = "지난 사건에 대한 단서들이다. 천천히 읽어보자.";
+                    }
 
                     for (int j = 0; j < PlayerManager.instance.playerClueLists.Count; j++)
                     {

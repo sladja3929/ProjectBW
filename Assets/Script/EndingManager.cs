@@ -498,6 +498,12 @@ public class EndingManager : MonoBehaviour
                 BGMManager.instance.StopBGM();
             }
 
+            if (index == 1)
+            {
+                // 지부 밖 bgm 시작 (숲_저택가_지부 bgm)
+                BGMManager.instance.PlayBGM(2);
+            }
+
             if (index == 21)
             {
                 // "신문실_심장소리" 시작
@@ -516,6 +522,7 @@ public class EndingManager : MonoBehaviour
         {
             if (index == 0)
             {
+                BGMManager.instance.StopBGM();
                 // "진엔딩" bgm 시작
                 BGMManager.instance.PlayBGM(21);
             }

@@ -246,7 +246,8 @@ public class EventManager : MonoBehaviour
                 }
             }
 
-            if (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("207") && !PlayerManager.instance.TimeSlot.Equals("71"))
+            if ( (!PlayerManager.instance.CheckEventCodeFromPlayedEventList("207") && !PlayerManager.instance.TimeSlot.Equals("71"))
+                || int.Parse(PlayerManager.instance.TimeSlot) >= 72 )
             {
                 //index 5 ~ 12 : 정보상 엑스트라들
                 for (int i = 5; i <= 12; i++)

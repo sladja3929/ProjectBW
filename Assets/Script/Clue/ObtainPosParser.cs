@@ -42,7 +42,7 @@ public class ObtainPosParser
         {
             if (posCode[0].Equals("0"))
             {
-                return "제렐이 건네준 단서";
+                return "제렐이 수사권을 넘겨주면서 건내준 단서";
             }
 
             if (posCode[0].Equals("1"))

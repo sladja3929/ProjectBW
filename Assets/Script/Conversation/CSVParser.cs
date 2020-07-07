@@ -67,36 +67,36 @@ public class CSVParser : MonoBehaviour
     }//Awake()
 
     // 초기 데이터 파일 암호화 용도
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F12))
-        {
-            //string temp = File.ReadAllText(initConversationDataPath);
-            //File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
-            //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.F12))
+    //    {
+    //        string temp = File.ReadAllText(initConversationDataPath);
+    //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
 
-            string temp = File.ReadAllText(initClueDataPath);
-            File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
-            //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
+    //        //string temp = File.ReadAllText(initClueDataPath);
+    //        //File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
 
-            //string temp = File.ReadAllText(trueEndingDataPath);
-            //File.WriteAllText(trueEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        temp = File.ReadAllText(trueEndingDataPath);
+    //        File.WriteAllText(trueEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
 
-            //temp = File.ReadAllText(valuaEndingDataPath);
-            //File.WriteAllText(valuaEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //temp = File.ReadAllText(valuaEndingDataPath);
+    //        //File.WriteAllText(valuaEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
 
-            //temp = File.ReadAllText(arnoldEndingDataPath);
-            //File.WriteAllText(arnoldEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //temp = File.ReadAllText(arnoldEndingDataPath);
+    //        //File.WriteAllText(arnoldEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
 
-            //temp = File.ReadAllText(andrenEndingDataPath);
-            //File.WriteAllText(andrenEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //temp = File.ReadAllText(andrenEndingDataPath);
+    //        //File.WriteAllText(andrenEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
 
-            //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
-            //GameManager.instance.thread.IsBackground = true;
-            //GameManager.instance.thread.Start();
-            Debug.Log("파일 암호화 완료");
-        }
-    }
+    //        //GameManager.instance.thread = new Thread(GameManager.instance.SaveGameData);
+    //        //GameManager.instance.thread.IsBackground = true;
+    //        //GameManager.instance.thread.Start();
+    //        Debug.Log("파일 암호화 완료");
+    //    }
+    //}
 
     // 데이터 파일 경로 지정 함수
     public void SettingDataPath()

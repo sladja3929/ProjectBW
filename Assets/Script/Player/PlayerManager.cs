@@ -225,7 +225,7 @@ public class PlayerManager : MonoBehaviour {
                 {
                     //Debug.Log("아무것도 안맞죠?");
                 }
-                else if ((hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject") && GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
+                else if ((hit.collider.tag == "MerteDesk" || hit.collider.tag == "InteractionObject"))// && GameManager.instance.GetPlayState() != GameManager.PlayState.Ending)
                 {
                     if (hit.collider.name.Equals("책상_메르테 사무실"))
                     {
@@ -332,27 +332,27 @@ public class PlayerManager : MonoBehaviour {
                                 TutorialManager.instance.TagChange(3, "Untagged");
                             }
                         }// if-else PlayState
+                        else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
+                        {
+                            if (DialogManager.instance.CheckInteraction(hit.collider.name) && !UIManager.instance.isConversationing)
+                            {
+                                Debug.Log("사건" + NumOfAct + "의 " + TimeSlot + "시간대에서 " + hit.collider.name + "( + " + npcParser.GetNpcCodeFromName(hit.collider.name) + ")과 대화시도");
+
+                                if (hit.collider.name.Equals("금고_주인공사무실"))
+                                {
+                                    // 일기장을 얻었다는 대화가 끝난 후, 일기장 활성화 시키기
+                                    DialogManager.instance.InteractionWithObject("getDiary");
+                                }
+                                else
+                                {
+                                    // 금고가 아닌 다른 오브젝트와 상호작용 시
+                                    DialogManager.instance.InteractionWithObject("findUsingKey");
+                                }
+                            }
+
+                        }
                     }// if-else hit 책상
                 }// if-else hit null
-                else if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
-                {
-                    if (DialogManager.instance.CheckInteraction(hit.collider.name))
-                    {
-                        Debug.Log("사건" + NumOfAct + "의 " + TimeSlot + "시간대에서 " + hit.collider.name + "( + " + npcParser.GetNpcCodeFromName(hit.collider.name) + ")과 대화시도");
-
-                        if (hit.collider.name.Equals("금고_주인공사무실"))
-                        {
-                            // 일기장을 얻었다는 대화가 끝난 후, 일기장 활성화 시키기
-                            DialogManager.instance.InteractionWithObject("getDiary");
-                        }
-                        else
-                        {
-                            // 금고가 아닌 다른 오브젝트와 상호작용 시
-                            DialogManager.instance.InteractionWithObject("findUsingKey");
-                        }
-                    }
-                    
-                }
             }// if-else GetMouseButtonDown
         }// if GetIsPaused
     }

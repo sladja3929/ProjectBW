@@ -355,7 +355,12 @@ public class GameManager : MonoBehaviour {
 
             try
             {
-                PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(playerFirstInfoOfClueLists[i]);
+                if (playerFirstInfoOfClueLists[i].Equals("0"))
+                    playerFirstInfoOfClueLists[i] = "지난 사건에 대한 단서들이다. 천천히 읽어보자.";
+                else if (playerFirstInfoOfClueLists[i].Equals("1"))
+                    playerFirstInfoOfClueLists[i] = "안드렌이 건네준 단서들이다. 천천히 읽어보자.";
+                else
+                    PlayerManager.instance.playerClueLists[i].SetFirstInfoOfClue(playerFirstInfoOfClueLists[i]);
             }
             catch
             {

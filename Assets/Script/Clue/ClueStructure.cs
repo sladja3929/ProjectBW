@@ -14,6 +14,7 @@ public class ClueStructure
     private string obtainPos2;  //획득 위치 2
     private string firstInfoOfClue;  //단서창 1번 내용
     private string description; //desc2
+    private string obtainPos2_Code; // 획득 위치 2 코드
 
     private ObtainPosParser obtainPosParser;
 
@@ -135,15 +136,24 @@ public class ClueStructure
         return this.obtainPos2.ToString();
     }
 
+    public string GetObtainPos2Code()
+    {
+        return this.obtainPos2_Code;
+    }
+
     public void SetObtainPos2(string obtainPos2)
     {
         /* parsing 해서 넣어야함*/
+        this.obtainPos2_Code = obtainPos2;
         this.obtainPos2 = obtainPosParser.ParsingObtainPos2(obtainPos2);
     }
 
     public string GetFirstInfoOfClue()
     {
-        return this.firstInfoOfClue;
+        if (firstInfoOfClue == null)
+            return "";
+        else
+            return this.firstInfoOfClue;
     }
 
     public void SetFirstInfoOfClue(string firstInfoOfClue)
