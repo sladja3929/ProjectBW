@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour {
     private bool isInPortalZone;                //플레이어가 포탈존에 있는지 유무 확인
 
     [SerializeField] private GameObject merte;
-    [SerializeField] private GameObject zaral;  // 진엔딩시 제렐 캐릭터를 움직일 수 있게 하기 위함. -> 추후 안드렌으로 변경
+    [SerializeField] private GameObject andren;  // 진엔딩시 제렐 캐릭터를 움직일 수 있게 하기 위함. -> 추후 안드렌으로 변경
     //[SerializeField] private GameObject andren;
 
     /* 오브젝트와의 상호작용을 위한 변수 */
@@ -83,7 +83,7 @@ public class PlayerManager : MonoBehaviour {
         isInPortalZone = false;
 
         playedEventList = new List<string>();
-        eventVariable = new EventVariable();
+        eventVariable = GameManager.instance.GetEventVariable();
 
         // 추후에, 상호작용 될 수 있는 오브젝트의 근처에 있을 때만 상호작용 되도록 할 것(1월 27일 메모)
         SetIsNearObject(true);
@@ -100,8 +100,8 @@ public class PlayerManager : MonoBehaviour {
                 // 제렐을 플레이어로 만들고, 메르테 비활성화
                 Vector3 mertePosition = GetPlayerPosition();
                 merte.SetActive(false);
-                zaral.SetActive(true);
-                SetPlayer(zaral);
+                andren.SetActive(true);
+                SetPlayer(andren);
                 SetPlayerPosition(mertePosition); // 제렐을 메르테의 원래 자리로 변경
             }
         }
@@ -173,7 +173,8 @@ public class PlayerManager : MonoBehaviour {
                     UIManager.instance.isFading = true;
                     DocumentControll.instance.ResetDocumentOfAndren();
 
-                    if ((NumOfAct.Equals("53") && TimeSlot.Equals("74")) || (NumOfAct.Equals("54") && TimeSlot.Equals("79")))
+                    if (CheckEventCodeFromPlayedEventList("224") && ParchmentControll.instance.GetIsActivated_Help_Of_Andren() &&
+                        ((NumOfAct.Equals("53") && TimeSlot.Equals("74")) || (NumOfAct.Equals("54") && TimeSlot.Equals("79"))))
                     {
                         DocumentControll.instance.GetAndrenClue(NumOfAct);  // 안드렌이 모은 단서 획득
                         UIManager.instance.SetIsReadParchment_In_74_79(false);
