@@ -378,9 +378,9 @@ public class GameManager : MonoBehaviour {
         tempPlayerInfo.SavePlayerInfo();
     }
 
-    public EventVariable GetEventVariable()
+    public ref EventVariable GetEventVariable()
     {
-        return eventVariable;
+        return ref eventVariable;
     }
 
     public void SetEventVariable(ref EventVariable eventVariable)

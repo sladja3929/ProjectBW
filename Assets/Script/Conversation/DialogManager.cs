@@ -1524,6 +1524,14 @@ public class DialogManager : MonoBehaviour
 
                         if (tempSentenceOfCondition.Equals("921"))
                         {
+                            UIManager.instance.isFading = true;
+
+                            if (UIManager.instance.GetIsOpenNote())
+                            {
+                                UIManager.instance.SetNegativeIsOpenedNote();
+                                UIManager.instance.NoteClose();
+                            }
+
                             StartCoroutine(UIManager.instance.FadeEffectForChangeTimeSlot());
                         }
                     } // if - tutorial

@@ -75,12 +75,12 @@ public class CSVParser : MonoBehaviour
     //        File.WriteAllText(initConversationDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
     //        //File.WriteAllText(initConversationDataPath, temp, System.Text.Encoding.UTF8);
 
-    //        //string temp = File.ReadAllText(initClueDataPath);
+    //        //temp = File.ReadAllText(initClueDataPath);
     //        //File.WriteAllText(initClueDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
     //        //File.WriteAllText(initClueDataPath, temp, System.Text.Encoding.UTF8);
 
-    //        temp = File.ReadAllText(trueEndingDataPath);
-    //        File.WriteAllText(trueEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
+    //        //temp = File.ReadAllText(trueEndingDataPath);
+    //        //File.WriteAllText(trueEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
 
     //        //temp = File.ReadAllText(valuaEndingDataPath);
     //        //File.WriteAllText(valuaEndingDataPath, GameManager.instance.EncryptData(temp), System.Text.Encoding.UTF8);
@@ -377,27 +377,27 @@ public class CSVParser : MonoBehaviour
                     case "반복성":
                         try
                         {
-                            if (i == 3604)
-                            {
-                                int a = 1;
-                            }
+                            //if (i == 3604)
+                            //{
+                            //    int a = 1;
+                            //}
 
-                            if ((status_Repeatability_DataList[i])[subjectArr[j]] != null)
-                            {
-                                int b = 1;
-                            }
-                            else if ((status_Repeatability_DataList[i])[subjectArr[j]].Equals(""))
-                            {
-                                int c = 1;
-                            }
-                            else if ((status_Repeatability_DataList[i])[subjectArr[j]] == null)
-                            {
-                                int d = 1;
-                            }
-                            else
-                            {
-                                int e = 1;
-                            }
+                            //if ((status_Repeatability_DataList[i])[subjectArr[j]] != null)
+                            //{
+                            //    int b = 1;
+                            //}
+                            //else if ((status_Repeatability_DataList[i])[subjectArr[j]].Equals(""))
+                            //{
+                            //    int c = 1;
+                            //}
+                            //else if ((status_Repeatability_DataList[i])[subjectArr[j]] == null)
+                            //{
+                            //    int d = 1;
+                            //}
+                            //else
+                            //{
+                            //    int e = 1;
+                            //}
 
                             //tempInteraction.SetRepeatability((dataList[i])[subjectArr[j]]);
                             if ((status_Repeatability_DataList[i])[subjectArr[j]] != null)

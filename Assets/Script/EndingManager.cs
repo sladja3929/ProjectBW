@@ -135,36 +135,39 @@ public class EndingManager : MonoBehaviour
     
     void Update()
     {
-        if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && isConversationing && !isFading)
+        if (!GetIsPaused())
         {
-            if (canSkipConversation)
+            if ((Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)) && isConversationing && !isFading)
             {
-                //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
-                if (isTextFull)
+                if (canSkipConversation)
                 {
-                    isTextFull = false;
-                    //Debug.Log("isTextFull => false");
+                    //텍스트가 가득 찼으면 textfull만 false로 바꾸고, 가득찬게 아니면 다음 대화 출력
+                    if (isTextFull)
+                    {
+                        isTextFull = false;
+                        //Debug.Log("isTextFull => false");
+                    }
+                    else
+                    {
+                        NextSentence();
+                        //Debug.Log("NextSentence() 실행중");
+                    }
                 }
                 else
                 {
-                    NextSentence();
-                    //Debug.Log("NextSentence() 실행중");
+                    playerWantToSkip = true;
+                    //Debug.Log("스킵 눌림");
                 }
             }
-            else
-            {
-                playerWantToSkip = true;
-                //Debug.Log("스킵 눌림");
-            }
-        }
 
-        if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
-        {
-            // 대화가 텍스트창에 한계치만큼 가득 찼거나, 한 대화가 모두 출력됐을때, 다음 대화로 넘어갈 수 있게 해줌
-            if ((numOfText > textLimit) || (isConversationing && isSentenceDone))
+            if (GameManager.instance.GetPlayState() == GameManager.PlayState.Ending)
             {
-                canSkipConversation = true;
-                isSentenceDone = false;
+                // 대화가 텍스트창에 한계치만큼 가득 찼거나, 한 대화가 모두 출력됐을때, 다음 대화로 넘어갈 수 있게 해줌
+                if ((numOfText > textLimit) || (isConversationing && isSentenceDone))
+                {
+                    canSkipConversation = true;
+                    isSentenceDone = false;
+                }
             }
         }
     }

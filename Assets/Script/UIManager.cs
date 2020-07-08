@@ -414,80 +414,80 @@ public class UIManager : MonoBehaviour {
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.W) && isOpened)
-            {
-                if (!isPaging && (buttonIndex != 0) && (Inventory.instance.GetSlotCount() != 0))
-                {
-                    // w,s로 이동될 다음 버튼이 있으면, 현재 버튼의 색을 회색에서 하얀색으로 바꿔놓기 위한 if
-                    if (nextButton != null)
-                    {
-                        SetColorBlockToWhite();
-                    }
+            //if (Input.GetKeyDown(KeyCode.W) && isOpened)
+            //{
+            //    if (!isPaging && (buttonIndex != 0) && (Inventory.instance.GetSlotCount() != 0))
+            //    {
+            //        // w,s로 이동될 다음 버튼이 있으면, 현재 버튼의 색을 회색에서 하얀색으로 바꿔놓기 위한 if
+            //        if (nextButton != null)
+            //        {
+            //            SetColorBlockToWhite();
+            //        }
 
-                    // w,s키를 이용한 스크롤의 이동을 위한 if-else
-                    if (shownSlotIndex <= 1)
-                    {
-                        shownSlotIndex = 1;
-                    }
-                    else
-                    {
-                        shownSlotIndex -= 1;
+            //        // w,s키를 이용한 스크롤의 이동을 위한 if-else
+            //        if (shownSlotIndex <= 1)
+            //        {
+            //            shownSlotIndex = 1;
+            //        }
+            //        else
+            //        {
+            //            shownSlotIndex -= 1;
 
-                        if (clueListContent.GetComponent<RectTransform>().localPosition.y > 285.0f)
-                        {
-                            tempYPosition = clueListContent.GetComponent<RectTransform>().localPosition.y - 90.0f;
-                            isMovingSlot = true;
-                        }
-                    }
+            //            if (clueListContent.GetComponent<RectTransform>().localPosition.y > 285.0f)
+            //            {
+            //                tempYPosition = clueListContent.GetComponent<RectTransform>().localPosition.y - 90.0f;
+            //                isMovingSlot = true;
+            //            }
+            //        }
 
-                    nextButton = testButton.FindSelectableOnUp();
+            //        nextButton = testButton.FindSelectableOnUp();
 
-                    SetColorBlockToGray();
+            //        SetColorBlockToGray();
 
-                    buttonIndex--;
-                    AutoFlip.instance.FlipPage(buttonIndex, buttonNumOfAct);
+            //        buttonIndex--;
+            //        AutoFlip.instance.FlipPage(buttonIndex, buttonNumOfAct);
 
-                }
-                else if (isPaging)
-                {
-                    //Debug.Log("페이지 넘기는중");
-                    //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
-                }
+            //    }
+            //    else if (isPaging)
+            //    {
+            //        //Debug.Log("페이지 넘기는중");
+            //        //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
+            //    }
 
-            }
+            //}
 
-            if (Input.GetKeyDown(KeyCode.S) && isOpened)
-            {
-                if (!isPaging && (buttonIndex != Inventory.instance.GetSlotCount() - 1) && (Inventory.instance.GetSlotCount() != 0))
-                {
-                    // w,s로 이동될 다음 버튼이 있으면, 현재 버튼의 색을 회색에서 하얀색으로 바꿔놓기 위한 if
-                    if (nextButton != null)
-                    {
-                        SetColorBlockToWhite();
-                    }
+            //if (Input.GetKeyDown(KeyCode.S) && isOpened)
+            //{
+            //    if (!isPaging && (buttonIndex != Inventory.instance.GetSlotCount() - 1) && (Inventory.instance.GetSlotCount() != 0))
+            //    {
+            //        // w,s로 이동될 다음 버튼이 있으면, 현재 버튼의 색을 회색에서 하얀색으로 바꿔놓기 위한 if
+            //        if (nextButton != null)
+            //        {
+            //            SetColorBlockToWhite();
+            //        }
 
-                    //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav2;
-                    nextButton = testButton.FindSelectableOnDown();
+            //        //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav2;
+            //        nextButton = testButton.FindSelectableOnDown();
 
-                    SetColorBlockToGray();  //선택된 버튼 색깔 바꾸기
+            //        SetColorBlockToGray();  //선택된 버튼 색깔 바꾸기
 
-                    buttonIndex++;
-                    AutoFlip.instance.FlipPage(buttonIndex, buttonNumOfAct);
+            //        buttonIndex++;
+            //        AutoFlip.instance.FlipPage(buttonIndex, buttonNumOfAct);
 
-                    // w,s키를 이용한 스크롤의 이동을 위한 if
-                    if (shownSlotIndex > 6)
-                    {
-                        // 6번째 이후에 있는 단서 슬롯의 단서를 보려고 하는 경우, 단서 리스트를 y축으로 90 만큼 이동시킨다.
-                        tempYPosition = clueListContent.GetComponent<RectTransform>().localPosition.y + 90.0f;
-                        isMovingSlot = true;
-                    }
-                }
-                else if (isPaging)
-                {
-                    //Debug.Log("페이지 넘기는중");
-                    //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
-                }
-            }
+            //        // w,s키를 이용한 스크롤의 이동을 위한 if
+            //        if (shownSlotIndex > 6)
+            //        {
+            //            // 6번째 이후에 있는 단서 슬롯의 단서를 보려고 하는 경우, 단서 리스트를 y축으로 90 만큼 이동시킨다.
+            //            tempYPosition = clueListContent.GetComponent<RectTransform>().localPosition.y + 90.0f;
+            //            isMovingSlot = true;
+            //        }
+            //    }
+            //    else if (isPaging)
+            //    {
+            //        //Debug.Log("페이지 넘기는중");
+            //        //Inventory.instance.GetSlotObject(buttonIndex).navigation = customNav;
+            //    }
+            //}
         }
     }
 
@@ -637,7 +637,6 @@ public class UIManager : MonoBehaviour {
                 tempCode = int.Parse(tempObtainPosCode);
             }
 
-            Debug.Log("obtainPos2 = " + tempList[clueIndex].GetObtainPos2() + ", tempCode = " + tempCode);
             if (tempCode == 1)
             {
                 clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Document_Sketch");
@@ -651,7 +650,8 @@ public class UIManager : MonoBehaviour {
                 clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/SlotImage/Human_Sketch");
             }
             //clueSketch.GetComponent<Image>().sprite = Resources.Load<Sprite>("Image/AboutClue/ClueImage/" + tempList[clueIndex].GetClueName());
-            clueContent.GetComponent<Text>().text = "<size=30>" + tempList[clueIndex].GetObtainPos1() + "</size>" + "\n" + "<size=26>" + tempList[clueIndex].GetObtainPos2() + "</size>";
+            clueContent.GetComponent<Text>().text = "<size=30>" + tempList[clueIndex].GetObtainPos1() + "</size>" + "\n" + "<size=26>" + tempList[clueIndex].GetObtainPos2() + "\n" + 
+                tempList[clueIndex].GetClueName() + "</size>";
 
             /* 이름 : "대화" 형식으로 붙혀야함 */
             /* 이름 = tempNpcNameLists, 대화 = sentenceLists */
@@ -848,6 +848,7 @@ public class UIManager : MonoBehaviour {
             BGMManager.instance.FadeOutBGM();
             BGMManager.instance.StopBGM();
 
+            isFading = true;
             timeSlotText.GetComponent<Text>().text = "세 번째 연쇄 살인";
 
             yield return new WaitForSeconds(0.7f);
