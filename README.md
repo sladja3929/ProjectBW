@@ -60,6 +60,7 @@
 
 
 ## 트레일러
+* 링크 오른쪽 클릭 -> 새 탭에서 열기
 
 https://youtu.be/HJkVgN9CUjY
 
