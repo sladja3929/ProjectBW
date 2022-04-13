@@ -68,23 +68,23 @@ https://youtu.be/HJkVgN9CUjY
 ## 인게임 영상
 ### 타이틀 및 프롤로그
 
-https://youtu.be/pLjz50qBpXY 
+https://youtu.be/EtA0VCAeYJY
 
 ### 튜토리얼
 
-https://youtu.be/1TjnSxnWzsA
+https://youtu.be/-bQPcR_mZX4
 
 ### 여러 기능
 
-https://youtu.be/OxmQziPwGT4
+https://youtu.be/8gbgRBKu0Iw
 
 ### 사건 3 플레이
 
-https://youtu.be/o2dEq7eBfjw
+https://youtu.be/WLbxRtYcEiM
 
 ### 이벤트
 
-https://youtu.be/ZlNIsK5YHo0
+https://youtu.be/85lh60MKOvs
 
 
 ## 직접 플레이 해보기
